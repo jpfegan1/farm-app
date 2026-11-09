@@ -8,6 +8,8 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/leaflet.css">
+<link rel="stylesheet" href="vendor/leaflet-geoman.css">
 <title>Farm App</title>
 <style>
 :root{--g:#2f6b3a;--g2:#e8f2ea;--bg:#f5f6f3;--card:#fff;--tx:#1d2420;--mut:#66706a;--bd:#d9ded9;--red:#c62828;--amb:#ef8f00;--blue:#1e6fd0;--r:12px}
@@ -77,6 +79,16 @@ dialog .df .sp{flex:1}
 #map polygon.pad.sel{stroke:#000;stroke-width:4;fill-opacity:.75}
 #map text{font-weight:700;paint-order:stroke;stroke:#fff;stroke-width:3px;fill:#1d2420;pointer-events:none}
 .maphelp{position:absolute;left:8px;top:8px;right:8px;background:#fffffff0;border-radius:10px;padding:8px 10px;font-size:14px;pointer-events:none}
+#lmap{width:100%;height:62vh;min-height:320px;max-height:760px;background:#cfd8cc;z-index:0}
+#lmap.drawing{cursor:crosshair}
+#mapwrap .maphelp{z-index:500;right:60px;left:54px}
+@media(max-width:600px){#mapwrap .maphelp{font-size:13px;padding:6px 8px;line-height:1.3}}
+.areabox{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:500;background:#1d2420e8;color:#fff;font-weight:700;padding:8px 14px;border-radius:999px;font-size:16px;white-space:nowrap;pointer-events:none}
+.leaflet-tooltip.padlbl{background:transparent;border:0;box-shadow:none;color:#fff;font-weight:700;font-size:13px;text-align:center;text-shadow:0 0 3px #000,0 0 3px #000,0 0 2px #000;padding:0}
+.leaflet-tooltip.padlbl:before{display:none}
+.farmpin{font-size:24px;line-height:28px;text-align:center;filter:drop-shadow(0 1px 2px #000a)}
+.leaflet-touch .leaflet-bar a{width:40px;height:40px;line-height:40px}
+.leaflet-container a.btn{color:inherit}
 .legend{display:flex;flex-wrap:wrap;gap:10px;font-size:13px;margin-top:8px}
 .legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:4px;border:1px solid #0003}
 canvas.chart{width:100%;display:block}
@@ -115,6 +127,8 @@ body.loggedout main{display:none}
 <dialog id="dlg"></dialog>
 <div id="printArea"></div>
 <script src="vendor/supabase.js"></script>
+<script src="vendor/leaflet.js"></script>
+<script src="vendor/leaflet-geoman.min.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -123,7 +137,7 @@ body.loggedout main{display:none}
    source ('manual' now; 'sensor' reserved for future feeds),
    and optional demo:true for demo records.
    ========================================================= */
-const APP_VERSION = 2;
+const APP_VERSION = 3;
 const SB_URL = 'https://uetglzwzyhvaoszainmx.supabase.co';
 const SB_KEY = 'sb_publishable__gDnjBirb1AbnZwMAXMTxg_alW8T4_h'; // publishable key: safe in the browser, data protected by row-level security
 const APP_URL = location.origin + location.pathname.replace(/index\.html$/,'');
@@ -364,7 +378,15 @@ let mapBgURL=null;
 async function loadMapBg(){ const bg=S.settings.mapBg; if(!bg||!bg.path){ mapBgURL=null; return null; } if(mapBgURL && mapBgURL.startsWith('blob:')) return mapBgURL; const [u]=await signedURLs([bg.path]); mapBgURL=u||null; return mapBgURL; }
 /* ---------- domain logic ---------- */
 function polyAreaUnits(pts){ let a=0; for(let i=0;i<pts.length;i++){ const [x1,y1]=pts[i],[x2,y2]=pts[(i+1)%pts.length]; a+=x1*y2-x2*y1; } return Math.abs(a)/2; }
-function mappedHa(p){ return (p.points&&p.points.length>=3) ? polyAreaUnits(p.points)*Math.pow(S.settings.mPerUnit||1,2)/10000 : 0; }
+function hasGeo(p){ return !!p && Array.isArray(p.geo) && p.geo.length>=3; }
+function hasSketch(p){ return !!p && Array.isArray(p.points) && p.points.length>=3; }
+function geoAreaM2(ll){ if(!ll||ll.length<3) return 0; // field-sized polygons: local projection using WGS84 ellipsoid radii at the mean latitude (within ~0.01% of a geodesic calculation)
+  const d=Math.PI/180, a=6378137, e2=0.00669437999014; const lat0=ll.reduce((t,q)=>t+q[0],0)/ll.length*d, lon0=ll[0][1]; const w=1-e2*Math.sin(lat0)**2;
+  const M=a*(1-e2)/Math.pow(w,1.5), N=a/Math.sqrt(w); const xy=ll.map(q=>[(q[1]-lon0)*d*N*Math.cos(lat0), (q[0]*d-lat0)*M]);
+  let A=0; for(let i=0;i<xy.length;i++){ const [x1,y1]=xy[i], [x2,y2]=xy[(i+1)%xy.length]; A+=x1*y2-x2*y1; } return Math.abs(A)/2; }
+const haToAc = h => (Number(h)||0)*2.4710538;
+const roundGeo = ll => ll.map(q=>[+(+q[0]).toFixed(7), +(+q[1]).toFixed(7)]);
+function mappedHa(p){ if(hasGeo(p)) return geoAreaM2(p.geo)/1e4; return hasSketch(p) ? polyAreaUnits(p.points)*Math.pow(S.settings.mPerUnit||1,2)/10000 : 0; }
 function padHa(p){ return (p.areaManual>0) ? Number(p.areaManual) : mappedHa(p); }
 function centroid(pts){ let x=0,y=0; pts.forEach(p=>{x+=p[0];y+=p[1];}); return [x/pts.length,y/pts.length]; }
 function grazingsFor(pid){ return S.grazings.filter(g=>g.paddockId===pid).sort(byDate('dateIn')); }
@@ -488,7 +510,7 @@ function parseHash(){ const [r,a]=(location.hash.slice(1)||'dash').split('/'); r
 function renderNav(){ $('#nav').innerHTML=Object.entries(ROUTES).map(([k,[i,l]])=>`<a href="#${k}" class="${(route===k||(route==='cow'&&k==='cows'))?'on':''}">${i} ${l}</a>`).join('');
   const on=$('#nav a.on'); if(on) on.scrollIntoView({block:'nearest',inline:'nearest'});
   $('#farmTitle').textContent='🐄 '+(S.settings.farmName||'Farm App'); setSync(); }
-function render(){ if(!UID) return; renderNav(); const m=$('#main'); const hasDemo=COLLECTIONS.some(c=>S[c].some(r=>r.demo));
+function render(){ if(!UID) return; destroyLeaflet(); renderNav(); const m=$('#main'); const hasDemo=COLLECTIONS.some(c=>S[c].some(r=>r.demo));
   m.innerHTML = hasDemo?`<div class="banner">⚠️ <b>Demo data is loaded</b> — example records only. Remove it in <a href="#settings">Settings</a> before entering real records.</div>`:'';
   const box=document.createElement('div'); m.appendChild(box); (VIEWS[route]||VIEWS.dash)(box); }
 const VIEWS={};
@@ -527,18 +549,19 @@ VIEWS.dash = el => {
 };
 
 /* ---------- Map ---------- */
-const MAP={mode:'view', pts:[], sel:null, colour:'status', vb:null, redrawId:null, calib:[]};
-VIEWS.map = el => {
+/* old 'sketch' map (paddocks drawn in map units on a plain grid or uploaded image). Kept so paddocks drawn before v3 still show and can be edited. */
+function sketchView(el){
   const s=S.settings; if(!MAP.vb) MAP.vb={x:0,y:0,w:s.mapW,h:s.mapH};
   const drawing=MAP.mode!=='view';
   el.innerHTML=`
   <div class="row">
     ${drawing?`<button class="sm" id="mUndo">↶ Undo point</button>${MAP.mode==='draw'?'<button class="sm pri" id="mFinish">✔ Finish paddock</button>':''}<button class="sm" id="mCancel">Cancel</button>`
-    :`<button class="pri" id="mNew">+ Draw paddock</button><button class="sm" id="mNoMap">+ Add without map</button>`}
+    :`<button class="pri" id="mSat">🛰 Back to satellite map</button><button class="sm" id="mNew">+ Draw on sketch</button><button class="sm" id="mNoMap">+ Add without map</button>`}
     <span class="sp"></span>
     <button class="sm ${MAP.colour==='status'?'on':''}" id="cStatus">Status</button><button class="sm ${MAP.colour==='cover'?'on':''}" id="cCover">Grass cover</button>
     <button class="sm" id="zIn" aria-label="Zoom in">＋</button><button class="sm" id="zOut" aria-label="Zoom out">－</button><button class="sm" id="zFit">Fit</button>
   </div>
+  <div class="banner">This is the <b>old sketch map</b> (not to real-world position). New fields are best drawn on the satellite map. Paddocks drawn here still keep their area.</div>
   <div id="mapwrap"><svg id="map" xmlns="http://www.w3.org/2000/svg"></svg>${drawing?`<div class="maphelp">${MAP.mode==='draw'?`Tap the map to add corner points (${MAP.pts.length} so far). Drag to pan. Press <b>Finish</b> when done (min 3 points).`:`Calibrate scale: tap two points a known distance apart (${MAP.calib.length}/2).`}</div>`:''}</div>
   <div class="legend">${MAP.colour==='status'?Object.values(PAD_STATUS).map(v=>`<span><i style="background:${v.c}"></i>${v.l}</span>`).join(''):[[0,'<500'],[600,'500–900'],[1000,'900–1300'],[1500,'1300–1800'],[2000,'1800+']].map(([v,l])=>`<span><i style="background:${coverColour(v)}"></i>${l}</span>`).join('')+'<span><i style="background:#cfd5cf"></i>no data</span> <span class="mut">kg DM/ha (estimated)</span>'}</div>
   <div class="row mut" style="margin-top:8px">Scale: 1 map unit = ${num(s.mPerUnit,3)} m <button class="sm" id="mCalib">Calibrate scale</button><button class="sm" id="mBg">Background image…</button>${mapBgURL?'<button class="sm danger" id="mBgDel">Remove image</button>':''}<input type="file" id="bgFile" accept="image/*" hidden></div>
@@ -552,7 +575,7 @@ VIEWS.map = el => {
   showPadDetail();
   const B=(id,fn)=>{ const b=$('#'+id,el); if(b) b.onclick=fn; };
   B('mNew',()=>{ MAP.mode='draw'; MAP.pts=[]; MAP.redrawId=null; MAP.sel=null; render(); });
-  B('mNoMap',()=>paddockForm(null,null));
+  B('mNoMap',()=>paddockForm(null,null)); B('mSat',()=>{ MAP.view='sat'; MAP.mode='view'; MAP.pts=[]; MAP.calib=[]; MAP.redrawId=null; render(); });
   B('mUndo',()=>{ if(MAP.mode==='draw') MAP.pts.pop(); else MAP.calib.pop(); render(); });
   B('mCancel',()=>{ MAP.mode='view'; MAP.pts=[]; MAP.calib=[]; MAP.redrawId=null; render(); });
   B('mFinish',()=>{ if(MAP.pts.length<3) return toast('Add at least 3 points');
@@ -581,16 +604,16 @@ VIEWS.map = el => {
         setTimeout(()=>{ const m=parseFloat(prompt(`Real distance between the two points, in metres?`,'100')); if(m>0&&du>0){ S.settings.mPerUnit=m/du; save(); toast('Scale set: 1 unit = '+num(m/du,3)+' m'); } MAP.mode='view'; MAP.calib=[]; render(); },50); } }
     else { const pid=d.target && d.target.dataset ? d.target.dataset.pid : null; MAP.sel=pid||null; drawMap(); showPadDetail(); } });
   svg.addEventListener('wheel',e=>{ e.preventDefault(); const pt=svgPoint(svg,e); const f=e.deltaY>0?1.15:1/1.15; const v=MAP.vb; v.x=pt.x-(pt.x-v.x)*f; v.y=pt.y-(pt.y-v.y)*f; v.w*=f; v.h*=f; drawMap(); },{passive:false});
-};
+}
 function svgPoint(svg,e){ const p=svg.createSVGPoint(); p.x=e.clientX; p.y=e.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()); }
-function drawMap(){
+function drawSketch(){
   const svg=$('#map'); if(!svg) return; const s=S.settings, v=MAP.vb; svg.setAttribute('viewBox',`${v.x} ${v.y} ${v.w} ${v.h}`); svg.style.aspectRatio=`${s.mapW} / ${s.mapH}`;
   const fs=Math.max(10, v.w/(window.innerWidth<600?32:45)); const grid=s.mapW/20;
   let h=`<defs><pattern id="gr" width="${grid}" height="${grid}" patternUnits="userSpaceOnUse"><path d="M ${grid} 0 L 0 0 0 ${grid}" fill="none" stroke="#c4d2bd" stroke-width="1" vector-effect="non-scaling-stroke"/></pattern></defs>
   <rect x="${-s.mapW*5}" y="${-s.mapH*5}" width="${s.mapW*11}" height="${s.mapH*11}" fill="#dfe8d8"/>${mapBgURL?`<image href="${mapBgURL}" x="0" y="0" width="${s.mapW}" height="${s.mapH}" preserveAspectRatio="none"/>`:`<rect x="0" y="0" width="${s.mapW}" height="${s.mapH}" fill="url(#gr)" stroke="#aab8a2" vector-effect="non-scaling-stroke"/>`}`;
-  S.paddocks.filter(p=>p.points&&p.points.length>=3).forEach(p=>{ const ci=coverInfo(p); const col=MAP.colour==='status'?(PAD_STATUS[p.status]?.c||'#999'):coverColour(ci.est);
+  S.paddocks.filter(hasSketch).forEach(p=>{ const ci=coverInfo(p); const col=MAP.colour==='status'?(PAD_STATUS[p.status]?.c||'#999'):coverColour(ci.est);
     h+=`<polygon class="pad ${MAP.sel===p.id?'sel':''}" data-pid="${p.id}" points="${p.points.map(q=>q.join(',')).join(' ')}" fill="${col}"/>`; });
-  S.paddocks.filter(p=>p.points&&p.points.length>=3).forEach(p=>{ const [cx,cy]=centroid(p.points); const ci=coverInfo(p);
+  S.paddocks.filter(hasSketch).forEach(p=>{ const [cx,cy]=centroid(p.points); const ci=coverInfo(p);
     h+=`<text x="${cx}" y="${cy}" text-anchor="middle" font-size="${fs}">${esc(p.name)}</text><text x="${cx}" y="${cy+fs*1.1}" text-anchor="middle" font-size="${fs*0.75}" font-weight="400">${num(padHa(p),1)} ha${ci.est!=null?' · '+num(ci.est):''}</text>`; });
   const dp=MAP.mode==='calib'?MAP.calib:MAP.pts; const r=v.w/120;
   if(dp.length){ h+=`<polyline points="${dp.map(q=>q.join(',')).join(' ')}${MAP.mode==='draw'&&dp.length>2?' '+dp[0].join(','):''}" fill="${MAP.mode==='draw'?'#1e6fd055':'none'}" stroke="#d32f2f" stroke-width="3" vector-effect="non-scaling-stroke" stroke-dasharray="6 4"/>`;
@@ -603,12 +626,12 @@ function showPadDetail(){
   const ci=coverInfo(p); const gs=grazingsFor(p.id); const cur=currentGrazing(p.id); const ds=daysSinceGrazed(p.id); const yr=today().slice(0,4);
   const fert=S.fertiliser.filter(f=>f.paddockId===p.id&&(f.date||'').startsWith(yr)); const mg=measuredGrowth(p.id);
   box.innerHTML=`<div class="card" style="margin-top:12px;border-color:var(--g)"><div class="row"><h2 style="margin:0">${esc(p.name)}</h2><span class="pill" style="background:${PAD_STATUS[p.status]?.c}33">${esc(PAD_STATUS[p.status]?.l||p.status)}</span><span class="sp"></span><button class="sm" id="pdClose">✕</button></div>
-    <div class="kpis"><div class="kpi"><b>${num(padHa(p),2)}</b><span>ha ${p.areaManual>0?'(entered)':'(mapped)'}</span></div>
+    <div class="kpis"><div class="kpi"><b>${num(padHa(p),2)}</b><span>ha ${p.areaManual>0?'(entered)':hasGeo(p)?'(satellite)':hasSketch(p)?'(sketch map)':''} · ${num(haToAc(padHa(p)),2)} ac</span></div>
       <div class="kpi"><b>${ci.est!=null?num(ci.est):'–'}</b><span>kg DM/ha est. cover${ci.est!=null?` (${esc(ci.basis)} ${fmtD(ci.baseDate)} + growth)`:''}</span></div>
       <div class="kpi"><b>${ds==null?'–':ds}</b><span>days since grazed${cur?' (grazing now)':''}</span></div>
       <div class="kpi"><b>${mg?num(mg.rate):'–'}</b><span>measured growth kg/ha/day</span></div>
       <div class="kpi"><b>${num(sum(fert.map(f=>f.nKgHa)))} / ${num(sum(fert.map(f=>f.pKgHa)),1)}</b><span>N / P kg/ha applied ${yr}</span></div></div>
-    <div class="row">${cur?`<button class="pri" id="pdOut">End grazing</button>`:`<button class="pri" id="pdIn">Start grazing</button>`}<button id="pdWalk">Record cover</button><button id="pdEdit">Edit</button><button id="pdRedraw">Redraw boundary</button><button id="pdTask">+ Task</button><button id="pdPhoto">+ Photo</button></div>
+    <div class="row">${cur?`<button class="pri" id="pdOut">End grazing</button>`:`<button class="pri" id="pdIn">Start grazing</button>`}<button id="pdWalk">Record cover</button><button id="pdEdit">Edit</button>${MAP.view==='sketch'?'<button id="pdRedraw">Redraw on sketch</button>':(hasGeo(p)?'<button id="pdEditB">✏️ Edit boundary</button><button id="pdRedrawSat">Redraw boundary</button><button id="pdZoom">🔍 Zoom to</button>':'<button id="pdRedrawSat">🛰 Draw boundary on satellite</button>')}<button id="pdTask">+ Task</button><button id="pdPhoto">+ Photo</button></div>
     ${p.notes?`<p>${esc(p.notes)}</p>`:''}
     <h3>Grazing history</h3>${table(gs,[{l:'In',f:g=>fmtD(g.dateIn)},{l:'Out',f:g=>g.dateOut?fmtD(g.dateOut):'grazing'},{l:'Days',f:g=>daysBetween(g.dateIn,g.dateOut||today())},{l:'Animals',f:g=>g.animals||''},{l:'Group',k:'group'},{l:'Pre/Post cover',f:g=>`${g.preCover??'–'} / ${g.postCover??'–'}`}],{onRow:g=>grazingForm(p,g),empty:'Not grazed yet.'})}
     <h3>Cover walks</h3>${table(walksFor(p.id),[{l:'Date',f:w=>fmtD(w.date)},{l:'kg DM/ha',f:w=>num(w.cover)},{l:'Height cm',f:w=>w.heightCm??''},{l:'Source',k:'source'}],{onRow:w=>walkForm(p,w),empty:'No walks recorded.'})}</div>`;
@@ -616,16 +639,240 @@ function showPadDetail(){
   const b=(id,fn)=>{ const x=$('#'+id); if(x) x.onclick=fn; };
   b('pdIn',()=>grazingForm(p,null)); b('pdOut',()=>grazingForm(p,cur,true)); b('pdWalk',()=>walkForm(p,null)); b('pdEdit',()=>paddockForm(p)); b('pdTask',()=>taskForm(null,{paddockId:p.id})); b('pdPhoto',()=>photoForm({paddockId:p.id}));
   b('pdRedraw',()=>{ MAP.mode='draw'; MAP.pts=[]; MAP.redrawId=p.id; render(); toast('Tap new corner points, then Finish'); });
+  b('pdRedrawSat',()=>startSatDraw(p.id)); b('pdEditB',()=>startSatEdit(p.id)); b('pdZoom',()=>{ const l=LPADS.get(p.id); if(LMAP&&l){ LMAP.fitBounds(l.getBounds(),{maxZoom:18,padding:[20,20]}); $('#lmap').scrollIntoView({behavior:'smooth',block:'center'}); } });
 }
-function paddockForm(p, pts){
-  const mapped = pts ? polyAreaUnits(pts)*Math.pow(S.settings.mPerUnit,2)/1e4 : (p?mappedHa(p):0);
+function paddockForm(p, pts, geo){
+  const mapped = geo ? geoAreaM2(geo)/1e4 : pts ? polyAreaUnits(pts)*Math.pow(S.settings.mPerUnit,2)/1e4 : (p?mappedHa(p):0);
   openForm({title:p?'Edit paddock':'New paddock', values:p||{status:'resting'}, fields:[
     {k:'name',l:'Name',req:1,ph:'e.g. Long Field'},{k:'status',l:'Status',t:'select',o:Object.entries(PAD_STATUS).map(([k,v])=>[k,v.l])},
-    {k:'areaManual',l:'Area override (ha)',t:'number',ph:mapped?num(mapped,2)+' ha mapped':'enter area',hint:mapped?`Mapped area: ${num(mapped,2)} ha. Leave blank to use it.`:'No boundary drawn — enter the area in hectares.'},
+    {k:'areaManual',l:'Area override (ha)',t:'number',ph:mapped?num(mapped,2)+' ha mapped':'enter area',hint:mapped?`Mapped area: ${num(mapped,2)} ha (${num(haToAc(mapped),2)} acres). Leave blank to use it.`:'No boundary drawn — enter the area in hectares.'},
     {k:'landId',l:'LPIS / land parcel ID (optional)'},{k:'soil',l:'Soil / index notes (optional)',ph:'e.g. P index 2, K index 3'},{k:'notes',l:'Notes',t:'textarea',full:1}],
-    onSave:v=>{ if(p) upd('paddocks',p.id,v); else { const n=add('paddocks',{...v, points:pts||[]}); MAP.sel=n.id; } MAP.mode='view'; MAP.pts=[]; },
+    onSave:v=>{ if(p) upd('paddocks',p.id,v); else { const n=add('paddocks',{...v, points:pts||[], ...(geo?{geo}:{})}); MAP.sel=n.id; } MAP.mode='view'; MAP.pts=[]; MAP.redrawId=null; },
     onDelete:p?()=>{ del('paddocks',p.id); MAP.sel=null; }:null});
 }
+/* ---------- Map (v3: real satellite map, Leaflet + Geoman, bundled in vendor/) ----------
+   Paddock geometry: p.geo = [[lat,lng],...] (WGS84, one outer ring, not closed).
+   Older paddocks may only have p.points (x,y in sketch-map units) — they keep working on the sketch map. */
+const MAP={view:'sat', mode:'view', pts:[], sel:null, colour:'status', vb:null, redrawId:null, calib:[], base:'sat', labels:true, center:null, zoom:null, editId:null, editPts:null, kml:null};
+let LMAP=null; const LPADS=new Map();
+const TILES={
+  sat:['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxNativeZoom:19,maxZoom:21,attribution:'Imagery © <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a>, Maxar, Earthstar Geographics, GIS User Community'}],
+  places:['https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{maxNativeZoom:19,maxZoom:21}],
+  roads:['https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}',{maxNativeZoom:19,maxZoom:21,opacity:.8}],
+  street:['https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxNativeZoom:19,maxZoom:21,attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'}]};
+function satHelp(){
+  if(MAP.mode==='draw') return `<b>Drawing${MAP.redrawId?' “'+esc(padName(MAP.redrawId))+'”':''}:</b> tap each corner of the field (${MAP.pts.length} so far). Drag to move the map, pinch to zoom. Press <b>Finish</b> when done.`;
+  if(MAP.mode==='edit') return `<b>Editing “${esc(padName(MAP.editId))}”:</b> drag the white corner points. Tap a faded midpoint to add a corner. Long-press (or right-click) a corner to delete it.`;
+  if(MAP.mode==='pin') return `<b>Tap the map</b> on your farmyard / house to set the farm location.`;
+  if(MAP.mode==='kml') return `<b>KML preview:</b> orange shapes are in the file. Tap a shape or use the list below to choose which to import.`;
+  return '';
+}
+function areaText(ll){ const ha=geoAreaM2(ll)/1e4; return `${num(ha,2)} ha · ${num(haToAc(ha),2)} acres`; }
+function padStyle(p){ const ci=coverInfo(p); const col=MAP.colour==='status'?(PAD_STATUS[p.status]?.c||'#999'):coverColour(ci.est); const sel=MAP.sel===p.id;
+  return {color:sel?'#ffffff':'#1d2420', weight:sel?4:2, fillColor:col, fillOpacity:sel?.6:.42, dashArray:null}; }
+function farmLocSet(){ return !!S.settings.locSource; }
+function earthURL(){ const c=LMAP?LMAP.getCenter():L.latLng(S.settings.lat,S.settings.lon); let d=1500;
+  if(LMAP){ const b=LMAP.getBounds(); d=Math.max(300,Math.round(LMAP.distance(b.getSouthWest(),b.getNorthEast())*1.1)); }
+  return `https://earth.google.com/web/@${c.lat.toFixed(6)},${c.lng.toFixed(6)},60a,${d}d,35y,0h,0t,0r`; }
+
+VIEWS.map = el => {
+  if(MAP.view==='sketch') return sketchView(el);
+  if(!window.L){ el.innerHTML='<div class="card">Map library failed to load. Reload the app with a connection.</div>'; return; }
+  const s=S.settings; const legacy=S.paddocks.filter(p=>!hasGeo(p)&&hasSketch(p)); const nogeo=S.paddocks.filter(p=>!hasGeo(p));
+  const m=MAP.mode;
+  const tools = m==='draw' ? `<button class="sm" id="mUndo">↶ Undo point</button><button class="sm pri" id="mFinish">✔ Finish field</button><button class="sm" id="mCancel">Cancel</button>`
+    : m==='edit' ? `<button class="sm pri" id="mEditSave">✔ Save boundary</button><button class="sm" id="mCancel">Cancel</button>`
+    : m==='pin' ? `<button class="sm" id="mCancel">Cancel</button>`
+    : m==='kml' ? `<button class="sm pri" id="kImport">⬆ Import selected</button><button class="sm" id="mCancel">Cancel</button>`
+    : `<button class="pri" id="mNew">+ Draw field</button><button class="sm" id="mKml">📂 Import KML/KMZ</button><button class="sm" id="mKmlOut">⬇ Export KML</button><button class="sm" id="mNoMap">+ Add without map</button>`;
+  el.innerHTML=`
+  <div class="row">${tools}<input type="file" id="kmlFile" accept=".kml,.kmz,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz" hidden></div>
+  <div class="row">
+    <button class="sm ${MAP.base==='sat'?'on':''}" id="bSat">🛰 Satellite</button><button class="sm ${MAP.base==='street'?'on':''}" id="bStreet">🗺 Street</button>${MAP.base==='sat'?`<button class="sm ${MAP.labels?'on':''}" id="bLbl">Labels</button>`:''}
+    <span class="sp"></span>
+    <button class="sm ${MAP.colour==='status'?'on':''}" id="cStatus">Status</button><button class="sm ${MAP.colour==='cover'?'on':''}" id="cCover">Grass cover</button>
+  </div>
+  <div id="mapwrap"><div id="lmap" class="${m!=='view'?'drawing':''}"></div><div class="maphelp" id="mHelp" ${m==='view'?'hidden':''}>${satHelp()}</div><div class="areabox" id="mArea" hidden></div></div>
+  <div class="legend">${MAP.colour==='status'?Object.values(PAD_STATUS).map(v=>`<span><i style="background:${v.c}"></i>${v.l}</span>`).join(''):[[0,'<500'],[600,'500–900'],[1000,'900–1300'],[1500,'1300–1800'],[2000,'1800+']].map(([v,l])=>`<span><i style="background:${coverColour(v)}"></i>${l}</span>`).join('')+'<span><i style="background:#cfd5cf"></i>no data</span> <span class="mut">kg DM/ha (estimated)</span>'}</div>
+  <div class="row" style="margin-top:8px"><button class="sm" id="mLoc">📍 Farm location / Eircode</button><button class="sm" id="mGps">🎯 Where am I?</button><a class="btn sm" id="mEarth" href="${earthURL()}" target="_blank" rel="noopener">🌍 Open in Google Earth</a>${(legacy.length||s.mapBg)?'<button class="sm" id="mSketch">Old sketch map</button>':''}</div>
+  <div class="mut" id="locLine">${farmLocSet()?`Farm location: ${esc(s.eircode||'')} ${num(s.lat,5)}, ${num(s.lon,5)} — ${esc(locSourceText(s))}`:'Farm location not set yet — tap “Farm location / Eircode” so the map and weather start at your farm.'}</div>
+  <div id="kmlBox"></div>
+  ${legacy.length&&m==='view'?`<div class="card" style="margin-top:12px"><h3>Paddocks from the old sketch map</h3><p class="mut">${legacy.length} paddock${legacy.length>1?'s were':' was'} drawn on the old sketch map (${legacy.map(p=>esc(p.name)).join(', ')}). They still work and keep their area. To put them on the satellite map, tap a name to draw its boundary, import a KML with the same names, or place the old shapes here and drag them into position.</p>
+    <div class="row">${legacy.map(p=>`<button class="sm" data-legdraw="${p.id}">🛰 Draw ${esc(p.name)}</button>`).join('')}<button class="sm" id="legPlace">Place sketch shapes at map centre</button></div></div>`:''}
+  <div id="padDetail"></div>
+  <div class="card" style="margin-top:12px"><h3>Paddocks (${S.paddocks.length}) · ${num(sum(S.paddocks.map(padHa)),2)} ha · ${num(haToAc(sum(S.paddocks.map(padHa))),1)} acres</h3><div id="padTable"></div></div>`;
+  $('#padTable',el).innerHTML=table(S.paddocks.slice().sort((a,b)=>a.name.localeCompare(b.name)),[
+    {l:'Name',k:'name'},{l:'ha',f:p=>num(padHa(p),2)},{l:'acres',f:p=>num(haToAc(padHa(p)),2)},{l:'Status',h:p=>`<span class="pill" style="background:${PAD_STATUS[p.status]?.c||'#ccc'}33">${esc(PAD_STATUS[p.status]?.l||p.status)}</span>`},
+    {l:'Boundary',f:p=>hasGeo(p)?'satellite':hasSketch(p)?'sketch only':'none'},
+    {l:'Cover (est.)',f:p=>{const c=coverInfo(p); return c.est==null?'–':num(c.est);}},{l:'Days since grazed',f:p=>{const d=daysSinceGrazed(p.id); return d==null?'–':d;}}],
+    {onRow:p=>{MAP.sel=p.id; drawMap(); const l=LPADS.get(p.id); if(l&&LMAP) LMAP.fitBounds(l.getBounds(),{maxZoom:18,padding:[20,20]}); showPadDetail(); $('#padDetail').scrollIntoView({behavior:'smooth'});}, empty:'No paddocks yet — tap “Draw field” or import a KML from Google Earth.'});
+  buildLeaflet();
+  showPadDetail(); if(m==='kml') renderKmlBox();
+  const B=(id,fn)=>{ const b=$('#'+id,el); if(b) b.onclick=fn; };
+  B('mNew',()=>startSatDraw(null)); B('mNoMap',()=>paddockForm(null,null));
+  B('mUndo',()=>{ MAP.pts.pop(); drawDraft(); });
+  B('mFinish',finishSatDraw);
+  B('mCancel',()=>{ MAP.mode='view'; MAP.pts=[]; MAP.redrawId=null; MAP.editId=null; MAP.editPts=null; MAP.kml=null; render(); });
+  B('mEditSave',()=>{ const pts=MAP.editPts; if(!pts||pts.length<3) return toast('A field needs at least 3 corners'); upd('paddocks',MAP.editId,{geo:roundGeo(pts)}); MAP.sel=MAP.editId; MAP.mode='view'; MAP.editId=null; MAP.editPts=null; toast('Boundary saved · '+areaText(pts)); render(); });
+  B('mKml',()=>$('#kmlFile').click()); $('#kmlFile',el).onchange=e=>{ const f=e.target.files[0]; e.target.value=''; if(f) loadKmlFile(f); };
+  B('mKmlOut',exportKml); B('kImport',importKmlSelected);
+  B('bSat',()=>{ MAP.base='sat'; render(); }); B('bStreet',()=>{ MAP.base='street'; render(); }); B('bLbl',()=>{ MAP.labels=!MAP.labels; render(); });
+  B('cStatus',()=>{MAP.colour='status'; render();}); B('cCover',()=>{MAP.colour='cover'; render();});
+  B('mLoc',locationDialog); B('mGps',()=>gpsLocate(false));
+  B('mSketch',()=>{ MAP.view='sketch'; MAP.mode='view'; render(); });
+  $$('[data-legdraw]',el).forEach(b=>b.onclick=()=>startSatDraw(b.dataset.legdraw));
+  B('legPlace',placeSketchShapes);
+};
+function buildLeaflet(){
+  const div=$('#lmap'); if(!div) return; const s=S.settings;
+  LMAP=L.map(div,{zoomControl:true, tapTolerance:20, maxZoom:21, worldCopyJump:false});
+  LMAP.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
+  if(MAP.base==='sat'){ L.tileLayer(...TILES.sat).addTo(LMAP); if(MAP.labels){ L.tileLayer(...TILES.roads).addTo(LMAP); L.tileLayer(...TILES.places).addTo(LMAP); } }
+  else L.tileLayer(...TILES.street).addTo(LMAP);
+  L.control.scale({imperial:false}).addTo(LMAP);
+  LPADS.clear();
+  S.paddocks.filter(hasGeo).forEach(p=>{ if(MAP.mode==='edit'&&MAP.editId===p.id) return;
+    const ci=coverInfo(p); const lyr=L.polygon(p.geo,{...padStyle(p), interactive:MAP.mode==='view'}).addTo(LMAP);
+    lyr.bindTooltip(`<b>${esc(p.name)}</b><br>${num(padHa(p),2)} ha${ci.est!=null?' · '+num(ci.est):''}`,{permanent:true,direction:'center',className:'padlbl',interactive:false});
+    lyr.on('click',e=>{ L.DomEvent.stopPropagation(e); MAP.sel=p.id; drawMap(); showPadDetail(); });
+    LPADS.set(p.id,lyr); });
+  if(farmLocSet()) L.marker([s.lat,s.lon],{interactive:false, keyboard:false, icon:L.divIcon({className:'farmpin',html:'🏠',iconSize:[28,28],iconAnchor:[14,24]})}).addTo(LMAP);
+  // view
+  if(MAP.center) LMAP.setView(MAP.center, MAP.zoom||16);
+  else { const all=S.paddocks.filter(hasGeo); if(all.length) LMAP.fitBounds(L.latLngBounds(all.flatMap(p=>p.geo)),{maxZoom:18,padding:[20,20]});
+    else if(farmLocSet()) LMAP.setView([s.lat,s.lon], s.locSource==='routing'?12:17); else LMAP.setView([53.4,-7.9],7); }
+  const keep=()=>{ if(!LMAP) return; const c=LMAP.getCenter(); MAP.center=[c.lat,c.lng]; MAP.zoom=LMAP.getZoom(); const a=$('#mEarth'); if(a) a.href=earthURL(); };
+  LMAP.on('moveend zoomend',keep); keep();
+  LMAP.on('click',e=>{
+    if(MAP.mode==='draw'){ MAP.pts.push([e.latlng.lat,e.latlng.lng]); drawDraft(); }
+    else if(MAP.mode==='pin'){ MAP.mode='view'; setFarmLocation(e.latlng.lat,e.latlng.lng,{source:'pin'}); }
+    else if(MAP.mode==='view' && MAP.sel){ MAP.sel=null; drawMap(); showPadDetail(); } });
+  if(MAP.mode==='draw') drawDraft();
+  if(MAP.mode==='edit') enableEdit();
+  if(MAP.mode==='kml') drawKmlPreview();
+  setTimeout(()=>LMAP&&LMAP.invalidateSize(),0);
+}
+function destroyLeaflet(){ if(LMAP){ try{ LMAP.off(); LMAP.remove(); }catch(e){} LMAP=null; LPADS.clear(); draftLayers=null; kmlLayers=null; } } // MAP.center/zoom are kept up to date by the moveend handler
+function drawMap(){ if(MAP.view==='sketch') return drawSketch(); LPADS.forEach((l,id)=>{ const p=get('paddocks',id); if(p) l.setStyle(padStyle(p)); }); }
+let draftLayers=null;
+function drawDraft(){ if(!LMAP) return; if(draftLayers) draftLayers.remove(); draftLayers=L.layerGroup().addTo(LMAP); const pts=MAP.pts;
+  if(pts.length>=2) (pts.length>=3?L.polygon(pts,{color:'#ff3b30',weight:3,dashArray:'6 4',fillColor:'#ffeb3b',fillOpacity:.25,interactive:false}):L.polyline(pts,{color:'#ff3b30',weight:3,dashArray:'6 4',interactive:false})).addTo(draftLayers);
+  pts.forEach((q,i)=>L.circleMarker(q,{radius:i===0?9:7,color:'#fff',weight:2,fillColor:i===0?'#ff9500':'#ff3b30',fillOpacity:1,interactive:false}).addTo(draftLayers));
+  const h=$('#mHelp'); if(h) h.innerHTML=satHelp(); showArea(pts.length>=3?areaText(pts):`${pts.length} point${pts.length===1?'':'s'} — need at least 3`); }
+function showArea(t){ const a=$('#mArea'); if(a){ a.hidden=!t; a.textContent=t||''; } }
+function startSatDraw(pid){ MAP.view='sat'; MAP.mode='draw'; MAP.pts=[]; MAP.redrawId=pid||null; MAP.sel=null;
+  if(pid){ const p=get('paddocks',pid); if(p&&hasGeo(p)){ const b=L.latLngBounds(p.geo); const c=b.getCenter(); MAP.center=[c.lat,c.lng]; } } render(); $('#lmap')?.scrollIntoView({behavior:'smooth',block:'center'}); }
+function finishSatDraw(){ if(MAP.pts.length<3) return toast('Tap at least 3 corners first'); const geo=roundGeo(MAP.pts);
+  if(MAP.redrawId){ const id=MAP.redrawId; upd('paddocks',id,{geo}); MAP.sel=id; MAP.mode='view'; MAP.pts=[]; MAP.redrawId=null; render(); toast('Boundary saved · '+areaText(geo)); }
+  else paddockForm(null,null,geo); }
+function startSatEdit(pid){ const p=get('paddocks',pid); if(!p||!hasGeo(p)) return; MAP.view='sat'; MAP.mode='edit'; MAP.editId=pid; MAP.editPts=p.geo.map(q=>[...q]); render(); }
+function enableEdit(){ const lyr=L.polygon(MAP.editPts,{color:'#ff3b30',weight:3,fillColor:'#ffeb3b',fillOpacity:.25}).addTo(LMAP);
+  LMAP.fitBounds(lyr.getBounds(),{maxZoom:19,padding:[30,30]});
+  const sync=()=>{ const ll=lyr.getLatLngs()[0]; MAP.editPts=ll.map(x=>[x.lat,x.lng]); showArea(areaText(MAP.editPts)); };
+  if(lyr.pm){ lyr.pm.enable({allowSelfIntersection:true, snappable:false, removeVertexOn:'contextmenu', draggable:false}); lyr.on('pm:edit pm:markerdrag pm:vertexadded pm:vertexremoved pm:markerdragend',sync); }
+  showArea(areaText(MAP.editPts)); }
+function placeSketchShapes(){ if(!LMAP) return; const s=S.settings; const c=LMAP.getCenter(); const k=s.mPerUnit||1; const cx=s.mapW/2, cy=s.mapH/2;
+  const legacy=S.paddocks.filter(p=>!hasGeo(p)&&hasSketch(p)); if(!confirm(`Place ${legacy.length} sketch paddock(s) on the satellite map, centred here, using the sketch scale (1 unit = ${num(k,3)} m)? You can then edit each boundary to line it up.`)) return;
+  legacy.forEach(p=>{ const geo=p.points.map(([x,y])=>{ const dn=-(y-cy)*k, de=(x-cx)*k; const lat=c.lat+dn/111320; return [lat, c.lng+de/(111320*Math.cos(c.lat*Math.PI/180))]; }); upd('paddocks',p.id,{geo:roundGeo(geo), geoFrom:'sketch'}); });
+  toast('Placed — tap a paddock, then “Edit boundary” to line it up'); render(); }
+
+/* ---------- farm location / Eircode ---------- */
+function locSourceText(s){ return ({osm:'Eircode found in OpenStreetMap (address point)', routing:`approximate — centre of Eircode area ${s.eircode?s.eircode.slice(0,3):''}, can be 5–30 km out`, gps:'from your phone’s GPS', pin:'pin dropped on the map', coords:'coordinates entered'})[s.locSource]||''; }
+function normEircode(v){ const m=String(v||'').toUpperCase().replace(/[^A-Z0-9]/g,'').match(/^([AC-FHKNPRTV-Y]\d{2}|D6W)([0-9AC-FHKNPRTV-Y]{4})$/); return m?`${m[1]} ${m[2]}`:null; }
+async function geocodeEircode(code){
+  const key=code.slice(0,3), flat=code.replace(/\s/g,'');
+  if(navigator.onLine){ try{ const r=await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&countrycodes=ie&limit=5&postalcode=${encodeURIComponent(code)}`,{headers:{'Accept-Language':'en'}});
+      if(r.ok){ const j=await r.json(); const hit=(j||[]).find(x=>String(x.name||'').toUpperCase().replace(/\s/g,'')===flat); if(hit) return {lat:+hit.lat, lon:+hit.lon, source:'osm', label:hit.display_name}; } }catch(e){ console.warn('Nominatim',e); } }
+  const rk=ROUTING_KEYS[key]; if(rk) return {lat:rk[1], lon:rk[2], source:'routing', label:`${key} area (${rk[0]})`};
+  return null; }
+function parseLatLon(t){ t=String(t||'').trim(); let m=t.match(/(?:daddr|q|ll|query|destination)=(-?\d+(?:\.\d+)?)(?:,|%2C)\s*(-?\d+(?:\.\d+)?)/i)||t.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)||t.match(/^(-?\d+(?:\.\d+)?)\s*[,; ]\s*(-?\d+(?:\.\d+)?)$/);
+  if(!m) return null; const lat=+m[1], lon=+m[2]; if(!(lat>51&&lat<55.6&&lon>-11&&lon<-5.3)) return {err:'Those coordinates are not in Ireland (expected latitude 51–55.5, longitude −11 to −5.5).'}; return {lat,lon}; }
+function setFarmLocation(lat,lon,{source,eircode,quiet}={}){ const s=S.settings; Object.assign(s,{lat:+(+lat).toFixed(6), lon:+(+lon).toFixed(6), locSource:source, locSetAt:nowISO()}); if(eircode!==undefined) s.eircode=eircode;
+  save(); MAP.center=[s.lat,s.lon]; MAP.zoom=source==='routing'?12:17; if(!quiet) toast('Farm location saved — map and weather now use it'); fetchWeather(true).catch(()=>{}); if($('#dlg').open) $('#dlg').close(); render(); }
+function gpsLocate(save){ if(!navigator.geolocation) return toast('Location not available on this device');
+  toast('Finding your location…'); navigator.geolocation.getCurrentPosition(p=>{ const {latitude:la, longitude:lo, accuracy}=p.coords;
+    if(save) setFarmLocation(la,lo,{source:'gps'}); else { MAP.center=[la,lo]; MAP.zoom=18; if(LMAP){ LMAP.setView([la,lo],18); L.circle([la,lo],{radius:Math.max(accuracy,5),color:'#1e6fd0',weight:2,fillOpacity:.15}).addTo(LMAP); } toast(`You are here (±${Math.round(accuracy)} m)`); } },
+    e=>toast('Location error: '+e.message),{enableHighAccuracy:true,timeout:15000}); }
+function locationDialog(){ const s=S.settings; const dlg=$('#dlg');
+  dlg.innerHTML=`<div class="dh"><h3>📍 Farm location</h3><button class="sm" data-x>✕</button></div><div class="db">
+   <label class="f"><span>Eircode</span><div class="row" style="margin:0;flex-wrap:nowrap"><input id="lEir" value="${esc(s.eircode||'')}" placeholder="e.g. A65 F4E2" autocomplete="postal-code" style="text-transform:uppercase"><button class="pri" id="lFind">Find</button></div></label>
+   <div id="lRes" class="hint" style="font-size:14px"></div>
+   <p class="mut" style="margin-top:6px">How the Eircode lookup works: there is <b>no free official Eircode service</b> an app is allowed to use (the official one, Eircode Finder, is for personal look-ups on its own website only). So the app first looks for your exact Eircode in OpenStreetMap — only some Eircodes are there. If it isn’t, the app goes to the area of the first 3 characters (the routing key), which can be 5–30 km from your farm. To get the exact spot, check it on Eircode Finder, then drop a pin here.</p>
+   <div class="row"><button id="lFinder">🔎 Check on Eircode Finder ↗</button><button id="lPin">📌 Drop a pin on the map</button><button id="lGps">🎯 Use my GPS location</button></div>
+   <label class="f"><span>Or paste coordinates or a Google Maps link</span><div class="row" style="margin:0;flex-wrap:nowrap"><input id="lLL" placeholder="53.4239, -7.9407"><button id="lLLgo">Use</button></div></label>
+   <div class="hint">Current: ${farmLocSet()?`${esc(s.eircode||'')} ${num(s.lat,5)}, ${num(s.lon,5)} — ${esc(locSourceText(s))}`:'not set (weather uses the middle of Ireland)'}. This location is also used for the weather and grass growth forecast.</div>
+   <div class="hint">Address lookup © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors (Nominatim).</div></div>`;
+  $('[data-x]',dlg).onclick=()=>dlg.close();
+  const res=$('#lRes',dlg); const eir=()=>normEircode($('#lEir',dlg).value);
+  $('#lFind',dlg).onclick=async()=>{ const code=eir(); if(!code){ res.innerHTML='<span class="warn">That doesn’t look like an Eircode (3 characters, then 4 — e.g. A65 F4E2).</span>'; return; }
+    if(!ROUTING_KEYS[code.slice(0,3)]){ res.innerHTML=`<span class="warn">${esc(code.slice(0,3))} is not a known Eircode area — check the first 3 characters.</span>`; return; }
+    res.textContent='Looking up '+code+'…'; const r=await geocodeEircode(code);
+    if(!r){ res.innerHTML=`<span class="warn">Couldn’t find ${esc(code)}${navigator.onLine?'':' (you are offline)'}. Use Eircode Finder, then drop a pin.</span>`; return; }
+    setFarmLocation(r.lat,r.lon,{source:r.source,eircode:code,quiet:true});
+    toast(r.source==='osm'?`Found ${code} — map centred on it`:`${code} not in OpenStreetMap — centred on the ${code.slice(0,3)} area. Drop a pin on your farm for the exact spot.`); };
+  $('#lEir',dlg).onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#lFind',dlg).click(); } };
+  $('#lFinder',dlg).onclick=()=>{ const code=eir(); if(code){ s.eircode=code; save(); try{ navigator.clipboard.writeText(code); toast(code+' copied — paste it into Eircode Finder'); }catch(e){} } window.open('https://finder.eircode.ie/','_blank','noopener'); };
+  $('#lPin',dlg).onclick=()=>{ const code=eir(); if(code && code!==s.eircode){ s.eircode=code; save(); } dlg.close(); MAP.view='sat'; MAP.mode='pin'; if(route!=='map') go('map'); else render(); toast('Tap your farmyard on the map'); };
+  $('#lGps',dlg).onclick=()=>{ const code=eir(); if(code) s.eircode=code; gpsLocate(true); };
+  $('#lLLgo',dlg).onclick=()=>{ const r=parseLatLon($('#lLL',dlg).value); if(!r) return res.innerHTML='<span class="warn">Couldn’t read coordinates. Paste like “53.4239, -7.9407” or a Google Maps link.</span>'; if(r.err) return res.innerHTML=`<span class="warn">${esc(r.err)}</span>`; const code=eir(); setFarmLocation(r.lat,r.lon,{source:'coords',...(code?{eircode:code}:{})}); };
+  dlg.showModal(); }
+
+/* ---------- KML / KMZ (Google Earth) ---------- */
+function loadScript(src){ return new Promise((ok,bad)=>{ if(document.querySelector(`script[src="${src}"]`)&&window.JSZip) return ok(); const t=document.createElement('script'); t.src=src; t.onload=ok; t.onerror=()=>bad(new Error('Could not load '+src)); document.head.appendChild(t); }); }
+async function kmlTextFromFile(file){ const head=new Uint8Array(await file.slice(0,2).arrayBuffer());
+  if(head[0]===0x50&&head[1]===0x4b){ await loadScript('vendor/jszip.min.js'); const zip=await JSZip.loadAsync(file); const ks=zip.file(/\.kml$/i).sort((a,b)=>(a.name.toLowerCase().endsWith('doc.kml')?-1:0)-(b.name.toLowerCase().endsWith('doc.kml')?-1:0)); if(!ks.length) throw new Error('No .kml file inside this KMZ'); return ks[0].async('string'); }
+  return file.text(); }
+function cleanRing(r){ const o=[]; r.forEach(q=>{ const l=o[o.length-1]; if(!l||l[0]!==q[0]||l[1]!==q[1]) o.push(q); }); if(o.length>1){ const a=o[0], b=o[o.length-1]; if(Math.abs(a[0]-b[0])<1e-9&&Math.abs(a[1]-b[1])<1e-9) o.pop(); } return o; }
+function parseKml(text){ const doc=new DOMParser().parseFromString(text,'application/xml'); if(doc.getElementsByTagName('parsererror').length) throw new Error('This is not a valid KML file');
+  const T=(el,n)=>[...el.getElementsByTagNameNS('*',n)]; const kid=(el,n)=>[...el.children].find(c=>c.localName===n);
+  const coords=t=>String(t||'').trim().split(/\s+/).map(x=>x.split(',').map(Number)).filter(a=>a.length>=2&&isFinite(a[0])&&isFinite(a[1])&&Math.abs(a[1])<=90).map(a=>[a[1],a[0]]);
+  const out=[]; T(doc,'Placemark').forEach((pm,i)=>{ const name=(kid(pm,'name')?.textContent||'').trim()||`Field ${out.length+1}`; const polys=T(pm,'Polygon');
+    polys.forEach((pg,j)=>{ const ob=T(pg,'outerBoundaryIs')[0]; const c=ob?T(ob,'coordinates')[0]:T(pg,'coordinates')[0]; const ring=cleanRing(coords(c?.textContent)); const holes=T(pg,'innerBoundaryIs').length;
+      if(ring.length>=3) out.push({name:polys.length>1?`${name} (${j+1})`:name, geo:ring, kind:'polygon', holes}); });
+    if(!polys.length) T(pm,'LineString').concat(T(pm,'LinearRing')).forEach(ls=>{ const ring=cleanRing(coords(T(ls,'coordinates')[0]?.textContent)); if(ring.length>=3) out.push({name, geo:ring, kind:'line'}); }); });
+  return out; }
+async function loadKmlFile(file){ try{ const items=parseKml(await kmlTextFromFile(file));
+    if(!items.length) return alert('No field shapes (polygons) found in this file. In Google Earth, draw the field as a polygon/shape, then save or export it as KML/KMZ.');
+    const byName=new Map(S.paddocks.map(p=>[p.name.trim().toLowerCase(),p]));
+    MAP.kml={file:file.name, items:items.map((it,i)=>{ const ex=byName.get(it.name.trim().toLowerCase()); return {...it, i, on:it.kind==='polygon', target:ex?ex.id:'new'}; })};
+    MAP.view='sat'; MAP.mode='kml'; MAP.center=null; MAP.sel=null; render(); $('#kmlBox')?.scrollIntoView({behavior:'smooth'});
+  }catch(e){ console.error(e); alert('Could not read that file: '+e.message); } }
+let kmlLayers=null;
+function drawKmlPreview(){ if(!LMAP||!MAP.kml) return; if(kmlLayers) kmlLayers.remove(); kmlLayers=L.featureGroup().addTo(LMAP);
+  MAP.kml.items.forEach(it=>{ const l=L.polygon(it.geo,{color:it.on?'#ff9500':'#bbbbbb',weight:3,dashArray:'7 5',fillColor:it.on?'#ff9500':'#999',fillOpacity:it.on?.3:.1}).addTo(kmlLayers);
+    l.bindTooltip(`<b>${esc(it.name)}</b><br>${num(geoAreaM2(it.geo)/1e4,2)} ha`,{permanent:true,direction:'center',className:'padlbl'});
+    l.on('click',e=>{ L.DomEvent.stopPropagation(e); it.on=!it.on; drawKmlPreview(); renderKmlBox(); }); });
+  if(!MAP.center && kmlLayers.getLayers().length) LMAP.fitBounds(kmlLayers.getBounds(),{maxZoom:18,padding:[20,20]}); }
+function renderKmlBox(){ const box=$('#kmlBox'); if(!box||!MAP.kml) return; const K=MAP.kml; const n=K.items.filter(x=>x.on).length;
+  box.innerHTML=`<div class="card" style="margin-top:12px;border-color:#ff9500"><h3>Import from ${esc(K.file)}</h3><p class="mut">${K.items.length} shape${K.items.length>1?'s':''} found. Tick the ones to import. A shape whose name matches an existing paddock updates that paddock’s boundary (its records are kept).</p>
+   <div class="tw"><table><thead><tr><th></th><th>Name</th><th>Area</th><th>Import as</th></tr></thead><tbody>${K.items.map(it=>`<tr><td><input type="checkbox" data-kon="${it.i}" ${it.on?'checked':''}></td>
+     <td><input data-kname="${it.i}" value="${esc(it.name)}" style="min-width:140px">${it.kind==='line'?'<div class="hint warn">path, closed into a field</div>':''}${it.holes?'<div class="hint warn">has holes — outer edge only</div>':''}</td>
+     <td style="white-space:nowrap">${num(geoAreaM2(it.geo)/1e4,2)} ha<br><span class="mut">${num(haToAc(geoAreaM2(it.geo)/1e4),2)} ac</span></td>
+     <td><select data-ktgt="${it.i}"><option value="new">New paddock</option>${S.paddocks.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(p=>`<option value="${p.id}" ${it.target===p.id?'selected':''}>Update “${esc(p.name)}”</option>`).join('')}</select></td></tr>`).join('')}</tbody></table></div>
+   <div class="row" style="margin-top:10px"><button class="pri" id="kImport2">⬆ Import ${n} selected</button><button id="kAll">Select all</button><button id="kNone">Select none</button><button id="kCancel">Cancel</button></div></div>`;
+  $$('[data-kon]',box).forEach(c=>c.onchange=()=>{ K.items[c.dataset.kon].on=c.checked; drawKmlPreview(); renderKmlBox(); });
+  $$('[data-kname]',box).forEach(c=>c.oninput=()=>{ K.items[c.dataset.kname].name=c.value; });
+  $$('[data-ktgt]',box).forEach(c=>c.onchange=()=>{ K.items[c.dataset.ktgt].target=c.value; });
+  $('#kImport2',box).onclick=importKmlSelected; $('#kAll',box).onclick=()=>{ K.items.forEach(x=>x.on=true); drawKmlPreview(); renderKmlBox(); }; $('#kNone',box).onclick=()=>{ K.items.forEach(x=>x.on=false); drawKmlPreview(); renderKmlBox(); };
+  $('#kCancel',box).onclick=()=>{ MAP.mode='view'; MAP.kml=null; render(); }; }
+function importKmlSelected(){ const K=MAP.kml; if(!K) return; const sel=K.items.filter(x=>x.on); if(!sel.length) return toast('Tick at least one shape');
+  let nNew=0, nUpd=0; sel.forEach(it=>{ const geo=roundGeo(it.geo); const name=(it.name||'').trim()||'Imported field';
+    if(it.target!=='new' && get('paddocks',it.target)){ upd('paddocks',it.target,{geo, importedFrom:K.file}); nUpd++; }
+    else { add('paddocks',{name, status:'resting', points:[], geo, importedFrom:K.file},true); nNew++; } });
+  save(); MAP.mode='view'; MAP.kml=null; MAP.center=null; toast(`Imported: ${nNew} new paddock${nNew===1?'':'s'}${nUpd?`, ${nUpd} updated`:''}`); render(); }
+function exportKml(){ const ps=S.paddocks.filter(hasGeo); if(!ps.length) return toast('No paddocks with a satellite boundary yet');
+  const col=c=>{ const h=c.replace('#',''); return h.slice(4,6)+h.slice(2,4)+h.slice(0,2); };
+  const x=t=>String(t??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const styles=Object.entries(PAD_STATUS).map(([k,v])=>`<Style id="st_${k}"><LineStyle><color>ff${col(v.c)}</color><width>2</width></LineStyle><PolyStyle><color>66${col(v.c)}</color></PolyStyle></Style>`).join('');
+  const pms=ps.map(p=>{ const ring=p.geo.concat([p.geo[0]]); const ha=padHa(p);
+    return `<Placemark><name>${x(p.name)}</name><description>${x(`${num(ha,2)} ha (${num(haToAc(ha),2)} acres) · ${PAD_STATUS[p.status]?.l||p.status||''}${p.landId?' · LPIS '+p.landId:''}`)}</description><styleUrl>#st_${PAD_STATUS[p.status]?p.status:'resting'}</styleUrl>
+<ExtendedData><Data name="area_ha"><value>${ha.toFixed(4)}</value></Data><Data name="status"><value>${x(p.status)}</value></Data><Data name="farmapp_id"><value>${x(p.id)}</value></Data></ExtendedData>
+<Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>${ring.map(q=>`${q[1].toFixed(7)},${q[0].toFixed(7)},0`).join(' ')}</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>`; }).join('\n');
+  const name=(S.settings.farmName||'Farm')+' paddocks';
+  download(`${(S.settings.farmName||'farm').replace(/[^\w-]+/g,'-')}-paddocks-${today()}.kml`, `<?xml version="1.0" encoding="UTF-8"?>\n<kml xmlns="http://www.opengis.net/kml/2.2"><Document><name>${x(name)}</name>${styles}\n${pms}\n</Document></kml>\n`, 'application/vnd.google-earth.kml+xml');
+  toast(`Exported ${ps.length} paddock${ps.length>1?'s':''} — open the file in Google Earth`); }
+/* Eircode routing keys -> [post town(s), lat, lon]. Built from the public list of routing areas (Wikipedia, source Autoaddress) with town positions from OpenStreetMap/Nominatim. Approximate: a routing area can be 20–50 km across. */
+const ROUTING_KEYS={"A41":["Ballyboughal",53.521,-6.267],"A42":["Garristown",53.567,-6.384],"A45":["Oldtown",53.524,-6.315],"A63":["Delgany / Greystones / Kilcoole / Newcastle / Newtownmountkennedy",53.109,-6.074],"A67":["Rathnew / Wicklow",52.987,-6.062],"A75":["Ballybay / Castleblayney",54.124,-6.822],"A81":["Carrickmacross",53.977,-6.719],"A82":["Kells / Kingscourt / Virginia",53.822,-6.922],"A83":["Enfield / Summerhill",53.448,-6.783],"A84":["Ashbourne",53.512,-6.398],"A85":["Dunshaughlin / Ratoath",53.51,-6.502],"A86":["Dunboyne",53.419,-6.476],"A91":["Dundalk",54.005,-6.401],"A92":["Ardee / Drogheda / Laytown-Bettystown-Mornington",53.76,-6.38],"A94":["Blackrock / Booterstown / Monkstown",53.302,-6.176],"A96":["Glenageary",53.281,-6.128],"A98":["Bray",53.201,-6.111],"C15":["Navan",53.653,-6.684],"D01":["Dublin 1",53.352,-6.257],"D02":["Dublin 2",53.339,-6.253],"D03":["Dublin 3",53.363,-6.205],"D04":["Dublin 4",53.328,-6.227],"D05":["Dublin 5",53.383,-6.182],"D06":["Dublin 6",53.318,-6.26],"D07":["Dublin 7",53.361,-6.284],"D08":["Dublin 8",53.35,-6.32],"D09":["Dublin 9",53.386,-6.246],"D10":["Dublin 10",53.343,-6.361],"D11":["Dublin 11",53.387,-6.293],"D12":["Dublin 12",53.321,-6.329],"D13":["Dublin 13",53.386,-6.075],"D14":["Dublin 14",53.299,-6.258],"D15":["Dublin 15",53.395,-6.389],"D16":["Dublin 16",53.256,-6.296],"D17":["Dublin 17",53.4,-6.209],"D18":["Dublin 18",53.241,-6.183],"D20":["Dublin 20",53.352,-6.372],"D22":["Dublin 22",53.317,-6.439],"D24":["Dublin 24",53.248,-6.424],"D6W":["Dublin 6W",53.31,-6.283],"E21":["Cahir",52.378,-7.923],"E25":["Cashel",52.517,-7.888],"E32":["Carrick-on-Suir",52.349,-7.413],"E34":["Tipperary",52.473,-8.161],"E41":["Thurles",52.677,-7.822],"E45":["Nenagh",52.862,-8.197],"E53":["Roscrea",52.955,-7.799],"E91":["Clonmel",52.361,-7.699],"F12":["Claremorris",53.72,-8.999],"F23":["Castlebar",53.857,-9.298],"F26":["Ballina",54.114,-9.153],"F28":["Westport",53.8,-9.52],"F31":["Ballinrobe",53.624,-9.222],"F35":["Ballyhaunis",53.762,-8.759],"F42":["Roscommon",53.631,-8.191],"F45":["Castlerea",53.762,-8.486],"F52":["Boyle",53.991,-8.266],"F56":["Ballymote",54.089,-8.516],"F91":["Sligo",54.272,-8.475],"F92":["Letterkenny",54.952,-7.735],"F93":["Lifford",54.833,-7.483],"F94":["Donegal",54.654,-8.11],"H12":["Cavan",53.991,-7.36],"H14":["Belturbet",54.101,-7.444],"H16":["Cootehill",54.073,-7.082],"H18":["Monaghan",54.249,-6.969],"H23":["Clones",54.179,-7.232],"H53":["Ballinasloe",53.33,-8.221],"H54":["Tuam",53.515,-8.851],"H62":["Loughrea",53.198,-8.569],"H65":["Athenry",53.302,-8.749],"H71":["Clifden",53.488,-10.021],"H91":["Galway",53.274,-9.049],"K32":["Balbriggan",53.612,-6.182],"K34":["Skerries",53.574,-6.119],"K36":["Malahide",53.451,-6.154],"K45":["Lusk",53.524,-6.167],"K56":["Rush",53.522,-6.091],"K67":["Swords",53.459,-6.218],"K78":["Lucan",53.357,-6.45],"N37":["Athlone",53.423,-7.943],"N39":["Longford",53.73,-7.789],"N41":["Carrick-on-Shannon",53.944,-8.095],"N91":["Mullingar",53.526,-7.341],"P12":["Macroom",51.905,-8.96],"P14":["Crookstown",51.841,-8.831],"P17":["Kinsale",51.706,-8.523],"P24":["Cobh",51.85,-8.295],"P25":["Midleton",51.921,-8.176],"P31":["Ballincollig",51.888,-8.592],"P32":["Donoughmore",51.989,-8.745],"P36":["Youghal",51.949,-7.843],"P43":["Carrigaline",51.815,-8.392],"P47":["Dunmanway",51.72,-9.113],"P51":["Mallow",52.139,-8.655],"P56":["Charleville",52.355,-8.683],"P61":["Fermoy",52.138,-8.275],"P67":["Mitchelstown",52.26,-8.238],"P72":["Bandon",51.746,-8.737],"P75":["Bantry",51.68,-9.452],"P81":["Skibbereen",51.548,-9.266],"P85":["Clonakilty",51.623,-8.891],"R14":["Athy",52.992,-6.984],"R21":["Muine Bheag",52.702,-6.957],"R32":["Portlaoise",53.034,-7.3],"R35":["Tullamore",53.274,-7.493],"R42":["Birr",53.106,-7.757],"R45":["Edenderry",53.343,-7.049],"R51":["Kildare",53.157,-6.912],"R56":["Curragh Camp",53.147,-6.836],"R93":["Carlow",52.841,-6.926],"R95":["Kilkenny",52.651,-7.251],"T12":["Cork",51.885,-8.475],"T23":["Cork",51.915,-8.47],"T34":["Whitechurch",51.981,-8.514],"T45":["Little Island",51.904,-8.354],"T56":["Watergrasshill",52.027,-8.349],"V14":["Shannon",52.691,-8.619],"V15":["Kilrush",52.64,-9.483],"V23":["Caherciveen",51.946,-10.227],"V31":["Listowel",52.447,-9.485],"V35":["Kilmallock",52.401,-8.571],"V42":["Newcastle West",52.449,-9.053],"V92":["Tralee",52.269,-9.706],"V93":["Killarney",52.06,-9.505],"V94":["Limerick",52.661,-8.63],"V95":["Ennis",52.844,-8.984],"W12":["Newbridge",53.18,-6.798],"W23":["Maynooth",53.383,-6.592],"W34":["Monasterevin",53.143,-7.063],"W91":["Naas",53.221,-6.657],"X35":["Dungarvan",52.09,-7.621],"X42":["Kilmacthomas",52.213,-7.417],"X91":["Waterford",52.261,-7.112],"Y14":["Arklow",52.798,-6.154],"Y21":["Enniscorthy",52.505,-6.566],"Y25":["Gorey",52.671,-6.292],"Y34":["New Ross",52.396,-6.945],"Y35":["Wexford",52.337,-6.46]};
 function grazingForm(p, g, ending){
   const cows=S.cows.filter(c=>c.status==='milking').length;
   openForm({title:ending?'End grazing — '+p.name:(g?'Edit grazing':'Start grazing — '+p.name), values:g||{dateIn:today(), animals:cows||'', preCover:coverInfo(p).est??''},
@@ -930,9 +1177,11 @@ VIEWS.settings = el => {
     <div class="hint">Your records are stored in your own private account online (Supabase, EU – Ireland) and cached on this device so the app keeps working with poor signal. Logging out removes the copy on this device.</div></div>
   <div class="card"><h2>Farm</h2><div class="fgrid">
     <label class="f"><span>Farm name</span><input id="sFarm" value="${esc(s.farmName)}"></label><label class="f"><span>Herd number</span><input id="sHerd" value="${esc(s.herdNumber)}"></label>
-    <label class="f"><span>Weather latitude</span><input id="sLat" type="number" step="any" value="${esc(s.lat)}"></label><label class="f"><span>Weather longitude</span><input id="sLon" type="number" step="any" value="${esc(s.lon)}"></label>
-    <label class="f"><span>Map scale (metres per map unit)</span><input id="sScale" type="number" step="any" value="${esc(s.mPerUnit)}"><div class="hint">Default 1 (map is 1000 × ${s.mapH} m). Or use “Calibrate scale” on the map.</div></label></div>
-    <div class="row"><button class="pri" id="sSave">Save</button><button id="sGps">📍 Use my location for weather</button><button id="sGrass">Grass planner settings…</button></div></div>
+    <label class="f full"><span>Farm Eircode</span><div class="row" style="margin:0;flex-wrap:nowrap"><input id="sEir" value="${esc(s.eircode||'')}" placeholder="e.g. A65 F4E2" style="text-transform:uppercase"><button id="sEirFind">Find</button><button id="sLocMore">More…</button></div>
+      <div class="hint" id="sLocInfo">${farmLocSet()?`Farm location ${num(s.lat,5)}, ${num(s.lon,5)} — ${esc(locSourceText(s))}`:'Not set yet. Used to centre the map and for the weather / grass growth forecast.'}</div></label>
+    <label class="f"><span>Farm latitude (map & weather)</span><input id="sLat" type="number" step="any" value="${esc(s.lat)}"></label><label class="f"><span>Farm longitude (map & weather)</span><input id="sLon" type="number" step="any" value="${esc(s.lon)}"></label>
+    <label class="f"><span>Old sketch map scale (metres per unit)</span><input id="sScale" type="number" step="any" value="${esc(s.mPerUnit)}"><div class="hint">Only for paddocks drawn on the old sketch map. Satellite paddocks are measured from real coordinates.</div></label></div>
+    <div class="row"><button class="pri" id="sSave">Save</button><button id="sGps">📍 Use my GPS location</button><button id="sGrass">Grass planner settings…</button></div></div>
   <div class="card"><h2>Backup</h2><p class="mut">Download a copy of everything in your account (${num(bytes/1024)} KB of records, ${S.photos.length} photos). Import uploads a backup into <b>this</b> account, replacing what is there.</p>
     <label class="cb"><input type="checkbox" id="incPhotos" checked> Include photos in backup (larger file)</label>
     <div class="row"><button class="pri" id="exp">⬇ Export backup (JSON)</button><button id="imp">⬆ Import backup…</button><input type="file" id="impFile" accept="application/json,.json" hidden></div></div>
@@ -940,8 +1189,16 @@ VIEWS.settings = el => {
     <div class="row"><button id="demo">Load demo data</button><button id="undemo">Remove demo data</button><button class="danger" id="clear">🗑 Delete ALL my farm data</button></div></div>
   <div class="card"><h2>About</h2><p class="mut">Farm App v${APP_VERSION}. Records carry <code>source: "manual"</code>; future sensor feeds can write records with <code>source: "sensor"</code> using the same structure. Compliance sections are record-keeping aids only.</p></div>`;
   setSync();
-  $('#sSave',el).onclick=()=>{ Object.assign(s,{farmName:$('#sFarm').value.trim(), herdNumber:$('#sHerd').value.trim(), lat:parseFloat($('#sLat').value)||DEFAULT_SETTINGS.lat, lon:parseFloat($('#sLon').value)||DEFAULT_SETTINGS.lon, mPerUnit:parseFloat($('#sScale').value)||1}); save(); toast('Settings saved'); render(); };
-  $('#sGps',el).onclick=()=>{ if(!navigator.geolocation) return toast('Location not available'); navigator.geolocation.getCurrentPosition(p=>{ $('#sLat').value=p.coords.latitude.toFixed(3); $('#sLon').value=p.coords.longitude.toFixed(3); toast('Location filled — press Save'); }, e=>toast('Location error: '+e.message)); };
+  const prevLL=[s.lat,s.lon];
+  $('#sSave',el).onclick=()=>{ Object.assign(s,{farmName:$('#sFarm').value.trim(), herdNumber:$('#sHerd').value.trim(), lat:parseFloat($('#sLat').value)||DEFAULT_SETTINGS.lat, lon:parseFloat($('#sLon').value)||DEFAULT_SETTINGS.lon, mPerUnit:parseFloat($('#sScale').value)||1});
+    const e=normEircode($('#sEir').value); if(e) s.eircode=e; else if(!$('#sEir').value.trim()) s.eircode='';
+    if(s.lat!==prevLL[0]||s.lon!==prevLL[1]) s.locSource='coords'; MAP.center=null; save(); toast('Settings saved'); render(); };
+  $('#sGps',el).onclick=()=>gpsLocate(true);
+  $('#sLocMore',el).onclick=locationDialog;
+  $('#sEirFind',el).onclick=async()=>{ const code=normEircode($('#sEir').value); const info=$('#sLocInfo'); if(!code){ info.innerHTML='<span class="warn">That doesn’t look like an Eircode (e.g. A65 F4E2).</span>'; return; }
+    if(!ROUTING_KEYS[code.slice(0,3)]){ info.innerHTML=`<span class="warn">${esc(code.slice(0,3))} is not a known Eircode area — check the first 3 characters.</span>`; return; }
+    info.textContent='Looking up '+code+'…'; const r=await geocodeEircode(code); if(!r){ info.innerHTML='<span class="warn">Lookup failed — are you offline?</span>'; return; }
+    setFarmLocation(r.lat,r.lon,{source:r.source,eircode:code,quiet:true}); toast(r.source==='osm'?`Found ${code}`:`${code} not in OpenStreetMap — using the ${code.slice(0,3)} area. Drop a pin on the map for the exact spot.`); };
   $('#sGrass',el).onclick=grassSettingsForm;
   $('#syncNow',el).onclick=async()=>{ await flush(); if(await pull()) render(); toast(lastSyncErr?'Sync problem: '+lastSyncErr:'Synced'); };
   $('#logout',el).onclick=logout;
@@ -996,7 +1253,9 @@ function loadDemo(){
   const D=n=>addDays(today(),n); const o={demo:true}; const A=(c,r)=>add(c,{...r,...o},true);
   const pads=[['Long Field','resting',[[60,60],[380,50],[400,250],[70,270]]],['Well Field','grazing',[[400,50],[700,60],[690,240],[400,250]]],['Bog Meadow','silage',[[700,60],[950,80],[940,300],[690,240]]],
     ['Hill Paddock','resting',[[70,270],[400,250],[380,470],[80,480]]],['Road Field','resting',[[400,250],[690,240],[700,460],[380,470]]],['New Ground','reseeding',[[690,240],[940,300],[930,520],[700,460]]],['Back Field','resting',[[80,480],[380,470],[370,650],[90,640]]]];
-  const P=pads.map(([name,status,points])=>A('paddocks',{name,status,points,notes:'Demo paddock'}));
+  const dc=[S.settings.lat, S.settings.lon], k=0.9; // demo fields placed around the farm location (approx. 1 sketch unit = 0.9 m)
+  const toGeo=pts=>roundGeo(pts.map(([x,y])=>[dc[0]-(y-350)*k/111320, dc[1]+(x-500)*k/(111320*Math.cos(dc[0]*Math.PI/180))]));
+  const P=pads.map(([name,status,points])=>A('paddocks',{name,status,points,geo:toGeo(points),notes:'Demo paddock'}));
   const covers=[[1150,1240],[1500,1590],[2200,2300],[900,990],[700,800],[0,0],[1300,1390]];
   P.forEach((p,i)=>{ if(p.status==='reseeding') return; A('grassWalks',{paddockId:p.id,date:D(-14),cover:covers[i][0]}); A('grassWalks',{paddockId:p.id,date:D(-6),cover:covers[i][1]}); });
   A('grazings',{paddockId:P[1].id,dateIn:D(-1),group:'Milking herd',animals:6,preCover:1650}); A('grazings',{paddockId:P[4].id,dateIn:D(-22),dateOut:D(-20),group:'Milking herd',animals:6,preCover:1450,postCover:60});
@@ -1078,7 +1337,7 @@ async function onLogin(user){
   if(await pull() && !$('#dlg').open) render();
   flush(); if(await loadMapBg() && route==='map') render();
 }
-function clearSession(){ blobURLs.forEach(u=>URL.revokeObjectURL(u)); blobURLs.clear(); signedCache.clear(); S=blankState(); Q={}; UID=null; USER=null; mapBgURL=null; lastSyncAt=0; lastSyncErr=''; MAP.sel=null; MAP.vb=null; }
+function clearSession(){ blobURLs.forEach(u=>URL.revokeObjectURL(u)); blobURLs.clear(); signedCache.clear(); S=blankState(); Q={}; UID=null; USER=null; mapBgURL=null; lastSyncAt=0; lastSyncErr=''; MAP.sel=null; MAP.vb=null; MAP.center=null; MAP.zoom=null; MAP.mode='view'; MAP.view='sat'; MAP.kml=null; MAP.pts=[]; }
 async function logout(){
   await flush(); const n=Object.keys(Q).length+(await pendingCount());
   if(n && !confirm(`${n} change(s) have not reached the server yet (no connection?) and will be lost from this phone if you log out. Log out anyway?`)) return;
@@ -1113,7 +1372,7 @@ window.addEventListener('hashchange',()=>{ if(!UID) return; parseHash(); render(
 window.addEventListener('online',()=>{ if(!UID) return; setSync(); fetchWeather(); flush().then(()=>pull()).then(ok=>{ if(ok&&!$('#dlg').open) render(); }); });
 window.addEventListener('offline',setSync);
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible' && UID && navigator.onLine) flush().then(()=>pull()).then(ok=>{ if(ok&&!$('#dlg').open) render(); }); });
-let rT; window.addEventListener('resize',()=>{ clearTimeout(rT); rT=setTimeout(()=>{ if(UID && !$('#dlg').open) render(); },250); });
+let rT, lastW=window.innerWidth; window.addEventListener('resize',()=>{ clearTimeout(rT); rT=setTimeout(()=>{ if(!UID || $('#dlg').open) return; if(route==='map' && LMAP){ LMAP.invalidateSize(); return; } if(Math.abs(window.innerWidth-lastW)<2) return; lastW=window.innerWidth; render(); },250); });
 window.addEventListener('storage',e=>{ if(UID && e.key===kData()){ S=loadCache(); Q=loadQueue(); if(!$('#dlg').open) render(); } });
 if('serviceWorker' in navigator && location.protocol==='https:') navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('SW',e));
 if(navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(()=>{});
