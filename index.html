@@ -183,11 +183,75 @@ body.loggedout main{display:none}
  body{background:#fff}
  body::before{display:none}
 }
+body.loggedout header .gear{display:none}
+/* v4: header gear, quiet sync badge, nav More, farm types, tabs, crops */
+header .gear{flex:0 0 auto;margin-left:auto;width:48px;height:48px;margin-right:-4px;border-radius:16px;display:grid;place-items:center;color:#fff;background:#ffffff2e;border:2px solid transparent;text-decoration:none;transition:transform .15s}
+header .gear:hover{background:#ffffff45}header .gear:active{transform:scale(.94)}
+header .gear.on{background:#fff;color:var(--gd);border-color:var(--sun);box-shadow:0 3px 0 #e6b80066}
+header .gear:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+header .net{margin-left:auto;background:#fff3cd;color:#7a4b00;border:1.5px solid #ffd54a;font-size:11.5px;padding:3px 9px}
+header .net:not(:empty)+.gear{margin-left:0}
+nav .more{flex:0 0 auto;min-height:44px;padding:9px 14px;border-radius:999px;background:#ffffff2e;color:#fff;border:2px dashed #ffffff80;box-shadow:none;font-size:15px}
+.moregrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.moregrid a{display:flex;flex-direction:column;align-items:center;gap:4px;padding:14px 8px;border-radius:18px;background:var(--cream);border:2px solid #efe3c4;text-decoration:none;color:var(--soil);font-weight:800;min-height:84px;justify-content:center;text-align:center}
+.moregrid a span{font-size:28px}.moregrid a.on{border-color:var(--g);background:var(--g2)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:8px 14px 8px 10px;border-radius:999px;border:2px solid #e3efe4;background:#fff;font-weight:800;cursor:pointer;min-height:46px;user-select:none}
+.chip input{width:20px;height:20px}.chip.on,.chip:has(input:checked){background:var(--g2);border-color:var(--grass);color:var(--gd)}
+.appr{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.achoice{display:flex;flex-direction:column;gap:4px;padding:12px 14px;border:2px solid #e3efe4;border-radius:18px;cursor:pointer;position:relative}
+.achoice input{position:absolute;opacity:0}.achoice span{font-size:13px;color:var(--mut);font-weight:600}
+.achoice.on,.achoice:has(input:checked){border-color:var(--grass);background:var(--g2);box-shadow:0 4px 0 #bfe6cc}
+.achoice:has(input:focus-visible){outline:3px solid var(--sun)}
+ul.tablist{list-style:none;margin:0;padding:0}
+ul.tablist li{display:flex;align-items:center;gap:8px;padding:6px 4px;border-bottom:2px dashed #eef3ee;background:#fff;border-radius:12px}
+ul.tablist li.off .tl{opacity:.5}ul.tablist li.over{box-shadow:inset 0 3px 0 var(--grass)}ul.tablist li.dragging{opacity:.4}
+ul.tablist .drag{cursor:grab;font-size:20px;color:var(--mut);padding:0 6px;touch-action:none}
+ul.tablist .tl{flex:1;font-weight:800;min-width:0}
+ul.tablist .ar{min-width:42px;min-height:42px;padding:0}ul.tablist .ar:disabled{opacity:.3}
+.sw{position:relative;display:inline-block;width:54px;height:32px;flex:0 0 auto;margin-left:4px}
+.sw input{position:absolute;inset:0;opacity:0;width:100%;height:100%;margin:0;cursor:pointer;z-index:1}
+.sw i{position:absolute;inset:0;border-radius:999px;background:#d7dcd7;transition:.2s}
+.sw i:after{content:"";position:absolute;left:3px;top:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0004;transition:.2s}
+.sw input:checked+i{background:var(--grass)}.sw input:checked+i:after{left:25px}
+.sw input:disabled+i{opacity:.55}.sw input:focus-visible+i{outline:3px solid var(--sun)}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+@media(max-width:440px){.cgrid{grid-template-columns:repeat(2,1fr);gap:10px}}
+.ccard{display:flex;flex-direction:column;background:#fff;border:2px solid #e8f3ea;border-radius:20px;padding:8px 8px 10px;text-decoration:none;color:var(--tx);box-shadow:0 5px 0 #d4e8d0;gap:2px;min-width:0}
+.ccard:active{transform:translateY(3px);box-shadow:0 2px 0 #d4e8d0}
+.ccard .cthumb{width:100%;height:auto;aspect-ratio:1;border-radius:14px;margin-bottom:6px}
+.ccard b{font-size:14.5px;line-height:1.2}.ccard i{font-size:12px;color:var(--mut);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ccard .pill{align-self:flex-start;margin-top:4px}
+.cthumb{display:block;object-fit:cover;background:#eef7ef;border-radius:14px;flex:0 0 auto}
+.cthumb.fb{display:grid;place-items:center;font-size:52px;background:radial-gradient(circle at 30% 25%,#fff8d9,#dff3e3 60%,#c9ead2);color:#000}
+.cthumb.fb[data-g=forestry],.cthumb.fb[data-g=forage]{background:radial-gradient(circle at 30% 25%,#f3fff0,#cfeccf)}
+.cthumb.sm{width:52px;height:52px;font-size:26px;border-radius:12px}.cthumb.xs{width:40px;height:40px;font-size:20px;border-radius:10px}
+.cthumb.hero{width:160px;height:160px;font-size:76px;border-radius:22px;box-shadow:0 6px 0 #d4e8d0}
+.chero{display:flex;gap:16px;align-items:flex-start;background:linear-gradient(135deg,#fffdf3,#eefaf1)}
+.chero figure{margin:0;flex:0 0 auto;max-width:170px}
+.chero h2{margin:0 0 2px}.chero p{margin:8px 0}
+.pcred{font-size:10.5px;line-height:1.3;color:var(--mut);margin-top:6px;font-weight:600;word-break:break-word}
+.pcred a{font-weight:700}
+.irl{background:#e9f8ee;border-radius:12px;padding:8px 10px;font-size:14px}
+@media(max-width:560px){.chero{flex-direction:column;align-items:center;text-align:center}.chero .row{justify-content:center}.chero figure{max-width:220px}}
+.csec{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-bottom:14px}.csec .card{margin:0}
+dl.kv{margin:0;display:grid;grid-template-columns:minmax(110px,34%) 1fr;gap:6px 12px;font-size:14.5px}
+dl.kv dt{font-weight:800;color:var(--soil)}dl.kv dd{margin:0}
+@media(max-width:440px){dl.kv{grid-template-columns:1fr}dl.kv dt{margin-top:6px}}
+.advice.org{background:#f0faf2;border-left:4px solid var(--grass);padding:8px 10px;border-radius:10px;font-size:14.5px}
+.apill{display:inline-block;font-size:12px;font-weight:800;color:var(--gd);background:var(--g2);border-radius:999px;padding:2px 10px;margin-bottom:6px}
+.lastres{margin-top:10px;background:#fff6e0;border-left:4px solid var(--amb);padding:8px 10px;border-radius:10px;font-size:14px}
+.lastres dl.kv{margin-top:6px}
+details.orgalt{margin-top:10px}details.orgalt summary{cursor:pointer;font-weight:800;color:var(--gd);min-height:36px;display:flex;align-items:center}
+.banner.disc{background:#eef7ff;border-color:#b9d8f2;color:#23486b;font-weight:600}
+.orgcard{border-color:#bfe6cc;background:#f6fdf7}.olist{margin:0;padding-left:18px;font-size:14.5px}.olist li{margin-bottom:6px}
+.vlist li{padding:8px 0}
+ul.pcredits{font-size:12.5px;max-height:320px;overflow:auto;padding-left:18px}
 </style>
 </head>
 <body>
 <header>
- <div class="top"><a class="brand" href="#dash" aria-label="Farmhand — home"><img src="favicon.svg" alt=""><span class="wm"><b>FARMHAND</b><i></i></span></a><h1 id="farmTitle"></h1><span class="net" id="net"></span></div>
+ <div class="top"><a class="brand" href="#dash" aria-label="Farmhand — home"><img src="favicon.svg" alt=""><span class="wm"><b>FARMHAND</b><i></i></span></a><h1 id="farmTitle"></h1><span class="net" id="net" role="status" aria-live="polite"></span><a class="gear" id="gear" href="#settings" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path fill="currentColor" d="M19.14 12.94a7.43 7.43 0 0 0 .05-.94 7.43 7.43 0 0 0-.05-.94l2.03-1.58a.48.48 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96a7.03 7.03 0 0 0-1.62-.94l-.36-2.54a.48.48 0 0 0-.48-.41h-3.84a.48.48 0 0 0-.48.41l-.36 2.54a7.37 7.37 0 0 0-1.62.94l-2.39-.96a.48.48 0 0 0-.59.22L2.74 8.87a.47.47 0 0 0 .12.61l2.03 1.58a7.6 7.6 0 0 0 0 1.88l-2.03 1.58a.48.48 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.04.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.48-.41l.36-2.54a7.03 7.03 0 0 0 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.48.48 0 0 0-.12-.61l-2.03-1.58zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"/></svg></a></div>
  <nav id="nav"></nav>
 </header>
 <div id="auth" hidden></div>
@@ -205,15 +269,16 @@ body.loggedout main{display:none}
    source ('manual' now; 'sensor' reserved for future feeds),
    and optional demo:true for demo records.
    ========================================================= */
-const APP_VERSION = 3;
+const APP_VERSION = 4;
 const SB_URL = 'https://uetglzwzyhvaoszainmx.supabase.co';
 const SB_KEY = 'sb_publishable__gDnjBirb1AbnZwMAXMTxg_alW8T4_h'; // publishable key: safe in the browser, data protected by row-level security
 const APP_URL = location.origin + location.pathname.replace(/index\.html$/,'');
 let sb=null, UID=null, USER=null;
 const kData = () => `farmapp.v2.${UID}.data`, kQueue = () => `farmapp.v2.${UID}.queue`, kWx = () => `farmapp.v2.${UID}.weather`;
-const COLLECTIONS = ['paddocks','grazings','grassWalks','cows','milk','breeding','tasks','treatments','fertiliser','movements','deaths','photos'];
+const COLLECTIONS = ['paddocks','grazings','grassWalks','cows','milk','breeding','tasks','treatments','fertiliser','movements','deaths','photos','groups','stockEvents','plantings','cropOps','customCrops'];
 const DEFAULT_SETTINGS = {farmName:'', herdNumber:'', lat:53.43, lon:-7.94, kgDmPerCow:17, demandCows:null,
-  residual:50, growthSource:'auto', manualGrowth:30, mPerUnit:1, mapW:1000, mapH:700};
+  residual:50, growthSource:'auto', manualGrowth:30, mPerUnit:1, mapW:1000, mapH:700,
+  farmTypes:['dairy'], approach:'conventional', tabPrefs:null, pigHerdNo:''}; // existing accounts default to Dairy + Conventional
 
 /* ---------- helpers ---------- */
 const $ = (s, el=document) => el.querySelector(s);
@@ -300,18 +365,20 @@ async function pull(){
   }catch(e){ console.warn('Pull failed', e); lastSyncErr=e.message||String(e); return false; }
   finally{ pulling=false; setSync(); }
 }
-function syncText(){ const n=Object.keys(Q).length; if(!navigator.onLine) return `● offline${n?` · ${n} change${n>1?'s':''} waiting`:''}`; if(flushing||pulling) return '↻ syncing…'; if(lastSyncErr) return '⚠ sync problem — will retry'; if(n) return `↻ ${n} pending`; return lastSyncAt?'✓ synced':''; }
-function setSync(){ const t=syncText(); const el=$('#net'); if(el) el.textContent=UID?t:''; const si=$('#syncInfo'); if(si) si.textContent=t+(lastSyncAt?` (last sync ${new Date(lastSyncAt).toLocaleTimeString('en-IE',{timeZone:'Europe/Dublin',hour:'2-digit',minute:'2-digit'})})`:'')+(lastSyncErr?` — ${lastSyncErr}`:''); }
+function syncDetail(){ const n=Object.keys(Q).length; if(!navigator.onLine) return `offline${n?` · ${n} change${n>1?'s':''} waiting`:''}`; if(flushing||pulling) return 'syncing…'; if(lastSyncErr) return 'sync problem — will retry'; if(n) return `${n} change${n>1?'s':''} pending`; return lastSyncAt?'up to date':''; }
+/* header indicator: silent when all is well; only shows for offline-with-unsynced-changes or a sync error */
+function syncText(){ const n=Object.keys(Q).length; if(!navigator.onLine) return n?`⚠ offline · ${n} unsynced`:''; if(lastSyncErr) return '⚠ sync problem'; return ''; }
+function setSync(){ const t=syncText(); const el=$('#net'); if(el){ el.textContent=UID?t:''; el.title=UID&&t?syncDetail()+(lastSyncErr?' — '+lastSyncErr:''):''; } const si=$('#syncInfo'); if(si) si.textContent=syncDetail()+(lastSyncAt?` (last sync ${new Date(lastSyncAt).toLocaleTimeString('en-IE',{timeZone:'Europe/Dublin',hour:'2-digit',minute:'2-digit'})})`:'')+(lastSyncErr?` — ${lastSyncErr}`:''); }
 
 /* ---------- lookups ---------- */
 const COW_STATUS = ['milking','dry','heifer','calf','bull','sold','died'];
 const PAD_STATUS = {grazing:{l:'Grazing now',c:'#1e6fd0'}, resting:{l:'Resting',c:'#5fae5f'}, silage:{l:'Silage',c:'#e6c619'}, reseeding:{l:'Reseeding',c:'#8d6e63'}};
 const BREEDS = ['Holstein Friesian','Friesian','Jersey','Jersey cross','Norwegian Red','Montbéliarde','Kiwi cross','Shorthorn','Angus','Hereford','Limousin','Charolais','Simmental','Belgian Blue','Saler','Other'];
-const cowLabel = c => c ? `${c.tag||'(no tag)'}${c.name?' · '+c.name:''}` : '—';
+const cowLabel = c => c ? (c.tag||c.name ? `${c.tag||''}${c.tag&&c.name?' · ':''}${c.name||''}` : '(no tag)') : '—';
 const cowName = id => { const c=get('cows',id); return c?cowLabel(c):''; };
 const padName = id => { const p=get('paddocks',id); return p?p.name:''; };
-const activeCows = () => S.cows.filter(c=>!['sold','died'].includes(c.status));
-const cowOpts = (all) => [['','—']].concat((all?S.cows:activeCows()).slice().sort((a,b)=>(a.tag||'').localeCompare(b.tag||'')).map(c=>[c.id, cowLabel(c)]));
+const activeCows = () => S.cows.filter(c=>(!c.species||c.species==='cattle')&&!['sold','died'].includes(c.status)); // cattle only; other species use the same records with a species field
+const cowOpts = (all, sp='cattle') => [['','—']].concat(S.cows.filter(c=>(sp==='any'||(sp==='cattle'?(!c.species||c.species==='cattle'):c.species===sp))&&(all||!['sold','died'].includes(c.status))).slice().sort((a,b)=>(a.tag||'').localeCompare(b.tag||'')).map(c=>[c.id, (sp==='any'&&c.species&&c.species!=='cattle'?(SP_ICON[c.species]||'')+' ':'')+cowLabel(c)]));
 const padOpts = () => [['','—']].concat(S.paddocks.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(p=>[p.id,p.name]));
 const IE_TAG = /^IE\s?\d{6}\s?\d\s?\d{4,5}$/i;
 function normTag(t){ return (t||'').trim().toUpperCase().replace(/\s+/g,' '); }
@@ -372,7 +439,7 @@ function toCSV(rows, cols){ const q=v=>{ v=v==null?'':String(v); return /[",\n]/
   return '\ufeff'+[cols.map(c=>q(c.l)).join(',')].concat(rows.map(r=>cols.map(c=>q(c.f?c.f(r):r[c.k])).join(','))).join('\r\n'); }
 function printTable(title, rows, cols, note){
   const pa=$('#printArea');
-  pa.innerHTML=`<h2>${esc(title)}</h2><p style="font-size:12px">${esc(S.settings.farmName||'')} ${S.settings.herdNumber?'· Herd no. '+esc(S.settings.herdNumber):''} · Printed ${fmtD(today())} from Farmhand<br><i>Record-keeping aid produced by Farm App. Not an official form; verify against Department of Agriculture / ICBF / product label requirements.</i>${note?'<br>'+esc(note):''}</p>
+  pa.innerHTML=`<h2>${esc(title)}</h2><p style="font-size:12px">${esc(S.settings.farmName||'')} ${S.settings.herdNumber?'· Herd no. '+esc(S.settings.herdNumber):''} · Printed ${fmtD(today())} from Farmhand<br><i>Record-keeping aid produced by Farmhand. Not an official form; verify against Department of Agriculture / ICBF / product label requirements.</i>${note?'<br>'+esc(note):''}</p>
   <table><thead><tr>${cols.map(c=>`<th>${esc(c.l)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(c=>`<td>${esc(c.f?c.f(r):r[c.k])}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
   window.print();
 }
@@ -515,8 +582,10 @@ function grassBudget(){
 function coverColour(c){ if(c==null) return '#cfd5cf'; if(c<500) return '#e57373'; if(c<900) return '#ffb74d'; if(c<1300) return '#c5e1a5'; if(c<1800) return '#66bb6a'; return '#1b5e20'; }
 
 /* withdrawal */
-function wdEnds(t){ const last=addDays(t.date, Math.max(0,(Number(t.courseDays)||1)-1));
-  return {last, milk: t.milkWd!=null&&t.milkWd!=='' ? addDays(last, Math.ceil(Number(t.milkWd))) : null, meat: t.meatWd!=null&&t.meatWd!=='' ? addDays(last, Math.ceil(Number(t.meatWd))) : null}; }
+/* organic: withdrawal = double the label period, minimum 48 h (EU Reg 2018/848 Annex II) — applied when the treatment has orgDouble */
+function wdDays(v, dbl){ const has=v!=null&&v!==''; if(!dbl) return has?Math.ceil(Number(v)):null; return Math.max(2, Math.ceil(2*(Number(has?v:0)||0))); }
+function wdEnds(t){ const last=addDays(t.date, Math.max(0,(Number(t.courseDays)||1)-1)); const d=!!t.orgDouble; const m=wdDays(t.milkWd,d), mt=wdDays(t.meatWd,d);
+  return {last, milk: m!=null ? addDays(last, m) : null, meat: mt!=null ? addDays(last, mt) : null, doubled:d}; }
 function inWithdrawal(){ const td=today(); const out=[];
   S.treatments.forEach(t=>{ const e=wdEnds(t); const milk=e.milk&&e.milk>=td, meat=e.meat&&e.meat>=td; if(milk||meat) out.push({t, milkEnd:milk?e.milk:null, meatEnd:meat?e.meat:null}); });
   return out.sort((a,b)=>((a.milkEnd||a.meatEnd)<(b.milkEnd||b.meatEnd)?-1:1)); }
@@ -535,7 +604,7 @@ function dueInfo(c){
   if(scan && scan.result==='in-calf' && scan.foetalAgeDays>0){ due=addDays(scan.date, GESTATION-Number(scan.foetalAgeDays)); basis='scan foetal age'; }
   return {cow:c, svc, scan, due, basis, days:daysBetween(today(),due), confirmed: !!(scan&&scan.result==='in-calf')};
 }
-function dueList(){ return S.cows.filter(c=>!['sold','died'].includes(c.status)).map(dueInfo).filter(Boolean).sort((a,b)=>a.due<b.due?-1:1); }
+function dueList(){ return activeCows().map(dueInfo).filter(Boolean).sort((a,b)=>a.due<b.due?-1:1); }
 
 /* milk */
 function milkDailyTotals(){ // per date: bulk total if any bulk records, else sum of per-cow
@@ -648,11 +717,12 @@ async function reverseGeocode(){ const s=S.settings; if(!farmLocSet()||!navigato
     Object.assign(S.settings,{locName:[place,county].filter(Boolean).join(', ')||j.display_name||'', locCounty:county, locNameFor:key}); save();
     if(['weather','grass','dash','settings','map'].includes(route) && !$('#dlg').open) render(); }catch(e){ console.warn('reverse geocode',e); } }
 /* =================== VIEWS =================== */
-const ROUTES = {dash:['🏠','Home'], map:['🗺️','Map'], cows:['🐄','Cows'], milk:['🥛','Milk'], breeding:['🧬','Breeding'], grass:['🌱','Grass'], weather:['🌦️','Weather'], photos:['📷','Photos'], tasks:['✅','Tasks'], compliance:['📋','Records'], settings:['⚙️','Settings']};
+/* tabs are defined in ALL_TABS (farm types module); Settings lives in the header gear */
 let route='dash', routeArg=null;
 function go(r,arg){ location.hash = arg ? `${r}/${arg}` : r; }
-function parseHash(){ const [r,a]=(location.hash.slice(1)||'dash').split('/'); route = (ROUTES[r]||r==='cow') ? r : 'dash'; routeArg=a?decodeURIComponent(a):null; }
-function renderNav(){ $('#nav').innerHTML=Object.entries(ROUTES).map(([k,[i,l]])=>`<a href="#${k}" class="${(route===k||(route==='cow'&&k==='cows'))?'on':''}">${i} ${l}</a>`).join('');
+function parseHash(){ const [r,a]=(location.hash.slice(1)||'dash').split('/'); route = (ALL_TABS[r]||['cow','crop','planting','settings'].includes(r)) ? r : 'dash'; routeArg=a?decodeURIComponent(a):null; }
+function renderNav(){ const nk=navKey(); $('#nav').innerHTML=visibleTabs().map(k=>{ const [i,l]=tabLabel(k); return `<a href="#${k}" class="${nk===k?'on':''}"${nk===k?' aria-current="page"':''}>${i} ${esc(l)}</a>`; }).join('')+`<button type="button" class="more" id="navMore" aria-label="All tabs">☰ More</button>`;
+  $('#navMore').onclick=moreMenu; const g=$('#gear'); if(g){ g.classList.toggle('on',route==='settings'); if(route==='settings') g.setAttribute('aria-current','page'); else g.removeAttribute('aria-current'); }
   const on=$('#nav a.on'); if(on) on.scrollIntoView({block:'nearest',inline:'nearest'});
   $('#farmTitle').textContent=(S.settings.farmName||''); setSync(); }
 function render(){ if(!UID) return; destroyLeaflet(); renderNav(); const m=$('#main'); const hasDemo=COLLECTIONS.some(c=>S[c].some(r=>r.demo));
@@ -661,6 +731,372 @@ function render(){ if(!UID) return; destroyLeaflet(); renderNav(); const m=$('#m
 const KPI_EMO=[[/overdue/i,'⏰'],[/today/i,'📅'],[/upcoming|scheduled|next/i,'🗓️'],[/withdrawal/i,'💊'],[/calv|due/i,'🍼'],[/milk|litre/i,'🥛'],[/growth|kg dm\/ha\/day/i,'📈'],[/cover|kg dm/i,'🌾'],[/days|grass|rest/i,'🌱'],[/demand|cow/i,'🐄'],[/area|ha\b|hectare/i,'📐'],[/\bn\b|nitrogen|fert/i,'🧪'],[/status/i,'🏷️'],[/breed/i,'🧬'],[/age/i,'🎂']];
 function kpiIcons(root){ $$('.kpi',root).forEach(k=>{ if($('.ico',k)) return; const t=($('span',k)?.textContent||''); const e=(KPI_EMO.find(([r])=>r.test(t))||[0,'🌻'])[1]; k.insertAdjacentHTML('afterbegin',`<div class="ico" aria-hidden="true">${e}</div>`); }); }
 const VIEWS={};
+/* =================== FARM TYPES, TABS, SPECIES, CROPS (v4) =================== */
+const FARM_TYPES = {
+  dairy:{i:'🐄',l:'Dairy'}, beef:{i:'🐂',l:'Beef (suckler & finishing)'}, sheep:{i:'🐑',l:'Sheep'}, pigs:{i:'🐖',l:'Pigs'},
+  tillage:{i:'🌾',l:'Tillage / crops'}, poultry:{i:'🐔',l:'Poultry'}, goats:{i:'🐐',l:'Goats'}, horses:{i:'🐎',l:'Horses / equine'},
+  horticulture:{i:'🥕',l:'Horticulture / vegetables'}, fruit:{i:'🍎',l:'Fruit / orchard'}, forestry:{i:'🌲',l:'Forestry'}, other:{i:'🚜',l:'Other'}};
+const APPROACHES = {
+  conventional:{i:'🧪',l:'Conventional',d:'Standard Irish guidance (Teagasc Green Book / Nitrates). Approved fertilisers and plant-protection products.'},
+  mostly:{i:'🌿',l:'Mostly organic',d:'Organic methods first; conventional options shown as a last resort with a caution. Not certified.'},
+  organic:{i:'🍃',l:'Organic only',d:'Certified organic rules (EU Reg 2018/848, DAFM Organic Farming Scheme, IOA / Organic Trust). Non-permitted inputs are blocked.'}};
+const ALL_TABS = {dash:['🏠','Home'], map:['🗺️','Map'], cows:['🐄','Cows'], milk:['🥛','Milk'], dairyq:['🧪','Milk quality'], breeding:['🧬','Breeding'], beef:['🐂','Beef'],
+  sheep:['🐑','Sheep'], pigs:['🐖','Pigs'], poultry:['🐔','Poultry'], goats:['🐐','Goats'], horses:['🐎','Horses'], grass:['🌱','Grass'],
+  crops:['🌾','Crops'], veg:['🥕','Veg'], orchard:['🍎','Orchard'], forestry:['🌲','Forestry'], croplib:['📚','Crop library'],
+  weather:['🌦️','Weather'], tasks:['✅','Tasks'], photos:['📷','Photos'], compliance:['📋','Records']};
+const SHARED_TABS = ['dash','map','weather','tasks','photos','compliance'];
+const TYPE_TABS = {dairy:['cows','milk','dairyq','breeding','grass'], beef:['cows','beef','breeding','grass'], sheep:['sheep','grass'], pigs:['pigs'], poultry:['poultry'],
+  goats:['goats'], horses:['horses','grass'], tillage:['crops','croplib'], horticulture:['veg','croplib'], fruit:['orchard','croplib'], forestry:['forestry','croplib'], other:['croplib']};
+const farmTypes = () => { const t=S.settings.farmTypes; return Array.isArray(t)&&t.length ? t : ['dairy']; };
+const hasType = (...k) => k.some(x=>farmTypes().includes(x));
+const approach = () => APPROACHES[S.settings.approach] ? S.settings.approach : 'conventional';
+function tabLabel(k){ const [i,l]=ALL_TABS[k]; if(k==='cows' && !hasType('dairy')) return [i,'Cattle']; return [i,l]; }
+function defaultTabOn(k){ return SHARED_TABS.includes(k) || farmTypes().some(t=>(TYPE_TABS[t]||[]).includes(k)); }
+function tabOrder(){ const canon=Object.keys(ALL_TABS); const o=(S.settings.tabPrefs&&Array.isArray(S.settings.tabPrefs.order))?S.settings.tabPrefs.order.filter(k=>ALL_TABS[k]):[];
+  return [...o, ...canon.filter(k=>!o.includes(k))]; }
+function tabOn(k){ if(k==='dash') return true; const v=S.settings.tabPrefs&&S.settings.tabPrefs.vis; return (v && typeof v[k]==='boolean') ? v[k] : defaultTabOn(k); }
+const visibleTabs = () => tabOrder().filter(tabOn);
+const ROUTE_PARENT = {cow:'cows', crop:'croplib', planting:'croplib'};
+/* ---------- species (animal records reuse S.cows with a species field; events in S.stockEvents; batches/pens/flocks in S.groups) ---------- */
+const isCattle = c => !c.species || c.species==='cattle';
+const SP_ICON = {cattle:'🐄', sheep:'🐑', pigs:'🐖', poultry:'🐔', goats:'🐐', horses:'🐎', beef:'🐂', dairyq:'🧪'};
+const SPECIES = {
+  sheep:{l:'Sheep', animal:'sheep', groupL:'Batch / flock', status:['ewe','ram','hogget','lamb','sold','died'], breeds:['Suffolk','Texel','Belclare','Charollais','Vendéen','Galway','Cheviot','Mule','Lanark','Scottish Blackface','Lleyn','Zwartbles','Rouge','Other'],
+    tagHint:'Sheep tag / EID — or keep records by batch only',
+    events:{
+      scan:{i:'🔎',l:'Scanning',f:[{k:'date',l:'Date scanned',t:'date',req:1},{k:'groupId',l:'Batch',t:'select',o:()=>groupOpts('sheep')},{k:'ewes',l:'Ewes scanned',t:'number',req:1},{k:'empty',l:'Empty',t:'number'},{k:'singles',l:'Singles',t:'number'},{k:'twins',l:'Twins',t:'number'},{k:'triplets',l:'Triplets+',t:'number'},{k:'scanner',l:'Scanner'}],
+        sum:r=>`${num(r.ewes)} ewes · ${num(r.empty)} empty · ${num(r.singles)}/${num(r.twins)}/${num(r.triplets)} (1/2/3+) · ${scanRate(r)}`},
+      lambing:{i:'🐣',l:'Lambing',f:[{k:'date',l:'Date',t:'date',req:1},{k:'animalId',l:'Ewe',t:'select',o:()=>cowOpts(true,'sheep')},{k:'groupId',l:'…or batch',t:'select',o:()=>groupOpts('sheep')},{k:'born',l:'Lambs born',t:'number',req:1,min:0},{k:'alive',l:'Born alive',t:'number',min:0},{k:'lost',l:'Lost (born dead / died ≤ 48 h)',t:'number',min:0},{k:'assist',l:'Assistance',t:'select',o:['None','Slight','Hard pull','Vet']},{k:'fostered',l:'Fostered / pet lambs',t:'number'}],
+        sum:r=>`${num(r.born)} born (${r.born==1?'single':r.born==2?'twins':r.born>=3?'triplets+':''}) · ${num(r.alive??r.born)} alive${r.lost?' · '+num(r.lost)+' lost':''}`},
+      shear:{i:'✂️',l:'Shearing',f:[{k:'date',l:'Date',t:'date',req:1},{k:'groupId',l:'Batch',t:'select',o:()=>groupOpts('sheep')},{k:'count',l:'Number shorn',t:'number'},{k:'woolKg',l:'Wool (kg)',t:'number'},{k:'shearer',l:'Shearer'}],sum:r=>`${num(r.count)} shorn${r.woolKg?' · '+num(r.woolKg)+' kg wool':''}`},
+      footbath:{i:'🦶',l:'Footbath / feet',f:[{k:'date',l:'Date',t:'date',req:1},{k:'groupId',l:'Batch',t:'select',o:()=>groupOpts('sheep')},{k:'count',l:'Number',t:'number'},{k:'product',l:'Product / method',t:'datalist',o:['Zinc sulphate 10%','Formalin 3%','Copper sulphate','Foot trimming','Vaccination (footrot)']},{k:'lame',l:'Lame found',t:'number'}],sum:r=>`${num(r.count)} through · ${esc(r.product||'')}`},
+      weigh:{i:'⚖️',l:'Weighing',f:[{k:'date',l:'Date',t:'date',req:1},{k:'animalId',l:'Animal',t:'select',o:()=>cowOpts(true,'sheep')},{k:'groupId',l:'…or batch',t:'select',o:()=>groupOpts('sheep')},{k:'count',l:'Number (if batch)',t:'number'},{k:'weight',l:'Weight kg (avg if batch)',t:'number',req:1}],sum:r=>`${num(r.weight,1)} kg${r.count?' avg × '+num(r.count):''}`},
+      sale:{i:'💶',l:'Mart / sale',f:[{k:'date',l:'Date',t:'date',req:1},{k:'groupId',l:'Batch',t:'select',o:()=>groupOpts('sheep')},{k:'count',l:'Number sold',t:'number',req:1},{k:'category',l:'Category',t:'datalist',o:['Factory lambs','Store lambs','Cull ewes','Breeding hoggets','Rams']},{k:'where',l:'Mart / factory'},{k:'kg',l:'Avg weight kg (live or carcass)',t:'number'},{k:'price',l:'Price € per head',t:'number'}],sum:r=>`${num(r.count)} × ${esc(r.category||'')} @ €${num(r.price)} ${r.where?'· '+esc(r.where):''}`}},
+    dose:true, kpis:()=>sheepKpis()},
+  pigs:{l:'Pigs', animal:'sow/boar', groupL:'Batch / pen', status:['sow','gilt','boar','weaner','finisher','sold','died'], breeds:['Large White','Landrace','Duroc','Pietrain','Hampshire','Tamworth','Saddleback','Gloucester Old Spot','Hybrid','Other'],
+    tagHint:'Sow ear tag / tattoo number',
+    events:{
+      service:{i:'🧬',l:'Service',f:[{k:'date',l:'Date',t:'date',req:1},{k:'animalId',l:'Sow / gilt',t:'select',o:()=>cowOpts(true,'pigs'),req:1},{k:'boar',l:'Boar / AI'}],sum:r=>`Served${r.boar?' to '+esc(r.boar):''} · due ≈ ${fmtD(addDays(r.date,115))}`},
+      farrow:{i:'🐷',l:'Farrowing',f:[{k:'date',l:'Date',t:'date',req:1},{k:'animalId',l:'Sow',t:'select',o:()=>cowOpts(true,'pigs'),req:1},{k:'born',l:'Total born',t:'number',req:1},{k:'alive',l:'Born alive',t:'number'},{k:'still',l:'Stillborn',t:'number'},{k:'mummified',l:'Mummified',t:'number'},{k:'crate',l:'Farrowing crate / pen'}],sum:r=>`${num(r.born)} born · ${num(r.alive)} alive${r.still?' · '+num(r.still)+' still':''}`},
+      wean:{i:'🍼',l:'Weaning',f:[{k:'date',l:'Date',t:'date',req:1},{k:'animalId',l:'Sow',t:'select',o:()=>cowOpts(true,'pigs')},{k:'weaned',l:'Number weaned',t:'number',req:1},{k:'kg',l:'Avg weaning weight kg',t:'number'},{k:'groupId',l:'Moved to pen/batch',t:'select',o:()=>groupOpts('pigs')}],sum:r=>`${num(r.weaned)} weaned${r.kg?' @ '+num(r.kg,1)+' kg':''}`},
+      feed:{i:'🌽',l:'Feed',f:[{k:'date',l:'Date',t:'date',req:1},{k:'groupId',l:'Pen / batch',t:'select',o:()=>groupOpts('pigs'),req:1},{k:'feedKg',l:'Feed (kg)',t:'number',req:1},{k:'ration',l:'Ration',t:'datalist',o:['Creep','Link','Weaner','Grower','Finisher','Sow lactation','Sow dry']}],sum:r=>`${num(r.feedKg)} kg ${esc(r.ration||'')}`},
+      weigh:{i:'⚖️',l:'Pen weighing',f:[{k:'date',l:'Date',t:'date',req:1},{k:'groupId',l:'Pen / batch',t:'select',o:()=>groupOpts('pigs'),req:1},{k:'count',l:'Pigs in pen',t:'number',req:1},{k:'weight',l:'Avg weight kg',t:'number',req:1}],sum:r=>`${num(r.count)} pigs @ ${num(r.weight,1)} kg avg`},
+      sale:{i:'💶',l:'Sale / factory',f:[{k:'date',l:'Date',t:'date',req:1},{k:'groupId',l:'Pen / batch',t:'select',o:()=>groupOpts('pigs')},{k:'count',l:'Number',t:'number',req:1},{k:'kg',l:'Avg live/carcass kg',t:'number'},{k:'price',l:'€ per head',t:'number'},{k:'where',l:'Factory / buyer'}],sum:r=>`${num(r.count)} sold${r.kg?' @ '+num(r.kg)+' kg':''}`}},
+    dose:true, kpis:()=>pigKpis()},
+  poultry:{l:'Poultry', animal:'bird', groupL:'Flock / house', status:['layer','broiler','breeder','pullet','sold','died'], breeds:['Hy-Line Brown','ISA Brown','Lohmann','Ross 308','Cobb 500','Rhode Island Red','Light Sussex','Marans','Turkey','Duck','Goose','Other'],
+    tagHint:'Leg ring / ID (most records are by flock)', noAnimals:true,
+    events:{
+      eggs:{i:'🥚',l:'Egg count',f:[{k:'date',l:'Date',t:'date',req:1},{k:'groupId',l:'Flock',t:'select',o:()=>groupOpts('poultry'),req:1},{k:'eggs',l:'Eggs collected',t:'number',req:1},{k:'seconds',l:'Seconds / cracked',t:'number'}],sum:r=>`${num(r.eggs)} eggs${r.seconds?' ('+num(r.seconds)+' seconds)':''}`},
+      mortality:{i:'🕊️',l:'Mortality',f:[{k:'date',l:'Date',t:'date',req:1},{k:'groupId',l:'Flock',t:'select',o:()=>groupOpts('poultry'),req:1},{k:'count',l:'Birds died / culled',t:'number',req:1},{k:'cause',l:'Cause',t:'datalist',o:['Unknown','Predator','Smothering','Disease','Cull','Injury']}],sum:r=>`${num(r.count)} lost · ${esc(r.cause||'')}`},
+      feed:{i:'🌽',l:'Feed',f:[{k:'date',l:'Date',t:'date',req:1},{k:'groupId',l:'Flock',t:'select',o:()=>groupOpts('poultry'),req:1},{k:'feedKg',l:'Feed (kg)',t:'number',req:1},{k:'ration',l:'Ration',t:'datalist',o:['Chick crumb','Grower','Layers pellets','Broiler finisher','Mixed corn']}],sum:r=>`${num(r.feedKg)} kg ${esc(r.ration||'')}`},
+      weigh:{i:'⚖️',l:'Bird weights',f:[{k:'date',l:'Date',t:'date',req:1},{k:'groupId',l:'Flock',t:'select',o:()=>groupOpts('poultry'),req:1},{k:'weight',l:'Avg weight kg',t:'number',req:1}],sum:r=>`${num(r.weight,2)} kg avg`}},
+    dose:true, kpis:()=>poultryKpis()},
+  goats:{l:'Goats', animal:'goat', groupL:'Group', status:['doe','buck','kid','wether','sold','died'], breeds:['Saanen','British Alpine','Toggenburg','Anglo-Nubian','Boer','Golden Guernsey','Old Irish Goat','Other'],
+    tagHint:'Goat tag / EID',
+    events:{
+      kidding:{i:'🐐',l:'Kidding',f:[{k:'date',l:'Date',t:'date',req:1},{k:'animalId',l:'Doe',t:'select',o:()=>cowOpts(true,'goats')},{k:'born',l:'Kids born',t:'number',req:1},{k:'alive',l:'Alive',t:'number'}],sum:r=>`${num(r.born)} kids · ${num(r.alive??r.born)} alive`},
+      milk:{i:'🥛',l:'Milk (litres)',f:[{k:'date',l:'Date',t:'date',req:1},{k:'animalId',l:'Doe (optional)',t:'select',o:()=>cowOpts(true,'goats')},{k:'litres',l:'Litres',t:'number',req:1}],sum:r=>`${num(r.litres,1)} L`},
+      weigh:{i:'⚖️',l:'Weighing',f:[{k:'date',l:'Date',t:'date',req:1},{k:'animalId',l:'Animal',t:'select',o:()=>cowOpts(true,'goats')},{k:'weight',l:'Weight kg',t:'number',req:1}],sum:r=>`${num(r.weight,1)} kg`}},
+    dose:true},
+  horses:{l:'Horses', animal:'horse', groupL:'Group', status:['mare','stallion','gelding','foal','youngstock','sold','died'], breeds:['Irish Draught','Irish Sport Horse','Connemara','Thoroughbred','Cob','Pony','Other'],
+    tagHint:'Passport / UELN or microchip number', nameFirst:true,
+    events:{
+      farrier:{i:'🔨',l:'Farrier',f:[{k:'date',l:'Date',t:'date',req:1},{k:'animalId',l:'Horse',t:'select',o:()=>cowOpts(true,'horses'),req:1},{k:'work',l:'Work done',t:'datalist',o:['Full set','Front shoes','Trim','Remove shoes']},{k:'next',l:'Next due',t:'date'}],sum:r=>`${esc(r.work||'Farrier')}${r.next?' · next '+fmtD(r.next):''}`},
+      dentist:{i:'🦷',l:'Dentist',f:[{k:'date',l:'Date',t:'date',req:1},{k:'animalId',l:'Horse',t:'select',o:()=>cowOpts(true,'horses'),req:1}],sum:r=>esc(r.notes||'Dental check')},
+      weigh:{i:'⚖️',l:'Weight / condition',f:[{k:'date',l:'Date',t:'date',req:1},{k:'animalId',l:'Horse',t:'select',o:()=>cowOpts(true,'horses'),req:1},{k:'weight',l:'Weight kg (tape)',t:'number'},{k:'bcs',l:'Condition score (0–5)',t:'number'}],sum:r=>`${r.weight?num(r.weight)+' kg':''} ${r.bcs!=null?'· BCS '+num(r.bcs,1):''}`}},
+    dose:true},
+  beef:{l:'Beef', cattle:true, groupL:'Group',
+    events:{
+      weigh:{i:'⚖️',l:'Weighing',f:[{k:'date',l:'Date',t:'date',req:1},{k:'animalId',l:'Animal',t:'select',o:()=>cowOpts(true),req:1},{k:'weight',l:'Weight (kg)',t:'number',req:1,min:20,max:1500},{k:'beep',l:'BEEP-S weighing (suckler cow + calf weighed together)',t:'checkbox'}],sum:r=>`${num(r.weight)} kg${r.beep?' · BEEP':''}`},
+      sale:{i:'💶',l:'Mart / factory sale',f:[{k:'date',l:'Date',t:'date',req:1},{k:'animalId',l:'Animal',t:'select',o:()=>cowOpts(false),req:1},{k:'category',l:'Category',t:'datalist',o:['Weanling','Store','Finished (factory)','Cull cow','Breeding stock']},{k:'where',l:'Mart / factory'},{k:'kg',l:'Weight kg (live or carcass)',t:'number'},{k:'grade',l:'Grade (e.g. U=3)'},{k:'price',l:'Price €',t:'number'},{k:'markSold',l:'Mark animal as sold',t:'checkbox',def:true}],sum:r=>`${esc(r.category||'Sale')} ${r.kg?num(r.kg)+' kg':''} ${r.price?'€'+num(r.price):''} ${r.where?'· '+esc(r.where):''}`}}},
+  dairyq:{l:'Milk quality', cattle:true, groupL:'Group',
+    events:{
+      test:{i:'🧪',l:'Milk test (SCC/TBC)',f:[{k:'date',l:'Date',t:'date',req:1},{k:'scope',l:'Sample',t:'select',o:[['bulk','Bulk tank'],['cow','Individual cow (milk recording)']]},{k:'animalId',l:'Cow',t:'select',o:()=>cowOpts(false),show:v=>v.scope==='cow'},{k:'scc',l:'SCC (×1,000 cells/ml)',t:'number',validate:v=>v>400?'Above 400,000 — EU limit for bulk milk (3-month geometric mean).':v>200?'Above 200,000 — worth investigating (CellCheck target under 200k).':''},{k:'tbc',l:'TBC (×1,000/ml)',t:'number',validate:v=>v>100?'Above the EU limit of 100,000/ml (2-month geometric mean).':''},{k:'fat',l:'Fat %',t:'number'},{k:'protein',l:'Protein %',t:'number'},{k:'thermo',l:'Thermodurics (cfu/ml)',t:'number'}],sum:r=>`${r.scope==='cow'?cowName(r.animalId)+' · ':'Bulk · '}SCC ${num(r.scc)}k${r.tbc!=null?' · TBC '+num(r.tbc)+'k':''}${r.fat?' · F '+num(r.fat,2)+'%':''}${r.protein?' · P '+num(r.protein,2)+'%':''}`},
+      dryoff:{i:'🌙',l:'Dry-off',f:[{k:'date',l:'Date',t:'date',req:1},{k:'animalId',l:'Cow',t:'select',o:()=>cowOpts(false),req:1},{k:'therapy',l:'Dry-cow therapy',t:'select',o:['Teat sealant only (selective DCT)','Antibiotic + teat sealant','Antibiotic only','None']},{k:'lastScc',l:'Last SCC (×1,000)',t:'number',hint:'Selective dry-cow therapy is usually only for low-SCC cows — agree a plan with your vet.'},{k:'markDry',l:'Set cow status to dry',t:'checkbox',def:true}],sum:r=>`${cowName(r.animalId)} · ${esc(r.therapy||'')}`}}}};
+function scanRate(r){ const e=Number(r.ewes)||0; if(!e) return ''; const l=(Number(r.singles)||0)+2*(Number(r.twins)||0)+3*(Number(r.triplets)||0); return `${num(l/e,2)} lambs/ewe scanned`; }
+function groupOpts(sp){ return [['','—']].concat(S.groups.filter(g=>g.species===sp&&!g.closed).map(g=>[g.id,g.name])); }
+const groupName = id => get('groups',id)?.name||'';
+function spEvents(sp, kind){ return S.stockEvents.filter(e=>e.species===sp&&(!kind||e.kind===kind)).sort(byDate()); }
+function groupHead(g){ let n=Number(g.count)||0; S.stockEvents.filter(e=>e.groupId===g.id).forEach(e=>{ if(e.kind==='mortality'||e.kind==='sale') n-=Number(e.count)||0; }); return Math.max(0,n); }
+function sheepKpis(){ const yr=today().slice(0,4); const ewes=S.cows.filter(c=>c.species==='sheep'&&c.status==='ewe').length+sum(S.groups.filter(g=>g.species==='sheep'&&!g.closed).map(g=>g.ewes));
+  const lb=spEvents('sheep','lambing').filter(e=>(e.date||'').startsWith(yr)); const born=sum(lb.map(e=>e.born)), lost=sum(lb.map(e=>e.lost)); const sc=spEvents('sheep','scan')[0];
+  return [[ewes||'–','Ewes (register + batches)'],[born,`Lambs born ${yr}`],[born?num(100*lost/born,1)+'%':'–','Lamb losses'],[lb.length?`${lb.filter(e=>e.born==1).length}/${lb.filter(e=>e.born==2).length}/${lb.filter(e=>e.born>=3).length}`:'–','Singles / twins / triplets'],[sc?scanRate(sc).split(' ')[0]:'–','Scanning rate (lambs/ewe)']]; }
+function pigKpis(){ const sows=S.cows.filter(c=>c.species==='pigs'&&['sow','gilt'].includes(c.status)).length; const pens=S.groups.filter(g=>g.species==='pigs'&&!g.closed);
+  const fr=spEvents('pigs','farrow').slice(0,20); const bal=fr.length?sum(fr.map(e=>e.alive))/fr.length:null;
+  return [[sows,'Sows & gilts'],[sum(pens.map(groupHead)),'Pigs in pens'],[bal!=null?num(bal,1):'–','Born alive per litter'],[S.settings.pigHerdNo||'–','Pig herd number']]; }
+function poultryKpis(){ const fl=S.groups.filter(g=>g.species==='poultry'&&!g.closed); const birds=sum(fl.map(groupHead)); const td=today();
+  const eg=spEvents('poultry','eggs').filter(e=>daysBetween(e.date,td)<7&&daysBetween(e.date,td)>=0); const eggs=sum(eg.map(e=>e.eggs));
+  return [[birds,'Birds on farm'],[eggs,'Eggs last 7 days'],[birds?num(100*eggs/(birds*7),0)+'%':'–','Lay rate (7 days)'],[sum(spEvents('poultry','mortality').filter(e=>daysBetween(e.date,td)<30).map(e=>e.count)),'Mortality 30 days']]; }
+function fcrFor(g){ const w=S.stockEvents.filter(e=>e.groupId===g.id&&e.kind==='weigh').sort(byDate('date',1)); const pts=[...(g.startKg?[{date:g.start,weight:g.startKg,count:g.count}]:[]),...w]; if(pts.length<2) return null; const a=pts[0], b=pts[pts.length-1];
+  const gain=(Number(b.weight)*(Number(b.count)||Number(a.count)||0))-(Number(a.weight)*(Number(a.count)||0)); const feed=sum(S.stockEvents.filter(e=>e.groupId===g.id&&e.kind==='feed'&&e.date>=a.date&&e.date<=b.date).map(e=>e.feedKg));
+  if(gain<=0||!feed) return null; const days=daysBetween(a.date,b.date); return {fcr:feed/gain, adg:days?(b.weight-a.weight)/days:null}; }
+function adgFor(cid){ const w=S.stockEvents.filter(e=>e.kind==='weigh'&&e.animalId===cid&&e.weight).sort(byDate('date',1)); if(w.length<2) return null; const a=w[w.length-2], b=w[w.length-1]; const d=daysBetween(a.date,b.date); const L=daysBetween(w[0].date,b.date);
+  return d>0?{adg:(b.weight-a.weight)/d, life:L>0?(b.weight-w[0].weight)/L:null}:null; }
+function lastWeight(cid){ return S.stockEvents.filter(e=>e.kind==='weigh'&&e.animalId===cid&&e.weight).sort(byDate())[0]; }
+function stockEventForm(sp, kind, r, preset={}){ const cfg=SPECIES[sp].events[kind];
+  openForm({title:(r?'Edit ':'')+cfg.i+' '+cfg.l, values:r||{date:today(),...preset}, fields:[...cfg.f,{k:'notes',l:'Notes',t:'textarea',full:1}],
+    onSave:v=>{ const {markSold,markDry,...rec}=v; if(r) upd('stockEvents',r.id,rec); else add('stockEvents',{...rec,species:sp,kind});
+      if(kind==='sale'&&sp==='beef'&&markSold&&v.animalId) upd('cows',v.animalId,{status:'sold'});
+      if(kind==='dryoff'&&markDry&&v.animalId) upd('cows',v.animalId,{status:'dry'}); },
+    onDelete:r?()=>del('stockEvents',r.id):null}); }
+function groupForm(sp, g){ const P=SPECIES[sp];
+  openForm({title:(g?'Edit ':'New ')+P.groupL.toLowerCase(), values:g||{start:today()}, fields:[{k:'name',l:'Name',req:1,ph:sp==='pigs'?'e.g. Pen 4 finishers':sp==='poultry'?'e.g. House 1 layers':'e.g. Mountain ewes'},
+    {k:'start',l:sp==='poultry'?'Date placed':'Start date',t:'date'},{k:'count',l:sp==='poultry'?'Birds placed':'Number of animals',t:'number'},
+    ...(sp==='sheep'?[{k:'ewes',l:'Of which breeding ewes',t:'number'}]:[]),...(sp==='pigs'?[{k:'startKg',l:'Avg start weight kg',t:'number'}]:[]),
+    ...(sp==='poultry'?[{k:'type',l:'Type',t:'select',o:['Layers','Broilers','Breeders','Turkeys','Ducks','Geese','Mixed']}]:[]),
+    {k:'location',l:'House / shed / field'},{k:'closed',l:'Closed / sold out',t:'checkbox'},{k:'notes',l:'Notes',t:'textarea',full:1}],
+    onSave:v=>{ if(g) upd('groups',g.id,v); else add('groups',{...v,species:sp}); }, onDelete:g?()=>del('groups',g.id):null}); }
+function organicAnimalNotes(sp){ const a=approach(); if(a==='conventional') return '';
+  const conv={sheep:'6 months',goats:'6 months (milk 6 months)',pigs:'6 months',poultry:'10 weeks for meat birds (brought in before 3 days old), 6 weeks for laying hens',horses:'12 months and at least three-quarters of lifetime',cattle:'12 months and at least three-quarters of lifetime for meat; 6 months for milk'}[sp]||'see your certification body';
+  return `<div class="card orgcard"><h3>🍃 ${a==='organic'?'Organic':'Mostly organic'}: animal health notes</h3><ul class="olist">
+   <li><b>Prevention first:</b> suitable breeds, clean grazing and rotation, low stocking, and faecal egg counts (FEC) before dosing. Dose only the animals that need it, not routinely.</li>
+   <li><b>Withdrawal periods:</b> after any chemically-synthesised veterinary medicine the withdrawal is <b>double the label period, and at least 48 hours</b>. Treatments recorded here ${a==='organic'?'apply this automatically':'can apply it with the “organic double withdrawal” box'}.</li>
+   <li><b>Treatment limits:</b> more than 3 courses of synthetic allopathic medicines in 12 months (1 course if the productive life is under a year) means the animal can’t be sold as organic. Vaccines, parasite treatments and compulsory schemes don’t count towards this.</li>
+   <li><b>Conversion:</b> ${esc(conv)}${['cattle','sheep','goats'].includes(sp)?'. Land conversion is 2 years for grassland and annual crops':''}.</li>
+   <li><b>Stocking rate:</b> livestock manure is limited to <b>170 kg N/ha/year</b> across the farm (roughly 2 dairy cows, 13 ewes or 6.5 sows per ha). Organic farms can’t use the nitrates derogation.</li>
+   ${['sheep','cattle','goats'].includes(sp)?'<li><b>Parasites & fluke:</b> mixed or alternate grazing with other species, aftergrass or reseeds for weaned stock, fence off wet areas (fluke snails), and quarantine-treat bought-in animals.</li>':''}
+   ${['pigs','poultry'].includes(sp)?'<li><b>Outdoor access</b> and space allowances apply. Organic feed (with limited exceptions) and no routine preventive medicines.</li>':''}
+  </ul><p class="hint">Guide only: confirm the current rules with your certification body (IOA / Organic Trust) and your vet. ${a==='organic'?'':'“Mostly organic” is not certified.'}</p></div>`; }
+function speciesView(sp){ return el=>{ const P=SPECIES[sp]; const isC=!!P.cattle;
+  const animals=isC?[]:S.cows.filter(c=>c.species===sp); const groups=isC?[]:S.groups.filter(g=>g.species===sp); const ev=S.stockEvents.filter(e=>e.species===sp).sort(byDate());
+  const kp=P.kpis?P.kpis():[];
+  el.innerHTML=`<div class="row"><h2 style="margin:0">${SP_ICON[sp]||''} ${esc(P.l)}</h2><span class="sp"></span>${isC?'':`${P.noAnimals?'':`<button class="pri sm" id="spAdd">+ Add ${esc(P.animal)}</button>`}<button class="sm ${P.noAnimals?'pri':''}" id="spGrp">+ ${esc(P.groupL)}</button>`}</div>
+  ${kp.length?`<div class="kpis">${kp.map(([b,s])=>`<div class="kpi"><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join('')}</div>`:''}
+  <div class="card"><h3>Record</h3><div class="row" style="margin:0">${Object.entries(P.events).map(([k,e])=>`<button class="sm" data-ev="${k}">${e.i} ${esc(e.l)}</button>`).join('')}${P.dose?`<button class="sm" id="spDose">💊 Dose / treat</button>`:''}</div></div>
+  <div id="spExtra"></div>
+  ${isC?'':`<div class="card"><h3>${esc(P.groupL)}s</h3>${table(groups.slice().sort((a,b)=>(a.closed?1:0)-(b.closed?1:0)),[{l:'Name',h:g=>`<b>${esc(g.name)}</b>${g.closed?' <span class="pill">closed</span>':''}`},{l:'Started',f:g=>fmtD(g.start)},{l:'Head now',f:g=>num(groupHead(g))},{l:sp==='pigs'?'Feed conversion (FCR)':'Location',f:g=>sp==='pigs'?(fcrFor(g)?num(fcrFor(g).fcr,2):'–'):(g.location||'')}],{onRow:g=>groupForm(sp,g),empty:`No ${P.groupL.toLowerCase()}s yet.`})}${sp==='pigs'?'<div class="hint">FCR = kg feed ÷ kg liveweight gained, from the pen’s start weight, feed records and pen weighings.</div>':''}</div>`}
+  ${isC||(P.noAnimals&&!animals.length)?'':`<div class="card"><h3>Register (${animals.filter(a=>!['sold','died'].includes(a.status)).length} active)</h3>${table(animals.slice().sort((a,b)=>(a.tag||a.name||'').localeCompare(b.tag||b.name||'')),[{l:P.nameFirst?'Name':'Tag',h:c=>`<b>${esc(P.nameFirst?(c.name||c.tag):c.tag)}</b>`},{l:P.nameFirst?'Passport / chip':'Name',f:c=>P.nameFirst?c.tag:c.name},{l:'Breed',k:'breed'},{l:'Batch',f:c=>groupName(c.groupId)||c.group||''},{l:'Age',f:c=>age(c.dob)},{l:'Status',h:c=>`<span class="pill ${['sold','died'].includes(c.status)?'':'grn'}">${esc(c.status||'')}</span>${cowWithdrawal(c.id).length?' <span class="pill red">withdrawal</span>':''}`}],{onRow:c=>go('cow',c.id),empty:`No individual records yet. You can also keep records by ${P.groupL.toLowerCase()} only.`})}</div>`}
+  <div class="card"><h3>Recent records</h3>${table(ev.slice(0,60),[{l:'Date',f:r=>fmtD(r.date)},{l:'Type',f:r=>(P.events[r.kind]?.i||'')+' '+(P.events[r.kind]?.l||r.kind)},{l:'Animal / batch',f:r=>r.animalId?cowName(r.animalId):groupName(r.groupId)},{l:'Details',h:r=>P.events[r.kind]?.sum?P.events[r.kind].sum(r):''}],{onRow:r=>stockEventForm(sp,r.kind,r),empty:'Nothing recorded yet.'})}</div>
+  ${organicAnimalNotes(isC?'cattle':sp)}`;
+  $$('[data-ev]',el).forEach(b=>b.onclick=()=>stockEventForm(sp,b.dataset.ev));
+  const B=(id,fn)=>{ const x=$('#'+id,el); if(x) x.onclick=fn; };
+  B('spAdd',()=>cowForm(null,{species:sp,status:P.status[0]})); B('spGrp',()=>groupForm(sp)); B('spDose',()=>treatmentForm(null,{species:sp,reason:'Worming'}));
+  if(sp==='beef') beefExtra($('#spExtra',el)); if(sp==='dairyq') dairyqExtra($('#spExtra',el));
+}; }
+function beefExtra(box){ const cattle=activeCows(); const rows=cattle.map(c=>({c, w:lastWeight(c.id), a:adgFor(c.id)})).filter(r=>r.w);
+  const beep=S.stockEvents.filter(e=>e.kind==='weigh'&&e.beep); const byDay={}; beep.forEach(e=>(byDay[e.date]=byDay[e.date]||[]).push(e));
+  const ratios=[]; Object.values(byDay).forEach(list=>list.forEach(e=>{ const calf=get('cows',e.animalId); if(!calf) return; const dam=list.find(x=>{ const d=get('cows',x.animalId); return d&&d.id!==calf.id&&(calf.damId===d.id||(calf.damTag&&calf.damTag===d.tag)); }); if(dam) ratios.push({calf, dam:get('cows',dam.animalId), date:e.date, pct:100*e.weight/dam.weight}); }));
+  const avg=rows.filter(r=>r.a).map(r=>r.a.adg);
+  box.innerHTML=`<div class="kpis"><div class="kpi"><b>${cattle.length}</b><span>Cattle on farm</span></div><div class="kpi"><b>${rows.length}</b><span>Weighed animals</span></div><div class="kpi"><b>${avg.length?num(sum(avg)/avg.length,2):'–'}</b><span>Avg daily gain kg (ADG)</span></div><div class="kpi"><b>${ratios.length?num(sum(ratios.map(r=>r.pct))/ratios.length,0)+'%':'–'}</b><span>BEEP calf ÷ cow weight</span></div></div>
+  <div class="card"><h3>⚖️ Weights & daily gain</h3>${table(rows.sort((a,b)=>(b.a?.adg||0)-(a.a?.adg||0)),[{l:'Animal',h:r=>`<a href="#cow/${r.c.id}">${esc(cowLabel(r.c))}</a>`},{l:'Category',f:r=>r.c.beefCat||r.c.status},{l:'Last weight',f:r=>num(r.w.weight)+' kg ('+fmtD(r.w.date)+')'},{l:'ADG since previous',h:r=>r.a?`<span class="pill ${r.a.adg<0.5?'amb':'grn'}">${num(r.a.adg,2)} kg/day</span>`:'–'},{l:'ADG overall',f:r=>r.a&&r.a.life!=null?num(r.a.life,2):'–'}],{empty:'No weighings yet. Tap ⚖️ Weighing.'})}
+  <div class="hint">ADG = weight gained ÷ days between weighings. Typical targets: weanlings 0.8–1.0, stores 0.6–0.8, finishers 1.0–1.4 kg/day (Teagasc; varies by system).</div></div>
+  ${ratios.length?`<div class="card"><h3>BEEP-style weaning efficiency</h3>${table(ratios,[{l:'Date',f:r=>fmtD(r.date)},{l:'Calf',f:r=>cowLabel(r.calf)},{l:'Cow',f:r=>cowLabel(r.dam)},{l:'Calf ÷ cow',h:r=>`<span class="pill ${r.pct>=45?'grn':'amb'}">${num(r.pct,0)}%</span>`}])}<div class="hint">Calf weight as a % of its dam’s, weighed the same day; 45%+ is a common target. Official BEEP-S weights still go through ICBF.</div></div>`:''}`; }
+function dairyqExtra(box){ const t=spEvents('dairyq','test').filter(e=>e.scope!=='cow').slice(0,12).reverse(); const last=t[t.length-1];
+  const geo=a=>a.length?Math.exp(sum(a.map(x=>Math.log(Math.max(1,x))))/a.length):null; const g=geo(t.filter(e=>daysBetween(e.date,today())<=92&&e.scc).map(e=>Number(e.scc)));
+  const dry=spEvents('dairyq','dryoff').slice(0,10);
+  box.innerHTML=`<div class="kpis"><div class="kpi ${last&&last.scc>200?'warn':''}"><b>${last&&last.scc!=null?num(last.scc)+'k':'–'}</b><span>Latest bulk SCC</span></div><div class="kpi ${g>400?'warn':''}"><b>${g?num(g)+'k':'–'}</b><span>3-month geometric mean SCC</span></div><div class="kpi"><b>${last&&last.tbc!=null?num(last.tbc)+'k':'–'}</b><span>Latest TBC</span></div><div class="kpi"><b>${S.cows.filter(c=>isCattle(c)&&c.status==='dry').length}</b><span>Cows dry</span></div></div>
+  <div class="card"><h3>Bulk SCC trend</h3><canvas class="chart" id="sccChart"></canvas><div class="hint">CellCheck (Animal Health Ireland) target: bulk SCC under 200,000. EU limit 400,000 (rolling 3-month geometric mean).</div></div>
+  ${dry.length?`<div class="card"><h3>Recent dry-offs</h3>${table(dry,[{l:'Date',f:r=>fmtD(r.date)},{l:'Cow',f:r=>cowName(r.animalId)},{l:'Therapy',k:'therapy'},{l:'Last SCC',f:r=>r.lastScc!=null?num(r.lastScc)+'k':''}],{onRow:r=>stockEventForm('dairyq','dryoff',r)})}</div>`:''}`;
+  setTimeout(()=>lineChart($('#sccChart'),[{label:'SCC ×1000',points:t.filter(e=>e.scc!=null).map(e=>[e.date,Number(e.scc)])}],{height:180,yLabel:'k'})); }
+['sheep','pigs','poultry','goats','horses','beef','dairyq'].forEach(sp=>VIEWS[sp]=speciesView(sp));
+/* ---------- crops library (data in crops/*.json, loaded on demand, cached offline by the service worker) ---------- */
+const CROP_GROUP_EMO={cereals:'🌾',oilseeds:'🌼',forage:'🌱',potatoes:'🥔',vegetables:'🥬',fruit_trees:'🍎',soft_fruit:'🍓',herbs:'🌿',energy:'🔥',cover:'🍀',flowers:'🌷',forestry:'🌲',custom:'✏️'};
+const TAB_GROUPS={crops:['cereals','oilseeds','forage','potatoes','energy','cover'], veg:['vegetables','potatoes','herbs','flowers'], orchard:['fruit_trees','soft_fruit'], forestry:['forestry']};
+let CROPIDX=null, CROPGRP={}, cropLoadP=null; const grpP={};
+function loadCropIndex(){ if(CROPIDX) return Promise.resolve(CROPIDX); if(!cropLoadP) cropLoadP=fetch('crops/index.json').then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(j=>CROPIDX=j).catch(e=>{ cropLoadP=null; throw e; }); return cropLoadP; }
+function loadCropGroup(g){ if(CROPGRP[g]) return Promise.resolve(CROPGRP[g]); if(!grpP[g]) grpP[g]=fetch(`crops/${g}.json`).then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); }).then(j=>{ const m={}; j.crops.forEach(c=>m[c.id]=c); return CROPGRP[g]=m; }).catch(e=>{ delete grpP[g]; throw e; }); return grpP[g]; }
+function allCrops(){ const base=CROPIDX?CROPIDX.crops:[]; return base.concat(S.customCrops.map(c=>({id:'custom:'+c.id, n:c.name, g:'custom', lat:c.latin||'', ph:[Number(c.phLo)||5.5,Number(c.phHi)||7.5], soils:c.soils||'lmh', dr:'moderate', img:false, vc:0, sow:c.sow||''}))); }
+function cropIdx(id){ return allCrops().find(c=>c.id===id); }
+async function cropDoc(id){ if(!id) return null; if(id.startsWith('custom:')){ const c=get('customCrops',id.slice(7)); return c?customDoc(c):null; } await loadCropIndex(); const i=cropIdx(id); if(!i) return null; const g=await loadCropGroup(i.g); return g[id]||null; }
+function customDoc(c){ const t=x=>x||'—'; return {id:'custom:'+c.id, name:c.name, group:'custom', latin:c.latin||'', overview:c.notes||'Custom crop added by you.', ireland:'',
+  soil:{types:[{l:'Light',m:'Medium',h:'Heavy',p:'Peat'}[c.soils]||'Most mineral soils'], ph:[Number(c.phLo)||null,Number(c.phHi)||null], drainage:t(c.drainage), index:'Aim for P and K index 3 (Teagasc).'},
+  planting:{window:t(c.sow), seed_rate:t(c.rate), depth:t(c.depth), spacing:t(c.spacing), soil_temp:'—'},
+  fert:{conventional:{N:t(c.fert),P:'—',K:'—',S:'—',lime:'Lime to target pH per soil test.',manures:'—',timing:'—'}, organic:{text:c.fertOrg||'Manures, compost and legumes; check permitted inputs with your certification body.',lime:'Lime per soil test.'}},
+  water:{rainfall:t(c.water),critical:'—'}, harvest:{timing:t(c.harvest),signs:'—',yield_range:'—',storage:'—'}, protect:{conventional:{pests:t(c.pests),weeds:'—'},organic:{pests:t(c.pests),weeds:'—'}}, rotation:t(c.rotation), custom:true, cust:c}; }
+const cropThumb = (c, cls='') => c&&c.img ? `<img class="cthumb ${cls}" src="crops/img/${esc(c.id)}.webp" alt="" loading="lazy" decoding="async" width="160" height="160">` : `<div class="cthumb fb ${cls}" aria-hidden="true" data-g="${esc(c&&(c.g||c.group))}">${CROP_GROUP_EMO[c&&(c.g||c.group)]||'🌱'}</div>`;
+function cropDisclaimer(){ const a=approach(); return `<div class="banner disc">ℹ️ <b>General guidance only.</b> Figures are typical Irish ranges summarised from Teagasc (Green Book and crop guides) and the Nitrates Regulations, not a prescription. Check with a Teagasc or private adviser and base rates on a recent soil test.${a!=='conventional'?' For organic production, confirm permitted inputs with your certification body (IOA / Organic Trust).':''}</div>`; }
+const SOILTXT={l:'Light / sandy',m:'Medium loam',h:'Heavy / clay',p:'Peat / organic'};
+let libState={q:'',g:'',pad:''};
+function cropGrid(el, groupsAllowed){
+  el.innerHTML=`<div class="empty"><span class="emo">📚</span>Loading crop library…</div>`;
+  loadCropIndex().then(ix=>{ if(!el.isConnected) return;
+    const groups=ix.groups.filter(g=>!groupsAllowed||groupsAllowed.includes(g.id)).concat(S.customCrops.length&&!groupsAllowed?[{id:'custom',name:'My custom crops'}]:[]);
+    if(libState.g && !groups.some(g=>g.id===libState.g)) libState.g='';
+    const draw=()=>{ const q=libState.q.toLowerCase().trim(); const list=allCrops().filter(c=>(!groupsAllowed||groupsAllowed.includes(c.g))&&(!libState.g||c.g===libState.g)&&(!q||(c.n+' '+c.lat).toLowerCase().includes(q)));
+      $('.cgrid',el).innerHTML=list.length?list.map(c=>`<a class="ccard" href="#crop/${encodeURIComponent(c.id)}">${cropThumb(c)}<b>${esc(c.n)}</b><i>${esc(c.lat)}</i>${c.vc?`<span class="pill grn">${c.vc} varieties</span>`:''}</a>`).join(''):emptyBox('No crops match your search.');
+      $('.ccount',el).textContent=`${list.length} crop${list.length===1?'':'s'}`; };
+    el.innerHTML=`<div class="row"><input id="cq" type="search" placeholder="🔎 Search crops, e.g. barley, apple, kale…" value="${esc(libState.q)}" style="flex:3;min-width:200px" aria-label="Search crops"><button class="sm" id="cSuit">🌱 What suits this field?</button><button class="sm" id="cCustom">+ Custom crop</button></div>
+     <div class="subtabs"><button class="sm ${!libState.g?'on':''}" data-cg="">All</button>${groups.map(g=>`<button class="sm ${libState.g===g.id?'on':''}" data-cg="${g.id}">${CROP_GROUP_EMO[g.id]||''} ${esc(g.name)}</button>`).join('')}</div>
+     <div class="mut ccount" style="margin-bottom:8px"></div><div class="cgrid"></div>`;
+    draw(); const qi=$('#cq',el); qi.oninput=()=>{ libState.q=qi.value; draw(); };
+    $$('[data-cg]',el).forEach(b=>b.onclick=()=>{ libState.g=b.dataset.cg; $$('[data-cg]',el).forEach(x=>x.classList.toggle('on',x===b)); draw(); });
+    $('#cSuit',el).onclick=()=>suitDialog(); $('#cCustom',el).onclick=()=>customCropForm();
+  }).catch(e=>{ el.innerHTML=emptyBox('The crop library isn’t saved on this device yet. Open it once with signal and it will work offline. ('+e.message+')'); }); }
+VIEWS.croplib = el => { el.innerHTML=`<div class="row"><h2 style="margin:0">📚 Crop library</h2></div>${cropDisclaimer()}<div id="lib"></div>`; cropGrid($('#lib',el), null); };
+function plantingsView(tab){ return el=>{ const groups=TAB_GROUPS[tab]; const [i,l]=ALL_TABS[tab];
+  el.innerHTML=`<div class="row"><h2 style="margin:0">${i} ${esc(l)}</h2><span class="sp"></span><button class="pri sm" id="addPl">+ Planting</button></div><div id="plBox"></div><div class="card"><h3>📚 ${esc(l)} library</h3><div id="lib"></div></div>`;
+  $('#addPl',el).onclick=()=>plantingForm(null,{}, groups);
+  loadCropIndex().catch(()=>null).then(()=>{ const box=$('#plBox',el); if(!box||!box.isConnected) return; const pls=S.plantings.filter(p=>{ const c=cropIdx(p.cropId); return !c||groups.includes(c.g)||(c.g==='custom'&&tab==='crops'); });
+    box.innerHTML=`<div class="card"><h3>My plantings (${pls.filter(p=>!['finished'].includes(p.status)).length} active)</h3>${plantingTable(pls)}</div>`; bindPlantingTable(box); });
+  cropGrid($('#lib',el), groups); }; }
+['crops','veg','orchard','forestry'].forEach(t=>VIEWS[t]=plantingsView(t));
+function plantingTable(pls){ if(!pls.length) return emptyBox('No plantings yet. Pick a crop or tap + Planting.');
+  return `<ul class="list">${pls.slice().sort(byDate('sown')).map(p=>{ const c=cropIdx(p.cropId)||{id:p.cropId,n:p.cropName,g:'custom'}; const h=S.cropOps.filter(o=>o.plantingId===p.id&&o.kind==='harvest');
+    return `<li data-pl="${p.id}" style="cursor:pointer">${cropThumb(c,'sm')}<div class="grow"><b>${esc(p.cropName||c.n)}${p.variety?' — '+esc(p.variety):''}</b><div class="mut">${esc(padName(p.paddockId)||'No field')} · ${p.area?num(p.area,2)+' ha · ':''}sown ${fmtD(p.sown)||'–'}${h.length?' · '+h.length+' harvest'+(h.length>1?'s':''):''}</div></div><span class="pill ${p.status==='growing'?'grn':p.status==='planned'?'blue':''}">${esc(p.status||'growing')}</span></li>`; }).join('')}</ul>`; }
+function bindPlantingTable(el){ $$('[data-pl]',el).forEach(li=>li.onclick=()=>go('planting',li.dataset.pl)); }
+function approachBlock(conv, org){ const a=approach(); const o=`<div class="advice org">${org}</div>`;
+  if(a==='organic') return `<div class="apill">🍃 Organic</div>${o}`;
+  if(a==='mostly') return `<div class="apill">🌿 Organic first</div>${o}<div class="lastres">⚠️ <b>Last resort (conventional):</b>${conv}<div class="hint">Using these means the crop isn’t organic. Only if organic methods have failed and the loss would be serious.</div></div>`;
+  return `<div class="advice">${conv}</div><details class="orgalt"><summary>🍃 Organic alternatives</summary>${o}</details>`; }
+function kv(rows){ return `<dl class="kv">${rows.filter(r=>r[1]&&r[1]!=='—').map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`; }
+VIEWS.crop = el => { const id=routeArg; el.innerHTML=`<div class="empty"><span class="emo">📚</span>Loading…</div>`;
+  cropDoc(id).then(d=>{ if(!el.isConnected) return; if(!d){ el.innerHTML=emptyBox('Crop not found.')+'<p><a href="#croplib">← Crop library</a></p>'; return; }
+    const ix=cropIdx(id)||{id, g:d.group, img:false}; const f=d.fert, cv=f.conventional, pr=d.protect; const mine=S.plantings.filter(p=>p.cropId===id);
+    const back=Object.keys(TAB_GROUPS).find(t=>TAB_GROUPS[t].includes(d.group)&&tabOn(t))||'croplib';
+    const vs=d.varieties||[]; const gname=(CROPIDX?.groups.find(g=>g.id===d.group)||{name:'My custom crops'}).name;
+    el.innerHTML=`<div class="row"><a class="btn sm" href="#${back}">← ${esc(ALL_TABS[back][1])}</a><span class="sp"></span>${d.custom?'<button class="sm" id="editCust">Edit crop</button>':''}<button class="pri sm" id="addPl">+ Add planting</button></div>
+    <div class="card chero"><figure>${cropThumb(ix,'hero')}${d.photo?`<figcaption class="pcred">Photo: ${esc(d.photo.author)} · <a href="${esc(d.photo.source)}" target="_blank" rel="noopener">${esc(d.photo.licence)}</a> · Wikimedia Commons</figcaption>`:''}</figure>
+      <div class="grow"><h2>${esc(d.name)}</h2><i class="mut">${esc(d.latin)}</i><p>${esc(d.overview||'')}</p>${d.ireland?`<p class="irl">☘️ <b>In Ireland:</b> ${esc(d.ireland)}</p>`:''}<div class="row" style="margin:0"><span class="pill">${CROP_GROUP_EMO[d.group]||''} ${esc(gname)}</span>${d.soil.ph[0]?`<span class="pill grn">pH ${d.soil.ph.filter(x=>x!=null).join('–')}</span>`:''}<span class="pill blue">${APPROACHES[approach()].i} ${esc(APPROACHES[approach()].l)}</span>${vs.length?`<a class="pill grn" href="#varCard" id="toVar">${vs.length} varieties ↓</a>`:''}</div></div></div>
+    ${cropDisclaimer()}
+    <div class="csec">
+    <div class="card"><h3>🟫 Soil</h3>${kv([['Soil types',d.soil.types.join(', ')],['pH',d.soil.ph.filter(x=>x!=null).join(' – ')],['Drainage',d.soil.drainage],['Soil index',d.soil.index]])}</div>
+    <div class="card"><h3>🌱 Planting</h3>${kv([['Irish sowing / planting window',d.planting.window],['Seed rate',d.planting.seed_rate],['Depth',d.planting.depth],['Row spacing',d.planting.spacing],['Soil temperature',d.planting.soil_temp]])}</div>
+    <div class="card"><h3>🧪 Fertiliser & nutrition</h3>${approachBlock(kv([['Nitrogen (N)',cv.N],['Phosphorus (P)',cv.P],['Potassium (K)',cv.K],['Sulphur (S)',cv.S],['Lime',cv.lime],['Manures',cv.manures],['Timing',cv.timing]]), esc(f.organic.text)+'<br><br>'+esc(f.organic.lime))}<div class="hint">Guide: Teagasc “Major & Micro Nutrient Advice for Productive Agricultural Crops” (the Green Book) and the Nitrates Regulations. Soil index 1 = low, 4 = high.</div></div>
+    <div class="card"><h3>💧 Watering</h3>${kv([['Rainfall / irrigation',d.water.rainfall],['Critical stages',d.water.critical]])}</div>
+    <div class="card"><h3>🧺 Harvest & storage</h3>${kv([['Timing',d.harvest.timing],['Readiness signs',d.harvest.signs],['Typical yield',d.harvest.yield_range],['Storage',d.harvest.storage]])}</div>
+    <div class="card"><h3>🐛 Pests, diseases & weeds</h3>${approachBlock(kv([['Pests & diseases',pr.conventional.pests],['Weeds',pr.conventional.weeds]]), kv([['Pests & diseases',pr.organic.pests],['Weeds',pr.organic.weeds]]))}<div class="hint">Only use plant-protection products registered by DAFM (PCS number) for the crop, at label rates. Organic: only inputs permitted under EU Reg 2021/1165 and your certification body’s standards.</div></div>
+    <div class="card"><h3>🔄 Rotation</h3><p style="margin:0">${esc(d.rotation)}</p></div>
+    </div>
+    ${d.rootstocks?`<div class="card"><h3>🌳 Rootstocks</h3>${table(d.rootstocks,[{l:'Rootstock',h:r=>`<b>${esc(r.name)}</b>`},{l:'Vigour',k:'vigour'},{l:'Tree height',k:'height'},{l:'Best for',k:'use'}])}</div>`:''}
+    ${vs.length?`<div class="card" id="varCard"><h3>🍏 Varieties (${vs.length})</h3><div class="row"><input id="vq" type="search" placeholder="Search varieties…" style="flex:2;min-width:160px" aria-label="Search varieties"><select id="vuse" style="flex:1;min-width:130px" aria-label="Filter by use"><option value="">All uses</option>${[...new Set(vs.map(v=>v.use).filter(Boolean))].sort().map(u=>`<option>${esc(u)}</option>`).join('')}</select>${vs.some(v=>v.heritage)?'<label class="cb" style="margin:0"><input type="checkbox" id="vher"> ☘️ Irish heritage only</label>':''}</div><ul class="list vlist" id="vlist"></ul></div>`:''}
+    <div class="card"><h3>📍 My plantings of ${esc(d.name)}</h3>${plantingTable(mine)}<div class="row" style="margin-top:8px"><button class="sm" id="addPl2">+ Add planting</button></div></div>`;
+    bindPlantingTable(el);
+    const addPl=()=>plantingForm(null,{cropId:id}); $('#addPl',el).onclick=addPl; $('#addPl2',el).onclick=addPl;
+    const ec=$('#editCust',el); if(ec) ec.onclick=()=>customCropForm(d.cust);
+    const tv=$('#toVar',el); if(tv) tv.onclick=e=>{ e.preventDefault(); $('#varCard').scrollIntoView({behavior:'smooth'}); };
+    if(vs.length){ const draw=()=>{ const q=$('#vq').value.toLowerCase(), u=$('#vuse').value, h=$('#vher')?.checked; const list=vs.map((v,i)=>[v,i]).filter(([v])=>(!q||(v.name+' '+(v.origin||'')+' '+(v.notes||'')).toLowerCase().includes(q))&&(!u||v.use===u)&&(!h||v.heritage));
+      $('#vlist').innerHTML=list.length?list.map(([v,i])=>`<li data-v="${i}" style="cursor:pointer">${cropThumb(ix,'xs')}<div class="grow"><b>${esc(v.name)}</b>${v.heritage?' <span class="pill grn">☘️ heritage</span>':''}<div class="mut">${[v.use,v.season,v.pg?'Pollination group '+v.pg:v.flowering?v.flowering+' flowering':'',v.sf===true?'self-fertile':v.sf==='partly'?'partly self-fertile':v.sf===false?'needs a pollinator':'',v.origin].filter(Boolean).map(esc).join(' · ')}</div></div><span aria-hidden="true" style="font-size:22px;color:var(--mut)">›</span></li>`).join(''):emptyBox('No varieties match.');
+      $$('[data-v]',el).forEach(li=>li.onclick=()=>varietyInfo(d,vs[+li.dataset.v],ix)); };
+      ['vq','vuse','vher'].forEach(k=>{ const x=$('#'+k,el); if(x){ if(k==='vq') x.oninput=draw; else x.onchange=draw; } }); draw(); }
+  }).catch(e=>{ el.innerHTML=emptyBox('Could not load this crop. Are you offline? ('+e.message+')'); }); };
+function varietyInfo(d, v, ix){ const sfT=v.sf===true?'Self-fertile':v.sf==='partly'?'Partly self-fertile: crops better with a pollinator':v.sf===false?'Not self-fertile: plant a compatible pollinator nearby':'Not recorded';
+  const pol=v.pg?`Group ${v.pg}: pollinated by varieties in groups ${[v.pg-1,v.pg,v.pg+1].filter(x=>x>0&&x<8).join(', ')}${/triploid/i.test(v.notes||'')?' (triploid: needs two pollinators and is no use as a pollinator)':''}`:v.flowering?`${v.flowering} flowering: pair with another ${v.flowering.toLowerCase()} (or neighbouring) season variety`:'Not recorded';
+  const dlg=showInfo(v.name, `<div class="row">${cropThumb(ix,'sm')}<div class="grow"><b>${esc(d.name)}</b><div class="mut">${esc(d.latin)}</div></div></div>${kv([['Use',v.use],['Season',v.season],['Bearing',v.bearing?v.bearing+' bearer':''],['Pollination',['fruit_trees'].includes(d.group)?pol:''],['Self-fertility',sfT],['Disease resistance',v.disease||'Not recorded'],['Vigour / rootstock',v.vigour||(d.rootstocks?'Depends on the rootstock: see the rootstock table':'')],['Origin',v.origin],['Suitability for Ireland',v.ireland||d.ireland||''],['Notes',v.notes]])}
+    ${v.src?`<p class="hint">Source: ${esc(v.src)} (use, flowering time, picking month, bearing and origin).</p>`:''}<p class="hint">“Not recorded” means we don’t have reliable data for that trait. Nothing is guessed.</p><div class="row"><button class="pri" id="vPl">+ Plant ${esc(v.name)}</button></div>`);
+  $('#vPl',dlg).onclick=()=>{ dlg.close(); plantingForm(null,{cropId:d.id, variety:v.name}); }; }
+function pickIdx(s, i){ const m=String(s||'').match(/Index 1: ([^·]+) · Index 2: ([^·]+) · Index 3: ([^·]+) · Index 4: (.+?) kg\/ha/); if(!m||!i||i<1||i>4) return s; return `${m[i].trim()} kg/ha (your soil index ${i})`; }
+function buildAdvice(d, pad){ const a=approach(); const P=Number(pad?.pIndex)||null, K=Number(pad?.kIndex)||null; const cv=d.fert.conventional;
+  const nut = a==='organic' ? d.fert.organic.text : a==='mostly' ? d.fert.organic.text+' Last resort (conventional): N '+cv.N+'.' : `N: ${cv.N}. P: ${pickIdx(cv.P,P)}. K: ${pickIdx(cv.K,K)}. ${cv.lime}`;
+  const prot = a==='conventional' ? d.protect.conventional.pests+' Weeds: '+d.protect.conventional.weeds : d.protect.organic.pests+' Weeds: '+d.protect.organic.weeds;
+  return {sowing:`${d.planting.window}; ${d.planting.seed_rate}; depth ${d.planting.depth}; ${d.planting.spacing}`, nutrition:nut, protection:prot, water:d.water.critical, harvest:`${d.harvest.timing}. ${d.harvest.signs}. Typical yield ${d.harvest.yield_range}.`, approach:a}; }
+async function plantingForm(p, preset={}, groups){ await loadCropIndex().catch(()=>null);
+  const crops=allCrops().filter(c=>!groups||groups.includes(c.g)||(p&&c.id===p.cropId)).sort((a,b)=>a.n.localeCompare(b.n));
+  const cid=(p&&p.cropId)||preset.cropId; const doc=cid?await cropDoc(cid).catch(()=>null):null;
+  const vNames=doc?.varieties?.map(v=>v.name)||[]; const rs=doc?.rootstocks?.map(r=>r.name+' ('+r.vigour.toLowerCase()+')')||[];
+  if(!S.paddocks.length){ toast('Add a field on the Map first'); }
+  openForm({title:p?'Edit planting':'New planting', values:p||{sown:today(),status:'growing',...preset}, fields:[
+    {k:'cropId',l:'Crop',t:'select',req:1,o:()=>[['','— choose —']].concat(crops.map(c=>[c.id,`${CROP_GROUP_EMO[c.g]||''} ${c.n}`]))},
+    {k:'paddockId',l:'Field / paddock',t:'select',o:padOpts,req:1},{k:'variety',l:'Variety',t:'datalist',o:vNames,ph:vNames.length?`${vNames.length} varieties: type to search`:'optional'},
+    {k:'rootstock',l:'Rootstock',t:'datalist',o:rs,show:()=>!!$('#f_rootstock_dl')?.children.length},
+    {k:'sown',l:'Sown / planted',t:'date'},{k:'area',l:'Area (ha)',t:'number',hint:'Leave blank to use the whole field'},{k:'status',l:'Status',t:'select',o:[['planned','Planned'],['growing','Growing'],['harvested','Harvested'],['finished','Finished / removed']]},
+    {k:'notes',l:'Notes',t:'textarea',full:1}],
+    extraHTML:p?'':'<p class="mut">The crop guide (sowing, fertiliser for this field’s soil index, protection, harvest) is copied into the planting so you can adjust it for this field.</p>',
+    onSave:async v=>{ const d=v.cropId?await cropDoc(v.cropId).catch(()=>null):null; const ci=cropIdx(v.cropId); v.cropName=ci?ci.n:(d?.name||''); const pad=get('paddocks',v.paddockId); if(v.area==null&&pad) v.area=Math.round(padHa(pad)*100)/100||null;
+      if(p){ if(p.cropId!==v.cropId&&d) v.advice=buildAdvice(d,pad); upd('plantings',p.id,v); } else { const n=add('plantings',{...v, advice:d?buildAdvice(d,pad):{}}); setTimeout(()=>go('planting',n.id)); } },
+    onDelete:p?()=>{ S.cropOps.filter(o=>o.plantingId===p.id).forEach(o=>del('cropOps',o.id)); del('plantings',p.id); go('croplib'); }:null});
+  const sel=$('#f_cropId'); if(sel) sel.addEventListener('change',async()=>{ const d=await cropDoc(sel.value).catch(()=>null); const dl=$('#f_variety_dl'); if(dl) dl.innerHTML=(d?.varieties||[]).map(v=>`<option value="${esc(v.name)}">`).join('');
+    const vi=$('#f_variety'); if(vi) vi.placeholder=d?.varieties?.length?`${d.varieties.length} varieties: type to search`:'optional';
+    const rl=$('#f_rootstock_dl'); if(rl) rl.innerHTML=(d?.rootstocks||[]).map(r=>`<option value="${esc(r.name+' ('+r.vigour.toLowerCase()+')')}">`).join(''); sel.dispatchEvent(new Event('input',{bubbles:true})); }); }
+const OP_KINDS={spray:{i:'🧴',l:'Spray'}, irrigation:{i:'💧',l:'Irrigation'}, harvest:{i:'🧺',l:'Harvest'}, note:{i:'📝',l:'Note / scouting'}};
+VIEWS.planting = el => { const p=get('plantings',routeArg); if(!p){ el.innerHTML=emptyBox('Planting not found.')+'<p><a href="#croplib">← Crop library</a></p>'; return; }
+  const draw=()=>{ if(!el.isConnected) return; const c=cropIdx(p.cropId)||{id:p.cropId,n:p.cropName,g:'custom'}; const pad=get('paddocks',p.paddockId); const a=p.advice||{};
+  const ops=[...S.cropOps.filter(o=>o.plantingId===p.id).map(o=>({...o,_col:'cropOps'})), ...S.fertiliser.filter(f=>f.plantingId===p.id).map(f=>({...f,kind:'fert',_col:'fertiliser'}))].sort(byDate());
+  const hv=S.cropOps.filter(o=>o.plantingId===p.id&&o.kind==='harvest');
+  const back=Object.keys(TAB_GROUPS).find(t=>TAB_GROUPS[t].includes(c.g)&&tabOn(t))||'croplib';
+  el.innerHTML=`<div class="row"><a class="btn sm" href="#${back}">← ${esc(ALL_TABS[back][1])}</a><span class="sp"></span><button class="sm" id="edit">Edit</button></div>
+  <div class="card chero">${cropThumb(c,'hero')}<div class="grow"><h2>${esc(p.cropName||c.n)}${p.variety?' — '+esc(p.variety):''}</h2><div class="mut">${esc(pad?.name||'No field')}${p.area?' · '+num(p.area,2)+' ha':''} · sown ${fmtD(p.sown)||'–'}${p.rootstock?' · on '+esc(p.rootstock):''}</div>
+   <div class="row" style="margin:8px 0 0"><span class="pill ${p.status==='growing'?'grn':''}">${esc(p.status||'growing')}</span>${hv.length?`<span class="pill blue">Harvested ${esc(hv.map(h=>num(h.qty,1)+' '+(h.unit||'')).join(' + '))}</span>`:''}<a class="btn sm" href="#crop/${encodeURIComponent(p.cropId)}">📖 Crop guide</a></div></div></div>
+  <div class="card"><h3>Record</h3><div class="row" style="margin:0"><button class="sm" id="oFert">🧪 Fertiliser / manure</button>${Object.entries(OP_KINDS).map(([k,o])=>`<button class="sm" data-op="${k}">${o.i} ${o.l}</button>`).join('')}</div></div>
+  <div class="card"><h3>📋 Field plan <span class="pill">${esc(APPROACHES[a.approach||approach()]?.l||'')}</span></h3><div class="hint" style="margin-bottom:8px">Pre-filled from the crop guide for this field (P index ${esc(pad?.pIndex||'not set')}, K index ${esc(pad?.kIndex||'not set')}). Edit it to suit this field.</div>
+   ${Object.keys(a).length>1?kv([['Sowing',a.sowing],['Nutrition',a.nutrition],['Protection',a.protection],['Water',a.water],['Harvest',a.harvest],['My notes',a.mine]]):emptyBox('No plan yet. Tap “Refresh from guide”.')}<div class="row"><button class="sm" id="editPlan">✏️ Edit field plan</button><button class="sm" id="resetPlan">↺ Refresh from guide</button></div></div>
+  <div class="card"><h3>Operations (${ops.length})</h3>${table(ops,[{l:'Date',f:o=>fmtD(o.date)},{l:'Type',f:o=>o.kind==='fert'?'🧪 Fertiliser':(OP_KINDS[o.kind]?.i||'')+' '+(OP_KINDS[o.kind]?.l||o.kind)},{l:'Details',f:o=>o.kind==='fert'?[o.product,o.rate,o.nKgHa?o.nKgHa+' kg N/ha':''].filter(Boolean).join(' · '):o.kind==='spray'?[o.product,o.pcs?'PCS '+o.pcs:'',o.rate,o.target].filter(Boolean).join(' · '):o.kind==='irrigation'?[o.mm?o.mm+' mm':'',o.method].filter(Boolean).join(' · '):o.kind==='harvest'?[o.qty!=null?num(o.qty,2)+' '+(o.unit||''):'',o.moisture?o.moisture+'% moisture':'',o.store].filter(Boolean).join(' · '):o.text||o.notes||''}],{onRow:o=>o._col==='fertiliser'?fertForm(get('fertiliser',o.id)):cropOpForm(p,o.kind,get('cropOps',o.id)),empty:'No operations recorded yet.'})}</div>`;
+  $('#edit',el).onclick=()=>plantingForm(p); $('#oFert',el).onclick=()=>fertForm(null,{paddockId:p.paddockId,plantingId:p.id});
+  $$('[data-op]',el).forEach(b=>b.onclick=()=>cropOpForm(p,b.dataset.op));
+  $('#editPlan',el).onclick=()=>openForm({title:'Field plan: '+(p.cropName||''), values:a, fields:[['sowing','Sowing'],['nutrition','Nutrition'],['protection','Protection'],['water','Water'],['harvest','Harvest'],['mine','My notes for this field']].map(([k,l])=>({k,l,t:'textarea',full:1})), onSave:v=>{ upd('plantings',p.id,{advice:{...a,...v}}); }});
+  $('#resetPlan',el).onclick=async()=>{ if(Object.keys(a).length>1&&!confirm('Replace the field plan with fresh guidance for the current farming approach?')) return; const d=await cropDoc(p.cropId).catch(()=>null); if(!d) return toast('Crop guide not available offline'); upd('plantings',p.id,{advice:{...buildAdvice(d,pad),mine:a.mine}}); render(); }; };
+  loadCropIndex().catch(()=>null).then(draw); };
+/* organic input rules (record-keeping aid; the certification body has the final say) */
+const SYNTH_FERT=/\b(CAN|urea|ammonium|nitrate|18-6-12|10-10-20|0-7-30|0-10-20|27-2\.5-5|24-2\.5-10|pasture sward|super ?phosphate|muriate|MOP|NPK|compound|sulphate of ammonia|DAP|MAP|triple super)\b/i;
+const PERMITTED_FERT=/\b(FYM|farmyard|slurry|compost|manure|soiled water|lime|limestone|calcified seaweed|seaweed|rock phosphate|kieserite|gypsum|basalt|wood ash|sulphate of potash|potassium sulphate|patentkali|green manure|digestate|bone|hoof|feather)\b/i;
+function fertClass(prod){ if(!prod) return ''; if(SYNTH_FERT.test(prod)) return 'synthetic'; if(PERMITTED_FERT.test(prod)) return 'permitted'; return 'unknown'; }
+function organicFertCheck(v){ const a=approach(); if(a==='conventional'||!v.product) return ''; const c=fertClass(v.product);
+  if(c==='synthetic') return a==='organic'?'🚫 Synthetic / chemical fertiliser is not permitted in organic production. It can’t be recorded in Organic-only mode.':'⚠️ Synthetic fertiliser: this field won’t be organic. Last resort only.';
+  if(/slurry|digestate/i.test(v.product)&&a==='organic') return 'ℹ️ Slurry or digestate from non-organic “factory farming” isn’t permitted. Check its source with your certification body.';
+  if(c==='unknown') return a==='organic'?'⚠️ Not on our permitted list. Tick the box below if your certification body allows it.':'ℹ️ Check whether this input is permitted in organic production.'; return ''; }
+const NON_ORG_SPRAY=/\b(glyphosate|roundup|mcpa|2,4-d|fluroxypyr|metsulfuron|tebuconazole|prothioconazole|azoxystrobin|mancozeb|cypermethrin|lambda|deltamethrin|chlorpyrifos|pirimicarb|diquat|pendimethalin|flufenacet|metaldehyde|chlormequat|trinexapac|fluazinam|cymoxanil|mandipropamid|epoxiconazole|clopyralid|triclopyr|dicamba|bromoxynil|ioxynil|herbicide|fungicide)\b/i;
+const ORG_SPRAY=/\b(copper|sulphur|sulfur|bacillus|bt\b|pyrethrins|spinosad|potassium bicarbonate|laminarin|ferric phosphate|azadirachtin|fatty acid|soap|rapeseed oil|paraffin oil|trichoderma|beauveria|coniothyrium|pheromone|kaolin)\b/i;
+function sprayCheck(v){ const a=approach(); if(a==='conventional'||!v.product) return ''; const bad=NON_ORG_SPRAY.test(v.product), ok=ORG_SPRAY.test(v.product);
+  if(a==='organic'){ if(bad) return '🚫 Not permitted in organic production. It can’t be recorded in Organic-only mode.'; if(!v.orgOk) return '🚫 Tick the box to confirm this product is permitted in organic production.'+(ok?' (It looks like an organic-type input such as copper, sulphur or Bt, but still check your body’s limits.)':''); return ''; }
+  return bad?'⚠️ Conventional product: last resort only, and the crop won’t be organic.':ok?'':'ℹ️ Check whether this product is permitted in organic production.'; }
+function cropOpForm(p, kind, o){ const a=approach(); const K=OP_KINDS[kind];
+  const F={spray:[{k:'date',l:'Date',t:'date',req:1},{k:'product',l:'Product',req:1,validate:(v,vals)=>sprayCheck(vals)},{k:'pcs',l:'PCS number',hint:'DAFM registration number on the label'},{k:'target',l:'Target pest / disease / weed'},{k:'rate',l:'Rate (per ha)'},{k:'water',l:'Water volume (L/ha)',t:'number'},{k:'phi',l:'Harvest interval (days)',t:'number'},{k:'operator',l:'Operator (registered professional user)'},...(a!=='conventional'?[{k:'orgOk',l:'Permitted in organic production (EU Reg 2021/1165) and allowed by my certification body',t:'checkbox'}]:[])],
+    irrigation:[{k:'date',l:'Date',t:'date',req:1},{k:'mm',l:'Amount (mm)',t:'number'},{k:'hours',l:'Hours',t:'number'},{k:'method',l:'Method',t:'datalist',o:['Drip','Sprinkler','Hose / can','Rain gun']}],
+    harvest:[{k:'date',l:'Date',t:'date',req:1},{k:'qty',l:'Quantity',t:'number',req:1},{k:'unit',l:'Unit',t:'datalist',o:['t','t/ha','kg','bales','boxes','punnets','trees'],def:'t'},{k:'moisture',l:'Moisture %',t:'number'},{k:'areaH',l:'Area harvested (ha)',t:'number'},{k:'store',l:'Stored / sold to'},...(o?[]:[{k:'finish',l:'Mark planting as harvested',t:'checkbox',def:true}])],
+    note:[{k:'date',l:'Date',t:'date',req:1},{k:'text',l:'What did you see or do?',t:'textarea',full:1,req:1}]}[kind];
+  openForm({title:(o?'Edit ':'')+K.i+' '+K.l+': '+(p.cropName||''), values:o||{date:today()}, fields:[...F,...(kind==='note'?[]:[{k:'notes',l:'Notes',t:'textarea',full:1}])],
+    extraHTML: kind==='spray'?`<p class="mut">Only DAFM-registered products for this crop, at label rates. ${a==='organic'?'🍃 <b>Organic only:</b> non-permitted products are blocked.':a==='mostly'?'🌿 <b>Mostly organic:</b> you’ll be warned about non-organic products.':''}</p>`:'',
+    onSave:v=>{ if(kind==='spray'){ const w=sprayCheck(v); if(a==='organic'&&w.startsWith('🚫')) throw new Error(w.replace('🚫 ','')); if(a==='mostly'&&NON_ORG_SPRAY.test(v.product)&&!confirm('This is not an organic-permitted product, so the crop will no longer be organic. Record it anyway?')) return false; if(a==='mostly'&&NON_ORG_SPRAY.test(v.product)) v.nonOrganic=true; }
+      const {finish,...rec}=v; if(o) upd('cropOps',o.id,rec); else add('cropOps',{...rec,kind,plantingId:p.id,paddockId:p.paddockId}); if(kind==='harvest'&&finish) upd('plantings',p.id,{status:'harvested'}); },
+    onDelete:o?()=>del('cropOps',o.id):null}); }
+/* "What suits this field?" */
+function suitScore(c, pad){ let s=0; const why=[]; const ph=Number(pad.ph), st=pad.soilType, dr=pad.drainage;
+  if(ph){ if(ph>=c.ph[0]&&ph<=c.ph[1]){ s+=3; why.push('pH ✓'); } else if(ph>=c.ph[0]-0.4&&ph<=c.ph[1]+0.4){ s+=1; why.push(ph<c.ph[0]?'pH a bit low (lime)':'pH a bit high'); } else { s-=3; why.push(ph<c.ph[0]?'pH too low':'pH too high'); } }
+  if(st){ if(c.soils.includes(st)){ s+=3; why.push('soil type ✓'); } else { s-=2; why.push('soil type not ideal'); } }
+  if(dr){ const need={free:3,moderate:2,tolerant:1}[c.dr]||2, have={good:3,moderate:2,poor:1}[dr]||2; if(have>=need){ s+=2; why.push('drainage ✓'); } else { s-=2*(need-have); why.push('needs better drainage'); } }
+  return {s, why}; }
+async function suitDialog(padId){ await loadCropIndex().catch(()=>null); if(!CROPIDX) return toast('Crop library not available offline yet');
+  const pads=S.paddocks.slice().sort((a,b)=>a.name.localeCompare(b.name)); let pid=padId||(get('paddocks',libState.pad)?libState.pad:pads[0]?.id)||'';
+  const relevant=[...new Set(farmTypes().flatMap(t=>({tillage:TAB_GROUPS.crops,horticulture:TAB_GROUPS.veg,fruit:TAB_GROUPS.orchard,forestry:TAB_GROUPS.forestry,dairy:['forage'],beef:['forage'],sheep:['forage'],horses:['forage'],goats:['forage']}[t]||[])))];
+  const dlg=showInfo('🌱 What suits this field?', `<div class="row"><select id="sPad" aria-label="Field" style="flex:1">${pads.map(p=>`<option value="${p.id}" ${p.id===pid?'selected':''}>${esc(p.name)}</option>`).join('')}</select><select id="sGrp" aria-label="Crop group" style="flex:1"><option value="">${relevant.length?'Crops for my farm types':'All crops'}</option><option value="*">All crops</option>${CROPIDX.groups.map(g=>`<option value="${g.id}">${esc(g.name)}</option>`).join('')}</select></div><div id="sOut"></div>`);
+  const bindE=()=>{ const e=$('#sEdit',dlg); if(e) e.onclick=ev=>{ ev.preventDefault(); dlg.close(); paddockForm(get('paddocks',pid)); }; };
+  const draw=()=>{ pid=$('#sPad',dlg)?.value; libState.pad=pid; const pad=get('paddocks',pid); const out=$('#sOut',dlg); const gsel=$('#sGrp',dlg).value;
+    if(!pad){ out.innerHTML=emptyBox('Add a field on the Map first, then enter its soil type and pH.'); return; }
+    const info=`<p class="mut">Using: ${pad.soilType?SOILTXT[pad.soilType]:'<b>soil type not set</b>'} · pH ${pad.ph||'<b>not set</b>'} · drainage ${pad.drainage||'not set'}${pad.pIndex?' · P index '+pad.pIndex:''}${pad.kIndex?' · K index '+pad.kIndex:''}. <a href="#" id="sEdit">Edit field soil</a></p>`;
+    if(!pad.soilType&&!pad.ph){ out.innerHTML=info+emptyBox('Enter this field’s soil type and pH (from a soil test) to get suggestions.'); bindE(); return; }
+    const list=CROPIDX.crops.filter(c=>gsel==='*'||(!gsel?(!relevant.length||relevant.includes(c.g)):c.g===gsel)).map(c=>({c,...suitScore(c,pad)})).sort((a,b)=>b.s-a.s||a.c.n.localeCompare(b.c.n));
+    out.innerHTML=info+`<ul class="list">${list.slice(0,25).map(r=>`<li><a href="#crop/${encodeURIComponent(r.c.id)}" data-close style="display:flex;gap:10px;align-items:center;flex:1;text-decoration:none;color:inherit">${cropThumb(r.c,'sm')}<div class="grow"><b>${esc(r.c.n)}</b><div class="mut">${esc(r.why.join(' · '))}</div></div></a><span class="pill ${r.s>=6?'grn':r.s>=3?'amb':'red'}">${r.s>=6?'Good fit':r.s>=3?'Possible':'Poor fit'}</span></li>`).join('')}</ul><p class="hint">A simple match on soil type, pH and drainage only. Climate, exposure, rotation and markets matter too, so talk to your adviser.</p>`;
+    $$('[data-close]',out).forEach(x=>x.onclick=()=>dlg.close()); bindE(); };
+  $('#sPad',dlg).onchange=draw; $('#sGrp',dlg).onchange=draw; draw(); }
+function customCropForm(c){ openForm({title:c?'Edit custom crop':'Add a custom crop', values:c||{soils:'lmh'}, fields:[{k:'name',l:'Crop name',req:1},{k:'latin',l:'Latin name (optional)'},
+  {k:'phLo',l:'pH from',t:'number',step:0.1},{k:'phHi',l:'pH to',t:'number',step:0.1},{k:'soils',l:'Suits soils',t:'select',o:[['lmh','Most mineral soils'],['l','Light'],['m','Medium'],['h','Heavy'],['lm','Light–medium'],['mh','Medium–heavy'],['p','Peat']]},{k:'drainage',l:'Drainage',t:'datalist',o:['Free-draining','Moderate','Tolerates wet']},
+  {k:'sow',l:'Sowing / planting window'},{k:'rate',l:'Seed rate'},{k:'depth',l:'Depth'},{k:'spacing',l:'Spacing'},{k:'fert',l:'Fertiliser (conventional)',t:'textarea',full:1},{k:'fertOrg',l:'Nutrition (organic)',t:'textarea',full:1},{k:'water',l:'Watering'},{k:'harvest',l:'Harvest'},{k:'pests',l:'Pests / diseases',t:'textarea',full:1},{k:'rotation',l:'Rotation'},{k:'notes',l:'Overview / notes',t:'textarea',full:1}],
+  onSave:v=>{ if(c) upd('customCrops',c.id,v); else { const n=add('customCrops',v); setTimeout(()=>go('crop','custom:'+n.id)); } }, onDelete:c?()=>{ del('customCrops',c.id); go('croplib'); }:null}); }
+/* ---------- Settings cards: farm types, approach, tabs ---------- */
+function farmSetupHTML(){ const ft=farmTypes(), a=approach(); const tabs=tabOrder();
+  return `<div class="card" id="farmTypesCard"><h2>🚜 Farm types</h2><p class="mut" style="margin-top:0">Pick everything you farm. Each type switches on its own tabs and records, and you can choose several.</p>
+   <div class="chips">${Object.entries(FARM_TYPES).map(([k,t])=>`<label class="chip ${ft.includes(k)?'on':''}"><input type="checkbox" data-ft="${k}" ${ft.includes(k)?'checked':''}><span aria-hidden="true">${t.i}</span> ${esc(t.l)}</label>`).join('')}</div>
+   ${hasType('pigs')?`<label class="f" style="margin:12px 0 0"><span>Pig herd number</span><input id="sPigHerd" value="${esc(S.settings.pigHerdNo||'')}" placeholder="DAFM pig herd number"></label>`:''}</div>
+  <div class="card" id="approachCard"><h2>🌿 Farming approach</h2><div class="appr">${Object.entries(APPROACHES).map(([k,v])=>`<label class="achoice ${a===k?'on':''}"><input type="radio" name="appr" value="${k}" ${a===k?'checked':''}><b>${v.i} ${esc(v.l)}</b><span>${esc(v.d)}</span></label>`).join('')}</div>
+   <p class="hint">Changes the crop and animal-health advice, and how fertiliser, spray and medicine records are checked. Guide only: your certification body (IOA / Organic Trust) and adviser have the final say.</p></div>
+  <div class="card" id="tabsCard"><h2>🗂️ Tabs</h2><p class="mut" style="margin-top:0">Show or hide tabs and change their order: drag ☰ or use the arrows. Settings is always the ⚙️ button at the top right.</p>
+   <ul class="tablist" id="tabList">${tabs.map((k,i)=>{ const [ic,l]=tabLabel(k); const on=tabOn(k); const def=defaultTabOn(k);
+     return `<li draggable="true" data-tab="${k}" class="${on?'':'off'}"><span class="drag" aria-hidden="true">☰</span><span class="tl">${ic} ${esc(l)}${def?'':' <span class="pill">extra</span>'}</span>
+       <button class="sm ar" data-up="${k}" aria-label="Move ${esc(l)} up" ${i===0?'disabled':''}>▲</button><button class="sm ar" data-down="${k}" aria-label="Move ${esc(l)} down" ${i===tabs.length-1?'disabled':''}>▼</button>
+       <label class="sw"><input type="checkbox" data-vis="${k}" ${on?'checked':''} ${k==='dash'?'disabled':''} aria-label="Show ${esc(l)} tab${k==='dash'?' (always shown)':''}"><i></i></label></li>`; }).join('')}</ul>
+   <div class="row" style="margin-top:10px"><button id="tabReset">↺ Reset to defaults for my farm types</button></div></div>`; }
+function bindFarmSetup(el){ const s=S.settings;
+  $$('[data-ft]',el).forEach(cb=>cb.onchange=()=>{ const t=$$('[data-ft]',el).filter(x=>x.checked).map(x=>x.dataset.ft); if(!t.length){ toast('Pick at least one farm type'); cb.checked=true; return; } s.farmTypes=t; save(); render(); toast('Farm types saved'); });
+  const ph=$('#sPigHerd',el); if(ph) ph.onchange=()=>{ s.pigHerdNo=ph.value.trim(); save(); };
+  $$('input[name=appr]',el).forEach(r=>r.onchange=()=>{ s.approach=r.value; save(); render(); toast(APPROACHES[r.value].l+' selected'); });
+  const prefs=()=>{ const p=s.tabPrefs&&typeof s.tabPrefs==='object'?s.tabPrefs:{}; s.tabPrefs={order:Array.isArray(p.order)?p.order:[],vis:{...(p.vis||{})}}; return s.tabPrefs; };
+  const keepScroll=fn=>{ const y=$('#tabsCard')?.getBoundingClientRect().top; fn(); const n=$('#tabsCard'); if(n&&y!=null) window.scrollBy(0,n.getBoundingClientRect().top-y); };
+  const move=(k,d)=>{ const o=tabOrder(); const i=o.indexOf(k), j=i+d; if(j<0||j>=o.length) return; [o[i],o[j]]=[o[j],o[i]]; prefs().order=o; save(); keepScroll(render); setTimeout(()=>$(`[data-tab="${k}"] [data-${d<0?'up':'down'}]`)?.focus()); };
+  $$('[data-up]',el).forEach(b=>b.onclick=()=>move(b.dataset.up,-1)); $$('[data-down]',el).forEach(b=>b.onclick=()=>move(b.dataset.down,1));
+  $$('[data-vis]',el).forEach(cb=>cb.onchange=()=>{ prefs().vis[cb.dataset.vis]=cb.checked; save(); renderNav(); cb.closest('li').classList.toggle('off',!cb.checked); });
+  $('#tabReset',el).onclick=()=>{ s.tabPrefs=null; save(); keepScroll(render); toast('Tabs reset to defaults'); };
+  let dragK=null; const ul=$('#tabList',el);
+  $$('li[data-tab]',ul).forEach(li=>{ li.ondragstart=e=>{ dragK=li.dataset.tab; li.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; try{ e.dataTransfer.setData('text/plain',dragK); }catch(_){} };
+    li.ondragend=()=>li.classList.remove('dragging'); li.ondragover=e=>{ e.preventDefault(); li.classList.add('over'); }; li.ondragleave=()=>li.classList.remove('over');
+    li.ondrop=e=>{ e.preventDefault(); li.classList.remove('over'); const to=li.dataset.tab; if(!dragK||dragK===to) return; const cur=tabOrder(); const down=cur.indexOf(dragK)<cur.indexOf(to); const o=cur.filter(k=>k!==dragK); o.splice(o.indexOf(to)+(down?1:0),0,dragK); prefs().order=o; save(); keepScroll(render); }; }); }
+function cropCreditsHTML(){ const c=CROPIDX?.credits;
+  const guide='<li><b>Crop guidance:</b> summarised from Teagasc publications (Green Book, crop and horticulture guides), DAFM, the Nitrates Regulations and EU organic rules (Reg 2018/848 and 2021/1165). Irish heritage apple data: <a href="https://irishseedsavers.ie" target="_blank" rel="noopener">Irish Seed Savers Association</a>. Guide only.</li>';
+  if(!c) return '<li id="cropCred"><b>Crop photos:</b> Wikimedia Commons contributors (open the crop library once to list them).</li>'+guide;
+  return `<li id="cropCred"><b>Crop photos</b> (${c.length} resized thumbnails) from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>, used under their free licences (CC BY, CC BY-SA, CC0 or public domain); cropped and resized. <details><summary>Show all ${c.length} photo credits</summary><ul class="pcredits">${c.map(x=>`<li>${esc(x.name)}: ${esc(x.author)}, <a href="${esc(x.source)}" target="_blank" rel="noopener">${esc(x.licence)}</a></li>`).join('')}</ul></details></li>${guide}`; }
+/* nav: scrolling pills + More menu */
+function moreMenu(){ const tabs=visibleTabs(); const dlg=showInfo('All tabs', `<div class="moregrid">${tabs.map(k=>{ const [i,l]=tabLabel(k); return `<a href="#${k}" class="${navKey()===k?'on':''}" data-close><span aria-hidden="true">${i}</span>${esc(l)}</a>`; }).join('')}<a href="#settings" data-close><span aria-hidden="true">⚙️</span>Settings</a></div>`);
+  $$('[data-close]',dlg).forEach(a=>a.onclick=()=>dlg.close()); }
+function navKey(){ if(ALL_TABS[route]) return route; if(route==='cow'){ const c=get('cows',routeArg); return c&&!isCattle(c)?c.species:'cows'; } return ROUTE_PARENT[route]||null; }
+
 
 /* ---------- Dashboard ---------- */
 VIEWS.dash = el => {
@@ -669,29 +1105,40 @@ VIEWS.dash = el => {
   const wd=inWithdrawal(); const due=dueList().filter(d=>d.days<=42);
   const mt=milkDailyTotals(); const last=mt[mt.length-1]; const prev=mt[mt.length-2];
   const gb=grassBudget(); const herd=activeCows();
-  const isEmpty = !S.cows.length && !S.paddocks.length && !S.tasks.length;
+  const D=hasType('dairy'), Bf=hasType('beef'), cattle=D||Bf, grazing=hasType('dairy','beef','sheep','horses','goats');
+  const crops=hasType('tillage','horticulture','fruit','forestry'); const pls=S.plantings.filter(p=>!['finished'].includes(p.status));
+  const isEmpty = !S.cows.length && !S.paddocks.length && !S.tasks.length && !S.groups.length && !S.plantings.length;
+  const K=[]; const k=(ico,b,span,cls='')=>K.push(`<div class="kpi ${cls}"><div class="ico">${ico}</div><b>${b}</b><span>${span}</span></div>`);
+  if(cattle) k(D?'🐄':'🐂', herd.length, D?`Cattle in herd (${herd.filter(c=>c.status==='milking').length} milking)`:'Cattle on farm');
+  if(D) k('🥛', `${last?num(last.litres):'–'} L`, `Milk ${last?fmtD(last.date):''}${last&&prev?` (${last.litres>=prev.litres?'▲':'▼'} ${num(Math.abs(last.litres-prev.litres))} L)`:''}`, 'sky');
+  k('💊', wd.length, 'In withdrawal', wd.length?'warn':'');
+  if(cattle) k('🍼', due.length, 'Calving ≤ 6 weeks');
+  if(Bf){ const a=activeCows().map(c=>adgFor(c.id)).filter(Boolean); k('⚖️', a.length?num(sum(a.map(x=>x.adg))/a.length,2):'–', 'Avg daily gain kg (beef)'); }
+  if(hasType('sheep')){ const sk=sheepKpis(); k('🐑', sk[0][0], sk[0][1]); k('🐣', sk[1][0], sk[1][1]); }
+  if(hasType('pigs')){ const pk=pigKpis(); k('🐖', pk[0][0], pk[0][1]); k('🐷', pk[1][0], pk[1][1]); }
+  if(hasType('poultry')){ const qk=poultryKpis(); k('🐔', qk[0][0], qk[0][1]); k('🥚', qk[1][0], qk[1][1]); }
+  if(hasType('goats')) k('🐐', S.cows.filter(c=>c.species==='goats'&&!['sold','died'].includes(c.status)).length, 'Goats');
+  if(hasType('horses')) k('🐎', S.cows.filter(c=>c.species==='horses'&&!['sold','died'].includes(c.status)).length, 'Horses');
+  if(crops) k('🌾', pls.length, 'Active plantings');
+  k('⏰', overdue.length, 'Overdue tasks', overdue.length?'warn':'');
+  if(grazing) k('🌱', gb.daysAhead!=null?num(gb.daysAhead,1):'–', 'Days grass ahead (est.)');
+  const recentOps=S.cropOps.filter(o=>daysBetween(o.date,td)<=30).sort(byDate()).slice(0,6);
   el.innerHTML = `
-  ${isEmpty?`<div class="card"><div style="font-size:44px;line-height:1">🌻🐄🌱</div><h2>Welcome to your farm 👋</h2><p>No records yet. Start by drawing your paddocks on the <a href="#map">Map</a> and adding <a href="#cows">Cows</a>, or <button class="sm" id="demoBtn">Load demo data</button> to explore.</p><p class="mut">Your records are saved to your account and kept on this phone for offline use. You can also <a href="#settings">export a backup</a> any time.</p></div>`:''}
-  <div class="kpis">
-    <div class="kpi"><div class="ico">🐄</div><b>${herd.length}</b><span>Animals in herd (${S.cows.filter(c=>c.status==='milking').length} milking)</span></div>
-    <div class="kpi sky"><div class="ico">🥛</div><b>${last?num(last.litres):'–'} L</b><span>Milk ${last?fmtD(last.date):''}${last&&prev?` (${last.litres>=prev.litres?'▲':'▼'} ${num(Math.abs(last.litres-prev.litres))} L)`:''}</span></div>
-    <div class="kpi ${wd.length?'warn':''}"><div class="ico">💊</div><b>${wd.length}</b><span>In withdrawal</span></div>
-    <div class="kpi"><div class="ico">🍼</div><b>${due.length}</b><span>Calving ≤ 6 weeks</span></div>
-    <div class="kpi ${overdue.length?'warn':''}"><div class="ico">⏰</div><b>${overdue.length}</b><span>Overdue tasks</span></div>
-    <div class="kpi"><div class="ico">🌱</div><b>${gb.daysAhead!=null?num(gb.daysAhead,1):'–'}</b><span>Days grass ahead (est.)</span></div>
-  </div>
+  ${isEmpty?`<div class="card"><div style="font-size:44px;line-height:1">🌻${farmTypes().slice(0,3).map(t=>FARM_TYPES[t]?.i||'').join('')}🌱</div><h2>Welcome to your farm 👋</h2><p>No records yet. Start by drawing your fields on the <a href="#map">Map</a>${cattle?', adding <a href="#cows">cattle</a>':''}${crops?', or adding a planting from the <a href="#croplib">crop library</a>':''}. Or <button class="sm" id="demoBtn">Load demo data</button> to explore.</p><p class="mut">Pick your <a href="#settings">farm types</a> (dairy, beef, sheep, pigs, crops…) in ⚙️ Settings to get the right tabs. Records are saved to your account and kept on this phone for offline use.</p></div>`:''}
+  <div class="kpis">${K.join('')}</div>
   <div class="grid">
     <div class="card"><h3>✅ Today's tasks</h3>${taskList([...overdue,...dueToday],'Nothing due today 🎉')}<div class="row" style="margin-top:8px"><button class="sm" id="addTask">+ Task</button><a class="btn sm" href="#tasks">All tasks</a></div></div>
-    <div class="card" style="${wd.length?'border-color:#ffb4a8;box-shadow:0 6px 0 #ffd5ce,0 10px 24px #0000000f':''}"><h3>💊 Cows in withdrawal</h3>${wd.length?`<ul class="list">${wd.map(w=>`<li><div class="grow"><b>${esc(w.t.cowId?cowName(w.t.cowId):w.t.groupDesc||'Group')}</b><div class="mut">${esc(w.t.product)}</div></div><div style="text-align:right">${w.milkEnd?`<span class="pill red">Milk to ${fmtD(w.milkEnd)}</span><br>`:''}${w.meatEnd?`<span class="pill amb">Meat to ${fmtD(w.meatEnd)}</span>`:''}</div></li>`).join('')}</ul>`:emptyBox('No animals in withdrawal.')}</div>
-    <div class="card"><h3>🍼 Upcoming calvings</h3>${due.length?`<ul class="list">${due.slice(0,8).map(d=>`<li><div class="grow"><a href="#cow/${d.cow.id}">${esc(cowLabel(d.cow))}</a><div class="mut">Due ${fmtD(d.due)} · ${d.confirmed?'scanned in-calf':'not yet scanned'}</div></div><span class="pill ${d.days<0?'red':d.days<=7?'amb':'grn'}">${d.days<0?Math.abs(d.days)+'d over':d.days+' days'}</span></li>`).join('')}</ul>`:emptyBox('No calvings due in the next 6 weeks.')}</div>
-    <div class="card"><h3>🥛 Milk (last 14 days)</h3><canvas class="chart" id="dashMilk"></canvas></div>
-    <div class="card" style="grid-column:1/-1"><h3>🌦️ Weather & grass</h3><div id="dashWx">${wxStrip(getWeatherCache())}</div>
-      <p class="mut" style="margin-bottom:0">Average farm cover: <b>${gb.afc!=null?num(gb.afc):'–'} kg DM/ha</b> · Growth used: <b>${num(currentGrowthRate().rate)} kg DM/ha/day</b> (${esc(currentGrowthRate().basis)}) · Demand: ${gb.cows} cows × ${num(S.settings.kgDmPerCow)} kg — <i>estimates</i>. <a href="#grass">Grass planner →</a></p></div>
+    <div class="card" style="${wd.length?'border-color:#ffb4a8;box-shadow:0 6px 0 #ffd5ce,0 10px 24px #0000000f':''}"><h3>💊 Animals in withdrawal</h3>${wd.length?`<ul class="list">${wd.map(w=>`<li><div class="grow"><b>${esc(w.t.cowId?cowName(w.t.cowId):w.t.groupDesc||'Group')}</b><div class="mut">${esc(w.t.product)}${w.t.orgDouble?' · organic ×2':''}</div></div><div style="text-align:right">${w.milkEnd?`<span class="pill red">Milk to ${fmtD(w.milkEnd)}</span><br>`:''}${w.meatEnd?`<span class="pill amb">Meat to ${fmtD(w.meatEnd)}</span>`:''}</div></li>`).join('')}</ul>`:emptyBox('No animals in withdrawal.')}</div>
+    ${cattle?`<div class="card"><h3>🍼 Upcoming calvings</h3>${due.length?`<ul class="list">${due.slice(0,8).map(d=>`<li><div class="grow"><a href="#cow/${d.cow.id}">${esc(cowLabel(d.cow))}</a><div class="mut">Due ${fmtD(d.due)} · ${d.confirmed?'scanned in-calf':'not yet scanned'}</div></div><span class="pill ${d.days<0?'red':d.days<=7?'amb':'grn'}">${d.days<0?Math.abs(d.days)+'d over':d.days+' days'}</span></li>`).join('')}</ul>`:emptyBox('No calvings due in the next 6 weeks.')}</div>`:''}
+    ${D?`<div class="card"><h3>🥛 Milk (last 14 days)</h3><canvas class="chart" id="dashMilk"></canvas></div>`:''}
+    ${crops?`<div class="card"><h3>🌾 Plantings</h3><div id="dashPl">${plantingTable(pls.slice(0,6))}</div>${recentOps.length?`<div class="mut" style="margin-top:8px">Last 30 days: ${recentOps.map(o=>esc((OP_KINDS[o.kind]?.i||'')+' '+(get('plantings',o.plantingId)?.cropName||''))).join(', ')}</div>`:''}<div class="row" style="margin-top:8px"><a class="btn sm" href="#croplib">📚 Crop library</a></div></div>`:''}
+    <div class="card" style="grid-column:1/-1"><h3>🌦️ Weather${grazing?' & grass':''}</h3><div id="dashWx">${wxStrip(getWeatherCache())}</div>
+      ${grazing?`<p class="mut" style="margin-bottom:0">Average farm cover: <b>${gb.afc!=null?num(gb.afc):'–'} kg DM/ha</b> · Growth used: <b>${num(currentGrowthRate().rate)} kg DM/ha/day</b> (${esc(currentGrowthRate().basis)}) · Demand: ${gb.cows} cows × ${num(S.settings.kgDmPerCow)} kg — <i>estimates</i>. <a href="#grass">Grass planner →</a></p>`:''}</div>
   </div>`;
-  bindTaskList(el);
+  bindTaskList(el); const dp=$('#dashPl',el); if(dp){ bindPlantingTable(dp); if(!CROPIDX) loadCropIndex().then(()=>{ const x=$('#dashPl'); if(x){ x.innerHTML=plantingTable(pls.slice(0,6)); bindPlantingTable(x); } }).catch(()=>{}); }
   $('#addTask',el).onclick=()=>taskForm();
   const db=$('#demoBtn',el); if(db) db.onclick=()=>{ loadDemo(); render(); };
-  const pts=mt.filter(d=>daysBetween(d.date,td)<=14).map(d=>[d.date,d.litres]); lineChart($('#dashMilk',el),[{label:'Litres/day',points:pts}],{height:180,yLabel:'L'});
+  if(D){ const pts=mt.filter(d=>daysBetween(d.date,td)<=14).map(d=>[d.date,d.litres]); lineChart($('#dashMilk',el),[{label:'Litres/day',points:pts}],{height:180,yLabel:'L'}); }
   fetchWeather().then(wx=>{ const d=$('#dashWx'); if(d && route==='dash') d.innerHTML=wxStrip(wx); });
 };
 
@@ -778,13 +1225,15 @@ function showPadDetail(){
       <div class="kpi"><b>${ds==null?'–':ds}</b><span>days since grazed${cur?' (grazing now)':''}</span></div>
       <div class="kpi"><b>${mg?num(mg.rate):'–'}</b><span>measured growth kg/ha/day</span></div>
       <div class="kpi"><b>${num(sum(fert.map(f=>f.nKgHa)))} / ${num(sum(fert.map(f=>f.pKgHa)),1)}</b><span>N / P kg/ha applied ${yr}</span></div></div>
-    <div class="row">${cur?`<button class="pri" id="pdOut">End grazing</button>`:`<button class="pri" id="pdIn">Start grazing</button>`}<button id="pdWalk">Record cover</button><button id="pdEdit">Edit</button>${MAP.view==='sketch'?'<button id="pdRedraw">Redraw on sketch</button>':(hasGeo(p)?'<button id="pdEditB">✏️ Edit boundary</button><button id="pdRedrawSat">Redraw boundary</button><button id="pdZoom">🔍 Zoom to</button>':'<button id="pdRedrawSat">🛰 Draw boundary on satellite</button>')}<button id="pdTask">+ Task</button><button id="pdPhoto">+ Photo</button></div>
+    <div class="row">${cur?`<button class="pri" id="pdOut">End grazing</button>`:`<button class="pri" id="pdIn">Start grazing</button>`}<button id="pdWalk">Record cover</button><button id="pdEdit">Edit</button>${MAP.view==='sketch'?'<button id="pdRedraw">Redraw on sketch</button>':(hasGeo(p)?'<button id="pdEditB">✏️ Edit boundary</button><button id="pdRedrawSat">Redraw boundary</button><button id="pdZoom">🔍 Zoom to</button>':'<button id="pdRedrawSat">🛰 Draw boundary on satellite</button>')}<button id="pdTask">+ Task</button><button id="pdPhoto">+ Photo</button><button id="pdSuit">🌱 What suits this field?</button><button id="pdPlant">+ Planting</button></div>
+    <p class="mut">Soil: ${p.soilType?esc(SOILTXT[p.soilType]):'type not set'} · pH ${esc(p.ph||'–')} · drainage ${esc({good:'free-draining',moderate:'moderate',poor:'poor'}[p.drainage]||'–')} · P index ${esc(p.pIndex||'–')} · K index ${esc(p.kIndex||'–')}${p.testDate?' (tested '+fmtD(p.testDate)+')':''}</p>
+    ${S.plantings.some(x=>x.paddockId===p.id)?`<h3>Plantings</h3><div id="pdPl">${plantingTable(S.plantings.filter(x=>x.paddockId===p.id))}</div>`:''}
     ${p.notes?`<p>${esc(p.notes)}</p>`:''}
     <h3>Grazing history</h3>${table(gs,[{l:'In',f:g=>fmtD(g.dateIn)},{l:'Out',f:g=>g.dateOut?fmtD(g.dateOut):'grazing'},{l:'Days',f:g=>daysBetween(g.dateIn,g.dateOut||today())},{l:'Animals',f:g=>g.animals||''},{l:'Group',k:'group'},{l:'Pre/Post cover',f:g=>`${g.preCover??'–'} / ${g.postCover??'–'}`}],{onRow:g=>grazingForm(p,g),empty:'Not grazed yet.'})}
     <h3>Cover walks</h3>${table(walksFor(p.id),[{l:'Date',f:w=>fmtD(w.date)},{l:'kg DM/ha',f:w=>num(w.cover)},{l:'Height cm',f:w=>w.heightCm??''},{l:'Source',k:'source'}],{onRow:w=>walkForm(p,w),empty:'No walks recorded.'})}</div>`;
   $('#pdClose').onclick=()=>{MAP.sel=null; drawMap(); showPadDetail();};
   const b=(id,fn)=>{ const x=$('#'+id); if(x) x.onclick=fn; };
-  b('pdIn',()=>grazingForm(p,null)); b('pdOut',()=>grazingForm(p,cur,true)); b('pdWalk',()=>walkForm(p,null)); b('pdEdit',()=>paddockForm(p)); b('pdTask',()=>taskForm(null,{paddockId:p.id})); b('pdPhoto',()=>photoForm({paddockId:p.id}));
+  b('pdIn',()=>grazingForm(p,null)); b('pdOut',()=>grazingForm(p,cur,true)); b('pdWalk',()=>walkForm(p,null)); b('pdEdit',()=>paddockForm(p)); b('pdTask',()=>taskForm(null,{paddockId:p.id})); b('pdPhoto',()=>photoForm({paddockId:p.id})); b('pdSuit',()=>suitDialog(p.id)); b('pdPlant',()=>plantingForm(null,{paddockId:p.id})); const pl=$('#pdPl'); if(pl) bindPlantingTable(pl);
   b('pdRedraw',()=>{ MAP.mode='draw'; MAP.pts=[]; MAP.redrawId=p.id; render(); toast('Tap new corner points, then Finish'); });
   b('pdRedrawSat',()=>startSatDraw(p.id)); b('pdEditB',()=>startSatEdit(p.id)); b('pdZoom',()=>{ const l=LPADS.get(p.id); if(LMAP&&l){ LMAP.fitBounds(l.getBounds(),{maxZoom:18,padding:[20,20]}); $('#lmap').scrollIntoView({behavior:'smooth',block:'center'}); } });
 }
@@ -793,7 +1242,11 @@ function paddockForm(p, pts, geo){
   openForm({title:p?'Edit paddock':'New paddock', values:p||{status:'resting'}, fields:[
     {k:'name',l:'Name',req:1,ph:'e.g. Long Field'},{k:'status',l:'Status',t:'select',o:Object.entries(PAD_STATUS).map(([k,v])=>[k,v.l])},
     {k:'areaManual',l:'Area override (ha)',t:'number',ph:mapped?num(mapped,2)+' ha mapped':'enter area',hint:mapped?`Mapped area: ${num(mapped,2)} ha (${num(haToAc(mapped),2)} acres). Leave blank to use it.`:'No boundary drawn — enter the area in hectares.'},
-    {k:'landId',l:'LPIS / land parcel ID (optional)'},{k:'soil',l:'Soil / index notes (optional)',ph:'e.g. P index 2, K index 3'},{k:'notes',l:'Notes',t:'textarea',full:1}],
+    {k:'landId',l:'LPIS / land parcel ID (optional)'},
+    {k:'soilType',l:'Soil type',t:'select',o:[['','— not set —'],['l','Light / sandy'],['m','Medium loam'],['h','Heavy / clay'],['p','Peat / organic']]},{k:'ph',l:'Soil pH (from soil test)',t:'number',step:0.1,min:3,max:9},
+    {k:'drainage',l:'Drainage',t:'select',o:[['','— not set —'],['good','Free-draining'],['moderate','Moderate'],['poor','Poorly drained / wet']]},{k:'testDate',l:'Soil test date',t:'date'},
+    {k:'pIndex',l:'P index (1–4)',t:'select',o:[['','—'],['1','1 (very low)'],['2','2 (low)'],['3','3 (target)'],['4','4 (high)']]},{k:'kIndex',l:'K index (1–4)',t:'select',o:[['','—'],['1','1 (very low)'],['2','2 (low)'],['3','3 (target)'],['4','4 (high)']]},
+    {k:'soil',l:'Other soil notes (optional)',ph:'e.g. stony, steep, lime applied 2024'},{k:'notes',l:'Notes',t:'textarea',full:1}],
     onSave:v=>{ if(p) upd('paddocks',p.id,v); else { const n=add('paddocks',{...v, points:pts||[], ...(geo?{geo}:{})}); MAP.sel=n.id; } MAP.mode='view'; MAP.pts=[]; MAP.redrawId=null; },
     onDelete:p?()=>{ del('paddocks',p.id); MAP.sel=null; }:null});
 }
@@ -1036,15 +1489,18 @@ function walkForm(p, w){
 }
 /* ---------- Cows ---------- */
 let cowFilter={q:'',status:'active'};
-const cowFields = () => [
+const cowFields = (sp) => { const P=sp&&sp!=='cattle'?SPECIES[sp]:null; if(P) return [
+  {k:P.nameFirst?'name':'tag',l:P.nameFirst?'Name':'Tag / ID',req:1,hint:P.tagHint},{k:P.nameFirst?'tag':'name',l:P.nameFirst?'Passport / UELN / microchip':'Name'},{k:'breed',l:'Breed',t:'datalist',o:P.breeds},{k:'sex',l:'Sex',t:'select',o:[['F','Female'],['M','Male']]},
+  {k:'dob',l:'Date of birth',t:'date'},{k:'status',l:'Status',t:'select',o:P.status},{k:'groupId',l:P.groupL,t:'select',o:()=>groupOpts(sp)},{k:'sire',l:'Sire'},{k:'damTag',l:'Dam tag',t:'datalist',o:()=>S.cows.filter(c=>c.species===sp&&c.sex!=='M').map(c=>c.tag)},{k:'notes',l:'Notes',t:'textarea',full:1}];
+  return [
   {k:'tag',l:'Tag number',req:1,ph:'IE 123456 7 1234',hint:'Irish format: IE + herd no. (6 digits + check digit) + animal no.',validate:v=>v&&!IE_TAG.test(normTag(v))?'Doesn’t look like the usual Irish tag format — saved anyway.':''},
   {k:'name',l:'Name'},{k:'breed',l:'Breed',t:'datalist',o:BREEDS},{k:'sex',l:'Sex',t:'select',o:[['F','Female'],['M','Male']]},
-  {k:'dob',l:'Date of birth',t:'date'},{k:'status',l:'Status',t:'select',o:COW_STATUS},
+  {k:'dob',l:'Date of birth',t:'date'},{k:'status',l:'Status',t:'select',o:COW_STATUS},...(hasType('beef')?[{k:'beefCat',l:'Beef category',t:'datalist',o:['Suckler cow','Weanling','Store','Finisher','Stock bull','Replacement heifer']}]:[]),
   {k:'sire',l:'Sire (code/name)'},{k:'damTag',l:'Dam tag',t:'datalist',o:()=>S.cows.filter(c=>c.sex!=='M').map(c=>c.tag)},
-  {k:'group',l:'Group',t:'datalist',o:['Milking herd','Dry cows','Heifers','Calves','Bullocks']},{k:'notes',l:'Notes',t:'textarea',full:1}];
-function cowForm(c, preset={}){
-  openForm({title:c?'Edit animal':'Add animal', values:c||{status:'milking',sex:'F',...preset}, fields:cowFields(),
-    onSave:v=>{ v.tag=normTag(v.tag); const dup=S.cows.find(x=>x.tag===v.tag && (!c||x.id!==c.id)); if(dup && !confirm('Another animal already has tag '+v.tag+'. Save anyway?')) return false;
+  {k:'group',l:'Group',t:'datalist',o:['Milking herd','Dry cows','Heifers','Calves','Bullocks','Sucklers','Weanlings','Finishers']},{k:'notes',l:'Notes',t:'textarea',full:1}]; };
+function cowForm(c, preset={}){ const sp=(c&&c.species)||preset.species||'cattle';
+  openForm({title:c?'Edit animal':'Add '+(sp==='cattle'?'animal':SPECIES[sp].animal), values:c||{status:hasType('dairy')?'milking':'heifer',sex:'F',...preset}, fields:cowFields(sp),
+    onSave:v=>{ if(sp!=='cattle') v.species=sp; v.tag=normTag(v.tag); const dup=v.tag&&S.cows.find(x=>x.tag===v.tag && (!c||x.id!==c.id)); if(dup && !confirm('Another animal already has tag '+v.tag+'. Save anyway?')) return false;
       const dam=S.cows.find(x=>x.tag===normTag(v.damTag)); v.damId=dam?dam.id:null;
       if(c) upd('cows',c.id,v); else add('cows',v); },
     onDelete:c?()=>{ del('cows',c.id); if(route==='cow') go('cows'); }:null});
@@ -1052,17 +1508,17 @@ function cowForm(c, preset={}){
 const age = dob => { if(!dob) return ''; const d=daysBetween(dob,today()); return d<60?d+'d':d<730?Math.floor(d/30.44)+'m':(d/365.25).toFixed(1)+'y'; };
 VIEWS.cows = el => {
   const st=cowFilter.status; const q=cowFilter.q.toLowerCase();
-  let rows=S.cows.filter(c=> st==='all'||(st==='active'?!['sold','died'].includes(c.status):c.status===st)).filter(c=>!q||[c.tag,c.name,c.breed,c.group].join(' ').toLowerCase().includes(q));
+  let rows=S.cows.filter(isCattle).filter(c=> st==='all'||(st==='active'?!['sold','died'].includes(c.status):c.status===st)).filter(c=>!q||[c.tag,c.name,c.breed,c.group].join(' ').toLowerCase().includes(q));
   rows.sort((a,b)=>(a.tag||'').localeCompare(b.tag||''));
-  const counts={}; S.cows.forEach(c=>counts[c.status]=(counts[c.status]||0)+1);
+  const counts={}; S.cows.filter(isCattle).forEach(c=>counts[c.status]=(counts[c.status]||0)+1);
   el.innerHTML=`<div class="row"><button class="pri" id="addCow">+ Add animal</button><span class="sp"></span><button class="sm" id="csv">⬇ CSV</button></div>
   <div class="row"><input id="q" placeholder="Search tag, name, breed…" value="${esc(cowFilter.q)}" style="flex:2;min-width:180px"><select id="st" style="flex:1;min-width:140px">${[['active','Active herd'],['all','All']].concat(COW_STATUS.map(s=>[s,s])).map(([k,l])=>`<option value="${k}" ${k===st?'selected':''}>${l}${counts[k]?` (${counts[k]})`:''}</option>`).join('')}</select></div>
   <div class="card">${table(rows,[{l:'Tag',h:c=>`<b>${esc(c.tag)}</b>`},{l:'Name',k:'name'},{l:'Breed',k:'breed'},{l:'Age',f:c=>age(c.dob)},{l:'Status',h:c=>`<span class="pill ${c.status==='milking'?'blue':c.status==='dry'?'amb':['sold','died'].includes(c.status)?'':'grn'}">${esc(c.status)}</span>${cowWithdrawal(c.id).length?' <span class="pill red">withdrawal</span>':''}`},
-    {l:'Due',f:c=>{const d=dueInfo(c); return d?fmtD(d.due):'';}}],{onRow:c=>go('cow',c.id),empty:S.cows.length?'No animals match.':'No animals yet — add your first cow.'})}</div>`;
+    {l:'Due',f:c=>{const d=dueInfo(c); return d?fmtD(d.due):'';}}],{onRow:c=>go('cow',c.id),empty:S.cows.filter(isCattle).length?'No animals match.':'No animals yet — add your first cow.'})}</div>`;
   $('#addCow',el).onclick=()=>cowForm(null);
   const qi=$('#q',el); qi.oninput=()=>{ cowFilter.q=qi.value; const pos=qi.selectionStart; render(); const n=$('#q'); n.focus(); n.setSelectionRange(pos,pos); };
   $('#st',el).onchange=e=>{ cowFilter.status=e.target.value; render(); };
-  $('#csv',el).onclick=()=>download('herd.csv', toCSV(S.cows,[{l:'Tag',k:'tag'},{l:'Name',k:'name'},{l:'Breed',k:'breed'},{l:'Sex',k:'sex'},{l:'DOB',k:'dob'},{l:'Status',k:'status'},{l:'Sire',k:'sire'},{l:'Dam tag',k:'damTag'},{l:'Group',k:'group'},{l:'Notes',k:'notes'},{l:'Source',k:'source'},{l:'ID',k:'id'}]),'text/csv');
+  $('#csv',el).onclick=()=>download('herd.csv', toCSV(S.cows.filter(isCattle),[{l:'Tag',k:'tag'},{l:'Name',k:'name'},{l:'Breed',k:'breed'},{l:'Sex',k:'sex'},{l:'DOB',k:'dob'},{l:'Status',k:'status'},{l:'Sire',k:'sire'},{l:'Dam tag',k:'damTag'},{l:'Group',k:'group'},{l:'Notes',k:'notes'},{l:'Source',k:'source'},{l:'ID',k:'id'}]),'text/csv');
 };
 VIEWS.cow = el => {
   const c=get('cows',routeArg); if(!c){ el.innerHTML='<div class="empty"><span class="emo">🔎</span>Animal not found. <a href="#cows">Back</a></div>'; return; }
@@ -1072,27 +1528,30 @@ VIEWS.cow = el => {
   const di=dueInfo(c); const wd=cowWithdrawal(c.id);
   const timeline=[...br.map(b=>({date:b.date, what:brLabel(b), col:'breeding', r:b})), ...tr.map(t=>({date:t.date, what:'💊 '+t.product+(t.reason?' — '+t.reason:''), col:'treatments', r:t})),
     ...mv.map(m=>({date:m.date, what:(m.direction==='in'?'⬅ Moved in':'➡ Moved out')+(m.reason?' — '+m.reason:''), col:'movements', r:m})), ...dt.map(d=>({date:d.date, what:'✝ Died/disposed — '+(d.cause||''), col:'deaths', r:d}))].sort(byDate());
-  el.innerHTML=`<div class="row"><a class="btn sm" href="#cows">← Herd</a><span class="sp"></span><button class="sm" id="edit">Edit</button></div>
+  const spc=isCattle(c)?null:c.species; const cat=!spc; const ws=S.stockEvents.filter(e=>e.animalId===c.id).sort(byDate());
+  timeline.push(...ws.map(e=>{ const P=SPECIES[e.species]; const ev=P&&P.events[e.kind]; return {date:e.date, what:(ev?ev.i+' '+ev.l+' — ':'')+(ev&&ev.sum?ev.sum(e).replace(/<[^>]+>/g,''):''), col:'stockEvents', r:e}; })); timeline.sort(byDate());
+  el.innerHTML=`<div class="row"><a class="btn sm" href="#${spc||'cows'}">← ${spc?esc(SPECIES[spc].l):'Herd'}</a><span class="sp"></span><button class="sm" id="edit">Edit</button></div>
   <div class="card"><h2>${esc(c.tag)} ${c.name?'· '+esc(c.name):''}</h2>
    ${wd.length?`<div class="banner" style="background:#fff0ee;border-color:#e85d4c;color:#a3261b">💊 In withdrawal: ${wd.map(w=>`${esc(w.t.product)}${w.milkEnd?' — milk to '+fmtD(w.milkEnd):''}${w.meatEnd?' — meat to '+fmtD(w.meatEnd):''}`).join('; ')}</div>`:''}
    <div class="kpis"><div class="kpi"><b>${esc(c.status)}</b><span>Status</span></div><div class="kpi"><b>${esc(c.breed||'–')}</b><span>Breed · ${c.sex==='M'?'Male':'Female'}</span></div><div class="kpi"><b>${age(c.dob)||'–'}</b><span>Age ${c.dob?'(DOB '+fmtD(c.dob)+')':''}</span></div>
-   <div class="kpi"><b>${di?fmtD(di.due):'–'}</b><span>Expected calving${di?` (${esc(di.basis)})`:''}</span></div><div class="kpi"><b>${milk.length?num(sum(milk.filter(m=>m.date===milk[0].date).map(m=>m.litres)),1):'–'} L</b><span>Latest day's milk</span></div></div>
+   ${cat?`<div class="kpi"><b>${di?fmtD(di.due):'–'}</b><span>Expected calving${di?` (${esc(di.basis)})`:''}</span></div>${hasType('dairy')?`<div class="kpi"><b>${milk.length?num(sum(milk.filter(m=>m.date===milk[0].date).map(m=>m.litres)),1):'–'} L</b><span>Latest day's milk</span></div>`:''}`:''}${lastWeight(c.id)?`<div class="kpi"><b>${num(lastWeight(c.id).weight)} kg</b><span>Last weight ${fmtD(lastWeight(c.id).date)}${adgFor(c.id)?' · ADG '+num(adgFor(c.id).adg,2):''}</span></div>`:''}</div>
    <p class="mut">Sire: ${esc(c.sire||'–')} · Dam: ${dam?`<a href="#cow/${dam.id}">${esc(cowLabel(dam))}</a>`:esc(c.damTag||'–')} ${calves.length?'· Calves: '+calves.map(x=>`<a href="#cow/${x.id}">${esc(x.tag)}</a>`).join(', '):''}</p>
    ${c.notes?`<p>${esc(c.notes)}</p>`:''}
-   <div class="row"><button class="sm" id="aMilk">+ Milk</button><button class="sm" id="aHeat">+ Heat</button><button class="sm" id="aServe">+ Service</button><button class="sm" id="aScan">+ Scan</button><button class="sm" id="aCalve">+ Calving</button><button class="sm" id="aTreat">+ Treatment</button><button class="sm" id="aTask">+ Task</button><button class="sm" id="aPhoto">+ Photo</button></div></div>
-  <div class="card"><h3>Milk trend (daily litres)</h3><canvas class="chart" id="cowMilk"></canvas></div>
+   <div class="row">${cat?`${hasType('dairy')?'<button class="sm" id="aMilk">+ Milk</button>':''}<button class="sm" id="aHeat">+ Heat</button><button class="sm" id="aServe">+ Service</button><button class="sm" id="aScan">+ Scan</button><button class="sm" id="aCalve">+ Calving</button>${hasType('beef')?'<button class="sm" id="aWeigh">+ Weighing</button>':''}`:Object.entries(SPECIES[spc].events).filter(([k,e])=>e.f.some(f=>f.k==='animalId')).map(([k,e])=>`<button class="sm" data-sev="${k}">+ ${e.l}</button>`).join('')}<button class="sm" id="aTreat">+ Treatment</button><button class="sm" id="aTask">+ Task</button><button class="sm" id="aPhoto">+ Photo</button></div></div>
+  ${cat&&hasType('dairy')?'<div class="card"><h3>Milk trend (daily litres)</h3><canvas class="chart" id="cowMilk"></canvas></div>':''}
   <div class="card"><h3>History</h3>${table(timeline,[{l:'Date',f:x=>fmtD(x.date)},{l:'Event',k:'what'}],{onRow:x=>editByCol(x.col,x.r),empty:'No events yet.'})}</div>
   ${tasks.length?`<div class="card"><h3>Open tasks</h3>${taskList(tasks)}</div>`:''}
   <div class="card"><h3>Photos</h3><div class="gallery" id="cowPhotos"></div></div>`;
   const byDay={}; milk.forEach(m=>byDay[m.date]=(byDay[m.date]||0)+(Number(m.litres)||0));
   lineChart($('#cowMilk',el),[{label:'Litres',points:Object.entries(byDay)}],{height:200,yLabel:'L'});
   bindTaskList(el);
-  const B=(id,fn)=>$('#'+id,el).onclick=fn; B('edit',()=>cowForm(c)); B('aMilk',()=>milkForm(null,{kind:'cow',cowId:c.id}));
+  const B=(id,fn)=>{ const x=$('#'+id,el); if(x) x.onclick=fn; }; B('edit',()=>cowForm(c)); B('aMilk',()=>milkForm(null,{kind:'cow',cowId:c.id})); B('aWeigh',()=>stockEventForm('beef','weigh',null,{animalId:c.id}));
+  $$('[data-sev]',el).forEach(b=>b.onclick=()=>stockEventForm(spc,b.dataset.sev,null,{animalId:c.id}));
   B('aHeat',()=>breedingForm('heat',null,c.id)); B('aServe',()=>breedingForm('service',null,c.id)); B('aScan',()=>breedingForm('scan',null,c.id)); B('aCalve',()=>calvingForm(null,c.id));
-  B('aTreat',()=>treatmentForm(null,{cowId:c.id})); B('aTask',()=>taskForm(null,{cowId:c.id})); B('aPhoto',()=>photoForm({cowId:c.id}));
+  B('aTreat',()=>treatmentForm(null,{cowId:c.id,species:spc||undefined})); B('aTask',()=>taskForm(null,{cowId:c.id})); B('aPhoto',()=>photoForm({cowId:c.id}));
   renderGallery($('#cowPhotos',el), p=>p.cowId===c.id);
 };
-function editByCol(col,r){ if(col==='breeding') return r.type==='calving'?calvingForm(r):breedingForm(r.type,r); if(col==='treatments') return treatmentForm(r); if(col==='movements') return movementForm(r); if(col==='deaths') return deathForm(r); }
+function editByCol(col,r){ if(col==='breeding') return r.type==='calving'?calvingForm(r):breedingForm(r.type,r); if(col==='treatments') return treatmentForm(r); if(col==='movements') return movementForm(r); if(col==='deaths') return deathForm(r); if(col==='stockEvents') return stockEventForm(r.species,r.kind,r); }
 
 /* ---------- Milk ---------- */
 let milkCow='';
@@ -1257,24 +1716,31 @@ VIEWS.tasks = el => {
 /* ---------- Compliance records ---------- */
 let compTab='treatments';
 function treatmentForm(t, preset={}){
-  openForm({title:t?'Edit treatment':'Record treatment', values:t||{date:today(),courseDays:1,...preset}, fields:[
+  const sp=(t&&t.species)||preset.species; const a=approach();
+  openForm({title:t?'Edit treatment':'Record treatment', values:t||{date:today(),courseDays:1,orgDouble:a==='organic',...preset}, fields:[
     {k:'date',l:'Date administered (first)',t:'date',req:1},{k:'courseDays',l:'Course length (days)',t:'number',min:1,hint:'Withdrawal counted from the last treatment day'},
-    {k:'cowId',l:'Animal',t:'select',o:()=>cowOpts(true)},{k:'groupDesc',l:'…or group description',ph:'e.g. All weanlings (12 head)'},
+    {k:'cowId',l:'Animal',t:'select',o:()=>cowOpts(true,sp||'any')},{k:'groupDesc',l:'…or group / batch description',t:'datalist',o:()=>S.groups.filter(g=>!sp||g.species===sp).map(g=>g.name),ph:'e.g. All weanlings (12 head)'},
     {k:'product',l:'Product name',req:1,t:'datalist',o:()=>[...new Set(S.treatments.map(x=>x.product).filter(Boolean))]},{k:'batch',l:'Batch no.',req:1},{k:'expiry',l:'Batch expiry',t:'date'},{k:'supplier',l:'Supplier / purchased from'},
     {k:'qtyUsed',l:'Quantity administered',ph:'e.g. 10 ml'},{k:'route',l:'Route',t:'datalist',o:['Intramammary','Intramuscular','Subcutaneous','Intravenous','Oral','Pour-on','Topical','Intrauterine']},
-    {k:'reason',l:'Reason / condition',t:'datalist',o:['Mastitis','Lameness','Pneumonia','Scour','Dry cow therapy','Teat sealant','Worming','Fluke','Vaccination','Metritis','Milk fever']},
-    {k:'milkWd',l:'Milk withdrawal (days)',t:'number',hint:'From label. Convert hours/milkings to days, round up.'},{k:'meatWd',l:'Meat withdrawal (days)',t:'number'},
+    {k:'reason',l:'Reason / condition',t:'datalist',o:['Mastitis','Lameness','Pneumonia','Scour','Dry cow therapy','Teat sealant','Worming','Fluke','Vaccination','Metritis','Milk fever','Scab','Lice','Footrot','Coccidiosis']},
+    {k:'milkWd',l:'Milk withdrawal (days)',t:'number',hint:'From label. Convert hours/milkings to days, round up.'},{k:'meatWd',l:'Meat withdrawal (days)',t:'number'},{k:'orgDouble',l:'Organic: double the withdrawal period (minimum 48 hours)',t:'checkbox',hint:a==='organic'?'On by default in Organic-only mode':'Tick for organic or in-conversion animals'},{k:'fec',l:'Faecal egg count / test before dosing (optional)',show:v=>/worm|fluke/i.test(v.reason||'')},
     {k:'administeredBy',l:'Administered by'},{k:'vet',l:'Prescribing vet'},{k:'prescriptionRef',l:'Prescription ref.'},{k:'notes',l:'Notes',t:'textarea',full:1}],
-    extraHTML:'<p class="mut">Record-keeping aid only. Always follow the product label and your vet’s prescription; check official withdrawal requirements.</p>',
-    onSave:v=>{ if(!v.cowId && !v.groupDesc) throw new Error('Choose an animal or describe the group'); if(t) upd('treatments',t.id,v); else add('treatments',v);
-      const e=wdEnds(v); toast(`Withdrawal: ${e.milk?'milk to '+fmtD(e.milk):''} ${e.meat?'meat to '+fmtD(e.meat):''}`.trim()||'Saved'); },
+    extraHTML:'<p class="mut">Record-keeping aid only. Always follow the product label and your vet’s prescription; check official withdrawal requirements.</p>'+(a!=='conventional'?'<p class="mut">🍃 Organic: withdrawal is double the label period (at least 48 h). More than 3 courses of synthetic medicines in 12 months (1 if productive life is under a year) means the animal loses organic status; vaccines and parasite treatments don’t count towards that. Check with your certification body.</p>':''),
+    onSave:v=>{ if(!v.cowId && !v.groupDesc) throw new Error('Choose an animal or describe the group'); const an=v.cowId&&get('cows',v.cowId); if(an&&an.species) v.species=an.species; else if(sp) v.species=sp; if(t) upd('treatments',t.id,v); else add('treatments',v);
+      const e=wdEnds(v); toast((`Withdrawal: ${e.milk?'milk to '+fmtD(e.milk):''} ${e.meat?'meat to '+fmtD(e.meat):''}`.trim()+(e.doubled?' (organic ×2)':''))||'Saved'); },
     onDelete:t?()=>del('treatments',t.id):null});
 }
-function fertForm(f){ openForm({title:f?'Edit fertiliser record':'Record fertiliser/slurry', values:f||{date:today()}, fields:[
-    {k:'date',l:'Date',t:'date',req:1},{k:'paddockId',l:'Paddock',t:'select',o:padOpts,req:1},{k:'product',l:'Product',req:1,t:'datalist',o:['CAN (27% N)','Protected urea (46% N)','Urea (46% N)','18-6-12','10-10-20','0-7-30','Pasture Sward','Cattle slurry','Dairy soiled water','FYM','Lime']},
+function fertForm(f, preset={}){ const a=approach(); const orgList=['FYM','Cattle slurry','Dairy soiled water','Compost','Lime','Rock phosphate','Calcified seaweed','Seaweed fertiliser','Sulphate of potash (natural)','Kieserite','Green manure (incorporated)'];
+  const conv=['CAN (27% N)','Protected urea (46% N)','Urea (46% N)','18-6-12','10-10-20','0-7-30','Pasture Sward'];
+  openForm({title:f?'Edit fertiliser record':'Record fertiliser/slurry', values:f||{date:today(),...preset}, fields:[
+    {k:'date',l:'Date',t:'date',req:1},{k:'paddockId',l:'Paddock',t:'select',o:padOpts,req:1},{k:'product',l:'Product',req:1,t:'datalist',o:a==='organic'?orgList:a==='mostly'?orgList.concat(conv):conv.concat(['Cattle slurry','Dairy soiled water','FYM','Lime','Compost']),validate:(v,vals)=>organicFertCheck(vals)},
+    ...(a==='organic'?[{k:'orgOk',l:'This input is permitted in organic production and allowed by my certification body',t:'checkbox',show:v=>fertClass(v.product)==='unknown'}]:[]),
     {k:'rate',l:'Rate (per ha)',ph:'e.g. 1 bag/acre, 125 kg/ha, 2500 gal/ac'},{k:'nKgHa',l:'N (kg/ha)',t:'number'},{k:'pKgHa',l:'P (kg/ha)',t:'number'},{k:'kKgHa',l:'K (kg/ha)',t:'number'},
     {k:'method',l:'Method',t:'datalist',o:['Fertiliser spreader','LESS – trailing shoe','LESS – dribble bar','Splash plate','Contractor']},{k:'operator',l:'Operator / contractor'},{k:'notes',l:'Notes',t:'textarea',full:1}],
-    onSave:v=>{ if(f) upd('fertiliser',f.id,v); else add('fertiliser',v); }, onDelete:f?()=>del('fertiliser',f.id):null}); }
+    extraHTML:a==='organic'?'<p class="mut">🍃 <b>Organic only:</b> synthetic fertilisers are blocked. Use manures, compost, legumes and permitted inputs (lime, rock phosphate, natural potassium sulphate, seaweed).</p>':a==='mostly'?'<p class="mut">🌿 <b>Mostly organic:</b> you’ll be warned before recording a synthetic fertiliser.</p>':'',
+    onSave:v=>{ const c=fertClass(v.product); if(a==='organic'){ if(c==='synthetic') throw new Error('Synthetic fertiliser is not permitted in Organic-only mode. Change the farming approach in Settings if this field is not organic.'); if(c==='unknown'&&!v.orgOk) throw new Error('Tick the box to confirm this input is permitted for organic production.'); }
+      if(a==='mostly'&&c==='synthetic'){ if(!confirm('Synthetic fertiliser means this field is not organic. Record it anyway?')) return false; v.nonOrganic=true; }
+      if(!f&&preset.plantingId) v.plantingId=preset.plantingId; if(f) upd('fertiliser',f.id,v); else add('fertiliser',v); }, onDelete:f?()=>del('fertiliser',f.id):null}); }
 function movementForm(m){ openForm({title:m?'Edit movement':'Record movement', values:m||{date:today(),direction:'out',updateStatus:true}, fields:[
     {k:'date',l:'Date',t:'date',req:1},{k:'direction',l:'Direction',t:'select',o:[['out','Out of herd'],['in','Into herd']]},
     {k:'cowId',l:'Animal (if in herd records)',t:'select',o:()=>cowOpts(true)},{k:'tag',l:'…or tag number',ph:'IE …'},
@@ -1351,13 +1817,16 @@ VIEWS.settings = el => {
     <label class="f"><span>Farm latitude (map & weather)</span><input id="sLat" type="number" step="any" value="${farmLocSet()?esc(s.lat):''}" placeholder="not set"></label><label class="f"><span>Farm longitude (map & weather)</span><input id="sLon" type="number" step="any" value="${farmLocSet()?esc(s.lon):''}" placeholder="not set"></label>
     <label class="f"><span>Old sketch map scale (metres per unit)</span><input id="sScale" type="number" step="any" value="${esc(s.mPerUnit)}"><div class="hint">Only for paddocks drawn on the old sketch map. Satellite paddocks are measured from real coordinates.</div></label></div>
     <div class="row"><button class="pri" id="sSave">Save</button><button id="sGps">📍 Use my GPS location</button><button id="sGrass">Grass planner settings…</button></div></div>
+  ${farmSetupHTML()}
   <div class="card"><h2>Backup</h2><p class="mut">Download a copy of everything in your account (${num(bytes/1024)} KB of records, ${S.photos.length} photos). Import uploads a backup into <b>this</b> account, replacing what is there.</p>
     <label class="cb"><input type="checkbox" id="incPhotos" checked> Include photos in backup (larger file)</label>
     <div class="row"><button class="pri" id="exp">⬇ Export backup (JSON)</button><button id="imp">⬆ Import backup…</button><input type="file" id="impFile" accept="application/json,.json" hidden></div></div>
   <div class="card"><h2>Demo data</h2><p class="mut">Loads a small set of example paddocks, cows, milk, breeding, grass, tasks and compliance records into your account (all flagged as demo). Only your own account is affected.</p>
     <div class="row"><button id="demo">Load demo data</button><button id="undemo">Remove demo data</button><button class="danger" id="clear">🗑 Delete ALL my farm data</button></div></div>
-  <div class="card" id="credits"><h3>ℹ️ About &amp; data credits</h3><p class="mut" style="margin-top:0">Farmhand v${APP_VERSION}. Records carry <code>source: "manual"</code>; future sensor feeds can write records with <code>source: "sensor"</code> using the same structure. Compliance sections are record-keeping aids only.</p><ul class="credits"><li><b>Weather forecasts &amp; warnings:</b> Met Éireann (<a href="https://www.met.ie" target="_blank" rel="noopener">met.ie</a>), <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> and the <a href="https://www.met.ie/about-us/specialised-services/open-data" target="_blank" rel="noopener">Met Éireann open-data terms</a>. MET Norway / Yr (<a href="https://www.yr.no" target="_blank" rel="noopener">yr.no</a>), <a href="https://api.met.no/doc/License" target="_blank" rel="noopener">CC BY 4.0</a>. <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo.com</a> (<a href="https://open-meteo.com/en/license" target="_blank" rel="noopener">CC BY 4.0</a>), with model data from ECMWF, the UK Met Office, DWD (ICON) and NOAA (GFS). This app combines and averages these forecasts and estimates grass growth from them; the original data has been changed.</li><li><b>Satellite map:</b> imagery © <a href="https://www.esri.com" target="_blank" rel="noopener">Esri</a>, Maxar, Earthstar Geographics and the GIS User Community. Place and road labels © Esri.</li><li><b>Street map, place names &amp; Eircode address lookup:</b> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL), lookups via Nominatim.</li><li><b>Software:</b> <a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a> (BSD-2), Leaflet-Geoman (MIT), JSZip (MIT), supabase-js (MIT), Nunito and Cinzel fonts (SIL Open Font Licence). Farmhand logo and artwork are original to this app.</li></ul></div>`;
-  setSync();
+  <div class="card" id="credits"><h3>ℹ️ About &amp; data credits</h3><p class="mut" style="margin-top:0">Farmhand v${APP_VERSION}. Records carry <code>source: "manual"</code>; future sensor feeds can write records with <code>source: "sensor"</code> using the same structure. Compliance sections are record-keeping aids only.</p><ul class="credits"><li><b>Weather forecasts &amp; warnings:</b> Met Éireann (<a href="https://www.met.ie" target="_blank" rel="noopener">met.ie</a>), <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> and the <a href="https://www.met.ie/about-us/specialised-services/open-data" target="_blank" rel="noopener">Met Éireann open-data terms</a>. MET Norway / Yr (<a href="https://www.yr.no" target="_blank" rel="noopener">yr.no</a>), <a href="https://api.met.no/doc/License" target="_blank" rel="noopener">CC BY 4.0</a>. <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo.com</a> (<a href="https://open-meteo.com/en/license" target="_blank" rel="noopener">CC BY 4.0</a>), with model data from ECMWF, the UK Met Office, DWD (ICON) and NOAA (GFS). This app combines and averages these forecasts and estimates grass growth from them; the original data has been changed.</li><li><b>Satellite map:</b> imagery © <a href="https://www.esri.com" target="_blank" rel="noopener">Esri</a>, Maxar, Earthstar Geographics and the GIS User Community. Place and road labels © Esri.</li><li><b>Street map, place names &amp; Eircode address lookup:</b> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL), lookups via Nominatim.</li><li><b>Software:</b> <a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a> (BSD-2), Leaflet-Geoman (MIT), JSZip (MIT), supabase-js (MIT), Nunito and Cinzel fonts (SIL Open Font Licence). Farmhand logo and artwork are original to this app.</li></ul><ul class="credits" id="cropCreds">${cropCreditsHTML()}</ul></div>`;
+  setSync(); bindFarmSetup(el);
+  if(!CROPIDX) loadCropIndex().then(()=>{ const u=$('#cropCreds'); if(u) u.innerHTML=cropCreditsHTML(); }).catch(()=>{});
+  if(routeArg==='credits') setTimeout(()=>$('#credits')?.scrollIntoView());
   const prevLL=[s.lat,s.lon];
   $('#sSave',el).onclick=()=>{ Object.assign(s,{farmName:$('#sFarm').value.trim(), herdNumber:$('#sHerd').value.trim(), lat:parseFloat($('#sLat').value)||s.lat, lon:parseFloat($('#sLon').value)||s.lon, mPerUnit:parseFloat($('#sScale').value)||1});
     const e=normEircode($('#sEir').value); if(e) s.eircode=e; else if(!$('#sEir').value.trim()) s.eircode='';

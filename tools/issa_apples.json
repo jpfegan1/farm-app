@@ -1,0 +1,914 @@
+{
+"source": "https://irishseedsavers.ie/resource/flowering-times-pollination-information/",
+"rows": [
+[
+"Name",
+"Use",
+"Flowering",
+"Picking",
+"Tip",
+"Spur",
+"Origin"
+],
+[
+"Aherne Beauty",
+"Cooker",
+"Mid",
+"Sept",
+"",
+"V",
+"Northern Ireland"
+],
+[
+"Allington Pippin",
+"Eater",
+"Mid",
+"Oct",
+"",
+"V",
+"U.K"
+],
+[
+"An Cailín Bán",
+"Cooker",
+"Mid",
+"Sept",
+"",
+"V",
+"Under Research"
+],
+[
+"Appletown Wonder",
+"Eater",
+"Late",
+"Oct-Nov",
+"",
+"V",
+"Limerick"
+],
+[
+"April Queen",
+"Cooker",
+"Late",
+"Sept",
+"",
+"V",
+"Armagh"
+],
+[
+"Ard Cairn Russet",
+"Eater",
+"Late",
+"Sept",
+"",
+"V",
+"Cork"
+],
+[
+"Ballinora Pippin aka Monarch",
+"Eater",
+"Mid",
+"Nov-Jan",
+"",
+"V",
+"Cork"
+],
+[
+"Ballyfatten",
+"Cooker",
+"Late",
+"Sept",
+"V",
+"",
+"Derry"
+],
+[
+"Ballyvaughan Seedling (aka White Moss)",
+"Dual",
+"Late",
+"Sept",
+"",
+"V",
+"Clare, Kilkenny"
+],
+[
+"Bardsey Island",
+"Eater",
+"Early",
+"Sept",
+"",
+"V",
+"Bardsey Island, UK"
+],
+[
+"Barnhill Pippin",
+"Dual",
+"Mid",
+"Sept",
+"",
+"V",
+"Cork"
+],
+[
+"Beauty of Ballintaylor",
+"Dual",
+"Mid",
+"Aug-Sept",
+"",
+"V",
+"Tipperary / Waterford"
+],
+[
+"Beauty of Bath",
+"Eater",
+"Early",
+"Aug",
+"",
+"V",
+"Somerset, UK"
+],
+[
+"Belvedere House",
+"Cooker",
+"Early",
+"Sept",
+"",
+"V",
+"Westmeath"
+],
+[
+"Blenheim Orange",
+"Dual",
+"Mid***",
+"Sept",
+"V",
+"V",
+"England"
+],
+[
+"Blood of the Boyne (aka Devonshire Quarrenden)",
+"Eater",
+"Early",
+"Sept",
+"",
+"V",
+"Meath"
+],
+[
+"Bloody Butcher*** (aka Vajki Alma)",
+"Dual",
+"Mid***",
+"Sept",
+"",
+"V",
+"Kilkenny, Meath, Offaly"
+],
+[
+"Brady",
+"Eater",
+"Late",
+"Sept",
+"",
+"V",
+"Roscommon"
+],
+[
+"Brown Crofton",
+"Dual",
+"Mid",
+"Sept",
+"",
+"V",
+"Dublin"
+],
+[
+"Buttermilk Russet",
+"Dual",
+"Late",
+"Sept",
+"",
+"V",
+"Armagh"
+],
+[
+"Buttermilk Russet B",
+"Dual",
+"Early",
+"Aug-Sept",
+"",
+"V",
+"Armagh"
+],
+[
+"Cabbage Stalk",
+"Dual",
+"Mid",
+"Aug-Sept",
+"",
+"V",
+"Cavan"
+],
+[
+"Cavan Newington (aka Summer Stibbert)",
+"Dual",
+"Mid***",
+"Aug-Sept",
+"",
+"V",
+"West of England"
+],
+[
+"Cavan Rose (aka Newton Wonder)",
+"Dual",
+"Late",
+"Sept",
+"",
+"V",
+"Cavan"
+],
+[
+"Cavan Strawberry",
+"Cooker",
+"Early",
+"Sept",
+"",
+"V",
+"Cavan"
+],
+[
+"Cavan Sugarcane",
+"Eater",
+"Mid",
+"Sept",
+"",
+"V",
+"Cavan"
+],
+[
+"Cavan Wine",
+"Cooker",
+"Mid",
+"Sept",
+"",
+"V",
+"Cavan"
+],
+[
+"Cider Caledon (aka Gibby’s Apple)",
+"Cider / Juicer",
+"Early",
+"Sept",
+"",
+"V",
+"Tyrone"
+],
+[
+"Clearheart",
+"Dual",
+"Late",
+"Sept",
+"",
+"V",
+"Kilkenny"
+],
+[
+"Councillor",
+"Dual",
+"Mid",
+"Sept",
+"",
+"V",
+"Dublin"
+],
+[
+"Custard Scarlet",
+"Dual",
+"Late",
+"Oct",
+"",
+"V",
+"Clare"
+],
+[
+"Davy Apple",
+"Eater",
+"Late",
+"Sept",
+"",
+"V",
+"Monaghan"
+],
+[
+"Detta Phelan",
+"Eater",
+"Mid",
+"Aug-Sept",
+"",
+"V",
+"Under Research"
+],
+[
+"Dick Davies",
+"Eater",
+"Late",
+"Sept",
+"",
+"V",
+"Cork"
+],
+[
+"Dockney",
+"Cider / Juicer",
+"Late",
+"Sept",
+"V",
+"V",
+"Armagh"
+],
+[
+"Ecklinville Seedling (aka Glory of the West)",
+"Cooker",
+"Mid",
+"Sept",
+"",
+"V",
+"Antrim"
+],
+[
+"Eight Square (aka Kill Apple)",
+"Eater",
+"Late",
+"Sept",
+"",
+"V",
+"Monaghan"
+],
+[
+"Evagil (aka Yellow Pitcher)",
+"Eater",
+"Late",
+"Sept-Oct",
+"",
+"V",
+"Sligo"
+],
+[
+"Farrell",
+"Eater",
+"Mid",
+"Sept-Oct",
+"V",
+"",
+"Waterford"
+],
+[
+"Finola Lee",
+"Dual",
+"Mid",
+"Oct",
+"",
+"V",
+"Limerick"
+],
+[
+"Franks Seedling",
+"Dual",
+"Late",
+"Sept",
+"",
+"V",
+"Offaly"
+],
+[
+"George",
+"Eater",
+"Mid",
+"Sept-Oct",
+"",
+"V",
+"Under Research"
+],
+[
+"Gibbon’s Russet",
+"Eater",
+"Mid",
+"Sept",
+"",
+"V",
+"Cork"
+],
+[
+"Gladstone (aka Jackson’s Seedling)",
+"Eater",
+"Mid",
+"Aug",
+"",
+"V",
+"UK"
+],
+[
+"Glenstal Cooker (aka Dewdney’s Seedling)",
+"Cooker",
+"Late",
+"Sept",
+"",
+"V",
+"Limerick"
+],
+[
+"Golden Royal (aka Honeycombe)",
+"Eater",
+"Late",
+"Sept",
+"",
+"V",
+"Cavan"
+],
+[
+"Golden Spire",
+"Dual",
+"Late",
+"Sept",
+"",
+"V",
+"England"
+],
+[
+"Greasy Pippin",
+"Dual",
+"Mid",
+"Oct-Nov",
+"",
+"V",
+"Fermanagh"
+],
+[
+"Green Chisel",
+"Eater",
+"Late",
+"Sept-Oct",
+"",
+"V",
+"Donegal"
+],
+[
+"Herbert Russet",
+"Eater",
+"Early",
+"Oct",
+"",
+"V",
+"Under Research"
+],
+[
+"Honeyball",
+"Eater",
+"Mid",
+"Sept",
+"",
+"V",
+"Kilkenny"
+],
+[
+"Horse’s Head",
+"Cooker",
+"Early",
+"Aug-Sept",
+"",
+"V",
+"Under Research"
+],
+[
+"Irish Molly",
+"Eater",
+"Mid",
+"Sept",
+"",
+"V",
+"Kilkenny"
+],
+[
+"Irish Peach",
+"Eater",
+"Early",
+"Aug",
+"V",
+"",
+"Sligo & Nationwide"
+],
+[
+"Irish Pitcher",
+"Eater",
+"Mid",
+"Sept-Oct",
+"",
+"V",
+"Sligo / Mayo"
+],
+[
+"James Beauty",
+"Eater",
+"Early",
+"Aug",
+"",
+"V",
+"Under Research"
+],
+[
+"Keegan’s",
+"Eater",
+"Late",
+"Oct-Feb",
+"V",
+"V",
+"Armagh"
+],
+[
+"Kemp",
+"Eater",
+"Late",
+"Oct",
+"",
+"V",
+"Armagh"
+],
+[
+"Kerry Pippin",
+"Eater",
+"Early",
+"Sept",
+"V",
+"V",
+"Nationwide"
+],
+[
+"Keswick Codlin (aka Barron Cocagee)",
+"Cooker",
+"Unknown",
+"Sept",
+"",
+"V",
+"UK"
+],
+[
+"Kilkenny Pearmain",
+"Eater",
+"Late",
+"Sept",
+"",
+"V",
+"Kilkenny"
+],
+[
+"Kiltoghert Blossom",
+"Eater",
+"Unknown",
+"Sept",
+"",
+"V",
+"Leitrim"
+],
+[
+"Lady Sudeley",
+"Eater",
+"Late",
+"Aug-Sept",
+"",
+"V",
+"England"
+],
+[
+"Lady’s Finger",
+"Eater",
+"Mid***",
+"Oct-Dec",
+"",
+"V",
+"Offaly Monaghan"
+],
+[
+"Langan’s Permain",
+"Eater",
+"Mid",
+"Sept-Oct",
+"V",
+"",
+"Mayo"
+],
+[
+"Leitrim Red (aka Red Victoria)",
+"Eater",
+"Early",
+"Aug-Sept",
+"",
+"V",
+"Leitrim, Cambridgeshire UK"
+],
+[
+"Leixlip",
+"Cooker",
+"Late",
+"Sept",
+"",
+"V",
+"Kilkenny / Kildare"
+],
+[
+"Lough Key Crab",
+"Cooker",
+"Early",
+"Sept",
+"",
+"V",
+"Roscommon"
+],
+[
+"Lough Tree of Wexford",
+"Eater",
+"Mid",
+"Sep-Oct",
+"",
+"V",
+"Wexford"
+],
+[
+"Martin’s Seedling (aka No Surrender)",
+"Cooker",
+"Mid",
+"Aug",
+"",
+"V",
+"Armagh"
+],
+[
+"Millers Seedling",
+"Eater",
+"Mid",
+"Aug-Sept",
+"",
+"V",
+"England"
+],
+[
+"Minogue White Mossy",
+"Eater",
+"Mid",
+"Sept",
+"",
+"V",
+"Under Research"
+],
+[
+"Mrs Perry",
+"Dual",
+"Mid",
+"Sept",
+"",
+"V",
+"Donegal"
+],
+[
+"Norfolk Royal",
+"Eater",
+"Mid",
+"Sep",
+"",
+"V",
+"Norfolk, UK"
+],
+[
+"O’Gorman",
+"Cooker",
+"Late",
+"Aug",
+"",
+"V",
+"Clare"
+],
+[
+"Peach Melba (aka Peche Melba)",
+"Eater",
+"Mid",
+"Sept",
+"",
+"V",
+"Kilkenny"
+],
+[
+"Piltown Early Red",
+"Cooker",
+"Early",
+"Aug",
+"",
+"V",
+"Kilkenny"
+],
+[
+"Pollock Crab",
+"Cooker",
+"Early",
+"Sept",
+"",
+"V",
+"Under Research"
+],
+[
+"Rawleys Seedling",
+"Eater",
+"Mid",
+"Sept",
+"",
+"V",
+"Cork"
+],
+[
+"Red Brandy",
+"Eater",
+"Late",
+"Sept",
+"",
+"V",
+"Kilkenny"
+],
+[
+"Reid’s Seedling",
+"Eater",
+"Late",
+"Sept",
+"",
+"V",
+"Armagh"
+],
+[
+"Richardson (aka Histon Favourite)",
+"Eater",
+"Late",
+"Sept",
+"",
+"V",
+"Kilkenny"
+],
+[
+"Rose Hogan Seedling",
+"Eater",
+"Early",
+"Aug",
+"",
+"V",
+"Under Research"
+],
+[
+"Ross Nonpareil",
+"Eater",
+"Early",
+"Nov-Jan",
+"",
+"V",
+"Nationwide"
+],
+[
+"Sam Young",
+"Eater",
+"Early",
+"Sept",
+"",
+"V",
+"Kilkenny, Offaly, Cavan"
+],
+[
+"Scarlet Crofton",
+"Eater",
+"Late",
+"Aug-Sept",
+"",
+"V",
+"Sligo & Nationwide"
+],
+[
+"Sheep’s Snout (Green)",
+"Dual/Cider",
+"Mid",
+"Sept",
+"",
+"V",
+"Cavan, Westmeath, Waterford"
+],
+[
+"Sheep’s Snout (Red)",
+"Dual/Cider",
+"Mid",
+"Sept",
+"",
+"V",
+"Cavan, Westmeath, Waterford"
+],
+[
+"Sheep’s Snout (Yellow)",
+"Dual/Cider",
+"Mid",
+"Sept",
+"",
+"V",
+"Cavan, Westmeath, Waterford"
+],
+[
+"Sovereign (aka Lass O’Gowrie)",
+"Dual",
+"Early",
+"Aug-Sept",
+"",
+"V",
+"Armagh"
+],
+[
+"Strippy",
+"Eater",
+"Mid",
+"Sept-Oct",
+"",
+"V",
+"Armagh"
+],
+[
+"Summer John",
+"Eater",
+"Mid",
+"Sept",
+"",
+"V",
+"Fermanagh"
+],
+[
+"Thompson’s Apple",
+"Eater",
+"Late",
+"Oct",
+"",
+"V",
+"Tyrone"
+],
+[
+"Turkey Willouby",
+"Eater",
+"Mid",
+"Aug-Sept",
+"V",
+"",
+"Northern Ireland"
+],
+[
+"Valentine",
+"Cooker/Cider",
+"Mid",
+"Sept",
+"",
+"V",
+"Kilkenny"
+],
+[
+"White Crofton",
+"Eater",
+"Mid",
+"Sept",
+"V",
+"",
+"Sligo & Nationwide"
+],
+[
+"White Russet – O’Dwyer",
+"Cooker",
+"Mid",
+"Sept",
+"",
+"V",
+"Under Research"
+],
+[
+"White Russet (aka Queen Caroline)",
+"Cooker",
+"Mid",
+"Oct",
+"",
+"V",
+"Nationwide"
+],
+[
+"Widow’s Friend (aka Stark’s Earliest)",
+"Eater",
+"Early",
+"Sept",
+"",
+"V",
+"Armagh"
+],
+[
+"Yellow Clare",
+"Eater",
+"Late",
+"Sept-Oct",
+"",
+"V",
+"Clare"
+]
+]
+}

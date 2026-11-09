@@ -7,3 +7,5 @@ test-weather.js
 test-design.js
 test-credits.js
 test-brand.js
+test-v4.js
+__pycache__/
