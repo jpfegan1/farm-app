@@ -142,6 +142,7 @@ canvas.chart{width:100%;display:block;background:linear-gradient(180deg,#eefaf2,
 .subtabs button{flex:0 0 auto;border-radius:999px}
 .empty{padding:22px 14px;text-align:center;color:var(--mut);font-weight:700;background:#fffdf3;border:2px dashed #f0dfa8;border-radius:18px}
 .empty .emo{display:block;font-size:40px;line-height:1.1;margin-bottom:6px}
+.credits{margin:0;padding-left:18px;font-size:12.5px;line-height:1.45;color:var(--mut);font-weight:600}.credits li{margin-bottom:5px}.credits b{color:var(--tx)}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--soil);color:#fff;padding:12px 20px;border-radius:999px;z-index:100;font-size:15px;font-weight:800;max-width:92vw;border:3px solid var(--sun);box-shadow:0 6px 20px #0004}
 #printArea{display:none}
 #auth{max-width:440px;margin:26px auto;padding:0 14px}
@@ -591,13 +592,16 @@ async function fetchWeather(force){
     return out; })().finally(()=>{ wxPromise=null; });
   return wxPromise;
 }
-function wxConsensus(wx){ const by={}; WX_IDS.forEach(id=>(wx.src[id]?.days||[]).forEach(d=>{ (by[d.date]=by[d.date]||[]).push({...d,id}); }));
-  const m=a=>a.length?sum(a)/a.length:null;
-  return Object.keys(by).sort().slice(0,7).map(date=>{ const a=by[date]; const r=a.map(x=>x.rain).filter(x=>x!=null);
-    return {date, n:a.length, tmax:m(a.map(x=>x.tmax)), tmin:m(a.map(x=>x.tmin)), rain:m(r), rainMin:Math.min(...r), rainMax:Math.max(...r), wetVotes:r.filter(x=>x>=1).length,
-      wind:m(a.map(x=>x.wind).filter(x=>x!=null)), gust:m(a.map(x=>x.gust).filter(x=>x!=null)), code:null, sym:null}; }); }
-function wxDaysFor(wx, id){ if(!wx) return []; if(id==='consensus') return wxConsensus(wx); return wx.src[id]?.days||[]; }
-function growthSourceId(wx){ const want=S.settings.wxGrowthSource||'metie'; if(wx && wxDaysFor(wx,want).length) return want; return wx && WX_IDS.find(i=>wx.src[i]?.days?.length) || want; }
+/* One blended forecast: weighted mean of every source with data for the day (Met Éireann counts most). */
+const WX_W={metie:3, metno:1.5, ecmwf:1, ukmo:1, icon:1, gfs:1};
+function wxBlend(wx){ const by={}; WX_IDS.forEach(id=>(wx.src[id]?.days||[]).forEach(d=>{ (by[d.date]=by[d.date]||[]).push({...d,id,w:WX_W[id]||1}); }));
+  const wm=(a,k)=>{ const v=a.filter(x=>x[k]!=null); const W=sum(v.map(x=>x.w)); return W?sum(v.map(x=>x[k]*x.w))/W:null; };
+  return Object.keys(by).sort().slice(0,7).map(date=>{ const a=by[date]; const r=a.filter(x=>x.rain!=null); const W=sum(r.map(x=>x.w));
+    const symSrc=a.find(x=>x.id==='metie'&&x.sym)||a.find(x=>x.sym); const codeSrc=a.find(x=>x.code!=null);
+    return {date, n:a.length, tmax:wm(a,'tmax'), tmin:wm(a,'tmin'), rain:wm(a,'rain'), chance:a.length>1&&W?Math.round(100*sum(r.filter(x=>x.rain>=1).map(x=>x.w))/W):null,
+      wind:wm(a,'wind'), gust:wm(a,'gust'), sym:symSrc?symSrc.sym:null, code:symSrc?null:(codeSrc?codeSrc.code:null)}; }); }
+function wxDaysFor(wx, id){ if(!wx) return []; if(id==='blend') return wxBlend(wx); return wx.src[id]?.days||[]; }
+function growthSourceId(wx){ return wx && wxDaysFor(wx,'metie').length ? 'metie' : 'blend'; } // Met Éireann for grass by default, else the blend
 function growthDays(wx){ if(!wx) return []; const id=growthSourceId(wx); const days=wxDaysFor(wx,id).slice(0,7); const rain7=sum(days.map(d=>d.rain));
   return days.map(d=>{ const soil=wx.soil?.[d.date]??(d.tmax!=null?(d.tmax+d.tmin)/2:null); return {...d, soil, soilEst:wx.soil?.[d.date]==null, et0:wx.et0?.[d.date]??null, growth:weatherGrowthEstimate(soil,d.rain,rain7)}; }); }
 const kmh = ms => ms==null?null:ms*3.6;
@@ -606,29 +610,18 @@ function dayName(date){ const dn=['Sun','Mon','Tue','Wed','Thu','Fri','Sat']; re
 function wxStrip(wxIn){ // compact strip used on Home and Grass: the grass-growth source, with growth estimate
   if(!farmLocSet()) return wxNoLocation();
   const wx=wxForHere(wxIn); if(!wx) return `<div class="mut">No weather for your farm yet${navigator.onLine?' — loading…':' (offline — will load when you have signal)'}.</div>`;
-  const id=growthSourceId(wx); const days=growthDays(wx);
+  const days=growthDays(wx);
   return `<div class="wx">${days.map(d=>`<div><b>${dayName(d.date)}</b><span style="font-size:20px">${d.sym?symIcon(d.sym):wxIcon(d.code)}</span><br>${num(d.tmax)}° / ${num(d.tmin)}°<br>💧 ${num(d.rain,1)} mm<br>💨 ${num(kmh(d.wind))} km/h<br>Soil ${num(d.soil,1)}°${d.soilEst?'*':''}<br><span class="pill grn" title="Estimated growth kg DM/ha/day">~${num(d.growth)} kg</span></div>`).join('')}</div>
-  <div class="hint">${esc(id==='consensus'?'Average of all sources':WX_SRC[id].name)} forecast for ${esc(S.settings.locName||'your farm')} (${num(wx.lat,4)}, ${num(wx.lon,4)}) · updated ${fmtWhen(wx.fetchedAt)}${navigator.onLine?'':' · offline, showing last download'}. Soil temperature: ECMWF/ICON via Open-Meteo${days.some(d=>d.soilEst)?' (* = estimated from air temperature)':''}. Growth (kg DM/ha/day) is a rough <b>estimate</b> from soil temperature and rain only. <a href="#weather">Compare all forecasts →</a></div>${warnBanner(wx,true)}`; }
+  <div class="hint">Forecast for ${esc(S.settings.locName||'your farm')} (${num(wx.lat,4)}, ${num(wx.lon,4)}) · updated ${fmtWhen(wx.fetchedAt)}${navigator.onLine?'':' · offline, showing last download'}.${days.some(d=>d.soilEst)?' * = soil temperature estimated from air temperature.':''} Growth (kg DM/ha/day) is a rough <b>estimate</b> from soil temperature and rain only. <a href="#weather">Full forecast →</a></div>${warnBanner(wx,true)}`; }
 function wxNoLocation(){ return `<div class="banner" style="margin:0">📍 <b>Set your farm location</b> to get the weather and grass-growth forecast for your land. <button class="sm pri" data-gomap>Set location on the map</button></div>`; }
 document.addEventListener('click',e=>{ const b=e.target.closest&&e.target.closest('[data-gomap]'); if(b){ MAP.view='sat'; MAP.mode='view'; go('map'); setTimeout(()=>{ if(route==='map') locationDialog(); },150); } });
-/* Met Éireann forecast pages that exist (checked once), for 'nearest town' links: [slug, name, lat, lon] */
-const METIE_TOWNS=[["carlow-town","Carlow",52.841,-6.926],["sligo-town","Sligo",54.272,-8.475],["waterford-city","Waterford",52.261,-7.112],["wexford-town","Wexford",52.337,-6.46],["cavan-town","Cavan",53.991,-7.36],["tipperary-town","Tipperary",52.473,-8.161],["ardee-louth","Ardee",53.855,-6.539],["arklow","Arklow",52.798,-6.154],["ashbourne-meath","Ashbourne",53.512,-6.398],["athenry-galway","Athenry",53.302,-8.749],["athlone","Athlone",53.423,-7.943],["athy","Athy",52.992,-6.984],["balbriggan-dublin","Balbriggan",53.612,-6.182],["ballina-mayo","Ballina",54.114,-9.153],["ballinasloe-galway","Ballinasloe",53.33,-8.221],["ballincollig-cork","Ballincollig",51.888,-8.592],["ballybay-monaghan","Ballybay",54.129,-6.903],["ballyhaunis-mayo","Ballyhaunis",53.762,-8.759],["ballymote-sligo","Ballymote",54.089,-8.516],["bandon-cork","Bandon",51.746,-8.737],["bantry-cork","Bantry",51.68,-9.452],["belturbet-cavan","Belturbet",54.101,-7.444],["birr-offaly","Birr",53.106,-7.757],["blackrock-dublin","Blackrock",53.302,-6.179],["boyle-roscommon","Boyle",53.991,-8.266],["bray","Bray",53.201,-6.111],["cahir","Cahir",52.378,-7.923],["carrickmacross-monaghan","Carrickmacross",53.977,-6.719],["carrick-on-shannon-leitrim","Carrick-on-Shannon",53.944,-8.095],["carrick-on-suir-tipperary","Carrick-on-Suir",52.349,-7.413],["carrigaline-cork","Carrigaline",51.815,-8.392],["cashel-tipperary","Cashel",52.517,-7.888],["castlebar-mayo","Castlebar",53.857,-9.298],["castlerea-roscommon","Castlerea",53.762,-8.486],["charleville-cork","Charleville",52.355,-8.683],["claremorris-mayo","Claremorris",53.72,-8.999],["clifden","Clifden",53.488,-10.021],["clones-monaghan","Clones",54.179,-7.232],["clonmel-tipperary","Clonmel",52.361,-7.699],["cobh","Cobh",51.85,-8.295],["cootehill-cavan","Cootehill",54.073,-7.082],["dunmanway-cork","Dunmanway",51.72,-9.113],["watergrasshill-cork","Watergrasshill",52.027,-8.349],["whitechurch-cork","Whitechurch",51.981,-8.514],["delgany-wicklow","Delgany",53.133,-6.092],["donegal","Donegal",54.654,-8.11],["drogheda-louth","Drogheda",53.715,-6.352],["dunboyne-meath","Dunboyne",53.419,-6.476],["dundalk-louth","Dundalk",54.005,-6.401],["dungarvan-waterford","Dungarvan",52.09,-7.621],["dunshaughlin-meath","Dunshaughlin",53.512,-6.539],["edenderry-offaly","Edenderry",53.343,-7.049],["enfield-meath","Enfield",53.416,-6.834],["ennis-clare","Ennis",52.844,-8.984],["enniscorthy-wexford","Enniscorthy",52.505,-6.566],["gorey-wexford","Gorey",52.671,-6.292],["greystones-wicklow","Greystones",53.145,-6.063],["kells-meath","Kells",53.727,-6.877],["kilcoole-wicklow","Kilcoole",53.107,-6.041],["kildare-kildare","Kildare",53.157,-6.912],["killarney-kerry","Killarney",52.06,-9.505],["kilmacthomas-waterford","Kilmacthomas",52.213,-7.417],["kilmallock-limerick","Kilmallock",52.401,-8.571],["kilrush-clare","Kilrush",52.64,-9.483],["kingscourt-cavan","Kingscourt",53.905,-6.805],["kinsale-cork","Kinsale",51.706,-8.523],["letterkenny-donegal","Letterkenny",54.952,-7.735],["lifford-donegal","Lifford",54.833,-7.483],["longford-longford","Longford",53.73,-7.789],["loughrea-galway","Loughrea",53.198,-8.569],["lusk","Lusk",53.524,-6.167],["macroom-cork","Macroom",51.905,-8.96],["malahide","Malahide",53.451,-6.154],["mallow-cork","Mallow",52.139,-8.655],["maynooth-kildare","Maynooth",53.383,-6.592],["midleton-cork","Midleton",51.921,-8.176],["mitchelstown-cork","Mitchelstown",52.26,-8.238],["monasterevin-kildare","Monasterevin",53.143,-7.063],["mullingar-westmeath","Mullingar",53.526,-7.341],["naas-kildare","Naas",53.221,-6.657],["navan-meath","Navan",53.653,-6.684],["nenagh-tipperary","Nenagh",52.862,-8.197],["new-ross-wexford","New Ross",52.396,-6.945],["newbridge-kildare","Newbridge",53.18,-6.798],["newcastle-wicklow","Newcastle",53.071,-6.064],["newcastle-west-limerick","Newcastle West",52.449,-9.053],["newtownmountkennedy-wicklow","Newtownmountkennedy",53.09,-6.111],["portlaoise-laois","Portlaoise",53.034,-7.3],["rathnew-wicklow","Rathnew",52.995,-6.082],["ratoath-meath","Ratoath",53.507,-6.464],["roscrea-tipperary","Roscrea",52.955,-7.799],["rush-dublin","Rush",53.522,-6.091],["shannon-clare","Shannon",52.691,-8.619],["skerries-dublin","Skerries",53.574,-6.119],["skibbereen","Skibbereen",51.548,-9.266],["summerhill-meath","Summerhill",53.481,-6.732],["thurles","Thurles",52.677,-7.822],["tralee-kerry","Tralee",52.269,-9.706],["tuam-galway","Tuam",53.515,-8.851],["tullamore-offaly","Tullamore",53.274,-7.493],["virginia-cavan","Virginia",53.835,-7.083],["westport","Westport",53.8,-9.52],["wicklow","Wicklow",52.98,-6.041],["youghal-cork","Youghal",51.949,-7.843],["dublin-city","Dublin",53.349,-6.26],["cork-city","Cork",51.898,-8.475],["limerick-city","Limerick",52.661,-8.63]];
 /* Met Éireann weather warnings (shown as published, required by Met Éireann's open-data licence) */
 const EI_COUNTY={EI01:'Carlow',EI02:'Cavan',EI03:'Clare',EI04:'Cork',EI06:'Donegal',EI07:'Dublin',EI10:'Galway',EI11:'Kerry',EI12:'Kildare',EI13:'Kilkenny',EI14:'Laois',EI15:'Leitrim',EI16:'Limerick',EI18:'Longford',EI19:'Louth',EI20:'Mayo',EI21:'Meath',EI22:'Monaghan',EI23:'Offaly',EI24:'Roscommon',EI25:'Sligo',EI26:'Tipperary',EI27:'Waterford',EI29:'Westmeath',EI30:'Wexford',EI31:'Wicklow'};
 function warnList(wx){ const now=Date.now(); return (wx?.warn?.list||[]).filter(w=>!w.expiry||Date.parse(w.expiry)>now); }
 function warnMine(w){ const c=(S.settings.locCounty||'').replace(/^County\s+/i,''); return !!c && (w.regions||[]).some(r=>EI_COUNTY[r]===c); }
-function warnBanner(wx, compact){ const L=warnList(wx); if(!L.length) return compact?'':`<div class="mut">No Met Éireann weather warnings in force${wx?.warn?.at?` (checked ${fmtWhen(wx.warn.at)})`:''}.</div>`;
+function warnBanner(wx, compact){ const L=warnList(wx); if(!L.length) return compact?'':`<div class="mut">No weather warnings in force${wx?.warn?.at?` (checked ${fmtWhen(wx.warn.at)})`:''}.</div>`;
   const col=s=>/red/i.test(s)?'#c62828':/orange/i.test(s)?'#ef6c00':'#f9a825';
-  return L.map(w=>`<div class="banner" style="border-left:6px solid ${col(w.level||w.severity)};margin-top:8px">⚠️ <b>${esc(w.level||'')} ${esc(w.type||'')} warning${warnMine(w)?' — includes your county':''}</b>: ${esc(w.headline||'')}${compact?'':`<br>${esc(w.description||'')}<br><span class="mut">Valid ${fmtWhen(w.onset)} – ${fmtWhen(w.expiry)} · Areas: ${esc((w.regions||[]).map(r=>EI_COUNTY[r]||r).join(', '))} · Issued ${fmtWhen(w.issued||w.updated)}</span>`} <a href="https://www.met.ie/warnings" target="_blank" rel="noopener">met.ie/warnings</a></div>`).join(''); }
-/* links to each provider's own forecast page for this spot */
-function geohash(lat,lon,p=9){ const B='0123456789bcdefghjkmnpqrstuvwxyz'; let la=[-90,90], lo=[-180,180], h='', bit=0, ch=0, ev=true;
-  while(h.length<p){ const r=ev?lo:la, v=ev?lon:lat, mid=(r[0]+r[1])/2; if(v>=mid){ ch=ch*2+1; r[0]=mid; } else { ch=ch*2; r[1]=mid; } ev=!ev; if(++bit===5){ h+=B[ch]; bit=0; ch=0; } } return h; }
-function nearestMetTown(lat,lon){ let best=null, bd=1e9; METIE_TOWNS.forEach(([slug,name,la,lo])=>{ const d=(la-lat)**2+((lo-lon)*Math.cos(lat*Math.PI/180))**2; if(d<bd){ bd=d; best=[slug,name]; } }); return best; }
-function wxLink(id){ const s=S.settings, la=(+s.lat).toFixed(4), lo=(+s.lon).toFixed(4), w=m=>`https://www.windy.com/?${m},${(+s.lat).toFixed(3)},${(+s.lon).toFixed(3)},11`;
-  if(id==='metie'){ const t=nearestMetTown(+s.lat,+s.lon); return t?[`https://www.met.ie/weather-forecast/${t[0]}`,`met.ie – ${t[1]} (nearest town)`]:['https://www.met.ie/forecasts','met.ie forecasts']; }
-  if(id==='metno') return [`https://www.yr.no/en/forecast/daily-table/${la},${lo}`,'yr.no – this spot'];
-  if(id==='ukmo') return [`https://weather.metoffice.gov.uk/forecast/${geohash(+s.lat,+s.lon)}`,'metoffice.gov.uk – nearest place'];
-  return [w({ecmwf:'ecmwf',icon:'iconEu',gfs:'gfs'}[id]||'ecmwf'),'windy.com – this model']; }
+  return L.map(w=>`<div class="banner" style="border-left:6px solid ${col(w.level||w.severity)};margin-top:8px">⚠️ <b>Weather warning</b> — <b>${esc([w.level,w.type].filter(Boolean).join(' '))}</b>${warnMine(w)?' · <b>includes your county</b>':''}: ${esc(w.headline||'')}${compact?'':`<br>${esc(w.description||'')}<br><span class="mut">Valid ${fmtWhen(w.onset)} – ${fmtWhen(w.expiry)} · Areas: ${esc((w.regions||[]).map(r=>EI_COUNTY[r]||r).join(', '))} · Issued ${fmtWhen(w.issued||w.updated)}</span>`}</div>`).join(''); }
 async function reverseGeocode(){ const s=S.settings; if(!farmLocSet()||!navigator.onLine) return; const key=`${(+s.lat).toFixed(4)},${(+s.lon).toFixed(4)}`; if(s.locNameFor===key) return;
   try{ const r=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=14&lat=${s.lat}&lon=${s.lon}`,{headers:{'Accept-Language':'en'}}); if(!r.ok) return; const j=await r.json(); const a=j.address||{};
     const place=a.village||a.town||a.hamlet||a.locality||a.city||a.suburb||a.municipality||''; const county=a.county||a.state_district||'';
@@ -860,8 +853,7 @@ VIEWS.map = el => {
 };
 function buildLeaflet(){
   const div=$('#lmap'); if(!div) return; const s=S.settings;
-  LMAP=L.map(div,{zoomControl:true, tapTolerance:20, maxZoom:21, worldCopyJump:false});
-  LMAP.attributionControl.setPrefix('<a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>');
+  LMAP=L.map(div,{zoomControl:true, attributionControl:false, tapTolerance:20, maxZoom:21, worldCopyJump:false}); // credits are listed in Settings → About & data credits
   if(MAP.base==='sat'){ L.tileLayer(...TILES.sat).addTo(LMAP); if(MAP.labels){ L.tileLayer(...TILES.roads).addTo(LMAP); L.tileLayer(...TILES.places).addTo(LMAP); } }
   else L.tileLayer(...TILES.street).addTo(LMAP);
   L.control.scale({imperial:false}).addTo(LMAP);
@@ -912,7 +904,7 @@ function placeSketchShapes(){ if(!LMAP) return; const s=S.settings; const c=LMAP
   toast('Placed — tap a paddock, then “Edit boundary” to line it up'); render(); }
 
 /* ---------- farm location / Eircode ---------- */
-function locSourceText(s){ return ({osm:'Eircode found in OpenStreetMap (address point)', routing:`approximate — centre of Eircode area ${s.eircode?s.eircode.slice(0,3):''}, can be 5–30 km out`, gps:'from your phone’s GPS', pin:'pin dropped on the map', coords:'coordinates entered'})[s.locSource]||''; }
+function locSourceText(s){ return ({osm:'Eircode found (exact address point)', routing:`approximate — centre of Eircode area ${s.eircode?s.eircode.slice(0,3):''}, can be 5–30 km out`, gps:'from your phone’s GPS', pin:'pin dropped on the map', coords:'coordinates entered'})[s.locSource]||''; }
 function normEircode(v){ const m=String(v||'').toUpperCase().replace(/[^A-Z0-9]/g,'').match(/^([AC-FHKNPRTV-Y]\d{2}|D6W)([0-9AC-FHKNPRTV-Y]{4})$/); return m?`${m[1]} ${m[2]}`:null; }
 async function geocodeEircode(code){
   const key=code.slice(0,3), flat=code.replace(/\s/g,'');
@@ -933,11 +925,11 @@ function locationDialog(){ const s=S.settings; const dlg=$('#dlg');
   dlg.innerHTML=`<div class="dh"><h3>📍 Farm location</h3><button class="sm" data-x>✕</button></div><div class="db">
    <label class="f"><span>Eircode</span><div class="row" style="margin:0;flex-wrap:nowrap"><input id="lEir" value="${esc(s.eircode||'')}" placeholder="e.g. A65 F4E2" autocomplete="postal-code" style="text-transform:uppercase"><button class="pri" id="lFind">Find</button></div></label>
    <div id="lRes" class="hint" style="font-size:14px"></div>
-   <p class="mut" style="margin-top:6px">How the Eircode lookup works: there is <b>no free official Eircode service</b> an app is allowed to use (the official one, Eircode Finder, is for personal look-ups on its own website only). So the app first looks for your exact Eircode in OpenStreetMap — only some Eircodes are there. If it isn’t, the app goes to the area of the first 3 characters (the routing key), which can be 5–30 km from your farm. To get the exact spot, check it on Eircode Finder, then drop a pin here.</p>
+   <p class="mut" style="margin-top:6px">How the Eircode lookup works: there is <b>no free official Eircode service</b> an app is allowed to use (the official one, Eircode Finder, is for personal look-ups on its own website only). So the app first looks for your exact Eircode in a free open address map — only some Eircodes are there. If it isn’t, the app goes to the area of the first 3 characters (the routing key), which can be 5–30 km from your farm. To get the exact spot, check it on Eircode Finder, then drop a pin here.</p>
    <div class="row"><button id="lFinder">🔎 Check on Eircode Finder ↗</button><button id="lPin">📌 Drop a pin on the map</button><button id="lGps">🎯 Use my GPS location</button></div>
    <label class="f"><span>Or paste coordinates or a Google Maps link</span><div class="row" style="margin:0;flex-wrap:nowrap"><input id="lLL" placeholder="53.4239, -7.9407"><button id="lLLgo">Use</button></div></label>
    <div class="hint">Current: ${farmLocSet()?`${esc(s.eircode||'')} ${num(s.lat,5)}, ${num(s.lon,5)} — ${esc(locSourceText(s))}`:'not set — the weather and grass forecast start once you set it'}. This location is also used for the weather and grass growth forecast.</div>
-   <div class="hint">Address lookup © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors (Nominatim).</div></div>`;
+   </div>`;
   $('[data-x]',dlg).onclick=()=>dlg.close();
   const res=$('#lRes',dlg); const eir=()=>normEircode($('#lEir',dlg).value);
   $('#lFind',dlg).onclick=async()=>{ const code=eir(); if(!code){ res.innerHTML='<span class="warn">That doesn’t look like an Eircode (3 characters, then 4 — e.g. A65 F4E2).</span>'; return; }
@@ -945,7 +937,7 @@ function locationDialog(){ const s=S.settings; const dlg=$('#dlg');
     res.textContent='Looking up '+code+'…'; const r=await geocodeEircode(code);
     if(!r){ res.innerHTML=`<span class="warn">Couldn’t find ${esc(code)}${navigator.onLine?'':' (you are offline)'}. Use Eircode Finder, then drop a pin.</span>`; return; }
     setFarmLocation(r.lat,r.lon,{source:r.source,eircode:code,quiet:true});
-    toast(r.source==='osm'?`Found ${code} — map centred on it`:`${code} not in OpenStreetMap — centred on the ${code.slice(0,3)} area. Drop a pin on your farm for the exact spot.`); };
+    toast(r.source==='osm'?`Found ${code} — map centred on it`:`${code} not found as an exact address — centred on the ${code.slice(0,3)} area. Drop a pin on your farm for the exact spot.`); };
   $('#lEir',dlg).onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); $('#lFind',dlg).click(); } };
   $('#lFinder',dlg).onclick=()=>{ const code=eir(); if(code){ s.eircode=code; save(); try{ navigator.clipboard.writeText(code); toast(code+' copied — paste it into Eircode Finder'); }catch(e){} } window.open('https://finder.eircode.ie/','_blank','noopener'); };
   $('#lPin',dlg).onclick=()=>{ const code=eir(); if(code && code!==s.eircode){ s.eircode=code; save(); } dlg.close(); MAP.view='sat'; MAP.mode='pin'; if(route!=='map') go('map'); else render(); toast('Tap your farmyard on the map'); };
@@ -1307,48 +1299,26 @@ VIEWS.compliance = el => {
 };
 /* ---------- Weather view: all sources side by side for the farm location ---------- */
 function wxLocationChanged(){ reverseGeocode(); fetchWeather(true).then(()=>{ if(['weather','grass','dash'].includes(route) && !$('#dlg').open) render(); }).catch(()=>{}); }
-let wxTab='compare', wxMetric='rain';
 VIEWS.weather = el => {
   const s=S.settings;
   if(!farmLocSet()){ el.innerHTML=`<div class="card"><h2>🌦️ Weather</h2>${wxNoLocation()}<p class="mut">The forecast uses the farm location you set on the map (Eircode, dropped pin or GPS), never a default place.</p></div>`; return; }
-  const wx=wxForHere(getWeatherCache()); const gid=growthSourceId(wx);
-  const tabs=[['compare','Side by side'],['consensus','Average'],...WX_IDS.map(i=>[i,WX_SRC[i].name])];
+  const wx=wxForHere(getWeatherCache());
   el.innerHTML=`<div class="card"><div class="row" style="margin-bottom:4px"><h2 style="margin:0">🌦️ Weather for ${esc(s.locName||'your farm')}</h2><span class="sp"></span><button class="sm" id="wxRef">↻ Refresh</button><button class="sm" id="wxLoc">📍 Change location</button></div>
     <div class="mut" id="wxWhere">📍 ${num(s.lat,5)}, ${num(s.lon,5)}${s.eircode&&['osm','routing'].includes(s.locSource)?' · '+esc(s.eircode):''} · ${esc(locSourceText(s))}</div>
-    <div class="mut" id="wxWhen">${wx?`Last updated ${fmtWhen(wx.fetchedAt)}${navigator.onLine?'':' — <b>offline</b>, showing the last download'}`:(navigator.onLine?'Loading forecasts…':'Offline — no forecast saved on this device yet.')}</div></div>
-  <div class="card"><h3>⚠️ Met Éireann warnings</h3>${wx?warnBanner(wx,false):'<div class="mut">Loading…</div>'}</div>
-  <div class="subtabs">${tabs.map(([k,l])=>`<button class="sm ${wxTab===k?'on':''}" data-wt="${k}">${esc(l)}</button>`).join('')}</div>
+    <div class="mut" id="wxWhen">${wx?`Last updated ${fmtWhen(wx.fetchedAt)}${navigator.onLine?'':' — <b>offline</b>, showing the last download'}`:(navigator.onLine?'Loading forecast…':'Offline — no forecast saved on this device yet.')}</div></div>
+  <div class="card"><h3>⚠️ Weather warnings</h3>${wx?warnBanner(wx,false):'<div class="mut">Loading…</div>'}</div>
   <div class="card" id="wxMain">${wx?wxMainHTML(wx):'<div class="mut">No forecast yet.</div>'}</div>
-  <div class="card"><h3>🌱 Grass growth uses</h3><div class="row"><select id="wxGs" style="max-width:340px">${[['metie','Met Éireann (recommended — Irish)'],['consensus','Average of all sources'],...WX_IDS.filter(i=>i!=='metie').map(i=>[i,WX_SRC[i].name])].map(([k,l])=>`<option value="${k}" ${(s.wxGrowthSource||'metie')===k?'selected':''}>${esc(l)}</option>`).join('')}</select>
-    ${wx&&gid!==(s.wxGrowthSource||'metie')?`<span class="pill amb">${esc(WX_SRC[s.wxGrowthSource||'metie']?.name||'')} unavailable — using ${esc(WX_SRC[gid]?.name||gid)}</span>`:''}</div>
-    <div class="hint">Rain and temperature from this source, plus soil temperature (ECMWF/ICON via Open-Meteo, Met Éireann doesn't publish it) feed the grass growth estimate on the Grass page.</div>${wx?`<div style="margin-top:8px">${wxStrip(wx)}</div>`:''}</div>
-  <div class="card"><h3>Sources & credits</h3><div class="tw"><table><thead><tr><th>Source</th><th>Status</th><th>Forecast page</th></tr></thead><tbody>${WX_IDS.map(i=>{ const x=wx?.src?.[i]; const [u,l]=wxLink(i);
-      return `<tr data-src="${i}"><td><b>${esc(WX_SRC[i].name)}</b><div class="hint">${esc(WX_SRC[i].note)}</div><div class="hint">${esc(WX_SRC[i].credit)} · <a href="${WX_SRC[i].lic}" target="_blank" rel="noopener">licence</a></div></td>
-      <td>${!x?'–':x.days?.length?`<span class="pill ${x.err?'amb':'grn'}">${x.err?'⚠ using saved copy':'✓ ok'}</span><div class="hint">${x.days.length} days · fetched ${fmtWhen(x.fetchedAt)}${x.issued?` · model run ${fmtWhen(x.issued)}`:''}</div>`:'<span class="pill red">unavailable</span>'}${x?.err?`<div class="hint warn">${esc(String(x.err).slice(0,140))}</div>`:''}</td>
-      <td><a href="${u}" target="_blank" rel="noopener">${esc(l)} ↗</a></td></tr>`; }).join('')}</tbody></table></div>
-    <div class="hint">Met Éireann and Yr are fetched through this app's own server (cached, shared between users) because neither can be called directly from a secure web page. Place name: © OpenStreetMap contributors. Not included: AccuWeather, BBC, Weather.com, OpenWeatherMap, Google — they need a paid or private API key, or don't allow use in other apps.</div></div>`;
-  $$('[data-wt]',el).forEach(b=>b.onclick=()=>{ wxTab=b.dataset.wt; render(); });
+  <div class="card"><h3>🌱 Grass growth forecast</h3>${wx?wxStrip(wx):'<div class="mut">No forecast yet.</div>'}</div>`;
   $('#wxRef',el).onclick=async()=>{ $('#wxWhen').textContent='Refreshing…'; const r=await fetchWeather(true); if(!r) toast(navigator.onLine?'Forecast unavailable right now':'Offline'); render(); };
   $('#wxLoc',el).onclick=locationDialog;
-  $('#wxGs',el).onchange=e=>{ s.wxGrowthSource=e.target.value; save(); render(); };
-  $$('[data-wm]',el).forEach(b=>b.onclick=()=>{ wxMetric=b.dataset.wm; render(); });
   reverseGeocode();
   if(!wx || Date.now()-wx.fetchedAt>3600e3) fetchWeather().then(r=>{ if(r && r!==wx && route==='weather' && !$('#dlg').open) render(); });
 };
-function wxMainHTML(wx){
-  if(wxTab==='compare'){ const ids=WX_IDS.filter(i=>wx.src[i]?.days?.length); const cons=wxConsensus(wx); const dates=cons.map(d=>d.date);
-    const M={rain:['💧 Rain (mm)',d=>num(d.rain,1)],temp:['🌡️ Max / min °C',d=>`${num(d.tmax)}° / ${num(d.tmin)}°`],wind:['💨 Wind / gusts (km/h)',d=>`${num(kmh(d.wind))}${d.gust!=null?' / '+num(kmh(d.gust)):''}`]};
-    const cell=(days,date)=>{ const d=days.find(x=>x.date===date); return d?M[wxMetric][1](d):'–'; };
-    const heat=(days,date)=>{ if(wxMetric!=='rain') return ''; const d=days.find(x=>x.date===date); if(!d||d.rain==null) return ''; const a=Math.min(1,d.rain/15); return ` style="background:rgba(30,111,208,${(a*0.45).toFixed(2)})"`; };
-    return `<div class="row">${Object.entries(M).map(([k,[l]])=>`<button class="sm ${wxMetric===k?'on':''}" data-wm="${k}">${l}</button>`).join('')}</div>
-    <div class="tw"><table class="wxcmp"><thead><tr><th>Source</th>${dates.map(d=>`<th>${dayName(d)}</th>`).join('')}</tr></thead><tbody>
-    ${ids.map(i=>`<tr><td><b>${esc(WX_SRC[i].name)}</b>${wx.src[i].err?' <span title="saved copy">⚠</span>':''}</td>${dates.map(d=>`<td${heat(wx.src[i].days,d)}>${cell(wx.src[i].days,d)}</td>`).join('')}</tr>`).join('')}
-    <tr class="cons"><td><b>Average (${ids.length})</b></td>${dates.map(d=>`<td${heat(cons,d)}><b>${cell(cons,d)}</b>${wxMetric==='rain'?(()=>{ const c=cons.find(x=>x.date===d); return c&&c.n>1?`<div class="hint">${num(c.rainMin,1)}–${num(c.rainMax,1)} · ${c.wetVotes}/${c.n} wet</div>`:''; })():''}</td>`).join('')}</tr></tbody></table></div>
-    <div class="hint">Day totals in Irish time. “Today” for Met Éireann and Yr covers the rest of today only. “x/y wet” = how many sources expect at least 1 mm.</div>`; }
-  const days=wxDaysFor(wx,wxTab); const src=WX_SRC[wxTab];
-  if(!days.length) return `<div class="mut">${esc(src?src.name:'This view')} has no data right now${wx.src[wxTab]?.err?': '+esc(wx.src[wxTab].err):''}.</div>`;
-  return `<h3>${esc(src?src.name:'Average of all sources')}</h3><div class="wx">${days.map(d=>`<div><b>${dayName(d.date)}</b><span style="font-size:20px">${d.sym?symIcon(d.sym):wxIcon(d.code)}</span><br>${num(d.tmax)}° / ${num(d.tmin)}°<br>💧 ${num(d.rain,1)} mm${d.n>1?`<br><span class="mut">${num(d.rainMin,1)}–${num(d.rainMax,1)}</span>`:''}<br>💨 ${num(kmh(d.wind))}${d.gust!=null?`<br><span class="mut">gust ${num(kmh(d.gust))}</span>`:''}${wx.et0?.[d.date]!=null?`<br><span class="mut">ET₀ ${num(wx.et0[d.date],1)} mm</span>`:''}</div>`).join('')}</div>
-   ${src?`<div class="hint">${esc(src.credit)} · <a href="${wxLink(wxTab)[0]}" target="_blank" rel="noopener">${esc(wxLink(wxTab)[1])} ↗</a></div>`:'<div class="hint">Mean of every source that has data for the day; the grey range under rain is lowest–highest.</div>'}`; }
+function wxMainHTML(wx){ const days=wxBlend(wx);
+  if(!days.length) return '<div class="mut">No forecast available right now.</div>';
+  const stale=WX_IDS.some(i=>wx.src[i]?.err);
+  return `<h3>📅 7-day forecast</h3><div class="wx">${days.map(d=>`<div><b>${dayName(d.date)}</b><span style="font-size:22px">${d.sym?symIcon(d.sym):wxIcon(d.code)}</span><br><b style="display:inline;color:var(--tx)">${num(d.tmax)}°</b> / ${num(d.tmin)}°<br>💧 ${num(d.rain,1)} mm${d.chance!=null?`<br><span class="mut">☔ ${d.chance}% chance</span>`:''}<br>💨 ${num(kmh(d.wind))} km/h${d.gust!=null?`<br><span class="mut">gusts ${num(kmh(d.gust))}</span>`:''}${wx.et0?.[d.date]!=null?`<br><span class="mut">ET₀ ${num(wx.et0[d.date],1)} mm</span>`:''}</div>`).join('')}</div>
+   <div class="hint">Day totals in Irish time; “Today” is the rest of today. ☔ = chance of at least 1 mm of rain.${stale?' Part of the forecast couldn’t be refreshed just now, so the last saved copy is used for it.':''}</div>`; }
 /* ---------- Settings, account, backup, demo ---------- */
 VIEWS.settings = el => {
   const s=S.settings; const bytes=(localStorage.getItem(kData())||'').length*2;
@@ -1367,7 +1337,7 @@ VIEWS.settings = el => {
     <div class="row"><button class="pri" id="exp">⬇ Export backup (JSON)</button><button id="imp">⬆ Import backup…</button><input type="file" id="impFile" accept="application/json,.json" hidden></div></div>
   <div class="card"><h2>Demo data</h2><p class="mut">Loads a small set of example paddocks, cows, milk, breeding, grass, tasks and compliance records into your account (all flagged as demo). Only your own account is affected.</p>
     <div class="row"><button id="demo">Load demo data</button><button id="undemo">Remove demo data</button><button class="danger" id="clear">🗑 Delete ALL my farm data</button></div></div>
-  <div class="card"><h2>About</h2><p class="mut">Farm App v${APP_VERSION}. Records carry <code>source: "manual"</code>; future sensor feeds can write records with <code>source: "sensor"</code> using the same structure. Compliance sections are record-keeping aids only.</p></div>`;
+  <div class="card" id="credits"><h3>ℹ️ About &amp; data credits</h3><p class="mut" style="margin-top:0">Farm App v${APP_VERSION}. Records carry <code>source: "manual"</code>; future sensor feeds can write records with <code>source: "sensor"</code> using the same structure. Compliance sections are record-keeping aids only.</p><ul class="credits"><li><b>Weather forecasts &amp; warnings:</b> Met Éireann (<a href="https://www.met.ie" target="_blank" rel="noopener">met.ie</a>), <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> and the <a href="https://www.met.ie/about-us/specialised-services/open-data" target="_blank" rel="noopener">Met Éireann open-data terms</a>. MET Norway / Yr (<a href="https://www.yr.no" target="_blank" rel="noopener">yr.no</a>), <a href="https://api.met.no/doc/License" target="_blank" rel="noopener">CC BY 4.0</a>. <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo.com</a> (<a href="https://open-meteo.com/en/license" target="_blank" rel="noopener">CC BY 4.0</a>), with model data from ECMWF, the UK Met Office, DWD (ICON) and NOAA (GFS). This app combines and averages these forecasts and estimates grass growth from them; the original data has been changed.</li><li><b>Satellite map:</b> imagery © <a href="https://www.esri.com" target="_blank" rel="noopener">Esri</a>, Maxar, Earthstar Geographics and the GIS User Community. Place and road labels © Esri.</li><li><b>Street map, place names &amp; Eircode address lookup:</b> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL), lookups via Nominatim.</li><li><b>Software:</b> <a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a> (BSD-2), Leaflet-Geoman (MIT), JSZip (MIT), supabase-js (MIT), Nunito font (SIL Open Font Licence).</li></ul></div>`;
   setSync();
   const prevLL=[s.lat,s.lon];
   $('#sSave',el).onclick=()=>{ Object.assign(s,{farmName:$('#sFarm').value.trim(), herdNumber:$('#sHerd').value.trim(), lat:parseFloat($('#sLat').value)||s.lat, lon:parseFloat($('#sLon').value)||s.lon, mPerUnit:parseFloat($('#sScale').value)||1});
@@ -1378,7 +1348,7 @@ VIEWS.settings = el => {
   $('#sEirFind',el).onclick=async()=>{ const code=normEircode($('#sEir').value); const info=$('#sLocInfo'); if(!code){ info.innerHTML='<span class="warn">That doesn’t look like an Eircode (e.g. A65 F4E2).</span>'; return; }
     if(!ROUTING_KEYS[code.slice(0,3)]){ info.innerHTML=`<span class="warn">${esc(code.slice(0,3))} is not a known Eircode area — check the first 3 characters.</span>`; return; }
     info.textContent='Looking up '+code+'…'; const r=await geocodeEircode(code); if(!r){ info.innerHTML='<span class="warn">Lookup failed — are you offline?</span>'; return; }
-    setFarmLocation(r.lat,r.lon,{source:r.source,eircode:code,quiet:true}); toast(r.source==='osm'?`Found ${code}`:`${code} not in OpenStreetMap — using the ${code.slice(0,3)} area. Drop a pin on the map for the exact spot.`); };
+    setFarmLocation(r.lat,r.lon,{source:r.source,eircode:code,quiet:true}); toast(r.source==='osm'?`Found ${code}`:`${code} not found as an exact address — using the ${code.slice(0,3)} area. Drop a pin on the map for the exact spot.`); };
   $('#sGrass',el).onclick=grassSettingsForm;
   $('#syncNow',el).onclick=async()=>{ await flush(); if(await pull()) render(); toast(lastSyncErr?'Sync problem: '+lastSyncErr:'Synced'); };
   $('#logout',el).onclick=logout;
