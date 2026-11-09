@@ -834,7 +834,7 @@ function parseKml(text){ const doc=new DOMParser().parseFromString(text,'applica
 async function loadKmlFile(file){ try{ const items=parseKml(await kmlTextFromFile(file));
     if(!items.length) return alert('No field shapes (polygons) found in this file. In Google Earth, draw the field as a polygon/shape, then save or export it as KML/KMZ.');
     const byName=new Map(S.paddocks.map(p=>[p.name.trim().toLowerCase(),p]));
-    MAP.kml={file:file.name, items:items.map((it,i)=>{ const ex=byName.get(it.name.trim().toLowerCase()); return {...it, i, on:it.kind==='polygon', target:ex?ex.id:'new'}; })};
+    MAP.kml={file:file.name, fit:true, items:items.map((it,i)=>{ const ex=byName.get(it.name.trim().toLowerCase()); return {...it, i, on:it.kind==='polygon', target:ex?ex.id:'new'}; })};
     MAP.view='sat'; MAP.mode='kml'; MAP.center=null; MAP.sel=null; render(); $('#kmlBox')?.scrollIntoView({behavior:'smooth'});
   }catch(e){ console.error(e); alert('Could not read that file: '+e.message); } }
 let kmlLayers=null;
@@ -842,7 +842,7 @@ function drawKmlPreview(){ if(!LMAP||!MAP.kml) return; if(kmlLayers) kmlLayers.r
   MAP.kml.items.forEach(it=>{ const l=L.polygon(it.geo,{color:it.on?'#ff9500':'#bbbbbb',weight:3,dashArray:'7 5',fillColor:it.on?'#ff9500':'#999',fillOpacity:it.on?.3:.1}).addTo(kmlLayers);
     l.bindTooltip(`<b>${esc(it.name)}</b><br>${num(geoAreaM2(it.geo)/1e4,2)} ha`,{permanent:true,direction:'center',className:'padlbl'});
     l.on('click',e=>{ L.DomEvent.stopPropagation(e); it.on=!it.on; drawKmlPreview(); renderKmlBox(); }); });
-  if(!MAP.center && kmlLayers.getLayers().length) LMAP.fitBounds(kmlLayers.getBounds(),{maxZoom:18,padding:[20,20]}); }
+  if(MAP.kml.fit && kmlLayers.getLayers().length){ MAP.kml.fit=false; LMAP.fitBounds(kmlLayers.getBounds(),{maxZoom:18,padding:[20,20]}); } }
 function renderKmlBox(){ const box=$('#kmlBox'); if(!box||!MAP.kml) return; const K=MAP.kml; const n=K.items.filter(x=>x.on).length;
   box.innerHTML=`<div class="card" style="margin-top:12px;border-color:#ff9500"><h3>Import from ${esc(K.file)}</h3><p class="mut">${K.items.length} shape${K.items.length>1?'s':''} found. Tick the ones to import. A shape whose name matches an existing paddock updates that paddock’s boundary (its records are kept).</p>
    <div class="tw"><table><thead><tr><th></th><th>Name</th><th>Area</th><th>Import as</th></tr></thead><tbody>${K.items.map(it=>`<tr><td><input type="checkbox" data-kon="${it.i}" ${it.on?'checked':''}></td>
