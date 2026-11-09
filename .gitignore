@@ -3,3 +3,4 @@ test-playwright.js
 *.local.html
 test-e2e-live.js
 test-map.js
+test-weather.js
