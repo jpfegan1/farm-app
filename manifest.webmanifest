@@ -6,7 +6,7 @@
  "scope": "./",
  "display": "standalone",
  "background_color": "#0c110e",
- "theme_color": "#2f9e5f",
+ "theme_color": "#0c110e",
  "icons": [
   {
    "src": "icon-192.png",
@@ -25,11 +25,6 @@
    "sizes": "512x512",
    "type": "image/png",
    "purpose": "maskable"
-  },
-  {
-   "src": "favicon.svg",
-   "sizes": "any",
-   "type": "image/svg+xml"
   }
  ]
 }
