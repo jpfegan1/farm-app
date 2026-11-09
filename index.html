@@ -7,13 +7,34 @@
 <link rel="preload" href="vendor/fonts/nunito-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <meta name="robots" content="noindex,nofollow">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Farmhand">
+<meta name="application-name" content="Farmhand">
+<link rel="preload" href="vendor/fonts/cinzel-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/leaflet.css">
 <link rel="stylesheet" href="vendor/leaflet-geoman.css">
-<title>Farm App</title>
+<title>Farmhand</title>
 <style>
 /* ===== Sunny Farmyard theme ===== */
+@font-face{font-family:Cinzel;font-weight:400 900;font-display:swap;src:url(vendor/fonts/cinzel-latin-wght-normal.woff2) format('woff2')}
+.wm{display:inline-flex;flex-direction:column;align-items:center;line-height:1}
+.wm b{font-family:Cinzel,Georgia,serif;font-weight:800;letter-spacing:.1em;padding-left:.1em;
+ background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .25 0 0 0 0 .17 0 0 0 0 .05 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"),linear-gradient(180deg,#f7e6a8 0%,#e0b85a 42%,#b08230 55%,#d9b25e 75%,#f0d58a 100%);
+ -webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 2px 1px #0009)}
+.wm i{display:block;height:max(2px,.045em);width:100%;background:#c0392b;margin-top:.14em;border-radius:2px;box-shadow:0 0 6px #c0392b66}
+
+header .brand{display:flex;align-items:center;gap:8px;flex:0 0 auto;background:#0f1612;padding:4px 12px 4px 4px;border-radius:15px;text-decoration:none;box-shadow:0 3px 0 #0a0f0c,0 4px 12px #0004;border:1px solid #2c3a30}
+header .brand img{width:36px;height:36px;border-radius:11px;display:block}
+header .brand .wm{font-size:17px}
+header h1{font-size:18px}
+header h1:empty{display:none}
+.authcard{padding-top:0!important}
+.authhero{margin:0 -24px 14px;padding:30px 16px 22px;text-align:center;color:#efe6cf;background:linear-gradient(180deg,#0c110e55,#0c110ee0),url(brand/hero.jpg) center/cover #101712;border-bottom:3px solid #c0392b}
+.authhero img{width:72px;height:72px;border-radius:20px;box-shadow:0 8px 22px #000a;display:block;margin:0 auto 14px}
+.authhero .wm{font-size:clamp(34px,10.5vw,46px)}
+.authhero .tag{margin-top:12px;font-size:14px;font-weight:700;color:#e2d6b8;text-shadow:0 1px 2px #000}
+
 @font-face{font-family:Nunito;font-style:normal;font-weight:200 1000;font-display:swap;src:url(vendor/fonts/nunito-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 @font-face{font-family:Nunito;font-style:normal;font-weight:200 1000;font-display:swap;src:url(vendor/fonts/nunito-latin-ext-wght-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
 :root{
@@ -147,9 +168,6 @@ canvas.chart{width:100%;display:block;background:linear-gradient(180deg,#eefaf2,
 #printArea{display:none}
 #auth{max-width:440px;margin:26px auto;padding:0 14px}
 .authcard{padding:24px;border-width:3px;position:relative;overflow:hidden}
-.authcard .authlogo{width:84px;height:84px;margin:0 auto 6px;border-radius:28px;background:var(--sun);display:grid;place-items:center;font-size:48px;box-shadow:0 5px 0 var(--sund);border:3px solid #fff}
-.authcard .authsun{position:absolute;top:-18px;right:-12px;font-size:70px;opacity:.28;pointer-events:none}
-.authcard .authfield{position:absolute;bottom:-10px;left:0;right:0;text-align:center;font-size:22px;letter-spacing:6px;opacity:.5;pointer-events:none}
 .authcard h2{color:var(--gd)}
 .authcard hr{border:0!important;border-top:2px dashed #eee3c6!important}
 body.loggedout nav{display:none}
@@ -168,7 +186,7 @@ body.loggedout main{display:none}
 </head>
 <body>
 <header>
- <div class="top"><div class="logo" aria-hidden="true">🐄</div><h1 id="farmTitle">Farm App</h1><span class="net" id="net"></span></div>
+ <div class="top"><a class="brand" href="#dash" aria-label="Farmhand — home"><img src="favicon.svg" alt=""><span class="wm"><b>FARMHAND</b><i></i></span></a><h1 id="farmTitle"></h1><span class="net" id="net"></span></div>
  <nav id="nav"></nav>
 </header>
 <div id="auth" hidden></div>
@@ -181,7 +199,7 @@ body.loggedout main{display:none}
 <script>
 'use strict';
 /* =========================================================
-   Farm App v1 — single-file farm records (record-keeping aid)
+   Farmhand (formerly Farm App) v1 — single-file farm records (record-keeping aid)
    Data model: every record has id, createdAt, updatedAt,
    source ('manual' now; 'sensor' reserved for future feeds),
    and optional demo:true for demo records.
@@ -353,7 +371,7 @@ function toCSV(rows, cols){ const q=v=>{ v=v==null?'':String(v); return /[",\n]/
   return '\ufeff'+[cols.map(c=>q(c.l)).join(',')].concat(rows.map(r=>cols.map(c=>q(c.f?c.f(r):r[c.k])).join(','))).join('\r\n'); }
 function printTable(title, rows, cols, note){
   const pa=$('#printArea');
-  pa.innerHTML=`<h2>${esc(title)}</h2><p style="font-size:12px">${esc(S.settings.farmName||'')} ${S.settings.herdNumber?'· Herd no. '+esc(S.settings.herdNumber):''} · Printed ${fmtD(today())}<br><i>Record-keeping aid produced by Farm App. Not an official form; verify against Department of Agriculture / ICBF / product label requirements.</i>${note?'<br>'+esc(note):''}</p>
+  pa.innerHTML=`<h2>${esc(title)}</h2><p style="font-size:12px">${esc(S.settings.farmName||'')} ${S.settings.herdNumber?'· Herd no. '+esc(S.settings.herdNumber):''} · Printed ${fmtD(today())} from Farmhand<br><i>Record-keeping aid produced by Farm App. Not an official form; verify against Department of Agriculture / ICBF / product label requirements.</i>${note?'<br>'+esc(note):''}</p>
   <table><thead><tr>${cols.map(c=>`<th>${esc(c.l)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(c=>`<td>${esc(c.f?c.f(r):r[c.k])}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
   window.print();
 }
@@ -635,7 +653,7 @@ function go(r,arg){ location.hash = arg ? `${r}/${arg}` : r; }
 function parseHash(){ const [r,a]=(location.hash.slice(1)||'dash').split('/'); route = (ROUTES[r]||r==='cow') ? r : 'dash'; routeArg=a?decodeURIComponent(a):null; }
 function renderNav(){ $('#nav').innerHTML=Object.entries(ROUTES).map(([k,[i,l]])=>`<a href="#${k}" class="${(route===k||(route==='cow'&&k==='cows'))?'on':''}">${i} ${l}</a>`).join('');
   const on=$('#nav a.on'); if(on) on.scrollIntoView({block:'nearest',inline:'nearest'});
-  $('#farmTitle').textContent=(S.settings.farmName||'Farm App'); setSync(); }
+  $('#farmTitle').textContent=(S.settings.farmName||''); setSync(); }
 function render(){ if(!UID) return; destroyLeaflet(); renderNav(); const m=$('#main'); const hasDemo=COLLECTIONS.some(c=>S[c].some(r=>r.demo));
   m.innerHTML = hasDemo?`<div class="banner">⚠️ <b>Demo data is loaded</b> — example records only. Remove it in <a href="#settings">Settings</a> before entering real records.</div>`:'';
   const box=document.createElement('div'); m.appendChild(box); (VIEWS[route]||VIEWS.dash)(box); kpiIcons(m); }
@@ -996,7 +1014,7 @@ function exportKml(){ const ps=S.paddocks.filter(hasGeo); if(!ps.length) return 
     return `<Placemark><name>${x(p.name)}</name><description>${x(`${num(ha,2)} ha (${num(haToAc(ha),2)} acres) · ${PAD_STATUS[p.status]?.l||p.status||''}${p.landId?' · LPIS '+p.landId:''}`)}</description><styleUrl>#st_${PAD_STATUS[p.status]?p.status:'resting'}</styleUrl>
 <ExtendedData><Data name="area_ha"><value>${ha.toFixed(4)}</value></Data><Data name="status"><value>${x(p.status)}</value></Data><Data name="farmapp_id"><value>${x(p.id)}</value></Data></ExtendedData>
 <Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>${ring.map(q=>`${q[1].toFixed(7)},${q[0].toFixed(7)},0`).join(' ')}</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>`; }).join('\n');
-  const name=(S.settings.farmName||'Farm')+' paddocks';
+  const name='Farmhand — '+(S.settings.farmName||'Farm')+' paddocks';
   download(`${(S.settings.farmName||'farm').replace(/[^\w-]+/g,'-')}-paddocks-${today()}.kml`, `<?xml version="1.0" encoding="UTF-8"?>\n<kml xmlns="http://www.opengis.net/kml/2.2"><Document><name>${x(name)}</name>${styles}\n${pms}\n</Document></kml>\n`, 'application/vnd.google-earth.kml+xml');
   toast(`Exported ${ps.length} paddock${ps.length>1?'s':''} — open the file in Google Earth`); }
 /* Eircode routing keys -> [post town(s), lat, lon]. Built from the public list of routing areas (Wikipedia, source Autoaddress) with town positions from OpenStreetMap/Nominatim. Approximate: a routing area can be 20–50 km across. */
@@ -1337,7 +1355,7 @@ VIEWS.settings = el => {
     <div class="row"><button class="pri" id="exp">⬇ Export backup (JSON)</button><button id="imp">⬆ Import backup…</button><input type="file" id="impFile" accept="application/json,.json" hidden></div></div>
   <div class="card"><h2>Demo data</h2><p class="mut">Loads a small set of example paddocks, cows, milk, breeding, grass, tasks and compliance records into your account (all flagged as demo). Only your own account is affected.</p>
     <div class="row"><button id="demo">Load demo data</button><button id="undemo">Remove demo data</button><button class="danger" id="clear">🗑 Delete ALL my farm data</button></div></div>
-  <div class="card" id="credits"><h3>ℹ️ About &amp; data credits</h3><p class="mut" style="margin-top:0">Farm App v${APP_VERSION}. Records carry <code>source: "manual"</code>; future sensor feeds can write records with <code>source: "sensor"</code> using the same structure. Compliance sections are record-keeping aids only.</p><ul class="credits"><li><b>Weather forecasts &amp; warnings:</b> Met Éireann (<a href="https://www.met.ie" target="_blank" rel="noopener">met.ie</a>), <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> and the <a href="https://www.met.ie/about-us/specialised-services/open-data" target="_blank" rel="noopener">Met Éireann open-data terms</a>. MET Norway / Yr (<a href="https://www.yr.no" target="_blank" rel="noopener">yr.no</a>), <a href="https://api.met.no/doc/License" target="_blank" rel="noopener">CC BY 4.0</a>. <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo.com</a> (<a href="https://open-meteo.com/en/license" target="_blank" rel="noopener">CC BY 4.0</a>), with model data from ECMWF, the UK Met Office, DWD (ICON) and NOAA (GFS). This app combines and averages these forecasts and estimates grass growth from them; the original data has been changed.</li><li><b>Satellite map:</b> imagery © <a href="https://www.esri.com" target="_blank" rel="noopener">Esri</a>, Maxar, Earthstar Geographics and the GIS User Community. Place and road labels © Esri.</li><li><b>Street map, place names &amp; Eircode address lookup:</b> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL), lookups via Nominatim.</li><li><b>Software:</b> <a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a> (BSD-2), Leaflet-Geoman (MIT), JSZip (MIT), supabase-js (MIT), Nunito font (SIL Open Font Licence).</li></ul></div>`;
+  <div class="card" id="credits"><h3>ℹ️ About &amp; data credits</h3><p class="mut" style="margin-top:0">Farmhand v${APP_VERSION}. Records carry <code>source: "manual"</code>; future sensor feeds can write records with <code>source: "sensor"</code> using the same structure. Compliance sections are record-keeping aids only.</p><ul class="credits"><li><b>Weather forecasts &amp; warnings:</b> Met Éireann (<a href="https://www.met.ie" target="_blank" rel="noopener">met.ie</a>), <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> and the <a href="https://www.met.ie/about-us/specialised-services/open-data" target="_blank" rel="noopener">Met Éireann open-data terms</a>. MET Norway / Yr (<a href="https://www.yr.no" target="_blank" rel="noopener">yr.no</a>), <a href="https://api.met.no/doc/License" target="_blank" rel="noopener">CC BY 4.0</a>. <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo.com</a> (<a href="https://open-meteo.com/en/license" target="_blank" rel="noopener">CC BY 4.0</a>), with model data from ECMWF, the UK Met Office, DWD (ICON) and NOAA (GFS). This app combines and averages these forecasts and estimates grass growth from them; the original data has been changed.</li><li><b>Satellite map:</b> imagery © <a href="https://www.esri.com" target="_blank" rel="noopener">Esri</a>, Maxar, Earthstar Geographics and the GIS User Community. Place and road labels © Esri.</li><li><b>Street map, place names &amp; Eircode address lookup:</b> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL), lookups via Nominatim.</li><li><b>Software:</b> <a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a> (BSD-2), Leaflet-Geoman (MIT), JSZip (MIT), supabase-js (MIT), Nunito and Cinzel fonts (SIL Open Font Licence). Farmhand logo and artwork are original to this app.</li></ul></div>`;
   setSync();
   const prevLL=[s.lat,s.lon];
   $('#sSave',el).onclick=()=>{ Object.assign(s,{farmName:$('#sFarm').value.trim(), herdNumber:$('#sHerd').value.trim(), lat:parseFloat($('#sLat').value)||s.lat, lon:parseFloat($('#sLon').value)||s.lon, mPerUnit:parseFloat($('#sScale').value)||1});
@@ -1378,11 +1396,11 @@ async function exportBackup(withPhotos){
   const out={app:'farm-app', format:2, exportedAt:nowISO(), account:USER?.email||'', data:S, photos:[], mapBg:null};
   if(withPhotos){ for(const p of S.photos){ try{ out.photos.push({...p, dataURL:await blobToDataURL(await photoBlob(p))}); }catch(e){ console.warn('photo skipped',p.id,e); } }
     const bg=S.settings.mapBg; if(bg?.path){ try{ const {data}=await sb.storage.from('photos').download(bg.path); if(data) out.mapBg={w:bg.w,h:bg.h,dataURL:await blobToDataURL(data)}; }catch(e){} } }
-  download(`farm-backup-${today()}.json`, JSON.stringify(out), 'application/json'); toast('Backup downloaded');
+  download(`farmhand-backup-${today()}.json`, JSON.stringify(out), 'application/json'); toast('Backup downloaded');
 }
 async function importBackup(file){
   try{ if(!navigator.onLine) throw new Error('Importing needs an internet connection');
-    const j=JSON.parse(await file.text()); const data=normalize(JSON.parse(JSON.stringify(j.data||j))); if(!(j.data||j).settings) throw new Error('Not a Farm App backup');
+    const j=JSON.parse(await file.text()); const data=normalize(JSON.parse(JSON.stringify(j.data||j))); if(!(j.data||j).settings) throw new Error('Not a Farmhand backup');
     if(!confirm(`Replace all data in your account (${USER.email}) with the backup from ${j.exportedAt?new Date(j.exportedAt).toLocaleString('en-IE',{timeZone:'Europe/Dublin'}):'file'}?`)) return;
     toast('Importing…');
     const withBlob=new Map((Array.isArray(j.photos)?j.photos:[]).filter(p=>p.dataURL).map(p=>[p.id,p]));
@@ -1446,7 +1464,7 @@ function authHTML(mode, msg, err){
   if(mode==='forgot') body=`${f('aEmail','Email','email','email')}<button class="pri" type="submit" style="width:100%">Send reset link</button><p style="text-align:center"><a href="#" data-m="login">Back to log in</a></p>`;
   if(mode==='recover') body=`${f('aPw','New password (min 8 characters)','password','new-password')}${f('aPw2','Repeat new password','password','new-password')}<button class="pri" type="submit" style="width:100%">Save new password</button>`;
   if(mode==='check') body=`<p style="text-align:center"><a href="#" data-m="login">Back to log in</a></p>`;
-  return `<div class="card authcard"><span class="authsun" aria-hidden="true">☀️</span><div class="authlogo" aria-hidden="true">🐄</div><h2 style="text-align:center;margin-bottom:4px">Farm App</h2><p class="mut" style="text-align:center;margin-top:0">${esc(T)}</p>
+  return `<div class="card authcard"><div class="authhero"><img src="favicon.svg" alt=""><h1 style="margin:0;font-size:inherit"><span class="wm"><b>FARMHAND</b><i></i></span></h1><div class="tag">Farm records for the yard, the field and the parlour</div></div><h2 style="text-align:center;margin:0 0 12px">${esc(T)}</h2>
     ${msg?`<div class="banner" style="background:#e6f8ec;border-color:#3cb371;color:#1c6b3d">${esc(msg)}</div>`:''}${err?`<div class="banner" style="background:#fff0ee;border-color:#e85d4c;color:#a3261b">${esc(err)}</div>`:''}
     <form id="authForm" novalidate>${body}</form></div><p class="mut" style="text-align:center">Each person has their own private account. Your farm records are only visible to you.</p>`;
 }
@@ -1461,7 +1479,7 @@ function friendlyAuthError(e){ const c=e?.code||'', m=e?.message||String(e);
   if(/fetch|network/i.test(m)) return 'No connection — check your signal and try again.';
   return m; }
 function showAuth(mode='login', msg='', err=''){
-  document.body.classList.add('loggedout'); $('#main').innerHTML=''; $('#nav').innerHTML=''; $('#net').textContent=''; $('#farmTitle').textContent='Farm App';
+  document.body.classList.add('loggedout'); $('#main').innerHTML=''; $('#nav').innerHTML=''; $('#net').textContent=''; $('#farmTitle').textContent='';
   const a=$('#auth'); a.hidden=false; a.innerHTML=authHTML(mode,msg,err);
   $$('[data-m]',a).forEach(x=>x.onclick=e=>{ e.preventDefault(); showAuth(x.dataset.m); });
   const form=$('#authForm',a); const v=id=>($('#'+id,a)?.value||'').trim();

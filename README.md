@@ -1,4 +1,4 @@
-# Farm App
+# Farmhand
 
 Farm records web app for an Irish dairy/beef farm: paddock map, herd, milk, breeding & calving, grass planner, photos, tasks and compliance record-keeping (a record-keeping aid, not an official register).
 
