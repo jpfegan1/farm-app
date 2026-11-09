@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2f6b3a">
+<meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Farm App</title>
+<style>
+:root{--g:#2f6b3a;--g2:#e8f2ea;--bg:#f5f6f3;--card:#fff;--tx:#1d2420;--mut:#66706a;--bd:#d9ded9;--red:#c62828;--amb:#ef8f00;--blue:#1e6fd0;--r:12px}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{position:sticky;top:0;z-index:20;background:var(--g);color:#fff;padding:8px 12px calc(0px);box-shadow:0 2px 6px #0003}
+header .top{display:flex;align-items:center;gap:10px;min-height:40px}
+header h1{font-size:18px;margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header .net{font-size:12px;opacity:.85}
+nav{display:flex;gap:4px;overflow-x:auto;padding:6px 0 8px;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:0 0 auto;color:#fff;text-decoration:none;padding:10px 12px;border-radius:999px;background:#ffffff1f;font-size:15px;min-height:44px;display:flex;align-items:center}
+nav a.on{background:#fff;color:var(--g);font-weight:600}
+main{max-width:1100px;margin:0 auto;padding:12px 12px 80px}
+.banner{background:#fff3cd;border:1px solid #f0d67a;padding:10px 12px;border-radius:var(--r);margin-bottom:12px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.card h2,.card h3{margin:0 0 10px;font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.grid .card{margin:0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px}
+.kpi{background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:12px}
+.kpi b{display:block;font-size:24px}
+.kpi span{font-size:13px;color:var(--mut)}
+.kpi.warn{border-color:var(--red);background:#fdecea}
+button,.btn{font:inherit;min-height:44px;padding:8px 14px;border-radius:10px;border:1px solid var(--bd);background:#fff;color:var(--tx);cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+button.pri,.btn.pri{background:var(--g);border-color:var(--g);color:#fff}
+button.danger{color:var(--red);border-color:#e8b4b4}
+button.sm{min-height:36px;padding:4px 10px;font-size:14px}
+button.on{background:var(--g2);border-color:var(--g);font-weight:600}
+button:disabled{opacity:.5}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.row .sp{flex:1}
+.mut{color:var(--mut);font-size:14px}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--bd);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;color:var(--mut);white-space:nowrap}
+tr.click{cursor:pointer}
+tr.click:hover{background:#f2f7f3}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;background:#eee;white-space:nowrap}
+.pill.red{background:#fdecea;color:var(--red)}.pill.amb{background:#fff1dc;color:#9a5a00}.pill.grn{background:var(--g2);color:var(--g)}.pill.blue{background:#e3eefc;color:var(--blue)}
+ul.list{list-style:none;margin:0;padding:0}
+ul.list li{padding:10px 0;border-bottom:1px solid var(--bd);display:flex;gap:10px;align-items:center}
+ul.list li:last-child{border-bottom:0}
+ul.list li .grow{flex:1;min-width:0}
+input,select,textarea{font:inherit;font-size:16px;width:100%;min-height:44px;padding:8px 10px;border:1px solid var(--bd);border-radius:10px;background:#fff;color:var(--tx)}
+input[type=checkbox]{width:24px;height:24px;min-height:0}
+textarea{min-height:80px}
+label.f{display:block;margin-bottom:10px;font-size:14px;color:var(--mut)}
+label.f>span{display:block;margin-bottom:4px}
+label.cb{display:flex;align-items:center;gap:10px;margin-bottom:10px;min-height:44px}
+.hint{font-size:12px;color:var(--mut);margin-top:3px}
+.hint.warn{color:#9a5a00}
+dialog{border:0;border-radius:16px;padding:0;width:min(560px,96vw);max-height:92vh;box-shadow:0 10px 40px #0005}
+dialog::backdrop{background:#0006}
+dialog .dh{position:sticky;top:0;background:#fff;padding:14px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;z-index:2}
+dialog .dh h3{margin:0;flex:1;font-size:18px}
+dialog .db{padding:14px 16px}
+dialog .df{position:sticky;bottom:0;background:#fff;padding:10px 16px;border-top:1px solid var(--bd);display:flex;gap:8px;flex-wrap:wrap}
+dialog .df .sp{flex:1}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.fgrid .full{grid-column:1/-1}
+@media(max-width:480px){.fgrid{grid-template-columns:1fr}}
+#mapwrap{position:relative;border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;background:#dfe8d8}
+#map{width:100%;height:auto;max-height:70vh;display:block;touch-action:none;user-select:none}
+#map polygon.pad{stroke:#1d2420;stroke-width:2;vector-effect:non-scaling-stroke;fill-opacity:.55;cursor:pointer}
+#map polygon.pad.sel{stroke:#000;stroke-width:4;fill-opacity:.75}
+#map text{font-weight:700;paint-order:stroke;stroke:#fff;stroke-width:3px;fill:#1d2420;pointer-events:none}
+.maphelp{position:absolute;left:8px;top:8px;right:8px;background:#fffffff0;border-radius:10px;padding:8px 10px;font-size:14px;pointer-events:none}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:13px;margin-top:8px}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:4px;border:1px solid #0003}
+canvas.chart{width:100%;display:block}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.gallery figure{margin:0;background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden;cursor:pointer}
+.gallery img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.gallery figcaption{font-size:12px;padding:6px;color:var(--mut)}
+.wx{display:grid;grid-template-columns:repeat(7,minmax(70px,1fr));gap:6px;overflow-x:auto}
+.wx div{background:#f4f8fb;border:1px solid #dde7ef;border-radius:10px;padding:8px;text-align:center;font-size:13px}
+.wx b{display:block;font-size:14px}
+.subtabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px}
+.subtabs button{flex:0 0 auto}
+.empty{padding:20px;text-align:center;color:var(--mut)}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#1d2420;color:#fff;padding:12px 18px;border-radius:999px;z-index:100;font-size:15px;max-width:92vw}
+#printArea{display:none}
+#auth{max-width:420px;margin:24px auto;padding:0 12px}
+.authcard{padding:22px}
+body.loggedout nav{display:none}
+body.loggedout main{display:none}
+@media print{
+ header,main,dialog,.toast{display:none!important}
+ #printArea{display:block}
+ #printArea table{font-size:11px}
+ #printArea th,#printArea td{border:1px solid #999;padding:3px 4px}
+ body{background:#fff}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="top"><h1 id="farmTitle">🐄 Farm App</h1><span class="net" id="net"></span></div>
+ <nav id="nav"></nav>
+</header>
+<div id="auth" hidden></div>
+<main id="main"></main>
+<dialog id="dlg"></dialog>
+<div id="printArea"></div>
+<script src="vendor/supabase.js"></script>
+<script>
+'use strict';
+/* =========================================================
+   Farm App v1 — single-file farm records (record-keeping aid)
+   Data model: every record has id, createdAt, updatedAt,
+   source ('manual' now; 'sensor' reserved for future feeds),
+   and optional demo:true for demo records.
+   ========================================================= */
+const APP_VERSION = 2;
+const SB_URL = 'https://uetglzwzyhvaoszainmx.supabase.co';
+const SB_KEY = 'sb_publishable__gDnjBirb1AbnZwMAXMTxg_alW8T4_h'; // publishable key: safe in the browser, data protected by row-level security
+const APP_URL = location.origin + location.pathname.replace(/index\.html$/,'');
+let sb=null, UID=null, USER=null;
+const kData = () => `farmapp.v2.${UID}.data`, kQueue = () => `farmapp.v2.${UID}.queue`, kWx = () => `farmapp.v2.${UID}.weather`;
+const COLLECTIONS = ['paddocks','grazings','grassWalks','cows','milk','breeding','tasks','treatments','fertiliser','movements','deaths','photos'];
+const DEFAULT_SETTINGS = {farmName:'', herdNumber:'', lat:53.43, lon:-7.94, kgDmPerCow:17, demandCows:null,
+  residual:50, growthSource:'auto', manualGrowth:30, mPerUnit:1, mapW:1000, mapH:700};
+
+/* ---------- helpers ---------- */
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => [...el.querySelectorAll(s)];
+const esc = v => (v==null?'':String(v)).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)+Math.random().toString(36).slice(2));
+const nowISO = () => new Date().toISOString();
+function today(){ const d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); }
+function addDays(s, n){ if(!s) return null; const t=Date.parse(s+'T00:00:00Z'); if(isNaN(t)) return null; return new Date(t+Math.round(n*864e5)).toISOString().slice(0,10); }
+function daysBetween(a,b){ return Math.round((Date.parse(b+'T00:00:00Z')-Date.parse(a+'T00:00:00Z'))/864e5); }
+function fmtD(s){ if(!s) return ''; const [y,m,d]=s.slice(0,10).split('-'); return `${d}/${m}/${y}`; }
+const num = (v, dp=0) => (v==null||v===''||isNaN(v)) ? '–' : Number(v).toLocaleString('en-IE',{maximumFractionDigits:dp, minimumFractionDigits:dp});
+const sum = a => a.reduce((x,y)=>x+(Number(y)||0),0);
+function toast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2600); }
+const byDate = (k='date', dir=-1) => (a,b) => (a[k]||'') < (b[k]||'') ? -dir : (a[k]||'') > (b[k]||'') ? dir : 0;
+
+/* ---------- store (cloud: Supabase, with per-user local cache + offline queue) ---------- */
+let S, Q={};            // S = state, Q = pending sync ops keyed by record id ('up' | 'del' | 'rmfile')
+let lastSettingsJSON=null;
+function blankState(){ const s={app:'farm-app', version:APP_VERSION, createdAt:nowISO(), settings:{...DEFAULT_SETTINGS}}; COLLECTIONS.forEach(c=>s[c]=[]); return s; }
+function normalize(s){
+  if(!s || typeof s!=='object') s=blankState();
+  s.settings={...DEFAULT_SETTINGS, ...(s.settings||{})};
+  COLLECTIONS.forEach(c=>{ if(!Array.isArray(s[c])) s[c]=[]; });
+  return s;
+}
+function loadCache(){ let s=null; try{ s=JSON.parse(localStorage.getItem(kData())); }catch(e){} return normalize(s); }
+function loadQueue(){ try{ return JSON.parse(localStorage.getItem(kQueue()))||{}; }catch(e){ return {}; } }
+function saveLocal(){ if(!UID) return; try{ localStorage.setItem(kData(), JSON.stringify(S)); localStorage.setItem(kQueue(), JSON.stringify(Q)); }catch(e){ alert('Could not save on this device — storage may be full. '+e.message); } }
+function enqueue(id, op){ Q[id]={op, t:Date.now()}; }
+function save(){ if(!UID) return; if(JSON.stringify(S.settings)!==lastSettingsJSON) enqueue('__settings','up'); saveLocal(); setSync(); scheduleFlush(); }
+function add(col, obj, silent){ const t=nowISO(); const r={id:uid(), createdAt:t, updatedAt:t, source:'manual', ...obj}; S[col].push(r); enqueue(r.id,'up'); if(!silent) save(); return r; }
+function upd(col, id, patch){ const r=get(col,id); if(r){ Object.assign(r, patch, {updatedAt:nowISO()}); enqueue(id,'up'); save(); } return r; }
+function del(col, id){ const r=get(col,id); if(col==='photos' && r && r.path){ enqueue('file:'+r.path,'rmfile'); idbDel('pending',id).catch(()=>{}); }
+  S[col]=S[col].filter(x=>x.id!==id); enqueue(id,'del'); save(); }
+function get(col, id){ return S[col].find(r=>r.id===id); }
+S = blankState();
+
+/* ---------- sync engine ---------- */
+let flushing=false, flushTimer=null, lastSyncAt=0, lastSyncErr='', pulling=false;
+const chunk = (a,n) => { const o=[]; for(let i=0;i<a.length;i+=n) o.push(a.slice(i,i+n)); return o; };
+function scheduleFlush(ms=700){ clearTimeout(flushTimer); flushTimer=setTimeout(flush, ms); }
+async function pendingCount(){ if(!UID) return 0; try{ return (await idbAll('pending')).filter(p=>p.uid===UID).length; }catch(e){ return 0; } }
+async function flush(){
+  if(!UID || !sb || flushing) return; if(!navigator.onLine){ setSync(); return; }
+  const uidNow=UID; const snap={...Q}; const ids=Object.keys(snap);
+  if(!ids.length && !(await pendingCount())){ setSync(); return; }
+  flushing=true; setSync();
+  try{
+    const idx=new Map(); COLLECTIONS.forEach(c=>S[c].forEach(r=>idx.set(r.id,[c,r])));
+    const ups=[], dels=[], files=[]; let settings=false;
+    for(const [id,e] of Object.entries(snap)){
+      if(id==='__settings'){ settings=true; continue; }
+      if(e.op==='rmfile'){ files.push(id.slice(5)); continue; }
+      const hit=idx.get(id); if(e.op==='up' && hit) ups.push({user_id:uidNow, id, collection:hit[0], data:hit[1]}); else dels.push(id);
+    }
+    for(const c of chunk(ups,400)){ const {error}=await sb.from('records').upsert(c,{onConflict:'user_id,id'}); if(error) throw error; }
+    for(const c of chunk(dels,200)){ const {error}=await sb.from('records').delete().in('id',c); if(error) throw error; }
+    if(settings){ const sj=JSON.stringify(S.settings); const {error}=await sb.from('user_settings').upsert({user_id:uidNow, data:S.settings}); if(error) throw error; lastSettingsJSON=sj; }
+    for(const c of chunk(files,100)){ const {error}=await sb.storage.from('photos').remove(c); if(error) throw error; }
+    if(UID!==uidNow) return;
+    for(const [id,e] of Object.entries(snap)) if(Q[id]===e) delete Q[id];
+    saveLocal();
+    await uploadPending();
+    lastSyncAt=Date.now(); lastSyncErr='';
+  }catch(e){ console.warn('Sync failed', e); lastSyncErr=e.message||String(e); scheduleFlush(15000); }
+  finally{ flushing=false; setSync(); if(UID && Object.keys(Q).length && !lastSyncErr) scheduleFlush(300); }
+}
+async function pull(){
+  if(!UID || !sb || !navigator.onLine || pulling) return false; const uidNow=UID; pulling=true; setSync();
+  try{
+    const rows=[]; for(let from=0;;from+=1000){ const {data,error}=await sb.from('records').select('id,collection,data').order('id').range(from,from+999); if(error) throw error; rows.push(...data); if(data.length<1000) break; }
+    const {data:st,error:e2}=await sb.from('user_settings').select('data').maybeSingle(); if(e2) throw e2;
+    if(UID!==uidNow) return false;
+    const fresh=blankState(); fresh.createdAt=S.createdAt; rows.forEach(r=>{ if(fresh[r.collection]) fresh[r.collection].push(r.data); });
+    if(st && st.data) fresh.settings={...DEFAULT_SETTINGS, ...st.data};
+    const local=new Map(); COLLECTIONS.forEach(c=>S[c].forEach(r=>local.set(r.id,[c,r])));
+    for(const [id,e] of Object.entries(Q)){            // unsynced local changes win
+      if(id==='__settings'){ fresh.settings=S.settings; continue; } if(e.op==='rmfile') continue;
+      const l=local.get(id); const cols=l?[l[0]]:COLLECTIONS; cols.forEach(c=>fresh[c]=fresh[c].filter(r=>r.id!==id));
+      if(e.op==='up' && l) fresh[l[0]].push(l[1]); }
+    S=normalize(fresh); if(!Q.__settings) lastSettingsJSON=JSON.stringify(S.settings);
+    saveLocal(); lastSyncAt=Date.now(); lastSyncErr=''; return true;
+  }catch(e){ console.warn('Pull failed', e); lastSyncErr=e.message||String(e); return false; }
+  finally{ pulling=false; setSync(); }
+}
+function syncText(){ const n=Object.keys(Q).length; if(!navigator.onLine) return `● offline${n?` · ${n} change${n>1?'s':''} waiting`:''}`; if(flushing||pulling) return '↻ syncing…'; if(lastSyncErr) return '⚠ sync problem — will retry'; if(n) return `↻ ${n} pending`; return lastSyncAt?'✓ synced':''; }
+function setSync(){ const t=syncText(); const el=$('#net'); if(el) el.textContent=UID?t:''; const si=$('#syncInfo'); if(si) si.textContent=t+(lastSyncAt?` (last sync ${new Date(lastSyncAt).toLocaleTimeString('en-IE',{timeZone:'Europe/Dublin',hour:'2-digit',minute:'2-digit'})})`:'')+(lastSyncErr?` — ${lastSyncErr}`:''); }
+
+/* ---------- lookups ---------- */
+const COW_STATUS = ['milking','dry','heifer','calf','bull','sold','died'];
+const PAD_STATUS = {grazing:{l:'Grazing now',c:'#1e6fd0'}, resting:{l:'Resting',c:'#5fae5f'}, silage:{l:'Silage',c:'#e6c619'}, reseeding:{l:'Reseeding',c:'#8d6e63'}};
+const BREEDS = ['Holstein Friesian','Friesian','Jersey','Jersey cross','Norwegian Red','Montbéliarde','Kiwi cross','Shorthorn','Angus','Hereford','Limousin','Charolais','Simmental','Belgian Blue','Saler','Other'];
+const cowLabel = c => c ? `${c.tag||'(no tag)'}${c.name?' · '+c.name:''}` : '—';
+const cowName = id => { const c=get('cows',id); return c?cowLabel(c):''; };
+const padName = id => { const p=get('paddocks',id); return p?p.name:''; };
+const activeCows = () => S.cows.filter(c=>!['sold','died'].includes(c.status));
+const cowOpts = (all) => [['','—']].concat((all?S.cows:activeCows()).slice().sort((a,b)=>(a.tag||'').localeCompare(b.tag||'')).map(c=>[c.id, cowLabel(c)]));
+const padOpts = () => [['','—']].concat(S.paddocks.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(p=>[p.id,p.name]));
+const IE_TAG = /^IE\s?\d{6}\s?\d\s?\d{4,5}$/i;
+function normTag(t){ return (t||'').trim().toUpperCase().replace(/\s+/g,' '); }
+
+/* ---------- generic form dialog ----------
+   field: {k,l,t:'text|number|date|select|textarea|checkbox|file|datalist|time',o:options|fn,req,ph,hint,full,show:(vals)=>bool,step,min,max,validate:(v,vals)=>warning}
+*/
+function openForm({title, fields, values={}, onSave, onDelete, saveLabel='Save', extraHTML=''}){
+  const dlg=$('#dlg');
+  const fh = f => {
+    const v = values[f.k] ?? (typeof f.def==='function'?f.def():f.def) ?? '';
+    const id='f_'+f.k; const req=f.req?' required':''; const ph=f.ph?` placeholder="${esc(f.ph)}"`:'';
+    let inp;
+    if(f.t==='select'){ const opts=typeof f.o==='function'?f.o():f.o; inp=`<select id="${id}" name="${f.k}"${req}>${opts.map(o=>{const [ov,ol]=Array.isArray(o)?o:[o,o]; return `<option value="${esc(ov)}"${String(ov)===String(v)?' selected':''}>${esc(ol)}</option>`;}).join('')}</select>`; }
+    else if(f.t==='textarea') inp=`<textarea id="${id}" name="${f.k}"${ph}>${esc(v)}</textarea>`;
+    else if(f.t==='checkbox') return `<label class="cb ${f.full!==false?'full':''}" data-wrap="${f.k}"><input type="checkbox" id="${id}" name="${f.k}"${v?' checked':''}> ${esc(f.l)}</label>`;
+    else if(f.t==='file') inp=`<input type="file" id="${id}" name="${f.k}" accept="${f.accept||'image/*'}"${f.multiple?' multiple':''}${req}>`;
+    else if(f.t==='datalist'){ const opts=typeof f.o==='function'?f.o():f.o; inp=`<input id="${id}" name="${f.k}" list="${id}_dl" value="${esc(v)}"${ph}${req} autocomplete="off"><datalist id="${id}_dl">${opts.map(o=>`<option value="${esc(o)}">`).join('')}</datalist>`; }
+    else inp=`<input type="${f.t||'text'}" id="${id}" name="${f.k}" value="${esc(v)}"${ph}${req}${f.step?` step="${f.step}"`:(f.t==='number'?' step="any"':'')}${f.min!=null?` min="${f.min}"`:''}${f.max!=null?` max="${f.max}"`:''}${f.t==='number'?' inputmode="decimal"':''}>`;
+    return `<label class="f ${f.full?'full':''}" data-wrap="${f.k}"><span>${esc(f.l)}${f.req?' *':''}</span>${inp}${f.hint?`<div class="hint">${esc(f.hint)}</div>`:''}<div class="hint warn" data-warn="${f.k}"></div></label>`;
+  };
+  dlg.innerHTML = `<form method="dialog" id="dlgForm" novalidate>
+    <div class="dh"><h3>${esc(title)}</h3><button type="button" class="sm" data-x>✕</button></div>
+    <div class="db">${extraHTML}<div class="fgrid">${fields.map(fh).join('')}</div><div class="hint warn" id="formErr"></div></div>
+    <div class="df">${onDelete?'<button type="button" class="danger" data-del>Delete</button>':''}<span class="sp"></span><button type="button" data-x>Cancel</button><button type="submit" class="pri">${esc(saveLabel)}</button></div></form>`;
+  const form=$('#dlgForm');
+  const gather = () => { const o={}; fields.forEach(f=>{ const el=form.elements[f.k]; if(!el) return;
+      if(f.t==='checkbox') o[f.k]=el.checked;
+      else if(f.t==='file') o[f.k]=el.files;
+      else if(f.t==='number') o[f.k]= el.value===''?null:Number(el.value);
+      else if(f.t==='password') o[f.k]=el.value; else o[f.k]= typeof el.value==='string'?el.value.trim():el.value; }); return o; };
+  const refresh = () => { const vals=gather(); fields.forEach(f=>{ const w=form.querySelector(`[data-wrap="${f.k}"]`); if(w && f.show) w.style.display=f.show(vals)?'':'none';
+      const wn=form.querySelector(`[data-warn="${f.k}"]`); if(wn) wn.textContent = f.validate ? (f.validate(vals[f.k], vals)||'') : ''; }); };
+  form.addEventListener('input', refresh); form.addEventListener('change', refresh); refresh();
+  $$('[data-x]',form).forEach(b=>b.onclick=()=>dlg.close());
+  if(onDelete) $('[data-del]',form).onclick=()=>{ if(confirm('Delete this record?')){ onDelete(); dlg.close(); render(); } };
+  form.onsubmit = async e => { e.preventDefault(); const vals=gather();
+    const missing=fields.filter(f=>f.req && (!f.show||f.show(vals)) && (vals[f.k]==null||vals[f.k]===''||(f.t==='file'&&!vals[f.k].length)));
+    if(missing.length){ $('#formErr').textContent='Please fill: '+missing.map(f=>f.l).join(', '); return; }
+    try{ const r = await onSave(vals); if(r===false) return; }catch(err){ console.error(err); $('#formErr').textContent='Error: '+err.message; return; }
+    dlg.close(); render(); };
+  dlg.showModal();
+  return dlg;
+}
+function showInfo(title, html){ const dlg=$('#dlg'); dlg.innerHTML=`<div class="dh"><h3>${esc(title)}</h3><button class="sm" data-x>✕</button></div><div class="db">${html}</div>`; $('[data-x]',dlg).onclick=()=>dlg.close(); dlg.showModal(); return dlg; }
+
+/* ---------- table ---------- */
+function table(rows, cols, {onRow, empty='No records yet.'}={}){
+  if(!rows.length) return `<div class="empty">${esc(empty)}</div>`;
+  const key='t'+Math.random().toString(36).slice(2,8);
+  setTimeout(()=>{ if(onRow) $$(`[data-t="${key}"]`).forEach(tr=>tr.onclick=()=>onRow(rows[+tr.dataset.i])); });
+  return `<div class="tw"><table><thead><tr>${cols.map(c=>`<th>${esc(c.l)}</th>`).join('')}</tr></thead><tbody>${rows.map((r,i)=>`<tr ${onRow?`class="click" data-t="${key}" data-i="${i}"`:''}>${cols.map(c=>`<td>${c.h?c.h(r):esc(c.f?c.f(r):r[c.k])}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+
+/* ---------- CSV / print / download ---------- */
+function download(name, content, type='text/plain'){ const b=content instanceof Blob?content:new Blob([content],{type}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();},1000); }
+function toCSV(rows, cols){ const q=v=>{ v=v==null?'':String(v); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; };
+  return '\ufeff'+[cols.map(c=>q(c.l)).join(',')].concat(rows.map(r=>cols.map(c=>q(c.f?c.f(r):r[c.k])).join(','))).join('\r\n'); }
+function printTable(title, rows, cols, note){
+  const pa=$('#printArea');
+  pa.innerHTML=`<h2>${esc(title)}</h2><p style="font-size:12px">${esc(S.settings.farmName||'')} ${S.settings.herdNumber?'· Herd no. '+esc(S.settings.herdNumber):''} · Printed ${fmtD(today())}<br><i>Record-keeping aid produced by Farm App. Not an official form; verify against Department of Agriculture / ICBF / product label requirements.</i>${note?'<br>'+esc(note):''}</p>
+  <table><thead><tr>${cols.map(c=>`<th>${esc(c.l)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(c=>`<td>${esc(c.f?c.f(r):r[c.k])}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+  window.print();
+}
+
+/* ---------- charts (canvas, no libraries) ---------- */
+const PALETTE=['#2f6b3a','#1e6fd0','#ef8f00','#c62828','#7b1fa2','#00897b','#6d4c41','#546e7a'];
+function setupCanvas(cv, h){ const dpr=window.devicePixelRatio||1; const w=cv.clientWidth||cv.parentElement.clientWidth||600; cv.width=w*dpr; cv.height=h*dpr; cv.style.height=h+'px'; const ctx=cv.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,w,h); ctx.font='12px system-ui,sans-serif'; return {ctx,w,h}; }
+function lineChart(cv, series, {height=220, yLabel=''}={}){
+  if(!cv) return; const {ctx,w,h}=setupCanvas(cv,height);
+  const pts=series.flatMap(s=>s.points);
+  if(!pts.length){ ctx.fillStyle='#888'; ctx.textAlign='center'; ctx.fillText('No data yet',w/2,h/2); return; }
+  const L=46,R=10,T=series.length>1?26:12,B=26;
+  const xs=pts.map(p=>Date.parse(p[0]+'T00:00:00Z')); let x0=Math.min(...xs), x1=Math.max(...xs); if(x0===x1){x0-=864e5; x1+=864e5;}
+  const ys=pts.map(p=>p[1]); let y1=Math.max(...ys)*1.1||1, y0=Math.min(0,Math.min(...ys));
+  const X=t=>L+(t-x0)/(x1-x0)*(w-L-R), Y=v=>T+(1-(v-y0)/(y1-y0))*(h-T-B);
+  ctx.strokeStyle='#e3e6e3'; ctx.fillStyle='#66706a'; ctx.lineWidth=1; ctx.textAlign='right'; ctx.textBaseline='middle';
+  for(let i=0;i<=4;i++){ const v=y0+(y1-y0)*i/4; const y=Y(v); ctx.beginPath(); ctx.moveTo(L,y); ctx.lineTo(w-R,y); ctx.stroke(); ctx.fillText(num(v, v<10?1:0),L-6,y); }
+  ctx.textAlign='center'; ctx.textBaseline='top';
+  const nl=Math.min(6,Math.max(2,Math.floor((w-L)/80))); for(let i=0;i<=nl;i++){ const t=x0+(x1-x0)*i/nl; const d=new Date(t).toISOString().slice(0,10); ctx.textAlign=i===0?'left':i===nl?'right':'center'; ctx.fillText(fmtD(d).slice(0,5),X(t),h-B+6); }
+  if(yLabel){ ctx.save(); ctx.translate(10,T+(h-T-B)/2); ctx.rotate(-Math.PI/2); ctx.textBaseline='middle'; ctx.fillText(yLabel,0,0); ctx.restore(); }
+  series.forEach((s,si)=>{ const col=s.color||PALETTE[si%PALETTE.length]; const P=s.points.slice().sort((a,b)=>a[0]<b[0]?-1:1);
+    ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=2; ctx.beginPath(); P.forEach((p,i)=>{ const x=X(Date.parse(p[0]+'T00:00:00Z')), y=Y(p[1]); i?ctx.lineTo(x,y):ctx.moveTo(x,y); }); ctx.stroke();
+    P.forEach(p=>{ ctx.beginPath(); ctx.arc(X(Date.parse(p[0]+'T00:00:00Z')),Y(p[1]),3,0,7); ctx.fill(); }); });
+  if(series.length>1){ let lx=L; ctx.textAlign='left'; ctx.textBaseline='middle'; series.forEach((s,si)=>{ ctx.fillStyle=s.color||PALETTE[si%PALETTE.length]; ctx.fillRect(lx,8,12,8); ctx.fillStyle='#333'; ctx.fillText(s.label,lx+16,12); lx+=ctx.measureText(s.label).width+34; }); }
+}
+function barChart(cv, labels, values, {height=220, target=null, targetLabel='', colors}={}){
+  if(!cv) return; const {ctx,w,h}=setupCanvas(cv,height);
+  if(!values.length){ ctx.fillStyle='#888'; ctx.textAlign='center'; ctx.fillText('No data yet',w/2,h/2); return; }
+  const L=46,R=10,T=12,B=40; const ymax=Math.max(...values, target||0)*1.1||1; const bw=(w-L-R)/values.length;
+  const Y=v=>T+(1-v/ymax)*(h-T-B);
+  ctx.strokeStyle='#e3e6e3'; ctx.fillStyle='#66706a'; ctx.textAlign='right'; ctx.textBaseline='middle';
+  for(let i=0;i<=4;i++){ const v=ymax*i/4; ctx.beginPath(); ctx.moveTo(L,Y(v)); ctx.lineTo(w-R,Y(v)); ctx.stroke(); ctx.fillText(num(v),L-6,Y(v)); }
+  values.forEach((v,i)=>{ ctx.fillStyle=(colors&&colors[i])||'#5fae5f'; const x=L+i*bw+bw*0.15; ctx.fillRect(x,Y(v),bw*0.7,Y(0)-Y(v));
+    ctx.save(); ctx.fillStyle='#333'; ctx.translate(L+i*bw+bw/2,h-B+6); ctx.rotate(values.length>6?-0.6:0); ctx.textAlign=values.length>6?'right':'center'; ctx.textBaseline='top'; ctx.fillText(String(labels[i]).slice(0,12),0,0); ctx.restore(); });
+  if(target){ ctx.strokeStyle='#c62828'; ctx.setLineDash([6,4]); ctx.beginPath(); ctx.moveTo(L,Y(target)); ctx.lineTo(w-R,Y(target)); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle='#c62828'; ctx.textAlign='right'; ctx.textBaseline='bottom'; ctx.fillText(targetLabel,w-R,Y(target)-2); }
+}
+
+/* ---------- IndexedDB: photos waiting to upload (per user) ---------- */
+const IDB_NAME='farmapp-v2';
+let _db;
+function idb(){ if(_db) return Promise.resolve(_db); return new Promise((res,rej)=>{ if(!window.indexedDB) return rej(new Error('IndexedDB not available')); const r=indexedDB.open(IDB_NAME,1);
+  r.onupgradeneeded=()=>{ const d=r.result; if(!d.objectStoreNames.contains('pending')) d.createObjectStore('pending',{keyPath:'id'}); };
+  r.onsuccess=()=>{ _db=r.result; res(_db); }; r.onerror=()=>rej(r.error); }); }
+async function idbReq(store, mode, fn){ const d=await idb(); return new Promise((res,rej)=>{ const tx=d.transaction(store,mode); const st=tx.objectStore(store); const rq=fn(st); tx.oncomplete=()=>res(rq&&rq.result); tx.onerror=()=>rej(tx.error); }); }
+const idbAll = store => idbReq(store,'readonly',s=>s.getAll()).then(r=>r||[]);
+const idbGet = (store,id) => idbReq(store,'readonly',s=>s.get(id));
+const idbPut = (store,rec) => idbReq(store,'readwrite',s=>s.put(rec));
+const idbDel = (store,id) => idbReq(store,'readwrite',s=>s.delete(id));
+async function compressImage(file, max=1280, q=0.82){
+  const url=URL.createObjectURL(file);
+  try{ const img=await new Promise((res,rej)=>{ const i=new Image(); i.onload=()=>res(i); i.onerror=()=>rej(new Error('Could not read image')); i.src=url; });
+    let {naturalWidth:w, naturalHeight:h}=img; const s=Math.min(1, max/Math.max(w,h)); w=Math.round(w*s); h=Math.round(h*s);
+    const c=document.createElement('canvas'); c.width=w; c.height=h; c.getContext('2d').drawImage(img,0,0,w,h);
+    return await new Promise(res=>c.toBlob(res,'image/jpeg',q));
+  } finally { URL.revokeObjectURL(url); }
+}
+const blobToDataURL = b => new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=()=>rej(r.error); r.readAsDataURL(b); });
+const dataURLToBlob = async d => (await fetch(d)).blob();
+const blobURLs=new Map();      // photo id -> object URL for photos still on this device
+const signedCache=new Map();   // storage path -> {url, exp}
+async function loadPendingBlobs(){ try{ (await idbAll('pending')).filter(p=>p.uid===UID).forEach(p=>{ if(!blobURLs.has(p.id)) blobURLs.set(p.id, URL.createObjectURL(p.blob)); }); }catch(e){} }
+async function uploadPending(){ let ps=[]; try{ ps=(await idbAll('pending')).filter(p=>p.uid===UID); }catch(e){ return; }
+  for(const p of ps){ const {error}=await sb.storage.from('photos').upload(p.path, p.blob, {contentType:p.blob.type||'image/jpeg', upsert:true}); if(error) throw error; await idbDel('pending',p.id); } }
+async function signedURLs(paths){
+  const need=[...new Set(paths.filter(p=>p && !(signedCache.get(p)?.exp>Date.now()+120e3)))];
+  if(need.length && navigator.onLine && sb){ for(const c of chunk(need,100)){ const {data,error}=await sb.storage.from('photos').createSignedUrls(c,3600); if(!error&&data) data.forEach(d=>{ if(d.signedUrl) signedCache.set(d.path,{url:d.signedUrl,exp:Date.now()+3600e3}); }); } }
+  return paths.map(p=>signedCache.get(p)?.url||''); }
+async function photoURLs(list){ const s=await signedURLs(list.map(p=>blobURLs.has(p.id)?null:p.path)); return list.map((p,i)=>blobURLs.get(p.id)||s[i]); }
+async function photoBlob(p){ const pend=await idbGet('pending',p.id).catch(()=>null); if(pend) return pend.blob; const {data,error}=await sb.storage.from('photos').download(p.path); if(error) throw error; return data; }
+let mapBgURL=null;
+async function loadMapBg(){ const bg=S.settings.mapBg; if(!bg||!bg.path){ mapBgURL=null; return null; } if(mapBgURL && mapBgURL.startsWith('blob:')) return mapBgURL; const [u]=await signedURLs([bg.path]); mapBgURL=u||null; return mapBgURL; }
+/* ---------- domain logic ---------- */
+function polyAreaUnits(pts){ let a=0; for(let i=0;i<pts.length;i++){ const [x1,y1]=pts[i],[x2,y2]=pts[(i+1)%pts.length]; a+=x1*y2-x2*y1; } return Math.abs(a)/2; }
+function mappedHa(p){ return (p.points&&p.points.length>=3) ? polyAreaUnits(p.points)*Math.pow(S.settings.mPerUnit||1,2)/10000 : 0; }
+function padHa(p){ return (p.areaManual>0) ? Number(p.areaManual) : mappedHa(p); }
+function centroid(pts){ let x=0,y=0; pts.forEach(p=>{x+=p[0];y+=p[1];}); return [x/pts.length,y/pts.length]; }
+function grazingsFor(pid){ return S.grazings.filter(g=>g.paddockId===pid).sort(byDate('dateIn')); }
+function walksFor(pid){ return S.grassWalks.filter(w=>w.paddockId===pid).sort(byDate('date')); }
+function currentGrazing(pid){ return S.grazings.find(g=>g.paddockId===pid && !g.dateOut); }
+function lastGrazedDate(pid){ if(currentGrazing(pid)) return today(); const g=grazingsFor(pid).filter(g=>g.dateOut)[0]; return g?g.dateOut:null; }
+function daysSinceGrazed(pid){ const d=lastGrazedDate(pid); return d==null?null:daysBetween(d,today()); }
+/* measured growth (kg DM/ha/day) from consecutive walks with no grazing in between */
+function measuredGrowth(pid){
+  const w=walksFor(pid).slice().reverse(); // oldest first
+  for(let i=w.length-1;i>0;i--){ const a=w[i-1], b=w[i]; const d=daysBetween(a.date,b.date); if(d<=0) continue;
+    const grazedBetween=S.grazings.some(g=>g.paddockId===pid && (g.dateIn<=b.date) && (!g.dateOut || g.dateOut>=a.date));
+    if(!grazedBetween) return {rate:(b.cover-a.cover)/d, from:a.date, to:b.date}; }
+  return null;
+}
+function farmMeasuredGrowth(){ const r=S.paddocks.map(p=>measuredGrowth(p.id)).filter(Boolean).filter(m=>daysBetween(m.to,today())<=21); return r.length?sum(r.map(m=>m.rate))/r.length:null; }
+/* simple, clearly-labelled ESTIMATE of daily growth from forecast weather */
+function weatherGrowthEstimate(soilT, rain, rain7){
+  if(soilT==null) return null; let g = soilT<=5 ? 0 : Math.min(100,(soilT-5)*9);
+  if(rain7!=null && rain7<7) g*=0.75;     // dry spell
+  if(rain!=null && rain>25) g*=0.8;       // waterlogging / poor utilisation
+  return Math.round(g);
+}
+function currentGrowthRate(){
+  const s=S.settings, wx=getWeatherCache();
+  const wxG = wx && wx.days && wx.days.length ? Math.round(sum(wx.days.slice(0,3).map(d=>d.growth||0))/Math.min(3,wx.days.length)) : null;
+  const meas = farmMeasuredGrowth();
+  if(s.growthSource==='manual') return {rate:Number(s.manualGrowth)||0, basis:'manual setting'};
+  if(s.growthSource==='weather' && wxG!=null) return {rate:wxG, basis:'weather estimate'};
+  if(s.growthSource==='measured' && meas!=null) return {rate:Math.round(meas), basis:'measured walks'};
+  if(s.growthSource==='auto'){ if(meas!=null) return {rate:Math.round(meas), basis:'measured walks (last 21 days)'}; if(wxG!=null) return {rate:wxG, basis:'weather estimate'}; }
+  return {rate:Number(s.manualGrowth)||0, basis:'manual setting (fallback)'};
+}
+function coverInfo(p){
+  const w=walksFor(p.id)[0]; const gs=grazingsFor(p.id); const cur=currentGrazing(p.id); const lastOut=gs.find(g=>g.dateOut);
+  let base=null, baseDate=null, basis='';
+  if(lastOut && (!w || lastOut.dateOut>=w.date)){ base=S.settings.residual; baseDate=lastOut.dateOut; basis='post-grazing residual'; }
+  else if(w){ base=w.cover; baseDate=w.date; basis='grass walk'; }
+  if(base==null) return {est:null};
+  const days=Math.max(0,daysBetween(baseDate,today()));
+  const g = cur ? 0 : currentGrowthRate().rate;
+  return {est:Math.max(0,Math.round(base+g*days)), base, baseDate, basis, days, grazingNow:!!cur};
+}
+function grazingPaddocks(){ return S.paddocks.filter(p=>!['silage','reseeding'].includes(p.status)); }
+function herdDemandCows(){ return S.settings.demandCows>0 ? Number(S.settings.demandCows) : S.cows.filter(c=>c.status==='milking').length; }
+function grassBudget(){
+  const ps=grazingPaddocks(); const area=sum(ps.map(padHa)); const res=Number(S.settings.residual)||0;
+  let totalKg=0, availKg=0, known=0;
+  ps.forEach(p=>{ const ci=coverInfo(p); if(ci.est==null) return; known++; totalKg+=ci.est*padHa(p); availKg+=Math.max(0,ci.est-res)*padHa(p); });
+  const cows=herdDemandCows(), kg=Number(S.settings.kgDmPerCow)||0, demand=cows*kg;
+  return {area, afc: area?totalKg/area:null, availKg, cows, demand, daysAhead: demand?availKg/demand:null, demandPerHa: area?demand/area:null, known, n:ps.length, coverPerCow: cows?totalKg/cows:null};
+}
+function coverColour(c){ if(c==null) return '#cfd5cf'; if(c<500) return '#e57373'; if(c<900) return '#ffb74d'; if(c<1300) return '#c5e1a5'; if(c<1800) return '#66bb6a'; return '#1b5e20'; }
+
+/* withdrawal */
+function wdEnds(t){ const last=addDays(t.date, Math.max(0,(Number(t.courseDays)||1)-1));
+  return {last, milk: t.milkWd!=null&&t.milkWd!=='' ? addDays(last, Math.ceil(Number(t.milkWd))) : null, meat: t.meatWd!=null&&t.meatWd!=='' ? addDays(last, Math.ceil(Number(t.meatWd))) : null}; }
+function inWithdrawal(){ const td=today(); const out=[];
+  S.treatments.forEach(t=>{ const e=wdEnds(t); const milk=e.milk&&e.milk>=td, meat=e.meat&&e.meat>=td; if(milk||meat) out.push({t, milkEnd:milk?e.milk:null, meatEnd:meat?e.meat:null}); });
+  return out.sort((a,b)=>((a.milkEnd||a.meatEnd)<(b.milkEnd||b.meatEnd)?-1:1)); }
+function cowWithdrawal(cid){ return inWithdrawal().filter(w=>w.t.cowId===cid); }
+
+/* breeding */
+const GESTATION=283;
+function breedingFor(cid){ return S.breeding.filter(b=>b.cowId===cid).sort(byDate('date')); }
+function dueInfo(c){
+  const ev=breedingFor(c.id); const svc=ev.find(e=>e.type==='service'); if(!svc) return null;
+  const after=ev.filter(e=>e.date>=svc.date && e!==svc);
+  if(after.some(e=>e.type==='calving')) return null;
+  const scan=after.find(e=>e.type==='scan');
+  if(scan && scan.result==='empty') return null;
+  let due=addDays(svc.date,GESTATION), basis='service '+fmtD(svc.date);
+  if(scan && scan.result==='in-calf' && scan.foetalAgeDays>0){ due=addDays(scan.date, GESTATION-Number(scan.foetalAgeDays)); basis='scan foetal age'; }
+  return {cow:c, svc, scan, due, basis, days:daysBetween(today(),due), confirmed: !!(scan&&scan.result==='in-calf')};
+}
+function dueList(){ return S.cows.filter(c=>!['sold','died'].includes(c.status)).map(dueInfo).filter(Boolean).sort((a,b)=>a.due<b.due?-1:1); }
+
+/* milk */
+function milkDailyTotals(){ // per date: bulk total if any bulk records, else sum of per-cow
+  const m={}; S.milk.forEach(r=>{ const d=m[r.date]||(m[r.date]={bulk:0,cow:0,nb:0}); if(r.kind==='bulk'){ d.bulk+=Number(r.litres)||0; d.nb++; } else d.cow+=Number(r.litres)||0; });
+  return Object.entries(m).map(([date,v])=>({date, litres: v.nb?v.bulk:v.cow, basis:v.nb?'bulk':'cows'})).sort((a,b)=>a.date<b.date?-1:1);
+}
+
+/* tasks */
+const RECUR={none:'One-off',daily:'Daily',weekly:'Weekly',fortnightly:'Every 2 weeks',monthly:'Monthly',yearly:'Yearly'};
+function nextDue(d, r){ if(r==='daily') return addDays(d,1); if(r==='weekly') return addDays(d,7); if(r==='fortnightly') return addDays(d,14);
+  const [y,m,dd]=d.split('-').map(Number); if(r==='monthly'){ const nd=new Date(Date.UTC(y,m,1)); const last=new Date(Date.UTC(nd.getUTCFullYear(),nd.getUTCMonth()+1,0)).getUTCDate(); nd.setUTCDate(Math.min(dd,last)); return nd.toISOString().slice(0,10); }
+  if(r==='yearly') return `${y+1}-${String(m).padStart(2,'0')}-${String(dd).padStart(2,'0')}`; return null; }
+function completeTask(t){ upd('tasks',t.id,{done:true, doneAt:nowISO()});
+  if(t.recur && t.recur!=='none' && t.due){ let nd=nextDue(t.due,t.recur); while(nd && nd<today() ) nd=nextDue(nd,t.recur);
+    const {id,createdAt,updatedAt,done,doneAt,...rest}=t; add('tasks',{...rest, due:nd, done:false, prevId:t.id}); toast('Done — next due '+fmtD(nd)); } else toast('Task done'); }
+
+/* weather (Open-Meteo, free, no key) */
+function getWeatherCache(){ try{ return JSON.parse(localStorage.getItem(kWx())); }catch(e){ return null; } }
+let wxPromise=null;
+async function fetchWeather(force){
+  const c=getWeatherCache(); const s=S.settings;
+  if(!force && c && c.lat==s.lat && c.lon==s.lon && Date.now()-c.fetchedAt<3*3600e3) return c;
+  if(!navigator.onLine) return c;
+  if(wxPromise) return wxPromise;
+  const url=`https://api.open-meteo.com/v1/forecast?latitude=${encodeURIComponent(s.lat)}&longitude=${encodeURIComponent(s.lon)}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&hourly=soil_temperature_6cm&timezone=Europe%2FDublin&forecast_days=7`;
+  wxPromise=(async()=>{ try{ const r=await fetch(url); if(!r.ok) throw new Error('HTTP '+r.status); const j=await r.json();
+    const soil={}; j.hourly.time.forEach((t,i)=>{ const d=t.slice(0,10); const v=j.hourly.soil_temperature_6cm[i]; if(v==null) return; (soil[d]=soil[d]||[]).push(v); });
+    const rain7=sum(j.daily.precipitation_sum);
+    const days=j.daily.time.map((d,i)=>{ const st=soil[d]?sum(soil[d])/soil[d].length:null; const rain=j.daily.precipitation_sum[i];
+      return {date:d, code:j.daily.weather_code?j.daily.weather_code[i]:null, tmax:j.daily.temperature_2m_max[i], tmin:j.daily.temperature_2m_min[i], rain, soil:st, growth:weatherGrowthEstimate(st,rain,rain7)}; });
+    const out={lat:s.lat, lon:s.lon, fetchedAt:Date.now(), days, rain7}; localStorage.setItem(kWx(), JSON.stringify(out)); return out;
+  } catch(e){ console.warn('Weather fetch failed', e.message); return c; } finally { wxPromise=null; } })();
+  return wxPromise;
+}
+function wxIcon(code){ if(code==null) return ''; if(code===0) return '☀️'; if(code<=2) return '🌤️'; if(code===3) return '☁️'; if(code<=48) return '🌫️'; if(code<=57) return '🌦️'; if(code<=67) return '🌧️'; if(code<=77) return '🌨️'; if(code<=82) return '🌧️'; if(code<=86) return '🌨️'; return '⛈️'; }
+function wxStrip(wx){ if(!wx||!wx.days) return `<div class="mut">No weather data yet${navigator.onLine?' — loading…':' (offline)'}.</div>`;
+  const dn=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  return `<div class="wx">${wx.days.map(d=>`<div><b>${d.date===today()?'Today':dn[new Date(d.date+'T12:00:00Z').getUTCDay()]}</b><span style="font-size:20px">${wxIcon(d.code)}</span><br>${num(d.tmax)}° / ${num(d.tmin)}°<br>💧 ${num(d.rain,1)} mm<br>Soil ${num(d.soil,1)}°<br><span class="pill grn" title="Estimated growth kg DM/ha/day">~${num(d.growth)} kg</span></div>`).join('')}</div>
+  <div class="hint">Open-Meteo forecast for ${num(wx.lat,2)}, ${num(wx.lon,2)} · updated ${new Date(wx.fetchedAt).toLocaleString('en-IE',{timeZone:'Europe/Dublin',dateStyle:'short',timeStyle:'short'})}. Growth figures (kg DM/ha/day) are a rough <b>estimate</b> from soil temperature and rain only — not a validated model.</div>`; }
+/* =================== VIEWS =================== */
+const ROUTES = {dash:['🏠','Home'], map:['🗺️','Map'], cows:['🐄','Cows'], milk:['🥛','Milk'], breeding:['🧬','Breeding'], grass:['🌱','Grass'], photos:['📷','Photos'], tasks:['✅','Tasks'], compliance:['📋','Records'], settings:['⚙️','Settings']};
+let route='dash', routeArg=null;
+function go(r,arg){ location.hash = arg ? `${r}/${arg}` : r; }
+function parseHash(){ const [r,a]=(location.hash.slice(1)||'dash').split('/'); route = (ROUTES[r]||r==='cow') ? r : 'dash'; routeArg=a?decodeURIComponent(a):null; }
+function renderNav(){ $('#nav').innerHTML=Object.entries(ROUTES).map(([k,[i,l]])=>`<a href="#${k}" class="${(route===k||(route==='cow'&&k==='cows'))?'on':''}">${i} ${l}</a>`).join('');
+  const on=$('#nav a.on'); if(on) on.scrollIntoView({block:'nearest',inline:'nearest'});
+  $('#farmTitle').textContent='🐄 '+(S.settings.farmName||'Farm App'); setSync(); }
+function render(){ if(!UID) return; renderNav(); const m=$('#main'); const hasDemo=COLLECTIONS.some(c=>S[c].some(r=>r.demo));
+  m.innerHTML = hasDemo?`<div class="banner">⚠️ <b>Demo data is loaded</b> — example records only. Remove it in <a href="#settings">Settings</a> before entering real records.</div>`:'';
+  const box=document.createElement('div'); m.appendChild(box); (VIEWS[route]||VIEWS.dash)(box); }
+const VIEWS={};
+
+/* ---------- Dashboard ---------- */
+VIEWS.dash = el => {
+  const td=today(); const open=S.tasks.filter(t=>!t.done);
+  const overdue=open.filter(t=>t.due&&t.due<td).sort(byDate('due',1)), dueToday=open.filter(t=>t.due===td);
+  const wd=inWithdrawal(); const due=dueList().filter(d=>d.days<=42);
+  const mt=milkDailyTotals(); const last=mt[mt.length-1]; const prev=mt[mt.length-2];
+  const gb=grassBudget(); const herd=activeCows();
+  const isEmpty = !S.cows.length && !S.paddocks.length && !S.tasks.length;
+  el.innerHTML = `
+  ${isEmpty?`<div class="card"><h2>Welcome 👋</h2><p>No records yet. Start by drawing your paddocks on the <a href="#map">Map</a> and adding <a href="#cows">Cows</a>, or <button class="sm" id="demoBtn">Load demo data</button> to explore.</p><p class="mut">Everything is stored on this device only. Use <a href="#settings">Settings → Export backup</a> regularly.</p></div>`:''}
+  <div class="kpis">
+    <div class="kpi"><b>${herd.length}</b><span>Animals in herd (${S.cows.filter(c=>c.status==='milking').length} milking)</span></div>
+    <div class="kpi"><b>${last?num(last.litres):'–'} L</b><span>Milk ${last?fmtD(last.date):''}${last&&prev?` (${last.litres>=prev.litres?'▲':'▼'} ${num(Math.abs(last.litres-prev.litres))} L)`:''}</span></div>
+    <div class="kpi ${wd.length?'warn':''}"><b>${wd.length}</b><span>In withdrawal</span></div>
+    <div class="kpi"><b>${due.length}</b><span>Calving ≤ 6 weeks</span></div>
+    <div class="kpi ${overdue.length?'warn':''}"><b>${overdue.length}</b><span>Overdue tasks</span></div>
+    <div class="kpi"><b>${gb.daysAhead!=null?num(gb.daysAhead,1):'–'}</b><span>Days grass ahead (est.)</span></div>
+  </div>
+  <div class="grid">
+    <div class="card"><h3>✅ Today's tasks</h3>${taskList([...overdue,...dueToday],'Nothing due today 🎉')}<div class="row" style="margin-top:8px"><button class="sm" id="addTask">+ Task</button><a class="btn sm" href="#tasks">All tasks</a></div></div>
+    <div class="card" style="${wd.length?'border-color:#c62828':''}"><h3>💊 Cows in withdrawal</h3>${wd.length?`<ul class="list">${wd.map(w=>`<li><div class="grow"><b>${esc(w.t.cowId?cowName(w.t.cowId):w.t.groupDesc||'Group')}</b><div class="mut">${esc(w.t.product)}</div></div><div style="text-align:right">${w.milkEnd?`<span class="pill red">Milk to ${fmtD(w.milkEnd)}</span><br>`:''}${w.meatEnd?`<span class="pill amb">Meat to ${fmtD(w.meatEnd)}</span>`:''}</div></li>`).join('')}</ul>`:'<div class="empty">No animals in withdrawal.</div>'}</div>
+    <div class="card"><h3>🍼 Upcoming calvings</h3>${due.length?`<ul class="list">${due.slice(0,8).map(d=>`<li><div class="grow"><a href="#cow/${d.cow.id}">${esc(cowLabel(d.cow))}</a><div class="mut">Due ${fmtD(d.due)} · ${d.confirmed?'scanned in-calf':'not yet scanned'}</div></div><span class="pill ${d.days<0?'red':d.days<=7?'amb':'grn'}">${d.days<0?Math.abs(d.days)+'d over':d.days+' days'}</span></li>`).join('')}</ul>`:'<div class="empty">No calvings due in the next 6 weeks.</div>'}</div>
+    <div class="card"><h3>🥛 Milk (last 14 days)</h3><canvas class="chart" id="dashMilk"></canvas></div>
+    <div class="card" style="grid-column:1/-1"><h3>🌦️ Weather & grass</h3><div id="dashWx">${wxStrip(getWeatherCache())}</div>
+      <p class="mut" style="margin-bottom:0">Average farm cover: <b>${gb.afc!=null?num(gb.afc):'–'} kg DM/ha</b> · Growth used: <b>${num(currentGrowthRate().rate)} kg DM/ha/day</b> (${esc(currentGrowthRate().basis)}) · Demand: ${gb.cows} cows × ${num(S.settings.kgDmPerCow)} kg — <i>estimates</i>. <a href="#grass">Grass planner →</a></p></div>
+  </div>`;
+  bindTaskList(el);
+  $('#addTask',el).onclick=()=>taskForm();
+  const db=$('#demoBtn',el); if(db) db.onclick=()=>{ loadDemo(); render(); };
+  const pts=mt.filter(d=>daysBetween(d.date,td)<=14).map(d=>[d.date,d.litres]); lineChart($('#dashMilk',el),[{label:'Litres/day',points:pts}],{height:180,yLabel:'L'});
+  fetchWeather().then(wx=>{ const d=$('#dashWx'); if(d && route==='dash') d.innerHTML=wxStrip(wx); });
+};
+
+/* ---------- Map ---------- */
+const MAP={mode:'view', pts:[], sel:null, colour:'status', vb:null, redrawId:null, calib:[]};
+VIEWS.map = el => {
+  const s=S.settings; if(!MAP.vb) MAP.vb={x:0,y:0,w:s.mapW,h:s.mapH};
+  const drawing=MAP.mode!=='view';
+  el.innerHTML=`
+  <div class="row">
+    ${drawing?`<button class="sm" id="mUndo">↶ Undo point</button>${MAP.mode==='draw'?'<button class="sm pri" id="mFinish">✔ Finish paddock</button>':''}<button class="sm" id="mCancel">Cancel</button>`
+    :`<button class="pri" id="mNew">+ Draw paddock</button><button class="sm" id="mNoMap">+ Add without map</button>`}
+    <span class="sp"></span>
+    <button class="sm ${MAP.colour==='status'?'on':''}" id="cStatus">Status</button><button class="sm ${MAP.colour==='cover'?'on':''}" id="cCover">Grass cover</button>
+    <button class="sm" id="zIn" aria-label="Zoom in">＋</button><button class="sm" id="zOut" aria-label="Zoom out">－</button><button class="sm" id="zFit">Fit</button>
+  </div>
+  <div id="mapwrap"><svg id="map" xmlns="http://www.w3.org/2000/svg"></svg>${drawing?`<div class="maphelp">${MAP.mode==='draw'?`Tap the map to add corner points (${MAP.pts.length} so far). Drag to pan. Press <b>Finish</b> when done (min 3 points).`:`Calibrate scale: tap two points a known distance apart (${MAP.calib.length}/2).`}</div>`:''}</div>
+  <div class="legend">${MAP.colour==='status'?Object.values(PAD_STATUS).map(v=>`<span><i style="background:${v.c}"></i>${v.l}</span>`).join(''):[[0,'<500'],[600,'500–900'],[1000,'900–1300'],[1500,'1300–1800'],[2000,'1800+']].map(([v,l])=>`<span><i style="background:${coverColour(v)}"></i>${l}</span>`).join('')+'<span><i style="background:#cfd5cf"></i>no data</span> <span class="mut">kg DM/ha (estimated)</span>'}</div>
+  <div class="row mut" style="margin-top:8px">Scale: 1 map unit = ${num(s.mPerUnit,3)} m <button class="sm" id="mCalib">Calibrate scale</button><button class="sm" id="mBg">Background image…</button>${mapBgURL?'<button class="sm danger" id="mBgDel">Remove image</button>':''}<input type="file" id="bgFile" accept="image/*" hidden></div>
+  <div id="padDetail"></div>
+  <div class="card"><h3>Paddocks (${S.paddocks.length}) · ${num(sum(S.paddocks.map(padHa)),2)} ha</h3><div id="padTable"></div></div>`;
+  drawMap();
+  $('#padTable',el).innerHTML=table(S.paddocks.slice().sort((a,b)=>a.name.localeCompare(b.name)),[
+    {l:'Name',k:'name'},{l:'ha',f:p=>num(padHa(p),2)},{l:'Status',h:p=>`<span class="pill" style="background:${PAD_STATUS[p.status]?.c||'#ccc'}33">${esc(PAD_STATUS[p.status]?.l||p.status)}</span>`},
+    {l:'Cover (est.)',f:p=>{const c=coverInfo(p); return c.est==null?'–':num(c.est);}},{l:'Days since grazed',f:p=>{const d=daysSinceGrazed(p.id); return d==null?'–':d;}}],
+    {onRow:p=>{MAP.sel=p.id; drawMap(); showPadDetail(); $('#padDetail').scrollIntoView({behavior:'smooth'});}, empty:'No paddocks yet — tap “Draw paddock”.'});
+  showPadDetail();
+  const B=(id,fn)=>{ const b=$('#'+id,el); if(b) b.onclick=fn; };
+  B('mNew',()=>{ MAP.mode='draw'; MAP.pts=[]; MAP.redrawId=null; MAP.sel=null; render(); });
+  B('mNoMap',()=>paddockForm(null,null));
+  B('mUndo',()=>{ if(MAP.mode==='draw') MAP.pts.pop(); else MAP.calib.pop(); render(); });
+  B('mCancel',()=>{ MAP.mode='view'; MAP.pts=[]; MAP.calib=[]; MAP.redrawId=null; render(); });
+  B('mFinish',()=>{ if(MAP.pts.length<3) return toast('Add at least 3 points');
+    const pts=MAP.pts.map(p=>[+p[0].toFixed(1),+p[1].toFixed(1)]);
+    if(MAP.redrawId){ upd('paddocks',MAP.redrawId,{points:pts}); MAP.sel=MAP.redrawId; MAP.mode='view'; MAP.pts=[]; MAP.redrawId=null; render(); toast('Boundary updated'); }
+    else paddockForm(null, pts); });
+  B('cStatus',()=>{MAP.colour='status'; render();}); B('cCover',()=>{MAP.colour='cover'; render();});
+  const zoom=f=>{ const v=MAP.vb; const cx=v.x+v.w/2, cy=v.y+v.h/2; v.w*=f; v.h*=f; v.x=cx-v.w/2; v.y=cy-v.h/2; drawMap(); };
+  B('zIn',()=>zoom(0.7)); B('zOut',()=>zoom(1/0.7)); B('zFit',()=>{ MAP.vb={x:0,y:0,w:s.mapW,h:s.mapH}; drawMap(); });
+  B('mCalib',()=>{ MAP.mode='calib'; MAP.calib=[]; render(); });
+  B('mBg',()=>$('#bgFile').click());
+  B('mBgDel',()=>{ const p=S.settings.mapBg?.path; if(p) enqueue('file:'+p,'rmfile'); S.settings.mapBg=null; mapBgURL=null; save(); render(); });
+  $('#bgFile',el).onchange=async e=>{ const f=e.target.files[0]; if(!f) return; if(!navigator.onLine) return toast('Uploading a background needs a connection');
+    const blob=await compressImage(f,2400,0.85); const bmp=await createImageBitmap(blob); const path=`${UID}/mapbg-${Date.now()}.jpg`;
+    const {error}=await sb.storage.from('photos').upload(path, blob, {contentType:'image/jpeg', upsert:true}); if(error) return toast('Upload failed: '+error.message);
+    const old=S.settings.mapBg?.path; if(old) enqueue('file:'+old,'rmfile');
+    S.settings.mapBg={path, w:bmp.width, h:bmp.height}; S.settings.mapH=Math.round(S.settings.mapW*bmp.height/bmp.width); save(); MAP.vb=null; mapBgURL=URL.createObjectURL(blob);
+    toast('Background set — now calibrate the scale'); render(); };
+  const svg=$('#map',el); let down=null;
+  svg.addEventListener('pointerdown',e=>{ down={x:e.clientX,y:e.clientY,vb:{...MAP.vb},moved:false,target:e.target}; svg.setPointerCapture(e.pointerId); });
+  svg.addEventListener('pointermove',e=>{ if(!down) return; const dx=e.clientX-down.x, dy=e.clientY-down.y; if(!down.moved && Math.hypot(dx,dy)<8) return; down.moved=true;
+    const r=svg.getBoundingClientRect(); const k=Math.max(MAP.vb.w/r.width, MAP.vb.h/r.height); MAP.vb.x=down.vb.x-dx*k; MAP.vb.y=down.vb.y-dy*k; drawMap(); });
+  svg.addEventListener('pointerup',e=>{ if(!down) return; const d=down; down=null; if(d.moved) return; const pt=svgPoint(svg,e);
+    if(MAP.mode==='draw'){ MAP.pts.push([pt.x,pt.y]); drawMap(); const h=$('.maphelp'); if(h) h.innerHTML=`Tap the map to add corner points (${MAP.pts.length} so far). Drag to pan. Press <b>Finish</b> when done (min 3 points).`; }
+    else if(MAP.mode==='calib'){ MAP.calib.push([pt.x,pt.y]); drawMap(); if(MAP.calib.length===2){ const [a,b]=MAP.calib; const du=Math.hypot(a[0]-b[0],a[1]-b[1]);
+        setTimeout(()=>{ const m=parseFloat(prompt(`Real distance between the two points, in metres?`,'100')); if(m>0&&du>0){ S.settings.mPerUnit=m/du; save(); toast('Scale set: 1 unit = '+num(m/du,3)+' m'); } MAP.mode='view'; MAP.calib=[]; render(); },50); } }
+    else { const pid=d.target && d.target.dataset ? d.target.dataset.pid : null; MAP.sel=pid||null; drawMap(); showPadDetail(); } });
+  svg.addEventListener('wheel',e=>{ e.preventDefault(); const pt=svgPoint(svg,e); const f=e.deltaY>0?1.15:1/1.15; const v=MAP.vb; v.x=pt.x-(pt.x-v.x)*f; v.y=pt.y-(pt.y-v.y)*f; v.w*=f; v.h*=f; drawMap(); },{passive:false});
+};
+function svgPoint(svg,e){ const p=svg.createSVGPoint(); p.x=e.clientX; p.y=e.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()); }
+function drawMap(){
+  const svg=$('#map'); if(!svg) return; const s=S.settings, v=MAP.vb; svg.setAttribute('viewBox',`${v.x} ${v.y} ${v.w} ${v.h}`); svg.style.aspectRatio=`${s.mapW} / ${s.mapH}`;
+  const fs=Math.max(10, v.w/(window.innerWidth<600?32:45)); const grid=s.mapW/20;
+  let h=`<defs><pattern id="gr" width="${grid}" height="${grid}" patternUnits="userSpaceOnUse"><path d="M ${grid} 0 L 0 0 0 ${grid}" fill="none" stroke="#c4d2bd" stroke-width="1" vector-effect="non-scaling-stroke"/></pattern></defs>
+  <rect x="${-s.mapW*5}" y="${-s.mapH*5}" width="${s.mapW*11}" height="${s.mapH*11}" fill="#dfe8d8"/>${mapBgURL?`<image href="${mapBgURL}" x="0" y="0" width="${s.mapW}" height="${s.mapH}" preserveAspectRatio="none"/>`:`<rect x="0" y="0" width="${s.mapW}" height="${s.mapH}" fill="url(#gr)" stroke="#aab8a2" vector-effect="non-scaling-stroke"/>`}`;
+  S.paddocks.filter(p=>p.points&&p.points.length>=3).forEach(p=>{ const ci=coverInfo(p); const col=MAP.colour==='status'?(PAD_STATUS[p.status]?.c||'#999'):coverColour(ci.est);
+    h+=`<polygon class="pad ${MAP.sel===p.id?'sel':''}" data-pid="${p.id}" points="${p.points.map(q=>q.join(',')).join(' ')}" fill="${col}"/>`; });
+  S.paddocks.filter(p=>p.points&&p.points.length>=3).forEach(p=>{ const [cx,cy]=centroid(p.points); const ci=coverInfo(p);
+    h+=`<text x="${cx}" y="${cy}" text-anchor="middle" font-size="${fs}">${esc(p.name)}</text><text x="${cx}" y="${cy+fs*1.1}" text-anchor="middle" font-size="${fs*0.75}" font-weight="400">${num(padHa(p),1)} ha${ci.est!=null?' · '+num(ci.est):''}</text>`; });
+  const dp=MAP.mode==='calib'?MAP.calib:MAP.pts; const r=v.w/120;
+  if(dp.length){ h+=`<polyline points="${dp.map(q=>q.join(',')).join(' ')}${MAP.mode==='draw'&&dp.length>2?' '+dp[0].join(','):''}" fill="${MAP.mode==='draw'?'#1e6fd055':'none'}" stroke="#d32f2f" stroke-width="3" vector-effect="non-scaling-stroke" stroke-dasharray="6 4"/>`;
+    dp.forEach(q=>h+=`<circle cx="${q[0]}" cy="${q[1]}" r="${r}" fill="#d32f2f" stroke="#fff" stroke-width="2" vector-effect="non-scaling-stroke"/>`);
+    if(MAP.mode==='draw'&&dp.length>=3){ const ha=polyAreaUnits(dp)*Math.pow(s.mPerUnit,2)/1e4; const [cx,cy]=centroid(dp); h+=`<text x="${cx}" y="${cy}" text-anchor="middle" font-size="${fs}">${num(ha,2)} ha</text>`; } }
+  svg.innerHTML=h;
+}
+function showPadDetail(){
+  const box=$('#padDetail'); if(!box) return; const p=MAP.sel&&get('paddocks',MAP.sel); if(!p){ box.innerHTML=''; return; }
+  const ci=coverInfo(p); const gs=grazingsFor(p.id); const cur=currentGrazing(p.id); const ds=daysSinceGrazed(p.id); const yr=today().slice(0,4);
+  const fert=S.fertiliser.filter(f=>f.paddockId===p.id&&(f.date||'').startsWith(yr)); const mg=measuredGrowth(p.id);
+  box.innerHTML=`<div class="card" style="margin-top:12px;border-color:var(--g)"><div class="row"><h2 style="margin:0">${esc(p.name)}</h2><span class="pill" style="background:${PAD_STATUS[p.status]?.c}33">${esc(PAD_STATUS[p.status]?.l||p.status)}</span><span class="sp"></span><button class="sm" id="pdClose">✕</button></div>
+    <div class="kpis"><div class="kpi"><b>${num(padHa(p),2)}</b><span>ha ${p.areaManual>0?'(entered)':'(mapped)'}</span></div>
+      <div class="kpi"><b>${ci.est!=null?num(ci.est):'–'}</b><span>kg DM/ha est. cover${ci.est!=null?` (${esc(ci.basis)} ${fmtD(ci.baseDate)} + growth)`:''}</span></div>
+      <div class="kpi"><b>${ds==null?'–':ds}</b><span>days since grazed${cur?' (grazing now)':''}</span></div>
+      <div class="kpi"><b>${mg?num(mg.rate):'–'}</b><span>measured growth kg/ha/day</span></div>
+      <div class="kpi"><b>${num(sum(fert.map(f=>f.nKgHa)))} / ${num(sum(fert.map(f=>f.pKgHa)),1)}</b><span>N / P kg/ha applied ${yr}</span></div></div>
+    <div class="row">${cur?`<button class="pri" id="pdOut">End grazing</button>`:`<button class="pri" id="pdIn">Start grazing</button>`}<button id="pdWalk">Record cover</button><button id="pdEdit">Edit</button><button id="pdRedraw">Redraw boundary</button><button id="pdTask">+ Task</button><button id="pdPhoto">+ Photo</button></div>
+    ${p.notes?`<p>${esc(p.notes)}</p>`:''}
+    <h3>Grazing history</h3>${table(gs,[{l:'In',f:g=>fmtD(g.dateIn)},{l:'Out',f:g=>g.dateOut?fmtD(g.dateOut):'grazing'},{l:'Days',f:g=>daysBetween(g.dateIn,g.dateOut||today())},{l:'Animals',f:g=>g.animals||''},{l:'Group',k:'group'},{l:'Pre/Post cover',f:g=>`${g.preCover??'–'} / ${g.postCover??'–'}`}],{onRow:g=>grazingForm(p,g),empty:'Not grazed yet.'})}
+    <h3>Cover walks</h3>${table(walksFor(p.id),[{l:'Date',f:w=>fmtD(w.date)},{l:'kg DM/ha',f:w=>num(w.cover)},{l:'Height cm',f:w=>w.heightCm??''},{l:'Source',k:'source'}],{onRow:w=>walkForm(p,w),empty:'No walks recorded.'})}</div>`;
+  $('#pdClose').onclick=()=>{MAP.sel=null; drawMap(); showPadDetail();};
+  const b=(id,fn)=>{ const x=$('#'+id); if(x) x.onclick=fn; };
+  b('pdIn',()=>grazingForm(p,null)); b('pdOut',()=>grazingForm(p,cur,true)); b('pdWalk',()=>walkForm(p,null)); b('pdEdit',()=>paddockForm(p)); b('pdTask',()=>taskForm(null,{paddockId:p.id})); b('pdPhoto',()=>photoForm({paddockId:p.id}));
+  b('pdRedraw',()=>{ MAP.mode='draw'; MAP.pts=[]; MAP.redrawId=p.id; render(); toast('Tap new corner points, then Finish'); });
+}
+function paddockForm(p, pts){
+  const mapped = pts ? polyAreaUnits(pts)*Math.pow(S.settings.mPerUnit,2)/1e4 : (p?mappedHa(p):0);
+  openForm({title:p?'Edit paddock':'New paddock', values:p||{status:'resting'}, fields:[
+    {k:'name',l:'Name',req:1,ph:'e.g. Long Field'},{k:'status',l:'Status',t:'select',o:Object.entries(PAD_STATUS).map(([k,v])=>[k,v.l])},
+    {k:'areaManual',l:'Area override (ha)',t:'number',ph:mapped?num(mapped,2)+' ha mapped':'enter area',hint:mapped?`Mapped area: ${num(mapped,2)} ha. Leave blank to use it.`:'No boundary drawn — enter the area in hectares.'},
+    {k:'landId',l:'LPIS / land parcel ID (optional)'},{k:'soil',l:'Soil / index notes (optional)',ph:'e.g. P index 2, K index 3'},{k:'notes',l:'Notes',t:'textarea',full:1}],
+    onSave:v=>{ if(p) upd('paddocks',p.id,v); else { const n=add('paddocks',{...v, points:pts||[]}); MAP.sel=n.id; } MAP.mode='view'; MAP.pts=[]; },
+    onDelete:p?()=>{ del('paddocks',p.id); MAP.sel=null; }:null});
+}
+function grazingForm(p, g, ending){
+  const cows=S.cows.filter(c=>c.status==='milking').length;
+  openForm({title:ending?'End grazing — '+p.name:(g?'Edit grazing':'Start grazing — '+p.name), values:g||{dateIn:today(), animals:cows||'', preCover:coverInfo(p).est??''},
+    fields:[{k:'dateIn',l:'Date in',t:'date',req:1},{k:'dateOut',l:'Date out',t:'date',def:ending?today():'',hint:'Leave blank while still grazing'},{k:'group',l:'Group',t:'datalist',o:['Milking herd','Dry cows','Heifers','Calves','Bullocks']},{k:'animals',l:'No. of animals',t:'number'},
+      {k:'preCover',l:'Pre-grazing cover kg DM/ha',t:'number'},{k:'postCover',l:'Post-grazing cover kg DM/ha',t:'number'},{k:'notes',l:'Notes',t:'textarea',full:1}],
+    onSave:v=>{ if(v.dateOut && v.dateOut<v.dateIn) throw new Error('Date out is before date in');
+      if(g) upd('grazings',g.id,v); else add('grazings',{...v, paddockId:p.id});
+      upd('paddocks',p.id,{status: v.dateOut?'resting':'grazing'}); },
+    onDelete:g?()=>del('grazings',g.id):null});
+}
+function walkForm(p, w){
+  openForm({title:(w?'Edit':'Record')+' grass cover — '+p.name, values:w||{date:today()}, fields:[{k:'date',l:'Date',t:'date',req:1},{k:'cover',l:'Cover (kg DM/ha above 4 cm)',t:'number',req:1,min:0,max:6000},{k:'heightCm',l:'Compressed height (cm, optional)',t:'number'},{k:'notes',l:'Notes',t:'textarea',full:1}],
+    onSave:v=>{ if(w) upd('grassWalks',w.id,v); else add('grassWalks',{...v, paddockId:p.id}); }, onDelete:w?()=>del('grassWalks',w.id):null});
+}
+/* ---------- Cows ---------- */
+let cowFilter={q:'',status:'active'};
+const cowFields = () => [
+  {k:'tag',l:'Tag number',req:1,ph:'IE 123456 7 1234',hint:'Irish format: IE + herd no. (6 digits + check digit) + animal no.',validate:v=>v&&!IE_TAG.test(normTag(v))?'Doesn’t look like the usual Irish tag format — saved anyway.':''},
+  {k:'name',l:'Name'},{k:'breed',l:'Breed',t:'datalist',o:BREEDS},{k:'sex',l:'Sex',t:'select',o:[['F','Female'],['M','Male']]},
+  {k:'dob',l:'Date of birth',t:'date'},{k:'status',l:'Status',t:'select',o:COW_STATUS},
+  {k:'sire',l:'Sire (code/name)'},{k:'damTag',l:'Dam tag',t:'datalist',o:()=>S.cows.filter(c=>c.sex!=='M').map(c=>c.tag)},
+  {k:'group',l:'Group',t:'datalist',o:['Milking herd','Dry cows','Heifers','Calves','Bullocks']},{k:'notes',l:'Notes',t:'textarea',full:1}];
+function cowForm(c, preset={}){
+  openForm({title:c?'Edit animal':'Add animal', values:c||{status:'milking',sex:'F',...preset}, fields:cowFields(),
+    onSave:v=>{ v.tag=normTag(v.tag); const dup=S.cows.find(x=>x.tag===v.tag && (!c||x.id!==c.id)); if(dup && !confirm('Another animal already has tag '+v.tag+'. Save anyway?')) return false;
+      const dam=S.cows.find(x=>x.tag===normTag(v.damTag)); v.damId=dam?dam.id:null;
+      if(c) upd('cows',c.id,v); else add('cows',v); },
+    onDelete:c?()=>{ del('cows',c.id); if(route==='cow') go('cows'); }:null});
+}
+const age = dob => { if(!dob) return ''; const d=daysBetween(dob,today()); return d<60?d+'d':d<730?Math.floor(d/30.44)+'m':(d/365.25).toFixed(1)+'y'; };
+VIEWS.cows = el => {
+  const st=cowFilter.status; const q=cowFilter.q.toLowerCase();
+  let rows=S.cows.filter(c=> st==='all'||(st==='active'?!['sold','died'].includes(c.status):c.status===st)).filter(c=>!q||[c.tag,c.name,c.breed,c.group].join(' ').toLowerCase().includes(q));
+  rows.sort((a,b)=>(a.tag||'').localeCompare(b.tag||''));
+  const counts={}; S.cows.forEach(c=>counts[c.status]=(counts[c.status]||0)+1);
+  el.innerHTML=`<div class="row"><button class="pri" id="addCow">+ Add animal</button><span class="sp"></span><button class="sm" id="csv">⬇ CSV</button></div>
+  <div class="row"><input id="q" placeholder="Search tag, name, breed…" value="${esc(cowFilter.q)}" style="flex:2;min-width:180px"><select id="st" style="flex:1;min-width:140px">${[['active','Active herd'],['all','All']].concat(COW_STATUS.map(s=>[s,s])).map(([k,l])=>`<option value="${k}" ${k===st?'selected':''}>${l}${counts[k]?` (${counts[k]})`:''}</option>`).join('')}</select></div>
+  <div class="card">${table(rows,[{l:'Tag',h:c=>`<b>${esc(c.tag)}</b>`},{l:'Name',k:'name'},{l:'Breed',k:'breed'},{l:'Age',f:c=>age(c.dob)},{l:'Status',h:c=>`<span class="pill ${c.status==='milking'?'blue':c.status==='dry'?'amb':['sold','died'].includes(c.status)?'':'grn'}">${esc(c.status)}</span>${cowWithdrawal(c.id).length?' <span class="pill red">withdrawal</span>':''}`},
+    {l:'Due',f:c=>{const d=dueInfo(c); return d?fmtD(d.due):'';}}],{onRow:c=>go('cow',c.id),empty:S.cows.length?'No animals match.':'No animals yet — add your first cow.'})}</div>`;
+  $('#addCow',el).onclick=()=>cowForm(null);
+  const qi=$('#q',el); qi.oninput=()=>{ cowFilter.q=qi.value; const pos=qi.selectionStart; render(); const n=$('#q'); n.focus(); n.setSelectionRange(pos,pos); };
+  $('#st',el).onchange=e=>{ cowFilter.status=e.target.value; render(); };
+  $('#csv',el).onclick=()=>download('herd.csv', toCSV(S.cows,[{l:'Tag',k:'tag'},{l:'Name',k:'name'},{l:'Breed',k:'breed'},{l:'Sex',k:'sex'},{l:'DOB',k:'dob'},{l:'Status',k:'status'},{l:'Sire',k:'sire'},{l:'Dam tag',k:'damTag'},{l:'Group',k:'group'},{l:'Notes',k:'notes'},{l:'Source',k:'source'},{l:'ID',k:'id'}]),'text/csv');
+};
+VIEWS.cow = el => {
+  const c=get('cows',routeArg); if(!c){ el.innerHTML='<div class="empty">Animal not found. <a href="#cows">Back</a></div>'; return; }
+  const milk=S.milk.filter(m=>m.cowId===c.id).sort(byDate()); const br=breedingFor(c.id); const tr=S.treatments.filter(t=>t.cowId===c.id).sort(byDate());
+  const mv=S.movements.filter(m=>m.cowId===c.id); const dt=S.deaths.filter(d=>d.cowId===c.id); const tasks=S.tasks.filter(t=>t.cowId===c.id&&!t.done);
+  const calves=S.cows.filter(x=>x.damId===c.id||(x.damTag&&x.damTag===c.tag)); const dam=c.damId?get('cows',c.damId):S.cows.find(x=>x.tag===c.damTag);
+  const di=dueInfo(c); const wd=cowWithdrawal(c.id);
+  const timeline=[...br.map(b=>({date:b.date, what:brLabel(b), col:'breeding', r:b})), ...tr.map(t=>({date:t.date, what:'💊 '+t.product+(t.reason?' — '+t.reason:''), col:'treatments', r:t})),
+    ...mv.map(m=>({date:m.date, what:(m.direction==='in'?'⬅ Moved in':'➡ Moved out')+(m.reason?' — '+m.reason:''), col:'movements', r:m})), ...dt.map(d=>({date:d.date, what:'✝ Died/disposed — '+(d.cause||''), col:'deaths', r:d}))].sort(byDate());
+  el.innerHTML=`<div class="row"><a class="btn sm" href="#cows">← Herd</a><span class="sp"></span><button class="sm" id="edit">Edit</button></div>
+  <div class="card"><h2>${esc(c.tag)} ${c.name?'· '+esc(c.name):''}</h2>
+   ${wd.length?`<div class="banner" style="background:#fdecea;border-color:#e8b4b4">💊 In withdrawal: ${wd.map(w=>`${esc(w.t.product)}${w.milkEnd?' — milk to '+fmtD(w.milkEnd):''}${w.meatEnd?' — meat to '+fmtD(w.meatEnd):''}`).join('; ')}</div>`:''}
+   <div class="kpis"><div class="kpi"><b>${esc(c.status)}</b><span>Status</span></div><div class="kpi"><b>${esc(c.breed||'–')}</b><span>Breed · ${c.sex==='M'?'Male':'Female'}</span></div><div class="kpi"><b>${age(c.dob)||'–'}</b><span>Age ${c.dob?'(DOB '+fmtD(c.dob)+')':''}</span></div>
+   <div class="kpi"><b>${di?fmtD(di.due):'–'}</b><span>Expected calving${di?` (${esc(di.basis)})`:''}</span></div><div class="kpi"><b>${milk.length?num(sum(milk.filter(m=>m.date===milk[0].date).map(m=>m.litres)),1):'–'} L</b><span>Latest day's milk</span></div></div>
+   <p class="mut">Sire: ${esc(c.sire||'–')} · Dam: ${dam?`<a href="#cow/${dam.id}">${esc(cowLabel(dam))}</a>`:esc(c.damTag||'–')} ${calves.length?'· Calves: '+calves.map(x=>`<a href="#cow/${x.id}">${esc(x.tag)}</a>`).join(', '):''}</p>
+   ${c.notes?`<p>${esc(c.notes)}</p>`:''}
+   <div class="row"><button class="sm" id="aMilk">+ Milk</button><button class="sm" id="aHeat">+ Heat</button><button class="sm" id="aServe">+ Service</button><button class="sm" id="aScan">+ Scan</button><button class="sm" id="aCalve">+ Calving</button><button class="sm" id="aTreat">+ Treatment</button><button class="sm" id="aTask">+ Task</button><button class="sm" id="aPhoto">+ Photo</button></div></div>
+  <div class="card"><h3>Milk trend (daily litres)</h3><canvas class="chart" id="cowMilk"></canvas></div>
+  <div class="card"><h3>History</h3>${table(timeline,[{l:'Date',f:x=>fmtD(x.date)},{l:'Event',k:'what'}],{onRow:x=>editByCol(x.col,x.r),empty:'No events yet.'})}</div>
+  ${tasks.length?`<div class="card"><h3>Open tasks</h3>${taskList(tasks)}</div>`:''}
+  <div class="card"><h3>Photos</h3><div class="gallery" id="cowPhotos"></div></div>`;
+  const byDay={}; milk.forEach(m=>byDay[m.date]=(byDay[m.date]||0)+(Number(m.litres)||0));
+  lineChart($('#cowMilk',el),[{label:'Litres',points:Object.entries(byDay)}],{height:200,yLabel:'L'});
+  bindTaskList(el);
+  const B=(id,fn)=>$('#'+id,el).onclick=fn; B('edit',()=>cowForm(c)); B('aMilk',()=>milkForm(null,{kind:'cow',cowId:c.id}));
+  B('aHeat',()=>breedingForm('heat',null,c.id)); B('aServe',()=>breedingForm('service',null,c.id)); B('aScan',()=>breedingForm('scan',null,c.id)); B('aCalve',()=>calvingForm(null,c.id));
+  B('aTreat',()=>treatmentForm(null,{cowId:c.id})); B('aTask',()=>taskForm(null,{cowId:c.id})); B('aPhoto',()=>photoForm({cowId:c.id}));
+  renderGallery($('#cowPhotos',el), p=>p.cowId===c.id);
+};
+function editByCol(col,r){ if(col==='breeding') return r.type==='calving'?calvingForm(r):breedingForm(r.type,r); if(col==='treatments') return treatmentForm(r); if(col==='movements') return movementForm(r); if(col==='deaths') return deathForm(r); }
+
+/* ---------- Milk ---------- */
+let milkCow='';
+function milkForm(m, preset={}){
+  openForm({title:m?'Edit milk record':'Log milk', values:m||{date:today(), session:new Date().getHours()<12?'AM':'PM', kind:'bulk', ...preset}, fields:[
+    {k:'date',l:'Date',t:'date',req:1},{k:'session',l:'Milking',t:'select',o:['AM','PM','Day total']},
+    {k:'kind',l:'Record type',t:'select',o:[['bulk','Bulk tank'],['cow','Individual cow']]},{k:'cowId',l:'Cow',t:'select',o:()=>cowOpts(),show:v=>v.kind==='cow',req:1},
+    {k:'litres',l:'Litres',t:'number',req:1,min:0},{k:'fat',l:'Fat %',t:'number'},{k:'protein',l:'Protein %',t:'number'},{k:'scc',l:'SCC (×1000 cells/ml)',t:'number'},{k:'notes',l:'Notes',t:'textarea',full:1}],
+    onSave:v=>{ if(v.kind!=='cow') v.cowId=null; if(v.cowId && cowWithdrawal(v.cowId).some(w=>w.milkEnd)) toast('⚠️ This cow is in milk withdrawal — milk must not go in the tank');
+      if(m) upd('milk',m.id,v); else add('milk',v); }, onDelete:m?()=>del('milk',m.id):null});
+}
+function quickMilkForm(){ // per-cow entry for one milking
+  const cows=S.cows.filter(c=>c.status==='milking').sort((a,b)=>(a.tag||'').localeCompare(b.tag||''));
+  if(!cows.length) return toast('No cows with status “milking”');
+  openForm({title:'Log a milking — all cows', values:{date:today(), session:new Date().getHours()<12?'AM':'PM'}, saveLabel:'Save all',
+    fields:[{k:'date',l:'Date',t:'date',req:1},{k:'session',l:'Milking',t:'select',o:['AM','PM']}].concat(cows.map(c=>({k:'c_'+c.id,l:cowLabel(c)+(cowWithdrawal(c.id).some(w=>w.milkEnd)?' ⚠️ withdrawal':''),t:'number'}))),
+    onSave:v=>{ let n=0; cows.forEach(c=>{ const l=v['c_'+c.id]; if(l!=null){ add('milk',{date:v.date,session:v.session,kind:'cow',cowId:c.id,litres:l},true); n++; } }); save(); toast(n+' records saved'); }});
+}
+VIEWS.milk = el => {
+  const tot=milkDailyTotals(); const last30=tot.filter(d=>daysBetween(d.date,today())<=30);
+  const recent=S.milk.slice().sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:(a.session<b.session?1:-1)).slice(0,60);
+  const qual=S.milk.filter(m=>m.kind==='bulk'&&(m.fat||m.protein||m.scc)&&daysBetween(m.date,today())<=60);
+  el.innerHTML=`<div class="row"><button class="pri" id="add">+ Log milk</button><button id="quick">Log milking (all cows)</button><span class="sp"></span><button class="sm" id="csv">⬇ CSV</button></div>
+  <div class="card"><h3>Herd daily total — last 30 days</h3><canvas class="chart" id="herdChart"></canvas><div class="hint">Uses bulk-tank records where present for a day, otherwise the sum of individual cow records.</div></div>
+  ${qual.length?`<div class="card"><h3>Bulk milk quality (60 days)</h3><canvas class="chart" id="qualChart"></canvas></div>`:''}
+  <div class="card"><div class="row"><h3 style="margin:0">Per-cow trend</h3><span class="sp"></span><select id="cowSel" style="max-width:260px">${cowOpts(true).map(([v,l])=>`<option value="${v}" ${v===milkCow?'selected':''}>${v?esc(l):'Choose cow…'}</option>`).join('')}</select></div><canvas class="chart" id="cowChart"></canvas></div>
+  <div class="card"><h3>Recent records</h3>${table(recent,[{l:'Date',f:m=>fmtD(m.date)},{l:'Milking',k:'session'},{l:'Cow / bulk',f:m=>m.kind==='bulk'?'Bulk tank':cowName(m.cowId)},{l:'Litres',f:m=>num(m.litres,1)},{l:'Fat %',f:m=>m.fat??''},{l:'Prot %',f:m=>m.protein??''},{l:'SCC',f:m=>m.scc??''},{l:'Source',k:'source'}],{onRow:m=>milkForm(m),empty:'No milk records yet.'})}</div>`;
+  lineChart($('#herdChart',el),[{label:'Litres/day',points:last30.map(d=>[d.date,d.litres])}],{yLabel:'L'});
+  if(qual.length){ const per=k=>{ const o={}; qual.filter(m=>m[k]).forEach(m=>(o[m.date]=o[m.date]||[]).push(m[k])); return Object.entries(o).map(([d,a])=>[d,sum(a)/a.length]); };
+    lineChart($('#qualChart',el),[{label:'Fat %',points:per('fat')},{label:'Protein %',points:per('protein')}],{height:180}); }
+  const drawCow=()=>{ const byDay={}; S.milk.filter(m=>m.cowId===milkCow).forEach(m=>byDay[m.date]=(byDay[m.date]||0)+(Number(m.litres)||0)); lineChart($('#cowChart',el),[{label:'Litres',points:Object.entries(byDay)}],{height:200,yLabel:'L'}); };
+  drawCow(); $('#cowSel',el).onchange=e=>{ milkCow=e.target.value; drawCow(); };
+  $('#add',el).onclick=()=>milkForm(null); $('#quick',el).onclick=quickMilkForm;
+  $('#csv',el).onclick=()=>download('milk.csv',toCSV(S.milk.slice().sort(byDate('date',1)),[{l:'Date',k:'date'},{l:'Milking',k:'session'},{l:'Type',k:'kind'},{l:'Cow tag',f:m=>get('cows',m.cowId)?.tag||''},{l:'Litres',k:'litres'},{l:'Fat %',k:'fat'},{l:'Protein %',k:'protein'},{l:'SCC',k:'scc'},{l:'Source',k:'source'}]),'text/csv');
+};
+/* ---------- Breeding & calving ---------- */
+const EASE={1:'1 – No assistance',2:'2 – Slight assistance',3:'3 – Considerable assistance',4:'4 – Major/vet assistance',5:'5 – Caesarean / surgery'};
+function brLabel(b){ if(b.type==='heat') return '🔥 Heat observed'+(b.signs?' — '+b.signs:''); if(b.type==='service') return `🧬 ${b.method==='bull'?'Bull':'AI'} service — ${b.sireCode||'?'}${b.technician?' ('+b.technician+')':''} → due ${fmtD(addDays(b.date,GESTATION))}`;
+  if(b.type==='scan') return '🔍 Scan: '+(b.result||'')+(b.foetalAgeDays?` (${b.foetalAgeDays} days)`:''); if(b.type==='calving') return `🍼 Calved — ${EASE[b.ease]||''}${b.calfTag?' · calf '+b.calfTag:''} ${b.calfSex||''}`; return b.type; }
+function breedingForm(type, b, cowId){
+  const F={heat:[{k:'signs',l:'Signs',t:'datalist',o:['Standing heat','Mounting others','Tail paint rubbed','Clear mucus','Heat detection aid','Restless / bulling']}],
+    service:[{k:'method',l:'Method',t:'select',o:[['ai','AI'],['bull','Stock bull']]},{k:'sireCode',l:'Sire code / bull',req:1,ph:'e.g. FR4425'},{k:'technician',l:'AI technician / operator'},{k:'strawBatch',l:'Straw batch (optional)'}],
+    scan:[{k:'result',l:'Result',t:'select',o:['in-calf','empty','recheck']},{k:'foetalAgeDays',l:'Foetal age (days, optional)',t:'number',hint:'If given, due date is calculated from the scan.'},{k:'twins',l:'Twins',t:'checkbox'},{k:'scanner',l:'Scanned by'}]}[type];
+  openForm({title:(b?'Edit ':'Record ')+type, values:b||{date:today(),cowId:cowId||'',method:'ai'}, fields:[{k:'cowId',l:'Cow',t:'select',o:()=>cowOpts(),req:1},{k:'date',l:'Date',t:'date',req:1}].concat(F,[{k:'notes',l:'Notes',t:'textarea',full:1}]),
+    extraHTML: type==='service'?'<p class="mut">Expected calving = service date + 283 days.</p>':'',
+    onSave:v=>{ if(b) upd('breeding',b.id,v); else add('breeding',{...v,type}); if(type==='service') toast('Expected calving '+fmtD(addDays(v.date,GESTATION))); },
+    onDelete:b?()=>del('breeding',b.id):null});
+}
+function calvingForm(b, cowId){
+  const lastSvc = cid => (breedingFor(cid).find(e=>e.type==='service')||{}).sireCode||'';
+  openForm({title:b?'Edit calving':'Record calving', values:b||{date:today(),cowId:cowId||'',ease:1,alive:true,createCalf:true,damToMilking:true,sireCode:cowId?lastSvc(cowId):''}, fields:[
+    {k:'cowId',l:'Dam',t:'select',o:()=>cowOpts(),req:1},{k:'date',l:'Calving date',t:'date',req:1},{k:'ease',l:'Calving ease',t:'select',o:Object.entries(EASE)},
+    {k:'calfTag',l:'Calf tag',ph:'IE 123456 7 1234',validate:v=>v&&!IE_TAG.test(normTag(v))?'Unusual tag format':''},{k:'calfSex',l:'Calf sex',t:'select',o:[['F','Heifer'],['M','Bull']]},{k:'calfBreed',l:'Calf breed',t:'datalist',o:BREEDS},
+    {k:'sireCode',l:'Sire code',hint:'Pre-filled from the last service'},{k:'calfWeight',l:'Birth weight kg (optional)',t:'number'},{k:'alive',l:'Calf born alive',t:'checkbox'},{k:'twin',l:'Twin',t:'checkbox'},
+    ...(b?[]:[{k:'createCalf',l:'Create calf record in herd',t:'checkbox'},{k:'damToMilking',l:'Set dam status to milking',t:'checkbox'}]),{k:'notes',l:'Notes',t:'textarea',full:1}],
+    extraHTML:'<p class="mut">Remember: calves must be registered with AIM/ICBF within the legal time limit — this app does not submit anything.</p>',
+    onSave:v=>{ const {createCalf,damToMilking,...rec}=v; rec.calfTag=normTag(rec.calfTag);
+      if(b){ upd('breeding',b.id,rec); return; }
+      const cb=add('breeding',{...rec,type:'calving'}); const dam=get('cows',v.cowId);
+      if(createCalf && v.alive){ const calf=add('cows',{tag:rec.calfTag||'', name:'', breed:rec.calfBreed||dam?.breed||'', sex:rec.calfSex, dob:rec.date, status:'calf', sire:rec.sireCode, damTag:dam?.tag||'', damId:dam?.id||null, group:'Calves', notes:'Auto-created from calving record'}); upd('breeding',cb.id,{calfId:calf.id}); toast('Calf record created'); }
+      if(damToMilking && dam) upd('cows',dam.id,{status:'milking'}); },
+    onDelete:b?()=>del('breeding',b.id):null});
+}
+let brTab='due';
+VIEWS.breeding = el => {
+  const dl=dueList(); const td=today();
+  const repeat=activeCows().map(c=>{ const e=breedingFor(c.id)[0]; if(!e||!['heat','service'].includes(e.type)) return null; const d=daysBetween(e.date,td); return d>=17&&d<=25?{c,e,d,watch:addDays(e.date,21)}:null; }).filter(Boolean);
+  const list=S.breeding.slice().sort(byDate()).filter(b=>brTab==='all'||b.type===brTab);
+  el.innerHTML=`<div class="row"><button id="bHeat">🔥 Heat</button><button class="pri" id="bServe">🧬 Service</button><button id="bScan">🔍 Scan</button><button class="pri" id="bCalve">🍼 Calving</button><span class="sp"></span><button class="sm" id="csv">⬇ CSV</button></div>
+  <div class="subtabs">${[['due','Due list'],['all','All events'],['heat','Heats'],['service','Services'],['scan','Scans'],['calving','Calvings']].map(([k,l])=>`<button class="sm ${brTab===k?'on':''}" data-bt="${k}">${l}</button>`).join('')}</div>
+  ${brTab==='due'?`<div class="card"><h3>Upcoming calvings</h3>${table(dl,[{l:'Cow',h:d=>`<a href="#cow/${d.cow.id}">${esc(cowLabel(d.cow))}</a>`},{l:'Served',f:d=>fmtD(d.svc.date)},{l:'Sire',f:d=>d.svc.sireCode||''},{l:'Scan',f:d=>d.scan?d.scan.result:'not scanned'},{l:'Due',f:d=>fmtD(d.due)},{l:'Days',h:d=>`<span class="pill ${d.days<0?'red':d.days<=14?'amb':'grn'}">${d.days<0?Math.abs(d.days)+' over':d.days}</span>`}],{empty:'No cows with an open service.'})}<div class="hint">Due = last service + 283 days (or scan date adjusted by foetal age). Cows scanned empty or already calved are excluded.</div></div>
+   <div class="card"><h3>Watch for repeat heats (day 17–25)</h3>${table(repeat,[{l:'Cow',h:r=>`<a href="#cow/${r.c.id}">${esc(cowLabel(r.c))}</a>`},{l:'Last event',f:r=>r.e.type+' '+fmtD(r.e.date)},{l:'Day',f:r=>r.d},{l:'~21-day date',f:r=>fmtD(r.watch)}],{empty:'None in the repeat window.'})}</div>`
+  :`<div class="card">${table(list,[{l:'Date',f:b=>fmtD(b.date)},{l:'Cow',h:b=>`<a href="#cow/${b.cowId}">${esc(cowName(b.cowId))}</a>`},{l:'Event',f:brLabel}],{onRow:b=>editByCol('breeding',b),empty:'No records.'})}</div>`}`;
+  $$('[data-bt]',el).forEach(b=>b.onclick=()=>{brTab=b.dataset.bt; render();});
+  $('#bHeat',el).onclick=()=>breedingForm('heat'); $('#bServe',el).onclick=()=>breedingForm('service'); $('#bScan',el).onclick=()=>breedingForm('scan'); $('#bCalve',el).onclick=()=>calvingForm();
+  $('#csv',el).onclick=()=>download('breeding.csv',toCSV(S.breeding.slice().sort(byDate('date',1)),[{l:'Date',k:'date'},{l:'Type',k:'type'},{l:'Cow tag',f:b=>get('cows',b.cowId)?.tag||''},{l:'Method',k:'method'},{l:'Sire code',k:'sireCode'},{l:'Technician',k:'technician'},{l:'Expected calving',f:b=>b.type==='service'?addDays(b.date,GESTATION):''},{l:'Scan result',k:'result'},{l:'Calving ease',k:'ease'},{l:'Calf tag',k:'calfTag'},{l:'Calf sex',k:'calfSex'},{l:'Notes',k:'notes'}]),'text/csv');
+};
+
+/* ---------- Grass planner ---------- */
+VIEWS.grass = el => {
+  const gb=grassBudget(); const gr=currentGrowthRate(); const s=S.settings;
+  const rot=grazingPaddocks().map(p=>({p,ci:coverInfo(p),ha:padHa(p),ds:daysSinceGrazed(p.id),mg:measuredGrowth(p.id)})).sort((a,b)=>(b.ci.est??-1)-(a.ci.est??-1));
+  const flag=r=>{ if(r.ci.grazingNow) return '<span class="pill blue">grazing now</span>'; const e=r.ci.est; if(e==null) return '<span class="pill">walk needed</span>'; if(e>1800) return '<span class="pill amb">heavy — consider surplus/bales</span>'; if(e>=1300) return '<span class="pill grn">ready to graze</span>'; if(e>=900) return '<span class="pill">building</span>'; return '<span class="pill red">too low</span>'; };
+  let order=1;
+  el.innerHTML=`<div class="banner" style="background:#eef5ff;border-color:#c5d8f5">ℹ️ All grass figures here are <b>estimates</b> (manual walks + a simple growth model). Use them as a guide alongside your own judgement / PastureBase.</div>
+  <div class="row"><button class="pri" id="walkAll">📝 Record farm walk</button><button id="wxRefresh">↻ Refresh weather</button><span class="sp"></span><button class="sm" id="settingsBtn">Planner settings</button></div>
+  <div class="kpis"><div class="kpi"><b>${gb.afc!=null?num(gb.afc):'–'}</b><span>Avg farm cover kg DM/ha</span></div><div class="kpi"><b>${gb.daysAhead!=null?num(gb.daysAhead,1):'–'}</b><span>Days grass ahead</span></div>
+    <div class="kpi"><b>${num(gr.rate)}</b><span>Growth kg DM/ha/day (${esc(gr.basis)})</span></div><div class="kpi"><b>${gb.demandPerHa!=null?num(gb.demandPerHa):'–'}</b><span>Demand kg DM/ha/day (${gb.cows} × ${num(s.kgDmPerCow)} kg ÷ ${num(gb.area,1)} ha)</span></div>
+    <div class="kpi"><b>${gb.coverPerCow!=null?num(gb.coverPerCow):'–'}</b><span>Cover per cow kg DM</span></div></div>
+  ${gb.demandPerHa!=null&&gr.rate?`<p class="mut">${gr.rate>gb.demandPerHa?`Growth (${num(gr.rate)}) is above demand (${num(gb.demandPerHa)}) → grass likely building; consider taking out surplus paddocks.`:`Demand (${num(gb.demandPerHa)}) exceeds growth (${num(gr.rate)}) → cover likely falling; consider supplement or slowing rotation.`}</p>`:''}
+  <div class="card"><h3>7-day weather & estimated growth</h3><div id="wx">${wxStrip(getWeatherCache())}</div></div>
+  <div class="card"><h3>Grass wedge (estimated cover, highest first)</h3><canvas class="chart" id="wedge"></canvas><div class="hint">Red dashed line = target pre-grazing cover 1400 kg DM/ha (adjust to your own target).</div></div>
+  <div class="card"><h3>Suggested rotation order</h3>${table(rot,[{l:'#',f:r=>r.ci.grazingNow||r.ci.est==null?'':order++},{l:'Paddock',k:'name',f:r=>r.p.name},{l:'ha',f:r=>num(r.ha,2)},{l:'Est. cover',f:r=>r.ci.est==null?'–':num(r.ci.est)},{l:'Basis',f:r=>r.ci.est==null?'':`${r.ci.basis} ${fmtD(r.ci.baseDate)} (+${r.ci.days}d)`},{l:'Days since grazed',f:r=>r.ds??'–'},{l:'Measured growth',f:r=>r.mg?num(r.mg.rate):'–'},{l:'',h:flag}],{onRow:r=>walkForm(r.p,null),empty:'Add paddocks on the Map first.'})}
+   <div class="hint">Order = highest estimated cover first. Silage and reseeding paddocks are excluded. Tap a row to record a cover.</div></div>
+  <div class="card"><h3>Recent walks</h3>${table(S.grassWalks.slice().sort(byDate()).slice(0,40),[{l:'Date',f:w=>fmtD(w.date)},{l:'Paddock',f:w=>padName(w.paddockId)},{l:'kg DM/ha',f:w=>num(w.cover)},{l:'Source',k:'source'}],{onRow:w=>walkForm(get('paddocks',w.paddockId),w),empty:'No walks yet.'})}</div>`;
+  const wr=rot.filter(r=>r.ci.est!=null); barChart($('#wedge',el), wr.map(r=>r.p.name), wr.map(r=>r.ci.est), {target:1400, targetLabel:'target 1400', colors:wr.map(r=>coverColour(r.ci.est))});
+  $('#walkAll',el).onclick=()=>{ const ps=grazingPaddocks(); if(!ps.length) return toast('Add paddocks first');
+    openForm({title:'Farm walk — covers (kg DM/ha)', values:{date:today()}, saveLabel:'Save walk', fields:[{k:'date',l:'Date',t:'date',req:1,full:1}].concat(ps.map(p=>({k:'p_'+p.id,l:p.name+` (est. ${coverInfo(p).est??'?'})`,t:'number'}))),
+      onSave:v=>{ let n=0; ps.forEach(p=>{ const c=v['p_'+p.id]; if(c!=null){ add('grassWalks',{date:v.date,paddockId:p.id,cover:c},true); n++; } }); save(); toast(n+' covers saved'); }}); };
+  $('#wxRefresh',el).onclick=async()=>{ $('#wx').innerHTML='Loading…'; const wx=await fetchWeather(true); $('#wx').innerHTML=wxStrip(wx); if(!wx) toast('Weather unavailable (offline?)'); };
+  $('#settingsBtn',el).onclick=grassSettingsForm;
+  fetchWeather().then(wx=>{ const d=$('#wx'); if(d&&route==='grass') d.innerHTML=wxStrip(wx); });
+};
+function grassSettingsForm(){ openForm({title:'Grass planner settings', values:S.settings, fields:[
+  {k:'kgDmPerCow',l:'Demand per cow (kg DM/day)',t:'number',hint:'Typical grazing dairy cow 15–18 kg'},{k:'demandCows',l:'Number of grazing cows',t:'number',hint:'Blank = count of cows with status “milking” ('+S.cows.filter(c=>c.status==='milking').length+')'},
+  {k:'residual',l:'Post-grazing residual (kg DM/ha)',t:'number',hint:'Cover assumed left after grazing; subtracted when calculating days ahead'},
+  {k:'growthSource',l:'Growth rate source',t:'select',o:[['auto','Auto (measured, then weather, then manual)'],['measured','Measured from walks'],['weather','Weather estimate'],['manual','Manual figure']]},
+  {k:'manualGrowth',l:'Manual growth rate (kg DM/ha/day)',t:'number'},{k:'lat',l:'Weather latitude',t:'number'},{k:'lon',l:'Weather longitude',t:'number'}],
+  onSave:v=>{ Object.assign(S.settings,v); save(); }}); }
+/* ---------- Photos (private Supabase Storage bucket, folder per user) ---------- */
+let photoFilter='';
+function photoForm(preset={}){
+  openForm({title:'Add photo(s)', values:{date:today(),...preset}, saveLabel:'Save', fields:[
+    {k:'files',l:'Photo(s)',t:'file',req:1,multiple:true,full:1,hint:'Take a photo or choose from gallery. Resized to max 1280 px JPEG and saved to your private account.'},
+    {k:'date',l:'Date',t:'date',req:1},{k:'cowId',l:'Cow',t:'select',o:()=>cowOpts(true)},{k:'paddockId',l:'Paddock',t:'select',o:padOpts},{k:'caption',l:'Caption',t:'textarea',full:1}],
+    onSave:async v=>{ const files=[...v.files]; let n=0;
+      for(const f of files){ const blob=await compressImage(f); const id=uid(); const path=`${UID}/${id}.jpg`;
+        await idbPut('pending',{id, uid:UID, path, blob}); blobURLs.set(id, URL.createObjectURL(blob));
+        add('photos',{id, date:v.date, cowId:v.cowId||null, paddockId:v.paddockId||null, caption:v.caption, size:blob.size, path},true); n++; }
+      save(); toast(n+' photo(s) saved'+(navigator.onLine?'':' — will upload when back online')); }});
+}
+async function renderGallery(box, filterFn){
+  if(!box) return; const ps=S.photos.filter(filterFn||(()=>true)).sort(byDate());
+  if(!ps.length){ box.innerHTML='<div class="empty" style="grid-column:1/-1">No photos.</div>'; return; }
+  const urls=await photoURLs(ps);
+  box.innerHTML=ps.map((p,i)=>`<figure data-i="${i}">${urls[i]?`<img src="${esc(urls[i])}" alt="${esc(p.caption||'photo')}" loading="lazy">`:'<div class="empty" style="aspect-ratio:1">📷 offline</div>'}<figcaption>${fmtD(p.date)} ${esc([cowName(p.cowId),padName(p.paddockId)].filter(Boolean).join(' · '))}<br>${esc(p.caption||'')}</figcaption></figure>`).join('');
+  $$('figure',box).forEach(f=>f.onclick=()=>{ const i=+f.dataset.i, p=ps[i];
+    const dlg=showInfo(fmtD(p.date)+(p.caption?' — '+p.caption:''), `${urls[i]?`<img src="${esc(urls[i])}" style="width:100%;border-radius:10px">`:'<div class="empty">Photo not available offline.</div>'}<p class="mut">${esc([cowName(p.cowId)&&'Cow: '+cowName(p.cowId), padName(p.paddockId)&&'Paddock: '+padName(p.paddockId)].filter(Boolean).join(' · '))} · ${num((p.size||0)/1024)} KB</p><div class="row"><button class="danger" id="phDel">Delete photo</button><button id="phDl">Download</button></div>`);
+    $('#phDel',dlg).onclick=()=>{ if(!confirm('Delete photo?')) return; del('photos',p.id); dlg.close(); render(); };
+    $('#phDl',dlg).onclick=async()=>{ try{ download(`photo-${p.date}.jpg`, await photoBlob(p)); }catch(e){ toast('Download failed: '+e.message); } }; });
+}
+VIEWS.photos = el => {
+  el.innerHTML=`<div class="row"><button class="pri" id="add">📷 Add photo</button><span class="sp"></span><select id="pf" style="max-width:280px"><option value="">All photos</option><optgroup label="Cows">${cowOpts(true).slice(1).map(([v,l])=>`<option value="c:${v}" ${photoFilter==='c:'+v?'selected':''}>${esc(l)}</option>`).join('')}</optgroup><optgroup label="Paddocks">${padOpts().slice(1).map(([v,l])=>`<option value="p:${v}" ${photoFilter==='p:'+v?'selected':''}>${esc(l)}</option>`).join('')}</optgroup></select></div>
+  <div class="gallery" id="gal"><div class="empty">Loading…</div></div><p class="hint">${S.photos.length} photos · ${num(sum(S.photos.map(p=>p.size))/1048576,1)} MB in your private online storage.</p>`;
+  $('#add',el).onclick=()=>photoForm(); $('#pf',el).onchange=e=>{ photoFilter=e.target.value; render(); };
+  const [k,id]=photoFilter.split(':');
+  renderGallery($('#gal',el), p=>!photoFilter||(k==='c'?p.cowId===id:p.paddockId===id));
+};
+
+/* ---------- Tasks ---------- */
+function taskForm(t, preset={}){
+  openForm({title:t?'Edit task':'New task', values:t||{due:today(),recur:'none',...preset}, fields:[
+    {k:'title',l:'Task',req:1,full:1,ph:'e.g. Spread fertiliser on Long Field'},{k:'due',l:'Due date',t:'date'},{k:'recur',l:'Repeats',t:'select',o:Object.entries(RECUR)},
+    {k:'cowId',l:'Linked cow',t:'select',o:()=>cowOpts(true)},{k:'paddockId',l:'Linked paddock',t:'select',o:padOpts},{k:'priority',l:'Priority',t:'select',o:[['normal','Normal'],['high','High']]},{k:'notes',l:'Notes',t:'textarea',full:1}],
+    onSave:v=>{ if(t) upd('tasks',t.id,v); else add('tasks',{...v,done:false}); }, onDelete:t?()=>del('tasks',t.id):null});
+}
+function taskList(ts, empty='No tasks.'){ if(!ts.length) return `<div class="empty">${esc(empty)}</div>`; const td=today();
+  return `<ul class="list">${ts.map(t=>`<li><input type="checkbox" data-done="${t.id}" ${t.done?'checked':''} aria-label="Done"><div class="grow" data-edit="${t.id}" style="cursor:pointer"><b style="${t.done?'text-decoration:line-through;color:#888':''}">${t.priority==='high'?'❗ ':''}${esc(t.title)}</b><div class="mut">${t.due?`<span class="pill ${!t.done&&t.due<td?'red':t.due===td?'amb':''}">${t.due<td&&!t.done?'Overdue · ':''}${fmtD(t.due)}</span> `:''}${t.recur&&t.recur!=='none'?'🔁 '+RECUR[t.recur]+' ':''}${t.cowId?'🐄 '+esc(cowName(t.cowId))+' ':''}${t.paddockId?'🌱 '+esc(padName(t.paddockId)):''}</div></div></li>`).join('')}</ul>`; }
+function bindTaskList(el){ $$('[data-done]',el).forEach(cb=>cb.onchange=()=>{ const t=get('tasks',cb.dataset.done); if(cb.checked) completeTask(t); else upd('tasks',t.id,{done:false,doneAt:null}); render(); });
+  $$('[data-edit]',el).forEach(d=>d.onclick=()=>taskForm(get('tasks',d.dataset.edit))); }
+VIEWS.tasks = el => {
+  const td=today(); const open=S.tasks.filter(t=>!t.done).sort(byDate('due',1)); const done=S.tasks.filter(t=>t.done).sort(byDate('doneAt')).slice(0,30);
+  const od=open.filter(t=>t.due&&t.due<td), tdy=open.filter(t=>t.due===td), up=open.filter(t=>t.due&&t.due>td&&daysBetween(td,t.due)<=7), later=open.filter(t=>!t.due||daysBetween(td,t.due)>7);
+  el.innerHTML=`<div class="row"><button class="pri" id="add">+ New task</button></div>
+  <div class="kpis"><div class="kpi ${od.length?'warn':''}"><b>${od.length}</b><span>Overdue</span></div><div class="kpi"><b>${tdy.length}</b><span>Today</span></div><div class="kpi"><b>${up.length}</b><span>Next 7 days</span></div></div>
+  ${od.length?`<div class="card" style="border-color:#c62828"><h3>Overdue</h3>${taskList(od)}</div>`:''}
+  <div class="card"><h3>Today</h3>${taskList(tdy,'Nothing due today.')}</div><div class="card"><h3>Next 7 days</h3>${taskList(up,'Nothing scheduled.')}</div>
+  <div class="card"><h3>Later / no date</h3>${taskList(later,'—')}</div><div class="card"><h3>Recently done</h3>${taskList(done,'—')}</div>`;
+  bindTaskList(el); $('#add',el).onclick=()=>taskForm(null);
+};
+
+/* ---------- Compliance records ---------- */
+let compTab='treatments';
+function treatmentForm(t, preset={}){
+  openForm({title:t?'Edit treatment':'Record treatment', values:t||{date:today(),courseDays:1,...preset}, fields:[
+    {k:'date',l:'Date administered (first)',t:'date',req:1},{k:'courseDays',l:'Course length (days)',t:'number',min:1,hint:'Withdrawal counted from the last treatment day'},
+    {k:'cowId',l:'Animal',t:'select',o:()=>cowOpts(true)},{k:'groupDesc',l:'…or group description',ph:'e.g. All weanlings (12 head)'},
+    {k:'product',l:'Product name',req:1,t:'datalist',o:()=>[...new Set(S.treatments.map(x=>x.product).filter(Boolean))]},{k:'batch',l:'Batch no.',req:1},{k:'expiry',l:'Batch expiry',t:'date'},{k:'supplier',l:'Supplier / purchased from'},
+    {k:'qtyUsed',l:'Quantity administered',ph:'e.g. 10 ml'},{k:'route',l:'Route',t:'datalist',o:['Intramammary','Intramuscular','Subcutaneous','Intravenous','Oral','Pour-on','Topical','Intrauterine']},
+    {k:'reason',l:'Reason / condition',t:'datalist',o:['Mastitis','Lameness','Pneumonia','Scour','Dry cow therapy','Teat sealant','Worming','Fluke','Vaccination','Metritis','Milk fever']},
+    {k:'milkWd',l:'Milk withdrawal (days)',t:'number',hint:'From label. Convert hours/milkings to days, round up.'},{k:'meatWd',l:'Meat withdrawal (days)',t:'number'},
+    {k:'administeredBy',l:'Administered by'},{k:'vet',l:'Prescribing vet'},{k:'prescriptionRef',l:'Prescription ref.'},{k:'notes',l:'Notes',t:'textarea',full:1}],
+    extraHTML:'<p class="mut">Record-keeping aid only. Always follow the product label and your vet’s prescription; check official withdrawal requirements.</p>',
+    onSave:v=>{ if(!v.cowId && !v.groupDesc) throw new Error('Choose an animal or describe the group'); if(t) upd('treatments',t.id,v); else add('treatments',v);
+      const e=wdEnds(v); toast(`Withdrawal: ${e.milk?'milk to '+fmtD(e.milk):''} ${e.meat?'meat to '+fmtD(e.meat):''}`.trim()||'Saved'); },
+    onDelete:t?()=>del('treatments',t.id):null});
+}
+function fertForm(f){ openForm({title:f?'Edit fertiliser record':'Record fertiliser/slurry', values:f||{date:today()}, fields:[
+    {k:'date',l:'Date',t:'date',req:1},{k:'paddockId',l:'Paddock',t:'select',o:padOpts,req:1},{k:'product',l:'Product',req:1,t:'datalist',o:['CAN (27% N)','Protected urea (46% N)','Urea (46% N)','18-6-12','10-10-20','0-7-30','Pasture Sward','Cattle slurry','Dairy soiled water','FYM','Lime']},
+    {k:'rate',l:'Rate (per ha)',ph:'e.g. 1 bag/acre, 125 kg/ha, 2500 gal/ac'},{k:'nKgHa',l:'N (kg/ha)',t:'number'},{k:'pKgHa',l:'P (kg/ha)',t:'number'},{k:'kKgHa',l:'K (kg/ha)',t:'number'},
+    {k:'method',l:'Method',t:'datalist',o:['Fertiliser spreader','LESS – trailing shoe','LESS – dribble bar','Splash plate','Contractor']},{k:'operator',l:'Operator / contractor'},{k:'notes',l:'Notes',t:'textarea',full:1}],
+    onSave:v=>{ if(f) upd('fertiliser',f.id,v); else add('fertiliser',v); }, onDelete:f?()=>del('fertiliser',f.id):null}); }
+function movementForm(m){ openForm({title:m?'Edit movement':'Record movement', values:m||{date:today(),direction:'out',updateStatus:true}, fields:[
+    {k:'date',l:'Date',t:'date',req:1},{k:'direction',l:'Direction',t:'select',o:[['out','Out of herd'],['in','Into herd']]},
+    {k:'cowId',l:'Animal (if in herd records)',t:'select',o:()=>cowOpts(true)},{k:'tag',l:'…or tag number',ph:'IE …'},
+    {k:'reason',l:'Reason',t:'select',o:['Sale – mart','Sale – private','Factory / slaughter','Export','Purchase','Return','Grazing / agistment','Other']},
+    {k:'fromHerd',l:'From herd no.'},{k:'toHerd',l:'To herd no. / factory / mart'},{k:'martAgent',l:'Mart / agent / haulier'},{k:'docRef',l:'Doc / permit / AIM ref.'},{k:'price',l:'Price € (optional)',t:'number'},
+    ...(m?[]:[{k:'updateStatus',l:'Update animal record (out → sold, in → create/activate)',t:'checkbox'}]),{k:'notes',l:'Notes',t:'textarea',full:1}],
+    extraHTML:'<p class="mut">Fields mirror the info usually needed for AIM/HerdPlus. This app does not notify AIM — movements still need to be done through the official channels (mart/factory/online).</p>',
+    onSave:v=>{ const {updateStatus,...rec}=v; if(!rec.cowId && !rec.tag) throw new Error('Choose an animal or enter a tag'); rec.tag=normTag(rec.tag)||get('cows',rec.cowId)?.tag||'';
+      if(m){ upd('movements',m.id,rec); return; }
+      if(updateStatus){ if(rec.direction==='out' && rec.cowId) upd('cows',rec.cowId,{status:'sold'});
+        if(rec.direction==='in'){ if(rec.cowId) upd('cows',rec.cowId,{status:get('cows',rec.cowId).status==='sold'?'heifer':get('cows',rec.cowId).status}); else { const c=add('cows',{tag:rec.tag,status:'heifer',sex:'F',notes:'Created from movement in '+fmtD(rec.date)}); rec.cowId=c.id; } } }
+      add('movements',rec); }, onDelete:m?()=>del('movements',m.id):null}); }
+function deathForm(d){ openForm({title:d?'Edit death/disposal':'Record death / disposal', values:d||{date:today(),updateStatus:true}, fields:[
+    {k:'date',l:'Date of death',t:'date',req:1},{k:'cowId',l:'Animal',t:'select',o:()=>cowOpts(true)},{k:'tag',l:'…or tag number'},{k:'cause',l:'Cause (if known)'},
+    {k:'disposal',l:'Disposal route',t:'select',o:['Knackery','Category 2 collector','Regional Veterinary Lab (post-mortem)','Other approved route']},{k:'collector',l:'Collector / knackery name'},{k:'docketRef',l:'Docket / collection ref.'},{k:'collectedOn',l:'Date collected',t:'date'},{k:'vet',l:'Vet involved'},
+    ...(d?[]:[{k:'updateStatus',l:'Set animal status to died',t:'checkbox'}]),{k:'notes',l:'Notes',t:'textarea',full:1}],
+    extraHTML:'<p class="mut">Record-keeping aid. Deaths still need to be notified via AIM / your knackery as required.</p>',
+    onSave:v=>{ const {updateStatus,...rec}=v; if(!rec.cowId&&!rec.tag) throw new Error('Choose an animal or enter a tag'); rec.tag=normTag(rec.tag)||get('cows',rec.cowId)?.tag||'';
+      if(d) upd('deaths',d.id,rec); else { add('deaths',rec); if(updateStatus&&rec.cowId) upd('cows',rec.cowId,{status:'died'}); } }, onDelete:d?()=>del('deaths',d.id):null}); }
+const animalOf = r => r.cowId?cowName(r.cowId):(r.tag||r.groupDesc||'');
+const COMP = {
+  treatments:{l:'Medicines register',form:treatmentForm, rows:()=>S.treatments.slice().sort(byDate()), cols:[{l:'Date',f:r=>fmtD(r.date)},{l:'Animal',f:animalOf},{l:'Product',k:'product'},{l:'Batch',k:'batch'},{l:'Expiry',f:r=>fmtD(r.expiry)},{l:'Qty',k:'qtyUsed'},{l:'Route',k:'route'},{l:'Reason',k:'reason'},{l:'Course d',k:'courseDays'},{l:'Milk WD d',k:'milkWd'},{l:'Milk clear after',f:r=>fmtD(wdEnds(r).milk)},{l:'Meat WD d',k:'meatWd'},{l:'Meat clear after',f:r=>fmtD(wdEnds(r).meat)},{l:'Given by',k:'administeredBy'},{l:'Vet',k:'vet'},{l:'Presc. ref',k:'prescriptionRef'},{l:'Supplier',k:'supplier'}]},
+  fertiliser:{l:'Fertiliser & slurry',form:fertForm, rows:()=>S.fertiliser.slice().sort(byDate()), cols:[{l:'Date',f:r=>fmtD(r.date)},{l:'Paddock',f:r=>padName(r.paddockId)},{l:'ha',f:r=>{const p=get('paddocks',r.paddockId); return p?num(padHa(p),2):'';}},{l:'Product',k:'product'},{l:'Rate',k:'rate'},{l:'N kg/ha',k:'nKgHa'},{l:'P kg/ha',k:'pKgHa'},{l:'K kg/ha',k:'kKgHa'},{l:'Total N kg',f:r=>{const p=get('paddocks',r.paddockId); return p&&r.nKgHa?num(r.nKgHa*padHa(p)):'';}},{l:'Method',k:'method'},{l:'Operator',k:'operator'}]},
+  movements:{l:'Animal movements',form:movementForm, rows:()=>S.movements.slice().sort(byDate()), cols:[{l:'Date',f:r=>fmtD(r.date)},{l:'In/Out',k:'direction'},{l:'Tag',f:r=>r.tag||get('cows',r.cowId)?.tag||''},{l:'Reason',k:'reason'},{l:'From herd',k:'fromHerd'},{l:'To',k:'toHerd'},{l:'Mart/agent',k:'martAgent'},{l:'Ref',k:'docRef'},{l:'Price €',k:'price'}]},
+  deaths:{l:'Deaths & disposals',form:deathForm, rows:()=>S.deaths.slice().sort(byDate()), cols:[{l:'Date',f:r=>fmtD(r.date)},{l:'Tag',f:r=>r.tag||get('cows',r.cowId)?.tag||''},{l:'Cause',k:'cause'},{l:'Disposal',k:'disposal'},{l:'Collector',k:'collector'},{l:'Docket',k:'docketRef'},{l:'Collected',f:r=>fmtD(r.collectedOn)},{l:'Vet',k:'vet'}]}
+};
+VIEWS.compliance = el => {
+  const c=COMP[compTab]; const rows=c.rows(); const wd=inWithdrawal(); const yr=today().slice(0,4);
+  let extra='';
+  if(compTab==='treatments') extra=`<div class="card" style="${wd.length?'border-color:#c62828':''}"><h3>⚠️ Currently in withdrawal (${wd.length})</h3>${table(wd,[{l:'Animal',f:w=>animalOf(w.t)},{l:'Product',f:w=>w.t.product},{l:'Milk until',h:w=>w.milkEnd?`<span class="pill red">${fmtD(w.milkEnd)}</span>`:''},{l:'Meat until',h:w=>w.meatEnd?`<span class="pill amb">${fmtD(w.meatEnd)}</span>`:''}],{empty:'None.'})}<div class="hint">End date = last treatment day + withdrawal days. Do not supply milk/meat on or before the date shown. Verify against the product label.</div></div>`;
+  if(compTab==='fertiliser'){ const tot=S.paddocks.map(p=>{ const fs=S.fertiliser.filter(f=>f.paddockId===p.id&&(f.date||'').startsWith(yr)); return {p, n:sum(fs.map(f=>f.nKgHa)), ph:sum(fs.map(f=>f.pKgHa)), k:sum(fs.map(f=>f.kKgHa)), ha:padHa(p)}; });
+    extra=`<div class="card"><h3>${yr} totals per paddock</h3>${table(tot,[{l:'Paddock',f:r=>r.p.name},{l:'ha',f:r=>num(r.ha,2)},{l:'N kg/ha',f:r=>num(r.n)},{l:'P kg/ha',f:r=>num(r.ph,1)},{l:'K kg/ha',f:r=>num(r.k)},{l:'Total N kg',f:r=>num(r.n*r.ha)},{l:'Total P kg',f:r=>num(r.ph*r.ha,1)}],{empty:'No paddocks.'})}<div class="hint">Running totals only — check limits against your own Nitrates/derogation allowances and soil tests.</div></div>`; }
+  el.innerHTML=`<div class="banner" style="background:#eef5ff;border-color:#c5d8f5">📋 <b>Record-keeping aid</b> — not an official register and not a guarantee of compliance with EU/Irish rules. Keep the records your Department of Agriculture, vet and processor require.</div>
+  <div class="subtabs">${Object.entries(COMP).map(([k,v])=>`<button class="sm ${compTab===k?'on':''}" data-ct="${k}">${v.l}</button>`).join('')}</div>
+  <div class="row"><button class="pri" id="add">+ Add record</button><span class="sp"></span><button class="sm" id="csv">⬇ CSV</button><button class="sm" id="print">🖨 Print</button></div>
+  ${extra}<div class="card"><h3>${c.l} (${rows.length})</h3>${table(rows,c.cols,{onRow:r=>c.form(r),empty:'No records yet.'})}</div>`;
+  $$('[data-ct]',el).forEach(b=>b.onclick=()=>{compTab=b.dataset.ct; render();});
+  $('#add',el).onclick=()=>c.form(null);
+  $('#csv',el).onclick=()=>download(`${compTab}-${today()}.csv`, toCSV(rows.slice().reverse(), c.cols.concat([{l:'Notes',k:'notes'},{l:'Source',k:'source'},{l:'Record ID',k:'id'}])),'text/csv');
+  $('#print',el).onclick=()=>printTable(c.l, rows.slice().reverse(), c.cols);
+};
+/* ---------- Settings, account, backup, demo ---------- */
+VIEWS.settings = el => {
+  const s=S.settings; const bytes=(localStorage.getItem(kData())||'').length*2;
+  el.innerHTML=`<div class="card"><h2>Account</h2><p>Logged in as <b id="whoami">${esc(USER?.email||'')}</b></p><p class="mut">Sync: <span id="syncInfo"></span></p>
+    <div class="row"><button id="syncNow">↻ Sync now</button><button id="chgPw">Change password</button><button class="danger" id="logout">Log out</button></div>
+    <div class="hint">Your records are stored in your own private account online (Supabase, EU – Ireland) and cached on this device so the app keeps working with poor signal. Logging out removes the copy on this device.</div></div>
+  <div class="card"><h2>Farm</h2><div class="fgrid">
+    <label class="f"><span>Farm name</span><input id="sFarm" value="${esc(s.farmName)}"></label><label class="f"><span>Herd number</span><input id="sHerd" value="${esc(s.herdNumber)}"></label>
+    <label class="f"><span>Weather latitude</span><input id="sLat" type="number" step="any" value="${esc(s.lat)}"></label><label class="f"><span>Weather longitude</span><input id="sLon" type="number" step="any" value="${esc(s.lon)}"></label>
+    <label class="f"><span>Map scale (metres per map unit)</span><input id="sScale" type="number" step="any" value="${esc(s.mPerUnit)}"><div class="hint">Default 1 (map is 1000 × ${s.mapH} m). Or use “Calibrate scale” on the map.</div></label></div>
+    <div class="row"><button class="pri" id="sSave">Save</button><button id="sGps">📍 Use my location for weather</button><button id="sGrass">Grass planner settings…</button></div></div>
+  <div class="card"><h2>Backup</h2><p class="mut">Download a copy of everything in your account (${num(bytes/1024)} KB of records, ${S.photos.length} photos). Import uploads a backup into <b>this</b> account, replacing what is there.</p>
+    <label class="cb"><input type="checkbox" id="incPhotos" checked> Include photos in backup (larger file)</label>
+    <div class="row"><button class="pri" id="exp">⬇ Export backup (JSON)</button><button id="imp">⬆ Import backup…</button><input type="file" id="impFile" accept="application/json,.json" hidden></div></div>
+  <div class="card"><h2>Demo data</h2><p class="mut">Loads a small set of example paddocks, cows, milk, breeding, grass, tasks and compliance records into your account (all flagged as demo). Only your own account is affected.</p>
+    <div class="row"><button id="demo">Load demo data</button><button id="undemo">Remove demo data</button><button class="danger" id="clear">🗑 Delete ALL my farm data</button></div></div>
+  <div class="card"><h2>About</h2><p class="mut">Farm App v${APP_VERSION}. Records carry <code>source: "manual"</code>; future sensor feeds can write records with <code>source: "sensor"</code> using the same structure. Compliance sections are record-keeping aids only.</p></div>`;
+  setSync();
+  $('#sSave',el).onclick=()=>{ Object.assign(s,{farmName:$('#sFarm').value.trim(), herdNumber:$('#sHerd').value.trim(), lat:parseFloat($('#sLat').value)||DEFAULT_SETTINGS.lat, lon:parseFloat($('#sLon').value)||DEFAULT_SETTINGS.lon, mPerUnit:parseFloat($('#sScale').value)||1}); save(); toast('Settings saved'); render(); };
+  $('#sGps',el).onclick=()=>{ if(!navigator.geolocation) return toast('Location not available'); navigator.geolocation.getCurrentPosition(p=>{ $('#sLat').value=p.coords.latitude.toFixed(3); $('#sLon').value=p.coords.longitude.toFixed(3); toast('Location filled — press Save'); }, e=>toast('Location error: '+e.message)); };
+  $('#sGrass',el).onclick=grassSettingsForm;
+  $('#syncNow',el).onclick=async()=>{ await flush(); if(await pull()) render(); toast(lastSyncErr?'Sync problem: '+lastSyncErr:'Synced'); };
+  $('#logout',el).onclick=logout;
+  $('#chgPw',el).onclick=()=>openForm({title:'Change password', fields:[{k:'pw',l:'New password',t:'password',req:1,hint:'At least 8 characters'},{k:'pw2',l:'Repeat new password',t:'password',req:1}],
+    onSave:async v=>{ if(v.pw.length<8) throw new Error('Password must be at least 8 characters'); if(v.pw!==v.pw2) throw new Error('Passwords do not match'); const {error}=await sb.auth.updateUser({password:v.pw}); if(error) throw error; toast('Password changed'); }});
+  $('#exp',el).onclick=()=>exportBackup($('#incPhotos').checked).catch(e=>alert('Export failed: '+e.message));
+  $('#imp',el).onclick=()=>$('#impFile').click(); $('#impFile',el).onchange=e=>{ const f=e.target.files[0]; if(f) importBackup(f); };
+  $('#demo',el).onclick=()=>{ loadDemo(); toast('Demo data loaded'); go('dash'); render(); };
+  $('#undemo',el).onclick=()=>{ COLLECTIONS.forEach(c=>{ S[c].filter(r=>r.demo).forEach(r=>enqueue(r.id,'del')); S[c]=S[c].filter(r=>!r.demo); });
+    if(S.settings.demoDemand){ S.settings.demandCows=null; delete S.settings.demoDemand; } if(S.settings.farmName==='Demo Farm') S.settings.farmName=''; save(); toast('Demo data removed'); render(); };
+  $('#clear',el).onclick=async()=>{ if(!confirm('Delete ALL farm data in your account (records and photos)? Export a backup first!')) return; if(prompt('Type DELETE to confirm')!=='DELETE') return;
+    try{ await wipeAccount(new Set()); }catch(e){ return alert('Could not delete: '+e.message); }
+    const st={...S.settings, mapBg:null}; if(st.demoDemand){ st.demandCows=null; delete st.demoDemand; } if(st.farmName==='Demo Farm') st.farmName='';
+    S=blankState(); S.settings=st; mapBgURL=null; save(); toast('All data deleted'); render(); };
+};
+async function wipeAccount(keepPaths){ // deletes this user's records + storage objects on the server
+  if(!navigator.onLine) throw new Error('Needs an internet connection');
+  const paths=new Set(S.photos.map(p=>p.path).filter(Boolean)); if(S.settings.mapBg?.path) paths.add(S.settings.mapBg.path);
+  const {data:list}=await sb.storage.from('photos').list(UID,{limit:1000}); (list||[]).forEach(o=>paths.add(`${UID}/${o.name}`));
+  const rm=[...paths].filter(p=>!keepPaths.has(p)); for(const c of chunk(rm,100)){ const {error}=await sb.storage.from('photos').remove(c); if(error) throw error; }
+  const {error}=await sb.from('records').delete().eq('user_id',UID); if(error) throw error;
+  try{ for(const p of (await idbAll('pending')).filter(p=>p.uid===UID && !keepPaths.has(p.path))) await idbDel('pending',p.id); }catch(e){}
+  Q={}; saveLocal();
+}
+async function exportBackup(withPhotos){
+  toast('Preparing backup…');
+  const out={app:'farm-app', format:2, exportedAt:nowISO(), account:USER?.email||'', data:S, photos:[], mapBg:null};
+  if(withPhotos){ for(const p of S.photos){ try{ out.photos.push({...p, dataURL:await blobToDataURL(await photoBlob(p))}); }catch(e){ console.warn('photo skipped',p.id,e); } }
+    const bg=S.settings.mapBg; if(bg?.path){ try{ const {data}=await sb.storage.from('photos').download(bg.path); if(data) out.mapBg={w:bg.w,h:bg.h,dataURL:await blobToDataURL(data)}; }catch(e){} } }
+  download(`farm-backup-${today()}.json`, JSON.stringify(out), 'application/json'); toast('Backup downloaded');
+}
+async function importBackup(file){
+  try{ if(!navigator.onLine) throw new Error('Importing needs an internet connection');
+    const j=JSON.parse(await file.text()); const data=normalize(JSON.parse(JSON.stringify(j.data||j))); if(!(j.data||j).settings) throw new Error('Not a Farm App backup');
+    if(!confirm(`Replace all data in your account (${USER.email}) with the backup from ${j.exportedAt?new Date(j.exportedAt).toLocaleString('en-IE',{timeZone:'Europe/Dublin'}):'file'}?`)) return;
+    toast('Importing…');
+    const withBlob=new Map((Array.isArray(j.photos)?j.photos:[]).filter(p=>p.dataURL).map(p=>[p.id,p]));
+    const metas=new Map(data.photos.map(p=>[p.id,p])); withBlob.forEach((p,id)=>{ if(!metas.has(id)){ const {dataURL,blob,...m}=p; metas.set(id,m); } });
+    const photos=[], keep=new Set();
+    for(const [id,m] of metas){ const path=`${UID}/${id}.jpg`; const src=withBlob.get(id);
+      if(src){ const blob=await dataURLToBlob(src.dataURL); const {error}=await sb.storage.from('photos').upload(path, blob, {contentType:'image/jpeg', upsert:true}); if(error) throw error; keep.add(path); photos.push({...m, path, size:blob.size, source:m.source||'manual'}); }
+      else if(m.path && m.path.startsWith(UID+'/')){ keep.add(m.path); photos.push(m); } }
+    data.photos=photos;
+    data.settings.mapBg=(data.settings.mapBg?.path||'').startsWith(UID+'/')?data.settings.mapBg:null; if(data.settings.mapBg) keep.add(data.settings.mapBg.path);
+    if(j.mapBg?.dataURL){ const path=`${UID}/mapbg-${Date.now()}.jpg`; const {error}=await sb.storage.from('photos').upload(path, await dataURLToBlob(j.mapBg.dataURL), {contentType:'image/jpeg', upsert:true}); if(error) throw error; data.settings.mapBg={path,w:j.mapBg.w,h:j.mapBg.h}; keep.add(path); }
+    await wipeAccount(keep);
+    S=data; COLLECTIONS.forEach(c=>S[c].forEach(r=>enqueue(r.id,'up'))); enqueue('__settings','up'); lastSettingsJSON=null; mapBgURL=null; saveLocal();
+    await flush(); await loadMapBg(); MAP.vb=null; toast(lastSyncErr?'Imported, but sync problem: '+lastSyncErr:'Backup imported'); render();
+  }catch(e){ alert('Import failed: '+e.message); }
+}
+function loadDemo(){
+  const D=n=>addDays(today(),n); const o={demo:true}; const A=(c,r)=>add(c,{...r,...o},true);
+  const pads=[['Long Field','resting',[[60,60],[380,50],[400,250],[70,270]]],['Well Field','grazing',[[400,50],[700,60],[690,240],[400,250]]],['Bog Meadow','silage',[[700,60],[950,80],[940,300],[690,240]]],
+    ['Hill Paddock','resting',[[70,270],[400,250],[380,470],[80,480]]],['Road Field','resting',[[400,250],[690,240],[700,460],[380,470]]],['New Ground','reseeding',[[690,240],[940,300],[930,520],[700,460]]],['Back Field','resting',[[80,480],[380,470],[370,650],[90,640]]]];
+  const P=pads.map(([name,status,points])=>A('paddocks',{name,status,points,notes:'Demo paddock'}));
+  const covers=[[1150,1240],[1500,1590],[2200,2300],[900,990],[700,800],[0,0],[1300,1390]];
+  P.forEach((p,i)=>{ if(p.status==='reseeding') return; A('grassWalks',{paddockId:p.id,date:D(-14),cover:covers[i][0]}); A('grassWalks',{paddockId:p.id,date:D(-6),cover:covers[i][1]}); });
+  A('grazings',{paddockId:P[1].id,dateIn:D(-1),group:'Milking herd',animals:6,preCover:1650}); A('grazings',{paddockId:P[4].id,dateIn:D(-22),dateOut:D(-20),group:'Milking herd',animals:6,preCover:1450,postCover:60});
+  A('grazings',{paddockId:P[3].id,dateIn:D(-26),dateOut:D(-24),group:'Milking herd',animals:6});
+  const cows=[['IE 123456 7 0011','Daisy','Holstein Friesian','milking',-2200],['IE 123456 7 0012','Bluebell','Jersey cross','milking',-1900],['IE 123456 7 0015','Molly','Holstein Friesian','milking',-1600],['IE 123456 7 0018','Rosie','Norwegian Red','milking',-1500],
+    ['IE 123456 7 0021','Buttercup','Holstein Friesian','milking',-1200],['IE 123456 7 0024','Clover','Jersey cross','milking',-1100],['IE 123456 7 0031','Poppy','Holstein Friesian','dry',-2500],['IE 123456 7 0040','','Holstein Friesian','heifer',-600]];
+  const C=cows.map(([tag,name,breed,status,dob])=>A('cows',{tag,name,breed,sex:'F',status,dob:D(dob),group:status==='heifer'?'Heifers':'Milking herd',sire:'FR'+(4000+Math.abs(dob)%900)}));
+  const base=[24,18,22,20,26,17];
+  for(let d=-14; d<=-1; d++){ let tot=0; base.forEach((b,i)=>{ ['AM','PM'].forEach(s=>{ const l=+((s==='AM'?0.55:0.45)*(b+Math.sin((d+i)/2)*1.5-(-d)*0.05)).toFixed(1); tot+=l; A('milk',{date:D(d),session:s,kind:'cow',cowId:C[i].id,litres:l}); }); });
+    A('milk',{date:D(d),session:'Day total',kind:'bulk',litres:Math.round(tot), fat:+(4.3+Math.sin(d)/10).toFixed(2), protein:+(3.5+Math.cos(d)/20).toFixed(2), scc:Math.round(140+Math.sin(d)*30)}); }
+  A('breeding',{cowId:C[6].id,type:'service',date:D(-270),method:'ai',sireCode:'FR4425',technician:'J. Murphy'}); A('breeding',{cowId:C[6].id,type:'scan',date:D(-230),result:'in-calf',foetalAgeDays:40});
+  A('breeding',{cowId:C[0].id,type:'service',date:D(-60),method:'ai',sireCode:'FR2201',technician:'J. Murphy'}); A('breeding',{cowId:C[0].id,type:'scan',date:D(-25),result:'in-calf'});
+  A('breeding',{cowId:C[2].id,type:'heat',date:D(-41),signs:'Standing heat'}); A('breeding',{cowId:C[2].id,type:'service',date:D(-40),method:'ai',sireCode:'JE5510',technician:'J. Murphy'});
+  A('breeding',{cowId:C[3].id,type:'service',date:D(-20),method:'bull',sireCode:'AA bull "Hector"'});
+  A('breeding',{cowId:C[1].id,type:'service',date:D(-300),method:'ai',sireCode:'FR4425'}); const cv=A('breeding',{cowId:C[1].id,type:'calving',date:D(-17),ease:2,calfTag:'IE 123456 7 0055',calfSex:'F',calfBreed:'Jersey cross',sireCode:'FR4425',alive:true});
+  const calf=A('cows',{tag:'IE 123456 7 0055',breed:'Jersey cross',sex:'F',dob:D(-17),status:'calf',damTag:C[1].tag,damId:C[1].id,sire:'FR4425',group:'Calves',notes:'Auto-created from calving record'}); cv.calfId=calf.id;
+  A('treatments',{cowId:C[4].id,date:D(-2),courseDays:3,product:'Demo Mastitis Tube',batch:'B12345',expiry:D(400),route:'Intramammary',reason:'Mastitis',qtyUsed:'1 tube/quarter',milkWd:3.5,meatWd:7,administeredBy:'David',vet:'Demo Vets',prescriptionRef:'RX-001'});
+  A('treatments',{groupDesc:'Heifers (1 head)',date:D(-30),courseDays:1,product:'Demo Wormer Pour-on',batch:'W778',route:'Pour-on',reason:'Worming',meatWd:28,administeredBy:'David'});
+  A('fertiliser',{paddockId:P[0].id,date:D(-20),product:'Protected urea (46% N)',rate:'1 bag/acre',nKgHa:28,method:'Fertiliser spreader'}); A('fertiliser',{paddockId:P[4].id,date:D(-19),product:'Cattle slurry',rate:'2500 gal/ac',nKgHa:15,pKgHa:5,kKgHa:30,method:'LESS – trailing shoe',operator:'Contractor'});
+  A('fertiliser',{paddockId:P[2].id,date:D(-60),product:'18-6-12',rate:'2.5 bags/acre',nKgHa:56,pKgHa:19,kKgHa:37});
+  const sold=A('cows',{tag:'IE 123456 7 0009',name:'Old Bess',breed:'Friesian',sex:'F',status:'sold',dob:D(-3600)}); A('movements',{date:D(-35),direction:'out',cowId:sold.id,tag:sold.tag,reason:'Factory / slaughter',fromHerd:'Demo herd',toHerd:'Demo Meats Ltd',docRef:'DOC-123'});
+  A('tasks',{title:'Check water troughs',due:D(-1),recur:'weekly',done:false}); A('tasks',{title:'Spread CAN on Hill Paddock',due:D(0),paddockId:P[3].id,done:false,priority:'high'});
+  A('tasks',{title:'Pre-calving check — Poppy',due:D(5),cowId:C[6].id,done:false}); A('tasks',{title:'Farm walk',due:D(1),recur:'weekly',done:false}); A('tasks',{title:'Order dry-cow tubes',due:D(10),done:false});
+  if(!S.settings.farmName) S.settings.farmName='Demo Farm';
+  if(!(S.settings.demandCows>0)){ S.settings.demandCows=90; S.settings.demoDemand=true; } // demo map is ~40 ha, so assume a 90-cow grazing herd
+  save();
+}
+
+/* ---------- auth (Supabase email + password) ---------- */
+function authHTML(mode, msg, err){
+  const T={login:'Log in', signup:'Create your account', forgot:'Reset your password', recover:'Choose a new password', check:'Check your email'}[mode];
+  const f=(id,l,t='text',ac='')=>`<label class="f"><span>${l}</span><input id="${id}" type="${t}" ${ac?`autocomplete="${ac}"`:''} required></label>`;
+  let body='';
+  if(mode==='login') body=`${f('aEmail','Email','email','email')}${f('aPw','Password','password','current-password')}<button class="pri" type="submit" style="width:100%">Log in</button>
+    <p style="text-align:center"><a href="#" data-m="forgot">Forgot password?</a></p><hr style="border:0;border-top:1px solid var(--bd);margin:16px 0"><p style="text-align:center;margin:0 0 8px">New here?</p><button type="button" id="goSignup" data-m="signup" style="width:100%">✨ Create account</button>`;
+  if(mode==='signup') body=`${f('aEmail','Email','email','email')}${f('aPw','Password (min 8 characters)','password','new-password')}${f('aPw2','Repeat password','password','new-password')}<button class="pri" type="submit" style="width:100%">Create account</button>
+    <p style="text-align:center"><a href="#" data-m="login">I already have an account — log in</a></p>`;
+  if(mode==='forgot') body=`${f('aEmail','Email','email','email')}<button class="pri" type="submit" style="width:100%">Send reset link</button><p style="text-align:center"><a href="#" data-m="login">Back to log in</a></p>`;
+  if(mode==='recover') body=`${f('aPw','New password (min 8 characters)','password','new-password')}${f('aPw2','Repeat new password','password','new-password')}<button class="pri" type="submit" style="width:100%">Save new password</button>`;
+  if(mode==='check') body=`<p style="text-align:center"><a href="#" data-m="login">Back to log in</a></p>`;
+  return `<div class="card authcard"><div style="text-align:center;font-size:44px">🐄</div><h2 style="text-align:center;margin-bottom:4px">Farm App</h2><p class="mut" style="text-align:center;margin-top:0">${esc(T)}</p>
+    ${msg?`<div class="banner" style="background:#e8f2ea;border-color:#b9d8c0">${esc(msg)}</div>`:''}${err?`<div class="banner" style="background:#fdecea;border-color:#e8b4b4">${esc(err)}</div>`:''}
+    <form id="authForm" novalidate>${body}</form></div><p class="mut" style="text-align:center">Each person has their own private account. Your farm records are only visible to you.</p>`;
+}
+function friendlyAuthError(e){ const c=e?.code||'', m=e?.message||String(e);
+  if(c==='invalid_credentials') return 'Wrong email or password.';
+  if(c==='email_not_confirmed') return 'Please confirm your email first — click the link in the email we sent you, then log in.';
+  if(c==='email_address_not_authorized') return 'We could not send the confirmation email to this address (the app’s email service is not fully set up yet). Please ask the app owner.';
+  if(c==='over_email_send_rate_limit'||/rate limit/i.test(m)) return 'Too many emails sent recently — please try again in an hour.';
+  if(c==='weak_password') return 'Password is too weak — use at least 8 characters.';
+  if(c==='user_already_exists') return 'An account with this email already exists — log in instead.';
+  if(c==='signup_disabled') return 'New sign-ups are currently turned off.';
+  if(/fetch|network/i.test(m)) return 'No connection — check your signal and try again.';
+  return m; }
+function showAuth(mode='login', msg='', err=''){
+  document.body.classList.add('loggedout'); $('#main').innerHTML=''; $('#nav').innerHTML=''; $('#net').textContent=''; $('#farmTitle').textContent='🐄 Farm App';
+  const a=$('#auth'); a.hidden=false; a.innerHTML=authHTML(mode,msg,err);
+  $$('[data-m]',a).forEach(x=>x.onclick=e=>{ e.preventDefault(); showAuth(x.dataset.m); });
+  const form=$('#authForm',a); const v=id=>($('#'+id,a)?.value||'').trim();
+  form.onsubmit=async e=>{ e.preventDefault(); const btn=form.querySelector('button[type=submit]'); if(btn){ btn.disabled=true; btn.textContent='Please wait…'; }
+    try{
+      if(mode==='login'){ const {data,error}=await sb.auth.signInWithPassword({email:v('aEmail'), password:$('#aPw').value}); if(error) throw error; await onLogin(data.user); }
+      else if(mode==='signup'){ const pw=$('#aPw').value; if(!/^\S+@\S+\.\S+$/.test(v('aEmail'))) throw new Error('Enter a valid email address'); if(pw.length<8) throw new Error('Password must be at least 8 characters'); if(pw!==$('#aPw2').value) throw new Error('Passwords do not match');
+        const {data,error}=await sb.auth.signUp({email:v('aEmail'), password:pw, options:{emailRedirectTo:APP_URL}}); if(error) throw error;
+        if(data.session) await onLogin(data.user);
+        else if(data.user && Array.isArray(data.user.identities) && data.user.identities.length===0) showAuth('login','','An account with this email already exists — log in instead.');
+        else showAuth('check',`Account created. We sent a confirmation link to ${v('aEmail')} — open it on this phone, then log in.`); }
+      else if(mode==='forgot'){ const {error}=await sb.auth.resetPasswordForEmail(v('aEmail'),{redirectTo:APP_URL}); if(error) throw error; showAuth('check','If an account exists for that email, a password reset link is on its way.'); }
+      else if(mode==='recover'){ const pw=$('#aPw').value; if(pw.length<8) throw new Error('Password must be at least 8 characters'); if(pw!==$('#aPw2').value) throw new Error('Passwords do not match');
+        const {data,error}=await sb.auth.updateUser({password:pw}); if(error) throw error; toast('Password updated'); await onLogin(data.user); }
+    }catch(err){ showAuth(mode,'',friendlyAuthError(err)); if(mode!=='recover'&&$('#aEmail')) $('#aEmail').value=v('aEmail')||''; }
+  };
+}
+async function onLogin(user){
+  if(!user) return; if(UID===user.id && !document.body.classList.contains('loggedout')) return;
+  UID=user.id; USER=user; S=loadCache(); Q=loadQueue(); lastSettingsJSON=Q.__settings?null:JSON.stringify(S.settings);
+  document.body.classList.remove('loggedout'); const a=$('#auth'); a.hidden=true; a.innerHTML='';
+  parseHash(); render(); await loadPendingBlobs();
+  if(await pull() && !$('#dlg').open) render();
+  flush(); if(await loadMapBg() && route==='map') render();
+}
+function clearSession(){ blobURLs.forEach(u=>URL.revokeObjectURL(u)); blobURLs.clear(); signedCache.clear(); S=blankState(); Q={}; UID=null; USER=null; mapBgURL=null; lastSyncAt=0; lastSyncErr=''; MAP.sel=null; MAP.vb=null; }
+async function logout(){
+  await flush(); const n=Object.keys(Q).length+(await pendingCount());
+  if(n && !confirm(`${n} change(s) have not reached the server yet (no connection?) and will be lost from this phone if you log out. Log out anyway?`)) return;
+  const uidNow=UID; [kData(),kQueue(),kWx()].forEach(k=>localStorage.removeItem(k));
+  try{ for(const p of (await idbAll('pending')).filter(p=>p.uid===uidNow)) await idbDel('pending',p.id); }catch(e){}
+  clearSession(); try{ await sb.auth.signOut({scope:'local'}); }catch(e){}
+  if($('#dlg').open) $('#dlg').close(); history.replaceState(null,'',location.pathname); showAuth('login','You are logged out.');
+}
+async function boot(){
+  if(!window.supabase){ document.body.innerHTML='<p style="padding:20px">Could not load the app library. Check your connection and reload.</p>'; return; }
+  const qs=new URLSearchParams(location.search); const hs=new URLSearchParams(location.hash.slice(1));
+  const linkErr=qs.get('error_description')||hs.get('error_description');
+  const isRecovery=qs.get('type')==='recovery'||hs.get('type')==='recovery';
+  let recovering=false;
+  sb=window.supabase.createClient(SB_URL, SB_KEY, {auth:{flowType:'pkce', persistSession:true, autoRefreshToken:true, detectSessionInUrl:true}});
+  sb.auth.onAuthStateChange((ev, session)=>{ setTimeout(()=>{
+    if(ev==='PASSWORD_RECOVERY'){ recovering=true; showAuth('recover','Enter a new password for your account.'); }
+    else if(ev==='SIGNED_OUT' && UID){ clearSession(); showAuth('login','Your session ended — please log in again.'); }
+    else if(ev==='SIGNED_IN' && session && !recovering && session.user.id!==UID) onLogin(session.user);
+  },0); });
+  let {data:{session}}=await sb.auth.getSession();
+  if(qs.has('code')||qs.has('error')||hs.has('access_token')||hs.has('error')) history.replaceState(null,'',location.pathname+(hs.has('access_token')||hs.has('error')?'':location.hash));
+  if(linkErr && !session) return showAuth('login','',linkErr.replace(/\+/g,' ')+' — if you already confirmed your email, just log in.');
+  if(recovering || isRecovery&&session){ recovering=true; return showAuth('recover','Enter a new password for your account.'); }
+  if(!session && !navigator.onLine){ try{ const t=JSON.parse(localStorage.getItem(`sb-${new URL(SB_URL).hostname.split('.')[0]}-auth-token`)); if(t&&t.user){ return onLogin(t.user); } }catch(e){} }
+  if(session) await onLogin(session.user);
+  else showAuth('login', qs.has('code')?'Email confirmed — you can log in now.':'');
+}
+
+/* ---------- init ---------- */
+window.addEventListener('hashchange',()=>{ if(!UID) return; parseHash(); render(); window.scrollTo(0,0); });
+window.addEventListener('online',()=>{ if(!UID) return; setSync(); fetchWeather(); flush().then(()=>pull()).then(ok=>{ if(ok&&!$('#dlg').open) render(); }); });
+window.addEventListener('offline',setSync);
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible' && UID && navigator.onLine) flush().then(()=>pull()).then(ok=>{ if(ok&&!$('#dlg').open) render(); }); });
+let rT; window.addEventListener('resize',()=>{ clearTimeout(rT); rT=setTimeout(()=>{ if(UID && !$('#dlg').open) render(); },250); });
+window.addEventListener('storage',e=>{ if(UID && e.key===kData()){ S=loadCache(); Q=loadQueue(); if(!$('#dlg').open) render(); } });
+if('serviceWorker' in navigator && location.protocol==='https:') navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('SW',e));
+if(navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(()=>{});
+boot();
+</script>
+</body>
+</html>
+
