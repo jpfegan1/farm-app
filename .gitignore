@@ -5,3 +5,4 @@ test-e2e-live.js
 test-map.js
 test-weather.js
 test-design.js
+test-credits.js
