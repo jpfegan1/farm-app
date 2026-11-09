@@ -1,8 +1,8 @@
 // Farm App service worker: lets the app open with no signal (cold start).
 // Only caches the app's own files. Supabase API calls, photos, weather, Eircode lookups and map tiles always go to the network
 // (offline, paddock outlines still show on a plain background).
-const CACHE = 'farmapp-shell-v3';
-const ASSETS = ['./', './index.html', './vendor/supabase.js', './vendor/leaflet.js', './vendor/leaflet.css', './vendor/leaflet-geoman.min.js', './vendor/leaflet-geoman.css', './vendor/jszip.min.js',
+const CACHE = 'farmapp-shell-v4';
+const ASSETS = ['./', './index.html', './vendor/supabase.js', './vendor/leaflet.js', './vendor/leaflet.css', './vendor/leaflet-geoman.min.js', './vendor/leaflet-geoman.css', './vendor/jszip.min.js', './vendor/fonts/nunito-latin-wght-normal.woff2', './vendor/fonts/nunito-latin-ext-wght-normal.woff2',
   './vendor/images/layers.png', './vendor/images/layers-2x.png', './vendor/images/marker-icon.png', './vendor/images/marker-icon-2x.png', './vendor/images/marker-shadow.png',
   './favicon.svg', './manifest.webmanifest', './icon-192.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting())); });

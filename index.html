@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#2f6b3a">
+<meta name="theme-color" content="#2f9e5f">
+<link rel="preload" href="vendor/fonts/nunito-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <meta name="robots" content="noindex,nofollow">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -12,117 +13,161 @@
 <link rel="stylesheet" href="vendor/leaflet-geoman.css">
 <title>Farm App</title>
 <style>
-:root{--g:#2f6b3a;--g2:#e8f2ea;--bg:#f5f6f3;--card:#fff;--tx:#1d2420;--mut:#66706a;--bd:#d9ded9;--red:#c62828;--amb:#ef8f00;--blue:#1e6fd0;--r:12px}
+/* ===== Sunny Farmyard theme ===== */
+@font-face{font-family:Nunito;font-style:normal;font-weight:200 1000;font-display:swap;src:url(vendor/fonts/nunito-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Nunito;font-style:normal;font-weight:200 1000;font-display:swap;src:url(vendor/fonts/nunito-latin-ext-wght-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+:root{
+ --grass:#3cb371;--g:#23804a;--gd:#1c6b3d;--g2:#dcf5e5;--sky:#5ec8f0;--skyl:#dff6ff;--skyd:#0369a1;
+ --sun:#ffd54a;--sund:#e6b800;--barn:#d9473a;--cream:#fff8e7;--soil:#3f2f22;
+ --bg:#fff8e7;--card:#fff;--tx:#3f2f22;--mut:#5f6b60;--bd:#e3efe4;--red:#c8372b;--amb:#ef8f00;--blue:#0369a1;--r:22px;
+ --lift:0 6px 0 #d4e8d0,0 10px 24px #0000000f}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-header{position:sticky;top:0;z-index:20;background:var(--g);color:#fff;padding:8px 12px calc(0px);box-shadow:0 2px 6px #0003}
-header .top{display:flex;align-items:center;gap:10px;min-height:40px}
-header h1{font-size:18px;margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-header .net{font-size:12px;opacity:.85}
-nav{display:flex;gap:4px;overflow-x:auto;padding:6px 0 8px;scrollbar-width:none}
+html,body{margin:0;color:var(--tx);font:500 16px/1.45 Nunito,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+html{background:linear-gradient(180deg,var(--skyl) 0%,#e8f7e4 45%,var(--cream) 100%) fixed var(--cream)}
+body{background:transparent;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(circle at 92% -8%,#ffe08299 0,transparent 38%),radial-gradient(circle at 6% 100%,#a5d6a740 0,transparent 32%)}
+b,strong,h1,h2,h3,th{font-weight:800}
+a{color:var(--g);font-weight:700}
+header{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,var(--grass),var(--g));color:#fff;padding:8px 14px 0;border-radius:0 0 26px 26px;box-shadow:0 8px 22px #2a8f5540}
+header .top{display:flex;align-items:center;gap:10px;min-height:44px}
+header .logo{width:40px;height:40px;flex:0 0 auto;border-radius:14px;background:var(--sun);display:grid;place-items:center;font-size:22px;box-shadow:0 3px 0 var(--sund);border:2px solid #fff}
+header h1{font-size:20px;margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:800;text-shadow:0 1px 0 #0002}
+header .net{font-size:12px;font-weight:800;background:#ffffff33;padding:4px 10px;border-radius:999px;white-space:nowrap}
+header .net:empty{display:none}
+nav{display:flex;gap:6px;overflow-x:auto;padding:10px 0 12px;scrollbar-width:none}
 nav::-webkit-scrollbar{display:none}
-nav a{flex:0 0 auto;color:#fff;text-decoration:none;padding:10px 12px;border-radius:999px;background:#ffffff1f;font-size:15px;min-height:44px;display:flex;align-items:center}
-nav a.on{background:#fff;color:var(--g);font-weight:600}
-main{max-width:1100px;margin:0 auto;padding:12px 12px 80px}
-.banner{background:#fff3cd;border:1px solid #f0d67a;padding:10px 12px;border-radius:var(--r);margin-bottom:12px;font-size:14px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:12px}
-.card h2,.card h3{margin:0 0 10px;font-size:17px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+nav a{flex:0 0 auto;color:#fff;text-decoration:none;padding:9px 14px;border-radius:999px;background:#ffffff2e;font-size:15px;font-weight:800;min-height:44px;display:flex;align-items:center;gap:4px;border:2px solid transparent}
+nav a.on{background:#fff;color:var(--gd);border-color:var(--sun);box-shadow:0 3px 0 #e6b80066}
+main,#auth{position:relative;z-index:1}
+main{max-width:1120px;margin:0 auto;padding:14px 14px 90px}
+.banner{background:#fff6cc;border:2px dashed var(--sund);padding:12px 14px;border-radius:18px;margin-bottom:14px;font-size:14px;font-weight:700;color:#6b4f00}
+.card{background:var(--card);border:2px solid #e8f3ea;border-radius:var(--r);padding:16px;margin-bottom:14px;box-shadow:var(--lift)}
+.card h2,.card h3{margin:0 0 12px;font-size:18px;font-weight:800;color:var(--soil)}
+.card h2{font-size:21px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:14px}
 .grid .card{margin:0}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px}
-.kpi{background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:12px}
-.kpi b{display:block;font-size:24px}
-.kpi span{font-size:13px;color:var(--mut)}
-.kpi.warn{border-color:var(--red);background:#fdecea}
-button,.btn{font:inherit;min-height:44px;padding:8px 14px;border-radius:10px;border:1px solid var(--bd);background:#fff;color:var(--tx);cursor:pointer;display:inline-flex;align-items:center;gap:6px;text-decoration:none}
-button.pri,.btn.pri{background:var(--g);border-color:var(--g);color:#fff}
-button.danger{color:var(--red);border-color:#e8b4b4}
-button.sm{min-height:36px;padding:4px 10px;font-size:14px}
-button.on{background:var(--g2);border-color:var(--g);font-weight:600}
-button:disabled{opacity:.5}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+@media(min-width:700px){.kpis{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1000px){.kpis{grid-template-columns:repeat(6,1fr)}}
+.kpi{background:#fff;border:2px solid #e3f0e4;border-radius:var(--r);padding:14px;box-shadow:0 6px 0 #d4e8d0,0 8px 20px #0000000f;position:relative;overflow:hidden}
+.kpi .ico{font-size:28px;line-height:1;margin-bottom:4px}
+.kpi b{display:block;font-size:26px;font-weight:900;color:var(--g)}
+.kpi span{font-size:13px;color:var(--mut);font-weight:700}
+.kpi.sky{border-color:#b3e5fc;box-shadow:0 6px 0 #d6f0fb,0 8px 20px #0000000f}.kpi.sky b{color:var(--skyd)}
+.kpi.warn{border-color:#ffb4a8;background:#fff;box-shadow:0 6px 0 #ffd5ce,0 8px 20px #0000000f}.kpi.warn b{color:var(--red)}
+button,.btn{font:inherit;font-weight:800;min-height:46px;padding:9px 16px;border-radius:16px;border:2px solid #efe3c4;background:var(--cream);color:var(--soil);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;box-shadow:0 4px 0 #e6d9b8;transition:transform .05s,box-shadow .05s}
+button:active,.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #e6d9b8}
+button.pri,.btn.pri{background:var(--g);border-color:var(--g);color:#fff;box-shadow:0 4px 0 var(--gd)}
+button.pri:active,.btn.pri:active{box-shadow:0 1px 0 var(--gd)}
+button.danger{background:#fff0ee;color:var(--red);border-color:#ffc9c1;box-shadow:0 4px 0 #ffd5ce}
+button.sm,.btn.sm{min-height:38px;padding:5px 12px;font-size:14px;border-radius:13px;box-shadow:0 3px 0 #e6d9b8}
+button.pri.sm,.btn.pri.sm{box-shadow:0 3px 0 var(--gd)}
+button.on{background:#fff;border-color:var(--sun);color:var(--gd);box-shadow:0 3px 0 #e6b80066}
+button:disabled{opacity:.5;transform:none}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
 .row .sp{flex:1}
-.mut{color:var(--mut);font-size:14px}
-.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.mut{color:var(--mut);font-size:14px;font-weight:600}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:14px}
 table{border-collapse:collapse;width:100%;font-size:14px}
-th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--bd);vertical-align:top}
-th{font-size:12px;text-transform:uppercase;color:var(--mut);white-space:nowrap}
+th,td{text-align:left;padding:9px 7px;border-bottom:2px dashed #eef3ee;vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--g);white-space:nowrap;background:#f1faf3;border-bottom:2px solid #d8eedd}
+th:first-child{border-radius:12px 0 0 12px}th:last-child{border-radius:0 12px 12px 0}
+tr:last-child td{border-bottom:0}
 tr.click{cursor:pointer}
-tr.click:hover{background:#f2f7f3}
-.pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;background:#eee;white-space:nowrap}
-.pill.red{background:#fdecea;color:var(--red)}.pill.amb{background:#fff1dc;color:#9a5a00}.pill.grn{background:var(--g2);color:var(--g)}.pill.blue{background:#e3eefc;color:var(--blue)}
+tr.click:hover,tr.click:active{background:#fffbe9}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:800;background:#f1ede2;color:var(--soil);white-space:nowrap}
+.pill.red{background:#ffe0db;color:#b3261b}.pill.amb{background:#fff1c2;color:#8a5f00}.pill.grn{background:#d8f5e3;color:var(--gd)}.pill.blue{background:#dff3fd;color:var(--skyd)}
 ul.list{list-style:none;margin:0;padding:0}
-ul.list li{padding:10px 0;border-bottom:1px solid var(--bd);display:flex;gap:10px;align-items:center}
+ul.list li{padding:12px 0;border-bottom:2px dashed #eef3ee;display:flex;gap:12px;align-items:center}
 ul.list li:last-child{border-bottom:0}
 ul.list li .grow{flex:1;min-width:0}
-input,select,textarea{font:inherit;font-size:16px;width:100%;min-height:44px;padding:8px 10px;border:1px solid var(--bd);border-radius:10px;background:#fff;color:var(--tx)}
-input[type=checkbox]{width:24px;height:24px;min-height:0}
+input,select,textarea{font:inherit;font-weight:600;font-size:16px;width:100%;min-height:46px;padding:9px 12px;border:2px solid #dfe9e0;border-radius:14px;background:#fff;color:var(--tx)}
+input:focus,select:focus,textarea:focus{border-color:var(--grass);outline:0;box-shadow:0 0 0 4px #3cb37133}
+input[type=checkbox]{width:26px;height:26px;min-height:0;accent-color:var(--grass)}
+input[type=file]{padding:7px}
 textarea{min-height:80px}
-label.f{display:block;margin-bottom:10px;font-size:14px;color:var(--mut)}
+label.f{display:block;margin-bottom:12px;font-size:14px;color:var(--mut);font-weight:700}
 label.f>span{display:block;margin-bottom:4px}
-label.cb{display:flex;align-items:center;gap:10px;margin-bottom:10px;min-height:44px}
-.hint{font-size:12px;color:var(--mut);margin-top:3px}
-.hint.warn{color:#9a5a00}
-dialog{border:0;border-radius:16px;padding:0;width:min(560px,96vw);max-height:92vh;box-shadow:0 10px 40px #0005}
-dialog::backdrop{background:#0006}
-dialog .dh{position:sticky;top:0;background:#fff;padding:14px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;z-index:2}
-dialog .dh h3{margin:0;flex:1;font-size:18px}
-dialog .db{padding:14px 16px}
-dialog .df{position:sticky;bottom:0;background:#fff;padding:10px 16px;border-top:1px solid var(--bd);display:flex;gap:8px;flex-wrap:wrap}
+label.cb{display:flex;align-items:center;gap:10px;margin-bottom:10px;min-height:44px;font-weight:700}
+.hint{font-size:12.5px;color:var(--mut);margin-top:3px;font-weight:600}
+.hint.warn{color:#8a5f00}
+dialog{border:3px solid #fff;border-radius:26px;padding:0;width:min(560px,96vw);max-height:92vh;box-shadow:0 8px 0 #d4e8d0,0 16px 48px #0005;background:#fff;color:var(--tx)}
+dialog::backdrop{background:#1c3a2a8c}
+dialog .dh{position:sticky;top:0;background:linear-gradient(135deg,var(--grass),var(--g));color:#fff;padding:14px 16px;display:flex;align-items:center;gap:8px;z-index:2}
+dialog .dh h3{margin:0;flex:1;font-size:19px;font-weight:800}
+dialog .dh button{background:#ffffff33;border-color:transparent;color:#fff;box-shadow:none;min-height:40px;min-width:40px}
+dialog .db{padding:16px}
+dialog .df{position:sticky;bottom:0;background:#fffdf6;padding:12px 16px;border-top:2px dashed #eee3c6;display:flex;gap:8px;flex-wrap:wrap}
 dialog .df .sp{flex:1}
-.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
 .fgrid .full{grid-column:1/-1}
 @media(max-width:480px){.fgrid{grid-template-columns:1fr}}
-#mapwrap{position:relative;border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;background:#dfe8d8}
+#mapwrap{position:relative;border:3px solid #fff;border-radius:var(--r);overflow:hidden;background:#dfe8d8;box-shadow:var(--lift)}
 #map{width:100%;height:auto;max-height:70vh;display:block;touch-action:none;user-select:none}
 #map polygon.pad{stroke:#1d2420;stroke-width:2;vector-effect:non-scaling-stroke;fill-opacity:.55;cursor:pointer}
 #map polygon.pad.sel{stroke:#000;stroke-width:4;fill-opacity:.75}
-#map text{font-weight:700;paint-order:stroke;stroke:#fff;stroke-width:3px;fill:#1d2420;pointer-events:none}
-.maphelp{position:absolute;left:8px;top:8px;right:8px;background:#fffffff0;border-radius:10px;padding:8px 10px;font-size:14px;pointer-events:none}
-#lmap{width:100%;height:62vh;min-height:320px;max-height:760px;background:#cfd8cc;z-index:0}
+#map text{font-weight:800;paint-order:stroke;stroke:#fff;stroke-width:3px;fill:#1d2420;pointer-events:none}
+.maphelp{position:absolute;left:8px;top:8px;right:8px;background:#fffdf3f2;border:2px solid var(--sun);border-radius:16px;padding:8px 12px;font-size:14px;font-weight:700;pointer-events:none;box-shadow:0 3px 0 #e6b80055}
+#lmap{width:100%;height:62vh;min-height:320px;max-height:760px;background:#cfd8cc;z-index:0;font:inherit}
 #lmap.drawing{cursor:crosshair}
 #mapwrap .maphelp{z-index:500;right:60px;left:54px}
-@media(max-width:600px){#mapwrap .maphelp{font-size:13px;padding:6px 8px;line-height:1.3}}
-.areabox{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:500;background:#1d2420e8;color:#fff;font-weight:700;padding:8px 14px;border-radius:999px;font-size:16px;white-space:nowrap;pointer-events:none}
-.leaflet-tooltip.padlbl{background:transparent;border:0;box-shadow:none;color:#fff;font-weight:700;font-size:13px;text-align:center;text-shadow:0 0 3px #000,0 0 3px #000,0 0 2px #000;padding:0}
+@media(max-width:600px){#mapwrap .maphelp{font-size:13px;padding:6px 9px;line-height:1.3}}
+.areabox{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:500;background:var(--sun);color:#3f2f22;font-weight:900;padding:8px 16px;border-radius:999px;font-size:17px;white-space:nowrap;pointer-events:none;border:3px solid #fff;box-shadow:0 4px 0 var(--sund),0 6px 16px #0004}
+.leaflet-tooltip.padlbl{background:transparent;border:0;box-shadow:none;color:#fff;font:800 13px Nunito,system-ui,sans-serif;text-align:center;text-shadow:0 0 3px #000,0 0 3px #000,0 0 2px #000;padding:0}
 .leaflet-tooltip.padlbl:before{display:none}
-.farmpin{font-size:24px;line-height:28px;text-align:center;filter:drop-shadow(0 1px 2px #000a)}
-.leaflet-touch .leaflet-bar a{width:40px;height:40px;line-height:40px}
+.farmpin{font-size:26px;line-height:28px;text-align:center;filter:drop-shadow(0 2px 2px #000a)}
+.leaflet-bar{border:0!important;border-radius:14px!important;overflow:hidden;box-shadow:0 3px 0 #0002,0 4px 12px #0003!important}
+.leaflet-touch .leaflet-bar a{width:42px;height:42px;line-height:42px;color:var(--soil)}
+.leaflet-control-layers{border-radius:14px!important;border:0!important;box-shadow:0 3px 0 #0002,0 4px 12px #0003!important;font:700 14px Nunito,system-ui,sans-serif}
+.leaflet-container{font-family:Nunito,system-ui,sans-serif}
 .leaflet-container a.btn{color:inherit}
-.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:13px;margin-top:8px}
-.legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:4px;border:1px solid #0003}
-canvas.chart{width:100%;display:block}
-.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
-.gallery figure{margin:0;background:#fff;border:1px solid var(--bd);border-radius:10px;overflow:hidden;cursor:pointer}
-.gallery img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
-.gallery figcaption{font-size:12px;padding:6px;color:var(--mut)}
-.wx{display:grid;grid-template-columns:repeat(7,minmax(70px,1fr));gap:6px;overflow-x:auto}
-.wx div{background:#f4f8fb;border:1px solid #dde7ef;border-radius:10px;padding:8px;text-align:center;font-size:13px}
-.wx b{display:block;font-size:14px}
+.leaflet-popup-content-wrapper{border-radius:16px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:13px;font-weight:700;margin-top:10px}
+.legend i{display:inline-block;width:16px;height:16px;border-radius:6px;vertical-align:-3px;margin-right:4px;border:2px solid #fff;box-shadow:0 0 0 1px #0002}
+canvas.chart{width:100%;display:block;background:linear-gradient(180deg,#eefaf2,#fff);border:2px solid #d8f0e0;border-radius:16px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.gallery figure{margin:0;background:#fff;border:3px solid #fff;border-radius:18px;overflow:hidden;cursor:pointer;box-shadow:0 5px 0 #d4e8d0,0 6px 14px #0001}
+.gallery img{width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:14px 14px 0 0}
+.gallery figcaption{font-size:12px;padding:6px 8px;color:var(--mut);font-weight:700}
+.wx{display:grid;grid-template-columns:repeat(7,minmax(74px,1fr));gap:8px;overflow-x:auto;padding-bottom:4px}
+.wx div{background:linear-gradient(180deg,var(--skyl),#fff);border:2px solid #c8ebf8;border-radius:18px;padding:9px 6px;text-align:center;font-size:13px;font-weight:700}
+.wx b{display:block;font-size:14px;color:var(--skyd);font-weight:900}
 .wxcmp td,.wxcmp th{text-align:center;white-space:nowrap}
 .wxcmp td:first-child,.wxcmp th:first-child{text-align:left;position:sticky;left:0;background:#fff;z-index:1}
-.wxcmp tr.cons td{border-top:2px solid var(--g)}
-.subtabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px}
-.subtabs button{flex:0 0 auto}
-.empty{padding:20px;text-align:center;color:var(--mut)}
-.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#1d2420;color:#fff;padding:12px 18px;border-radius:999px;z-index:100;font-size:15px;max-width:92vw}
+.wxcmp th:first-child{background:#f1faf3}
+.wxcmp tr.cons td{border-top:3px solid var(--grass);background:#f4fbf6}
+.subtabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;padding:2px 2px 6px;scrollbar-width:none}
+.subtabs::-webkit-scrollbar{display:none}
+.subtabs button{flex:0 0 auto;border-radius:999px}
+.empty{padding:22px 14px;text-align:center;color:var(--mut);font-weight:700;background:#fffdf3;border:2px dashed #f0dfa8;border-radius:18px}
+.empty .emo{display:block;font-size:40px;line-height:1.1;margin-bottom:6px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--soil);color:#fff;padding:12px 20px;border-radius:999px;z-index:100;font-size:15px;font-weight:800;max-width:92vw;border:3px solid var(--sun);box-shadow:0 6px 20px #0004}
 #printArea{display:none}
-#auth{max-width:420px;margin:24px auto;padding:0 12px}
-.authcard{padding:22px}
+#auth{max-width:440px;margin:26px auto;padding:0 14px}
+.authcard{padding:24px;border-width:3px;position:relative;overflow:hidden}
+.authcard .authlogo{width:84px;height:84px;margin:0 auto 6px;border-radius:28px;background:var(--sun);display:grid;place-items:center;font-size:48px;box-shadow:0 5px 0 var(--sund);border:3px solid #fff}
+.authcard .authsun{position:absolute;top:-18px;right:-12px;font-size:70px;opacity:.28;pointer-events:none}
+.authcard .authfield{position:absolute;bottom:-10px;left:0;right:0;text-align:center;font-size:22px;letter-spacing:6px;opacity:.5;pointer-events:none}
+.authcard h2{color:var(--gd)}
+.authcard hr{border:0!important;border-top:2px dashed #eee3c6!important}
 body.loggedout nav{display:none}
+body.loggedout header{padding-bottom:8px}
 body.loggedout main{display:none}
+@media(max-width:480px){main{padding:12px 10px 90px}.card{padding:14px}header h1{font-size:18px}}
 @media print{
  header,main,dialog,.toast{display:none!important}
  #printArea{display:block}
  #printArea table{font-size:11px}
  #printArea th,#printArea td{border:1px solid #999;padding:3px 4px}
  body{background:#fff}
+ body::before{display:none}
 }
 </style>
 </head>
 <body>
 <header>
- <div class="top"><h1 id="farmTitle">🐄 Farm App</h1><span class="net" id="net"></span></div>
+ <div class="top"><div class="logo" aria-hidden="true">🐄</div><h1 id="farmTitle">Farm App</h1><span class="net" id="net"></span></div>
  <nav id="nav"></nav>
 </header>
 <div id="auth" hidden></div>
@@ -295,7 +340,7 @@ function showInfo(title, html){ const dlg=$('#dlg'); dlg.innerHTML=`<div class="
 
 /* ---------- table ---------- */
 function table(rows, cols, {onRow, empty='No records yet.'}={}){
-  if(!rows.length) return `<div class="empty">${esc(empty)}</div>`;
+  if(!rows.length) return emptyBox(empty);
   const key='t'+Math.random().toString(36).slice(2,8);
   setTimeout(()=>{ if(onRow) $$(`[data-t="${key}"]`).forEach(tr=>tr.onclick=()=>onRow(rows[+tr.dataset.i])); });
   return `<div class="tw"><table><thead><tr>${cols.map(c=>`<th>${esc(c.l)}</th>`).join('')}</tr></thead><tbody>${rows.map((r,i)=>`<tr ${onRow?`class="click" data-t="${key}" data-i="${i}"`:''}>${cols.map(c=>`<td>${c.h?c.h(r):esc(c.f?c.f(r):r[c.k])}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
@@ -313,7 +358,12 @@ function printTable(title, rows, cols, note){
 }
 
 /* ---------- charts (canvas, no libraries) ---------- */
-const PALETTE=['#2f6b3a','#1e6fd0','#ef8f00','#c62828','#7b1fa2','#00897b','#6d4c41','#546e7a'];
+
+const EMPTY_EMO=[[/photo/i,'📷'],[/withdrawal/i,'🌼'],[/calving/i,'🍼'],[/walk/i,'🥾'],[/paddock|field|grazed/i,'🌾'],[/milk/i,'🥛'],[/task|due today|scheduled/i,'🌞'],[/cow|animal|service|repeat/i,'🐄'],[/event|record/i,'📋']];
+const EMPTY_CHEER={'🌼':'All clear — happy cows!','🍼':'Nice and quiet in the calving shed.','🌞':'Put the kettle on ☕','📷':'Snap a field, a calf or a receipt.','🌾':'Plenty of room to grow.','🥾':'Pull on the wellies and walk the farm.'};
+function emptyBox(msg, style=''){ msg=String(msg||'Nothing here yet.'); const e=(EMPTY_EMO.find(([r])=>r.test(msg))||[0,'🌻'])[1]; const cheer=/^(no|none|nothing|not )/i.test(msg)&&EMPTY_CHEER[e];
+  return `<div class="empty"${style?` style="${style}"`:''}><span class="emo" aria-hidden="true">${e}</span>${esc(msg)}${cheer?`<div class="hint" style="margin-top:4px">${esc(cheer)}</div>`:''}</div>`; }
+const PALETTE=['#2a9d5c','#0288d1','#f2a900','#d9473a','#7b1fa2','#00897b','#6d4c41','#546e7a'];
 function setupCanvas(cv, h){ const dpr=window.devicePixelRatio||1; const w=cv.clientWidth||cv.parentElement.clientWidth||600; cv.width=w*dpr; cv.height=h*dpr; cv.style.height=h+'px'; const ctx=cv.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,w,h); ctx.font='12px system-ui,sans-serif'; return {ctx,w,h}; }
 function lineChart(cv, series, {height=220, yLabel=''}={}){
   if(!cv) return; const {ctx,w,h}=setupCanvas(cv,height);
@@ -340,7 +390,7 @@ function barChart(cv, labels, values, {height=220, target=null, targetLabel='', 
   const Y=v=>T+(1-v/ymax)*(h-T-B);
   ctx.strokeStyle='#e3e6e3'; ctx.fillStyle='#66706a'; ctx.textAlign='right'; ctx.textBaseline='middle';
   for(let i=0;i<=4;i++){ const v=ymax*i/4; ctx.beginPath(); ctx.moveTo(L,Y(v)); ctx.lineTo(w-R,Y(v)); ctx.stroke(); ctx.fillText(num(v),L-6,Y(v)); }
-  values.forEach((v,i)=>{ ctx.fillStyle=(colors&&colors[i])||'#5fae5f'; const x=L+i*bw+bw*0.15; ctx.fillRect(x,Y(v),bw*0.7,Y(0)-Y(v));
+  values.forEach((v,i)=>{ ctx.fillStyle=(colors&&colors[i])||'#3cb371'; const x=L+i*bw+bw*0.15; ctx.fillRect(x,Y(v),bw*0.7,Y(0)-Y(v));
     ctx.save(); ctx.fillStyle='#333'; ctx.translate(L+i*bw+bw/2,h-B+6); ctx.rotate(values.length>6?-0.6:0); ctx.textAlign=values.length>6?'right':'center'; ctx.textBaseline='top'; ctx.fillText(String(labels[i]).slice(0,12),0,0); ctx.restore(); });
   if(target){ ctx.strokeStyle='#c62828'; ctx.setLineDash([6,4]); ctx.beginPath(); ctx.moveTo(L,Y(target)); ctx.lineTo(w-R,Y(target)); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle='#c62828'; ctx.textAlign='right'; ctx.textBaseline='bottom'; ctx.fillText(targetLabel,w-R,Y(target)-2); }
 }
@@ -592,10 +642,12 @@ function go(r,arg){ location.hash = arg ? `${r}/${arg}` : r; }
 function parseHash(){ const [r,a]=(location.hash.slice(1)||'dash').split('/'); route = (ROUTES[r]||r==='cow') ? r : 'dash'; routeArg=a?decodeURIComponent(a):null; }
 function renderNav(){ $('#nav').innerHTML=Object.entries(ROUTES).map(([k,[i,l]])=>`<a href="#${k}" class="${(route===k||(route==='cow'&&k==='cows'))?'on':''}">${i} ${l}</a>`).join('');
   const on=$('#nav a.on'); if(on) on.scrollIntoView({block:'nearest',inline:'nearest'});
-  $('#farmTitle').textContent='🐄 '+(S.settings.farmName||'Farm App'); setSync(); }
+  $('#farmTitle').textContent=(S.settings.farmName||'Farm App'); setSync(); }
 function render(){ if(!UID) return; destroyLeaflet(); renderNav(); const m=$('#main'); const hasDemo=COLLECTIONS.some(c=>S[c].some(r=>r.demo));
   m.innerHTML = hasDemo?`<div class="banner">⚠️ <b>Demo data is loaded</b> — example records only. Remove it in <a href="#settings">Settings</a> before entering real records.</div>`:'';
-  const box=document.createElement('div'); m.appendChild(box); (VIEWS[route]||VIEWS.dash)(box); }
+  const box=document.createElement('div'); m.appendChild(box); (VIEWS[route]||VIEWS.dash)(box); kpiIcons(m); }
+const KPI_EMO=[[/overdue/i,'⏰'],[/today/i,'📅'],[/upcoming|scheduled|next/i,'🗓️'],[/withdrawal/i,'💊'],[/calv|due/i,'🍼'],[/milk|litre/i,'🥛'],[/growth|kg dm\/ha\/day/i,'📈'],[/cover|kg dm/i,'🌾'],[/days|grass|rest/i,'🌱'],[/demand|cow/i,'🐄'],[/area|ha\b|hectare/i,'📐'],[/\bn\b|nitrogen|fert/i,'🧪'],[/status/i,'🏷️'],[/breed/i,'🧬'],[/age/i,'🎂']];
+function kpiIcons(root){ $$('.kpi',root).forEach(k=>{ if($('.ico',k)) return; const t=($('span',k)?.textContent||''); const e=(KPI_EMO.find(([r])=>r.test(t))||[0,'🌻'])[1]; k.insertAdjacentHTML('afterbegin',`<div class="ico" aria-hidden="true">${e}</div>`); }); }
 const VIEWS={};
 
 /* ---------- Dashboard ---------- */
@@ -607,19 +659,19 @@ VIEWS.dash = el => {
   const gb=grassBudget(); const herd=activeCows();
   const isEmpty = !S.cows.length && !S.paddocks.length && !S.tasks.length;
   el.innerHTML = `
-  ${isEmpty?`<div class="card"><h2>Welcome 👋</h2><p>No records yet. Start by drawing your paddocks on the <a href="#map">Map</a> and adding <a href="#cows">Cows</a>, or <button class="sm" id="demoBtn">Load demo data</button> to explore.</p><p class="mut">Everything is stored on this device only. Use <a href="#settings">Settings → Export backup</a> regularly.</p></div>`:''}
+  ${isEmpty?`<div class="card"><div style="font-size:44px;line-height:1">🌻🐄🌱</div><h2>Welcome to your farm 👋</h2><p>No records yet. Start by drawing your paddocks on the <a href="#map">Map</a> and adding <a href="#cows">Cows</a>, or <button class="sm" id="demoBtn">Load demo data</button> to explore.</p><p class="mut">Your records are saved to your account and kept on this phone for offline use. You can also <a href="#settings">export a backup</a> any time.</p></div>`:''}
   <div class="kpis">
-    <div class="kpi"><b>${herd.length}</b><span>Animals in herd (${S.cows.filter(c=>c.status==='milking').length} milking)</span></div>
-    <div class="kpi"><b>${last?num(last.litres):'–'} L</b><span>Milk ${last?fmtD(last.date):''}${last&&prev?` (${last.litres>=prev.litres?'▲':'▼'} ${num(Math.abs(last.litres-prev.litres))} L)`:''}</span></div>
-    <div class="kpi ${wd.length?'warn':''}"><b>${wd.length}</b><span>In withdrawal</span></div>
-    <div class="kpi"><b>${due.length}</b><span>Calving ≤ 6 weeks</span></div>
-    <div class="kpi ${overdue.length?'warn':''}"><b>${overdue.length}</b><span>Overdue tasks</span></div>
-    <div class="kpi"><b>${gb.daysAhead!=null?num(gb.daysAhead,1):'–'}</b><span>Days grass ahead (est.)</span></div>
+    <div class="kpi"><div class="ico">🐄</div><b>${herd.length}</b><span>Animals in herd (${S.cows.filter(c=>c.status==='milking').length} milking)</span></div>
+    <div class="kpi sky"><div class="ico">🥛</div><b>${last?num(last.litres):'–'} L</b><span>Milk ${last?fmtD(last.date):''}${last&&prev?` (${last.litres>=prev.litres?'▲':'▼'} ${num(Math.abs(last.litres-prev.litres))} L)`:''}</span></div>
+    <div class="kpi ${wd.length?'warn':''}"><div class="ico">💊</div><b>${wd.length}</b><span>In withdrawal</span></div>
+    <div class="kpi"><div class="ico">🍼</div><b>${due.length}</b><span>Calving ≤ 6 weeks</span></div>
+    <div class="kpi ${overdue.length?'warn':''}"><div class="ico">⏰</div><b>${overdue.length}</b><span>Overdue tasks</span></div>
+    <div class="kpi"><div class="ico">🌱</div><b>${gb.daysAhead!=null?num(gb.daysAhead,1):'–'}</b><span>Days grass ahead (est.)</span></div>
   </div>
   <div class="grid">
     <div class="card"><h3>✅ Today's tasks</h3>${taskList([...overdue,...dueToday],'Nothing due today 🎉')}<div class="row" style="margin-top:8px"><button class="sm" id="addTask">+ Task</button><a class="btn sm" href="#tasks">All tasks</a></div></div>
-    <div class="card" style="${wd.length?'border-color:#c62828':''}"><h3>💊 Cows in withdrawal</h3>${wd.length?`<ul class="list">${wd.map(w=>`<li><div class="grow"><b>${esc(w.t.cowId?cowName(w.t.cowId):w.t.groupDesc||'Group')}</b><div class="mut">${esc(w.t.product)}</div></div><div style="text-align:right">${w.milkEnd?`<span class="pill red">Milk to ${fmtD(w.milkEnd)}</span><br>`:''}${w.meatEnd?`<span class="pill amb">Meat to ${fmtD(w.meatEnd)}</span>`:''}</div></li>`).join('')}</ul>`:'<div class="empty">No animals in withdrawal.</div>'}</div>
-    <div class="card"><h3>🍼 Upcoming calvings</h3>${due.length?`<ul class="list">${due.slice(0,8).map(d=>`<li><div class="grow"><a href="#cow/${d.cow.id}">${esc(cowLabel(d.cow))}</a><div class="mut">Due ${fmtD(d.due)} · ${d.confirmed?'scanned in-calf':'not yet scanned'}</div></div><span class="pill ${d.days<0?'red':d.days<=7?'amb':'grn'}">${d.days<0?Math.abs(d.days)+'d over':d.days+' days'}</span></li>`).join('')}</ul>`:'<div class="empty">No calvings due in the next 6 weeks.</div>'}</div>
+    <div class="card" style="${wd.length?'border-color:#ffb4a8;box-shadow:0 6px 0 #ffd5ce,0 10px 24px #0000000f':''}"><h3>💊 Cows in withdrawal</h3>${wd.length?`<ul class="list">${wd.map(w=>`<li><div class="grow"><b>${esc(w.t.cowId?cowName(w.t.cowId):w.t.groupDesc||'Group')}</b><div class="mut">${esc(w.t.product)}</div></div><div style="text-align:right">${w.milkEnd?`<span class="pill red">Milk to ${fmtD(w.milkEnd)}</span><br>`:''}${w.meatEnd?`<span class="pill amb">Meat to ${fmtD(w.meatEnd)}</span>`:''}</div></li>`).join('')}</ul>`:emptyBox('No animals in withdrawal.')}</div>
+    <div class="card"><h3>🍼 Upcoming calvings</h3>${due.length?`<ul class="list">${due.slice(0,8).map(d=>`<li><div class="grow"><a href="#cow/${d.cow.id}">${esc(cowLabel(d.cow))}</a><div class="mut">Due ${fmtD(d.due)} · ${d.confirmed?'scanned in-calf':'not yet scanned'}</div></div><span class="pill ${d.days<0?'red':d.days<=7?'amb':'grn'}">${d.days<0?Math.abs(d.days)+'d over':d.days+' days'}</span></li>`).join('')}</ul>`:emptyBox('No calvings due in the next 6 weeks.')}</div>
     <div class="card"><h3>🥛 Milk (last 14 days)</h3><canvas class="chart" id="dashMilk"></canvas></div>
     <div class="card" style="grid-column:1/-1"><h3>🌦️ Weather & grass</h3><div id="dashWx">${wxStrip(getWeatherCache())}</div>
       <p class="mut" style="margin-bottom:0">Average farm cover: <b>${gb.afc!=null?num(gb.afc):'–'} kg DM/ha</b> · Growth used: <b>${num(currentGrowthRate().rate)} kg DM/ha/day</b> (${esc(currentGrowthRate().basis)}) · Demand: ${gb.cows} cows × ${num(S.settings.kgDmPerCow)} kg — <i>estimates</i>. <a href="#grass">Grass planner →</a></p></div>
@@ -1002,7 +1054,7 @@ VIEWS.cows = el => {
   $('#csv',el).onclick=()=>download('herd.csv', toCSV(S.cows,[{l:'Tag',k:'tag'},{l:'Name',k:'name'},{l:'Breed',k:'breed'},{l:'Sex',k:'sex'},{l:'DOB',k:'dob'},{l:'Status',k:'status'},{l:'Sire',k:'sire'},{l:'Dam tag',k:'damTag'},{l:'Group',k:'group'},{l:'Notes',k:'notes'},{l:'Source',k:'source'},{l:'ID',k:'id'}]),'text/csv');
 };
 VIEWS.cow = el => {
-  const c=get('cows',routeArg); if(!c){ el.innerHTML='<div class="empty">Animal not found. <a href="#cows">Back</a></div>'; return; }
+  const c=get('cows',routeArg); if(!c){ el.innerHTML='<div class="empty"><span class="emo">🔎</span>Animal not found. <a href="#cows">Back</a></div>'; return; }
   const milk=S.milk.filter(m=>m.cowId===c.id).sort(byDate()); const br=breedingFor(c.id); const tr=S.treatments.filter(t=>t.cowId===c.id).sort(byDate());
   const mv=S.movements.filter(m=>m.cowId===c.id); const dt=S.deaths.filter(d=>d.cowId===c.id); const tasks=S.tasks.filter(t=>t.cowId===c.id&&!t.done);
   const calves=S.cows.filter(x=>x.damId===c.id||(x.damTag&&x.damTag===c.tag)); const dam=c.damId?get('cows',c.damId):S.cows.find(x=>x.tag===c.damTag);
@@ -1011,7 +1063,7 @@ VIEWS.cow = el => {
     ...mv.map(m=>({date:m.date, what:(m.direction==='in'?'⬅ Moved in':'➡ Moved out')+(m.reason?' — '+m.reason:''), col:'movements', r:m})), ...dt.map(d=>({date:d.date, what:'✝ Died/disposed — '+(d.cause||''), col:'deaths', r:d}))].sort(byDate());
   el.innerHTML=`<div class="row"><a class="btn sm" href="#cows">← Herd</a><span class="sp"></span><button class="sm" id="edit">Edit</button></div>
   <div class="card"><h2>${esc(c.tag)} ${c.name?'· '+esc(c.name):''}</h2>
-   ${wd.length?`<div class="banner" style="background:#fdecea;border-color:#e8b4b4">💊 In withdrawal: ${wd.map(w=>`${esc(w.t.product)}${w.milkEnd?' — milk to '+fmtD(w.milkEnd):''}${w.meatEnd?' — meat to '+fmtD(w.meatEnd):''}`).join('; ')}</div>`:''}
+   ${wd.length?`<div class="banner" style="background:#fff0ee;border-color:#e85d4c;color:#a3261b">💊 In withdrawal: ${wd.map(w=>`${esc(w.t.product)}${w.milkEnd?' — milk to '+fmtD(w.milkEnd):''}${w.meatEnd?' — meat to '+fmtD(w.meatEnd):''}`).join('; ')}</div>`:''}
    <div class="kpis"><div class="kpi"><b>${esc(c.status)}</b><span>Status</span></div><div class="kpi"><b>${esc(c.breed||'–')}</b><span>Breed · ${c.sex==='M'?'Male':'Female'}</span></div><div class="kpi"><b>${age(c.dob)||'–'}</b><span>Age ${c.dob?'(DOB '+fmtD(c.dob)+')':''}</span></div>
    <div class="kpi"><b>${di?fmtD(di.due):'–'}</b><span>Expected calving${di?` (${esc(di.basis)})`:''}</span></div><div class="kpi"><b>${milk.length?num(sum(milk.filter(m=>m.date===milk[0].date).map(m=>m.litres)),1):'–'} L</b><span>Latest day's milk</span></div></div>
    <p class="mut">Sire: ${esc(c.sire||'–')} · Dam: ${dam?`<a href="#cow/${dam.id}">${esc(cowLabel(dam))}</a>`:esc(c.damTag||'–')} ${calves.length?'· Calves: '+calves.map(x=>`<a href="#cow/${x.id}">${esc(x.tag)}</a>`).join(', '):''}</p>
@@ -1116,7 +1168,7 @@ VIEWS.grass = el => {
   let order=1;
   el.innerHTML=`<div class="banner" style="background:#eef5ff;border-color:#c5d8f5">ℹ️ All grass figures here are <b>estimates</b> (manual walks + a simple growth model). Use them as a guide alongside your own judgement / PastureBase.</div>
   <div class="row"><button class="pri" id="walkAll">📝 Record farm walk</button><button id="wxRefresh">↻ Refresh weather</button><span class="sp"></span><button class="sm" id="settingsBtn">Planner settings</button></div>
-  <div class="kpis"><div class="kpi"><b>${gb.afc!=null?num(gb.afc):'–'}</b><span>Avg farm cover kg DM/ha</span></div><div class="kpi"><b>${gb.daysAhead!=null?num(gb.daysAhead,1):'–'}</b><span>Days grass ahead</span></div>
+  <div class="kpis"><div class="kpi"><div class="ico">🌾</div><b>${gb.afc!=null?num(gb.afc):'–'}</b><span>Avg farm cover kg DM/ha</span></div><div class="kpi"><div class="ico">🌱</div><b>${gb.daysAhead!=null?num(gb.daysAhead,1):'–'}</b><span>Days grass ahead</span></div>
     <div class="kpi"><b>${num(gr.rate)}</b><span>Growth kg DM/ha/day (${esc(gr.basis)})</span></div><div class="kpi"><b>${gb.demandPerHa!=null?num(gb.demandPerHa):'–'}</b><span>Demand kg DM/ha/day (${gb.cows} × ${num(s.kgDmPerCow)} kg ÷ ${num(gb.area,1)} ha)</span></div>
     <div class="kpi"><b>${gb.coverPerCow!=null?num(gb.coverPerCow):'–'}</b><span>Cover per cow kg DM</span></div></div>
   ${gb.demandPerHa!=null&&gr.rate?`<p class="mut">${gr.rate>gb.demandPerHa?`Growth (${num(gr.rate)}) is above demand (${num(gb.demandPerHa)}) → grass likely building; consider taking out surplus paddocks.`:`Demand (${num(gb.demandPerHa)}) exceeds growth (${num(gr.rate)}) → cover likely falling; consider supplement or slowing rotation.`}</p>`:''}
@@ -1153,7 +1205,7 @@ function photoForm(preset={}){
 }
 async function renderGallery(box, filterFn){
   if(!box) return; const ps=S.photos.filter(filterFn||(()=>true)).sort(byDate());
-  if(!ps.length){ box.innerHTML='<div class="empty" style="grid-column:1/-1">No photos.</div>'; return; }
+  if(!ps.length){ box.innerHTML=emptyBox('No photos yet.','grid-column:1/-1'); return; }
   const urls=await photoURLs(ps);
   box.innerHTML=ps.map((p,i)=>`<figure data-i="${i}">${urls[i]?`<img src="${esc(urls[i])}" alt="${esc(p.caption||'photo')}" loading="lazy">`:'<div class="empty" style="aspect-ratio:1">📷 offline</div>'}<figcaption>${fmtD(p.date)} ${esc([cowName(p.cowId),padName(p.paddockId)].filter(Boolean).join(' · '))}<br>${esc(p.caption||'')}</figcaption></figure>`).join('');
   $$('figure',box).forEach(f=>f.onclick=()=>{ const i=+f.dataset.i, p=ps[i];
@@ -1176,7 +1228,7 @@ function taskForm(t, preset={}){
     {k:'cowId',l:'Linked cow',t:'select',o:()=>cowOpts(true)},{k:'paddockId',l:'Linked paddock',t:'select',o:padOpts},{k:'priority',l:'Priority',t:'select',o:[['normal','Normal'],['high','High']]},{k:'notes',l:'Notes',t:'textarea',full:1}],
     onSave:v=>{ if(t) upd('tasks',t.id,v); else add('tasks',{...v,done:false}); }, onDelete:t?()=>del('tasks',t.id):null});
 }
-function taskList(ts, empty='No tasks.'){ if(!ts.length) return `<div class="empty">${esc(empty)}</div>`; const td=today();
+function taskList(ts, empty='No tasks.'){ if(!ts.length) return emptyBox(empty); const td=today();
   return `<ul class="list">${ts.map(t=>`<li><input type="checkbox" data-done="${t.id}" ${t.done?'checked':''} aria-label="Done"><div class="grow" data-edit="${t.id}" style="cursor:pointer"><b style="${t.done?'text-decoration:line-through;color:#888':''}">${t.priority==='high'?'❗ ':''}${esc(t.title)}</b><div class="mut">${t.due?`<span class="pill ${!t.done&&t.due<td?'red':t.due===td?'amb':''}">${t.due<td&&!t.done?'Overdue · ':''}${fmtD(t.due)}</span> `:''}${t.recur&&t.recur!=='none'?'🔁 '+RECUR[t.recur]+' ':''}${t.cowId?'🐄 '+esc(cowName(t.cowId))+' ':''}${t.paddockId?'🌱 '+esc(padName(t.paddockId)):''}</div></div></li>`).join('')}</ul>`; }
 function bindTaskList(el){ $$('[data-done]',el).forEach(cb=>cb.onchange=()=>{ const t=get('tasks',cb.dataset.done); if(cb.checked) completeTask(t); else upd('tasks',t.id,{done:false,doneAt:null}); render(); });
   $$('[data-edit]',el).forEach(d=>d.onclick=()=>taskForm(get('tasks',d.dataset.edit))); }
@@ -1185,9 +1237,9 @@ VIEWS.tasks = el => {
   const od=open.filter(t=>t.due&&t.due<td), tdy=open.filter(t=>t.due===td), up=open.filter(t=>t.due&&t.due>td&&daysBetween(td,t.due)<=7), later=open.filter(t=>!t.due||daysBetween(td,t.due)>7);
   el.innerHTML=`<div class="row"><button class="pri" id="add">+ New task</button></div>
   <div class="kpis"><div class="kpi ${od.length?'warn':''}"><b>${od.length}</b><span>Overdue</span></div><div class="kpi"><b>${tdy.length}</b><span>Today</span></div><div class="kpi"><b>${up.length}</b><span>Next 7 days</span></div></div>
-  ${od.length?`<div class="card" style="border-color:#c62828"><h3>Overdue</h3>${taskList(od)}</div>`:''}
+  ${od.length?`<div class="card" style="border-color:#ffb4a8;box-shadow:0 6px 0 #ffd5ce,0 10px 24px #0000000f"><h3>Overdue</h3>${taskList(od)}</div>`:''}
   <div class="card"><h3>Today</h3>${taskList(tdy,'Nothing due today.')}</div><div class="card"><h3>Next 7 days</h3>${taskList(up,'Nothing scheduled.')}</div>
-  <div class="card"><h3>Later / no date</h3>${taskList(later,'—')}</div><div class="card"><h3>Recently done</h3>${taskList(done,'—')}</div>`;
+  <div class="card"><h3>Later / no date</h3>${taskList(later,'No undated tasks.')}</div><div class="card"><h3>Recently done</h3>${taskList(done,'Nothing ticked off yet.')}</div>`;
   bindTaskList(el); $('#add',el).onclick=()=>taskForm(null);
 };
 
@@ -1241,7 +1293,7 @@ const COMP = {
 VIEWS.compliance = el => {
   const c=COMP[compTab]; const rows=c.rows(); const wd=inWithdrawal(); const yr=today().slice(0,4);
   let extra='';
-  if(compTab==='treatments') extra=`<div class="card" style="${wd.length?'border-color:#c62828':''}"><h3>⚠️ Currently in withdrawal (${wd.length})</h3>${table(wd,[{l:'Animal',f:w=>animalOf(w.t)},{l:'Product',f:w=>w.t.product},{l:'Milk until',h:w=>w.milkEnd?`<span class="pill red">${fmtD(w.milkEnd)}</span>`:''},{l:'Meat until',h:w=>w.meatEnd?`<span class="pill amb">${fmtD(w.meatEnd)}</span>`:''}],{empty:'None.'})}<div class="hint">End date = last treatment day + withdrawal days. Do not supply milk/meat on or before the date shown. Verify against the product label.</div></div>`;
+  if(compTab==='treatments') extra=`<div class="card" style="${wd.length?'border-color:#ffb4a8;box-shadow:0 6px 0 #ffd5ce,0 10px 24px #0000000f':''}"><h3>⚠️ Currently in withdrawal (${wd.length})</h3>${table(wd,[{l:'Animal',f:w=>animalOf(w.t)},{l:'Product',f:w=>w.t.product},{l:'Milk until',h:w=>w.milkEnd?`<span class="pill red">${fmtD(w.milkEnd)}</span>`:''},{l:'Meat until',h:w=>w.meatEnd?`<span class="pill amb">${fmtD(w.meatEnd)}</span>`:''}],{empty:'None.'})}<div class="hint">End date = last treatment day + withdrawal days. Do not supply milk/meat on or before the date shown. Verify against the product label.</div></div>`;
   if(compTab==='fertiliser'){ const tot=S.paddocks.map(p=>{ const fs=S.fertiliser.filter(f=>f.paddockId===p.id&&(f.date||'').startsWith(yr)); return {p, n:sum(fs.map(f=>f.nKgHa)), ph:sum(fs.map(f=>f.pKgHa)), k:sum(fs.map(f=>f.kKgHa)), ha:padHa(p)}; });
     extra=`<div class="card"><h3>${yr} totals per paddock</h3>${table(tot,[{l:'Paddock',f:r=>r.p.name},{l:'ha',f:r=>num(r.ha,2)},{l:'N kg/ha',f:r=>num(r.n)},{l:'P kg/ha',f:r=>num(r.ph,1)},{l:'K kg/ha',f:r=>num(r.k)},{l:'Total N kg',f:r=>num(r.n*r.ha)},{l:'Total P kg',f:r=>num(r.ph*r.ha,1)}],{empty:'No paddocks.'})}<div class="hint">Running totals only — check limits against your own Nitrates/derogation allowances and soil tests.</div></div>`; }
   el.innerHTML=`<div class="banner" style="background:#eef5ff;border-color:#c5d8f5">📋 <b>Record-keeping aid</b> — not an official register and not a guarantee of compliance with EU/Irish rules. Keep the records your Department of Agriculture, vet and processor require.</div>
@@ -1424,8 +1476,8 @@ function authHTML(mode, msg, err){
   if(mode==='forgot') body=`${f('aEmail','Email','email','email')}<button class="pri" type="submit" style="width:100%">Send reset link</button><p style="text-align:center"><a href="#" data-m="login">Back to log in</a></p>`;
   if(mode==='recover') body=`${f('aPw','New password (min 8 characters)','password','new-password')}${f('aPw2','Repeat new password','password','new-password')}<button class="pri" type="submit" style="width:100%">Save new password</button>`;
   if(mode==='check') body=`<p style="text-align:center"><a href="#" data-m="login">Back to log in</a></p>`;
-  return `<div class="card authcard"><div style="text-align:center;font-size:44px">🐄</div><h2 style="text-align:center;margin-bottom:4px">Farm App</h2><p class="mut" style="text-align:center;margin-top:0">${esc(T)}</p>
-    ${msg?`<div class="banner" style="background:#e8f2ea;border-color:#b9d8c0">${esc(msg)}</div>`:''}${err?`<div class="banner" style="background:#fdecea;border-color:#e8b4b4">${esc(err)}</div>`:''}
+  return `<div class="card authcard"><span class="authsun" aria-hidden="true">☀️</span><div class="authlogo" aria-hidden="true">🐄</div><h2 style="text-align:center;margin-bottom:4px">Farm App</h2><p class="mut" style="text-align:center;margin-top:0">${esc(T)}</p>
+    ${msg?`<div class="banner" style="background:#e6f8ec;border-color:#3cb371;color:#1c6b3d">${esc(msg)}</div>`:''}${err?`<div class="banner" style="background:#fff0ee;border-color:#e85d4c;color:#a3261b">${esc(err)}</div>`:''}
     <form id="authForm" novalidate>${body}</form></div><p class="mut" style="text-align:center">Each person has their own private account. Your farm records are only visible to you.</p>`;
 }
 function friendlyAuthError(e){ const c=e?.code||'', m=e?.message||String(e);
@@ -1439,7 +1491,7 @@ function friendlyAuthError(e){ const c=e?.code||'', m=e?.message||String(e);
   if(/fetch|network/i.test(m)) return 'No connection — check your signal and try again.';
   return m; }
 function showAuth(mode='login', msg='', err=''){
-  document.body.classList.add('loggedout'); $('#main').innerHTML=''; $('#nav').innerHTML=''; $('#net').textContent=''; $('#farmTitle').textContent='🐄 Farm App';
+  document.body.classList.add('loggedout'); $('#main').innerHTML=''; $('#nav').innerHTML=''; $('#net').textContent=''; $('#farmTitle').textContent='Farm App';
   const a=$('#auth'); a.hidden=false; a.innerHTML=authHTML(mode,msg,err);
   $$('[data-m]',a).forEach(x=>x.onclick=e=>{ e.preventDefault(); showAuth(x.dataset.m); });
   const form=$('#authForm',a); const v=id=>($('#'+id,a)?.value||'').trim();

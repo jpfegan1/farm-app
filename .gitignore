@@ -4,3 +4,4 @@ test-playwright.js
 test-e2e-live.js
 test-map.js
 test-weather.js
+test-design.js
