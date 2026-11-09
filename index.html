@@ -1262,7 +1262,7 @@ VIEWS.weather = el => {
   const wx=wxForHere(getWeatherCache()); const gid=growthSourceId(wx);
   const tabs=[['compare','Side by side'],['consensus','Average'],...WX_IDS.map(i=>[i,WX_SRC[i].name])];
   el.innerHTML=`<div class="card"><div class="row" style="margin-bottom:4px"><h2 style="margin:0">🌦️ Weather for ${esc(s.locName||'your farm')}</h2><span class="sp"></span><button class="sm" id="wxRef">↻ Refresh</button><button class="sm" id="wxLoc">📍 Change location</button></div>
-    <div class="mut" id="wxWhere">📍 ${num(s.lat,5)}, ${num(s.lon,5)}${s.eircode?' · '+esc(s.eircode):''} · ${esc(locSourceText(s))}</div>
+    <div class="mut" id="wxWhere">📍 ${num(s.lat,5)}, ${num(s.lon,5)}${s.eircode&&['osm','routing'].includes(s.locSource)?' · '+esc(s.eircode):''} · ${esc(locSourceText(s))}</div>
     <div class="mut" id="wxWhen">${wx?`Last updated ${fmtWhen(wx.fetchedAt)}${navigator.onLine?'':' — <b>offline</b>, showing the last download'}`:(navigator.onLine?'Loading forecasts…':'Offline — no forecast saved on this device yet.')}</div></div>
   <div class="card"><h3>⚠️ Met Éireann warnings</h3>${wx?warnBanner(wx,false):'<div class="mut">Loading…</div>'}</div>
   <div class="subtabs">${tabs.map(([k,l])=>`<button class="sm ${wxTab===k?'on':''}" data-wt="${k}">${esc(l)}</button>`).join('')}</div>
