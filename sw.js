@@ -1,11 +1,11 @@
 // Farmhand service worker: lets the app open with no signal (cold start).
 // Caches the app's own files only. Supabase API calls, uploaded photos, weather, Eircode lookups and map tiles always go to the network
 // (offline, paddock outlines still show on a plain background).
-const CACHE = 'farmapp-shell-v9';
+const CACHE = 'farmapp-shell-v10';
 const DATA = 'farmhand-crops-v1';      // crop library JSON (network first, so updates arrive)
 const IMG = 'farmhand-cropimg-v1';     // crop thumbnails (~10 KB each, cache first, capped)
 const IMG_MAX = 260;
-const ASSETS = ['./', './index.html', './vendor/supabase.js', './vendor/leaflet.js', './vendor/leaflet.css', './vendor/leaflet-geoman.min.js', './vendor/leaflet-geoman.css', './vendor/jszip.min.js', './vendor/fonts/nunito-latin-wght-normal.woff2', './vendor/fonts/nunito-latin-ext-wght-normal.woff2', './vendor/fonts/cinzel-latin-wght-normal.woff2', './brand/farmhand-original.jpg', './brand/logo-header.jpg',
+const ASSETS = ['./', './index.html', './vendor/supabase.js', './vendor/leaflet.js', './vendor/leaflet.css', './vendor/leaflet-geoman.min.js', './vendor/leaflet-geoman.css', './vendor/jszip.min.js', './vendor/fonts/nunito-latin-wght-normal.woff2', './vendor/fonts/nunito-latin-ext-wght-normal.woff2', './vendor/fonts/cinzel-latin-wght-normal.woff2', './brand/farmhand-original.jpg', './brand/logo-header.jpg', './brand/banner.jpg', './brand/hero-phone.jpg',
   './vendor/images/layers.png', './vendor/images/layers-2x.png', './vendor/images/marker-icon.png', './vendor/images/marker-icon-2x.png', './vendor/images/marker-shadow.png',
   './favicon.png', './favicon-32.png', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png', './crops/index.json'];
 const KEEP = [CACHE, DATA, IMG];

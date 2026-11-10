@@ -236,10 +236,6 @@ hr{border:0;border-top:1px solid var(--sep)}
 .authcard .tag{margin:12px 0 6px;text-align:center;font-family:Cinzel,Georgia,serif;font-size:15px;color:var(--head);letter-spacing:.04em}
 .authcard h2{color:var(--head);text-align:center}
 .authcard hr{margin:16px 0}
-.homehero{margin:0 0 14px;position:relative}
-.homehero .logoimg{border:1px solid var(--bd)}
-.homehero .hi{margin:10px 2px 0;font-family:Cinzel,Georgia,serif;font-size:19px;color:var(--head);font-weight:800}
-.homehero .sub{margin:2px 2px 0;color:var(--mut);font-size:14px}
 body.loggedout nav{display:none}
 body.loggedout header{padding-bottom:8px}
 body.loggedout main{display:none}
@@ -305,6 +301,38 @@ details.orgalt{margin-top:10px}details.orgalt summary{cursor:pointer;font-weight
 .orgcard{border-color:var(--ok-bd)}.olist{margin:0;padding-left:18px;font-size:14.5px}.olist li{margin-bottom:6px}
 .vlist li{padding:8px 0}
 ul.pcredits{font-size:12.5px;max-height:320px;overflow:auto;padding-left:18px}
+.homebanner{margin:-4px 0 10px;border-radius:14px;overflow:hidden;border:1px solid var(--bd);box-shadow:var(--shadow-s);background:#0c0f0d;line-height:0}
+.homebanner img{display:block;width:100%;height:104px;object-fit:cover;object-position:50% 46%}
+@media(min-width:700px){.homebanner img{height:120px}}
+@media(min-width:1000px){.homebanner img{height:132px}}
+.homebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 2px 12px}
+.homebar .hi{font-family:Cinzel,Georgia,serif;color:var(--head);font-size:16.5px}
+.homebar .mut{font-size:13.5px}
+.editnote{margin-bottom:12px}
+.wgrid{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.wrow,.wcards{display:flex;flex-wrap:wrap;gap:10px}
+.wdg{position:relative;min-width:0}
+.wrow>.wdg{flex:1 1 calc(50% - 6px)}.wcards>.wdg{flex:1 1 100%}
+@media(min-width:700px){.wgrid,.wrow,.wcards{gap:12px}.wrow>.wdg{flex-basis:calc((100% - (var(--pt) - 1)*12px)/var(--pt) - 1px)}}
+@media(min-width:1000px){.wgrid,.wrow,.wcards{gap:14px}.wrow>.wdg{flex-basis:calc((100% - (var(--pd) - 1)*14px)/var(--pd) - 1px)}.wcards>.wdg.wc{flex-basis:calc(50% - 8px)}.wcards>.wdg.ww{flex-basis:100%}}
+.wbody,.wbody>.card,.wbody>.kpi{height:100%}.wbody>.card{margin:0}
+.wgrid.editing .wdg{outline:2px dashed var(--gold);outline-offset:3px;border-radius:var(--r);animation:wjig .18s ease-in-out 4 alternate}
+.wgrid.editing .wbody{pointer-events:none;opacity:.88}
+@keyframes wjig{from{transform:rotate(-.35deg)}to{transform:rotate(.35deg)}}
+@media(prefers-reduced-motion:reduce){.wgrid.editing .wdg{animation:none}}
+.wctl{position:absolute;z-index:3;top:-10px;right:-6px;display:flex;gap:4px;align-items:center}
+.wctl button{min-height:38px;min-width:38px;padding:0 8px;border-radius:999px;background:var(--card-solid);box-shadow:var(--shadow-s)}
+.wctl button.wdel{background:var(--barn);border-color:var(--barn);color:#fff;font-size:15px}
+.whandle{display:grid;place-items:center;min-width:42px;height:38px;border-radius:999px;background:var(--pri-bg);color:var(--pri-tx);border:1px solid var(--pri-bd);cursor:grab;font-size:20px;touch-action:none;user-select:none;box-shadow:var(--shadow-s)}
+.wdg.wk .wctl{top:-12px;right:-6px;left:-6px;justify-content:space-between}.wdg.wk .wctl button[data-wup],.wdg.wk .wctl button[data-wdn]{min-width:34px;padding:0 4px}
+.wdg.dragging{pointer-events:none;z-index:30;animation:none!important;opacity:.92;box-shadow:0 18px 40px #000a;cursor:grabbing;transition:none}
+.wdg.dragging .whandle{cursor:grabbing}
+.wdg.drop-before::after,.wdg.drop-after::after{content:"";position:absolute;z-index:4;background:var(--gold);border-radius:4px;box-shadow:0 0 12px var(--gold)}
+.wdg.drop-before::after{top:-9px;left:4px;right:4px;height:6px}.wdg.drop-after::after{bottom:-9px;left:4px;right:4px;height:6px}
+.wdg.hz.drop-before::after{left:-9px;right:auto;top:4px;bottom:4px;width:6px;height:auto}.wdg.hz.drop-after::after{right:-9px;left:auto;top:4px;bottom:4px;width:6px;height:auto}
+body.wdragging{user-select:none;-webkit-user-select:none}
+.wdg.flash{animation:wflash 1.6s ease-out 1}@keyframes wflash{0%{box-shadow:0 0 0 4px var(--gold)}100%{box-shadow:0 0 0 0 transparent}}
+@media(max-width:600px){#auth{margin-top:10px}.authcard{padding:12px}.authhero{margin-bottom:6px}.authcard .tag{margin:8px 0 2px;font-size:13px}.authcard h2{margin-bottom:8px!important;font-size:19px}}
 #printArea{display:none}
 @media print{
  header,main,dialog,.toast{display:none!important}
@@ -336,7 +364,7 @@ ul.pcredits{font-size:12.5px;max-height:320px;overflow:auto;padding-left:18px}
    source ('manual' now; 'sensor' reserved for future feeds),
    and optional demo:true for demo records.
    ========================================================= */
-const APP_VERSION = 5;
+const APP_VERSION = 6;
 const SB_URL = 'https://uetglzwzyhvaoszainmx.supabase.co';
 const SB_KEY = 'sb_publishable__gDnjBirb1AbnZwMAXMTxg_alW8T4_h'; // publishable key: safe in the browser, data protected by row-level security
 const APP_URL = location.origin + location.pathname.replace(/index\.html$/,'');
@@ -345,7 +373,7 @@ const kData = () => `farmapp.v2.${UID}.data`, kQueue = () => `farmapp.v2.${UID}.
 const COLLECTIONS = ['paddocks','grazings','grassWalks','cows','milk','breeding','tasks','treatments','fertiliser','movements','deaths','photos','groups','stockEvents','plantings','cropOps','customCrops'];
 const DEFAULT_SETTINGS = {farmName:'', herdNumber:'', lat:53.43, lon:-7.94, kgDmPerCow:17, demandCows:null,
   residual:50, growthSource:'auto', manualGrowth:30, mPerUnit:1, mapW:1000, mapH:700,
-  farmTypes:['dairy'], approach:'conventional', tabPrefs:null, pigHerdNo:'', appearance:'auto'}; // existing accounts default to Dairy + Conventional
+  farmTypes:['dairy'], approach:'conventional', tabPrefs:null, pigHerdNo:'', appearance:'auto', homePrefs:null}; // existing accounts default to Dairy + Conventional
 
 /* ---------- appearance: Auto (sun-based) / Daylight / Dark ---------- */
 const APPEARANCE={auto:{i:'🌗',l:'Auto (daylight by day, dark after sunset)',d:'Follows sunrise and sunset at your farm and switches by itself.'},
@@ -836,7 +864,7 @@ function renderNav(){ const nk=navKey(); $('#nav').innerHTML=visibleTabs().map(k
   $('#navMore').onclick=moreMenu; const g=$('#gear'); if(g){ g.classList.toggle('on',route==='settings'); if(route==='settings') g.setAttribute('aria-current','page'); else g.removeAttribute('aria-current'); }
   const on=$('#nav a.on'); if(on) on.scrollIntoView({block:'nearest',inline:'nearest'});
   $('#farmTitle').textContent=(S.settings.farmName||''); setSync(); }
-function render(){ if(!UID) return; applyTheme({rerender:false}); destroyLeaflet(); renderNav(); const m=$('#main'); const hasDemo=COLLECTIONS.some(c=>S[c].some(r=>r.demo));
+function render(){ if(!UID) return; applyTheme({rerender:false}); if(route!=='dash') HOME_EDIT=false; destroyLeaflet(); renderNav(); const m=$('#main'); const hasDemo=COLLECTIONS.some(c=>S[c].some(r=>r.demo));
   m.innerHTML = hasDemo?`<div class="banner">⚠️ <b>Demo data is loaded</b> — example records only. Remove it in <a href="#settings">Settings</a> before entering real records.</div>`:'';
   const box=document.createElement('div'); m.appendChild(box); (VIEWS[route]||VIEWS.dash)(box); kpiIcons(m); }
 const KPI_EMO=[[/overdue/i,'⏰'],[/today/i,'📅'],[/upcoming|scheduled|next/i,'🗓️'],[/withdrawal/i,'💊'],[/calv|due/i,'🍼'],[/milk|litre/i,'🥛'],[/growth|kg dm\/ha\/day/i,'📈'],[/cover|kg dm/i,'🌾'],[/days|grass|rest/i,'🌱'],[/demand|cow/i,'🐄'],[/area|ha\b|hectare/i,'📐'],[/\bn\b|nitrogen|fert/i,'🧪'],[/status/i,'🏷️'],[/breed/i,'🧬'],[/age/i,'🎂']];
@@ -1210,50 +1238,127 @@ function navKey(){ if(ALL_TABS[route]) return route; if(route==='cow'){ const c=
 
 
 /* ---------- Dashboard ---------- */
+/* ---------- Home: customisable widgets ---------- */
+// size: k = small number tile, c = card, w = full-width card. types: farm types it belongs to (empty = every farm). Defaults = every widget available for the farm types.
+const LIVESTOCK=['dairy','beef','sheep','pigs','poultry','goats','horses'];
+const WIDGETS={
+  k_herd:{i:'🐄',l:'Cattle in herd',size:'k',types:['dairy','beef']},
+  k_milk:{i:'🥛',l:'Milk today',size:'k',types:['dairy']},
+  k_wd:{i:'💊',l:'In withdrawal (count)',size:'k',types:LIVESTOCK},
+  k_calving:{i:'🍼',l:'Calving soon (count)',size:'k',types:['dairy','beef']},
+  k_adg:{i:'⚖️',l:'Beef daily gain',size:'k',types:['beef']},
+  k_ewes:{i:'🐑',l:'Ewes',size:'k',types:['sheep']},
+  k_lambs:{i:'🐣',l:'Lambs born',size:'k',types:['sheep']},
+  k_pigs1:{i:'🐖',l:'Sows',size:'k',types:['pigs']},
+  k_pigs2:{i:'🐷',l:'Pigs (2nd figure)',size:'k',types:['pigs']},
+  k_hens:{i:'🐔',l:'Birds',size:'k',types:['poultry']},
+  k_eggs:{i:'🥚',l:'Eggs',size:'k',types:['poultry']},
+  k_goats:{i:'🐐',l:'Goats',size:'k',types:['goats']},
+  k_horses:{i:'🐎',l:'Horses',size:'k',types:['horses']},
+  k_plantings:{i:'🌾',l:'Active plantings',size:'k',types:['tillage','horticulture','fruit','forestry']},
+  k_overdue:{i:'⏰',l:'Overdue tasks',size:'k',types:[]},
+  k_grass:{i:'🌱',l:'Days grass ahead',size:'k',types:['dairy','beef','sheep','horses','goats']},
+  c_tasks:{i:'✅',l:"Today's tasks",size:'c',types:[]},
+  c_wd:{i:'💊',l:'Animals in withdrawal',size:'c',types:LIVESTOCK},
+  c_calving:{i:'🍼',l:'Upcoming calvings',size:'c',types:['dairy','beef']},
+  c_milk:{i:'🥛',l:'Milk chart (14 days)',size:'c',types:['dairy']},
+  c_plantings:{i:'🌾',l:'Plantings',size:'c',types:['tillage','horticulture','fruit','forestry']},
+  c_weather:{i:'🌦️',l:'Weather & grass',size:'w',types:[]}};
+const wAvail=k=>{ const t=WIDGETS[k].types; return !t.length||t.some(x=>hasType(x)); };
+function homePrefs(){ const p=S.settings.homePrefs; return p&&typeof p==='object'?p:null; }
+function homeOrder(){ const canon=Object.keys(WIDGETS).filter(wAvail); const p=homePrefs(); if(!p||!Array.isArray(p.order)) return canon;
+  const o=p.order.filter(k=>WIDGETS[k]&&wAvail(k)); canon.forEach((k,i)=>{ if(!o.includes(k)){ const prev=canon.slice(0,i).reverse().find(x=>o.includes(x)); o.splice(prev?o.indexOf(prev)+1:0,0,k); } }); return o; }
+function homeHidden(){ const p=homePrefs(); return new Set(p&&Array.isArray(p.hidden)?p.hidden:[]); }
+function setHome(order, hidden){ S.settings.homePrefs={order, hidden:[...hidden]}; save(); }
+let HOME_EDIT=false;
 VIEWS.dash = el => {
   const td=today(); const open=S.tasks.filter(t=>!t.done);
   const overdue=open.filter(t=>t.due&&t.due<td).sort(byDate('due',1)), dueToday=open.filter(t=>t.due===td);
   const wd=inWithdrawal(); const due=dueList().filter(d=>d.days<=42);
   const mt=milkDailyTotals(); const last=mt[mt.length-1]; const prev=mt[mt.length-2];
   const gb=grassBudget(); const herd=activeCows();
-  const D=hasType('dairy'), Bf=hasType('beef'), cattle=D||Bf, grazing=hasType('dairy','beef','sheep','horses','goats');
+  const D=hasType('dairy'), cattle=hasType('dairy','beef'), grazing=hasType('dairy','beef','sheep','horses','goats');
   const crops=hasType('tillage','horticulture','fruit','forestry'); const pls=S.plantings.filter(p=>!['finished'].includes(p.status));
   const isEmpty = !S.cows.length && !S.paddocks.length && !S.tasks.length && !S.groups.length && !S.plantings.length;
-  const K=[]; const k=(ico,b,span,cls='')=>K.push(`<div class="kpi ${cls}"><div class="ico">${ico}</div><b>${b}</b><span>${span}</span></div>`);
-  if(cattle) k(D?'🐄':'🐂', herd.length, D?`Cattle in herd (${herd.filter(c=>c.status==='milking').length} milking)`:'Cattle on farm');
-  if(D) k('🥛', `${last?num(last.litres):'–'} L`, `Milk ${last?fmtD(last.date):''}${last&&prev?` (${last.litres>=prev.litres?'▲':'▼'} ${num(Math.abs(last.litres-prev.litres))} L)`:''}`, 'sky');
-  k('💊', wd.length, 'In withdrawal', wd.length?'warn':'');
-  if(cattle) k('🍼', due.length, 'Calving ≤ 6 weeks');
-  if(Bf){ const a=activeCows().map(c=>adgFor(c.id)).filter(Boolean); k('⚖️', a.length?num(sum(a.map(x=>x.adg))/a.length,2):'–', 'Avg daily gain kg (beef)'); }
-  if(hasType('sheep')){ const sk=sheepKpis(); k('🐑', sk[0][0], sk[0][1]); k('🐣', sk[1][0], sk[1][1]); }
-  if(hasType('pigs')){ const pk=pigKpis(); k('🐖', pk[0][0], pk[0][1]); k('🐷', pk[1][0], pk[1][1]); }
-  if(hasType('poultry')){ const qk=poultryKpis(); k('🐔', qk[0][0], qk[0][1]); k('🥚', qk[1][0], qk[1][1]); }
-  if(hasType('goats')) k('🐐', S.cows.filter(c=>c.species==='goats'&&!['sold','died'].includes(c.status)).length, 'Goats');
-  if(hasType('horses')) k('🐎', S.cows.filter(c=>c.species==='horses'&&!['sold','died'].includes(c.status)).length, 'Horses');
-  if(crops) k('🌾', pls.length, 'Active plantings');
-  k('⏰', overdue.length, 'Overdue tasks', overdue.length?'warn':'');
-  if(grazing) k('🌱', gb.daysAhead!=null?num(gb.daysAhead,1):'–', 'Days grass ahead (est.)');
+  const kp=(ico,b,span,cls='')=>`<div class="kpi ${cls}"><div class="ico">${ico}</div><b>${b}</b><span>${span}</span></div>`;
   const recentOps=S.cropOps.filter(o=>daysBetween(o.date,td)<=30).sort(byDate()).slice(0,6);
+  const sk=hasType('sheep')?sheepKpis():null, pk=hasType('pigs')?pigKpis():null, qk=hasType('poultry')?poultryKpis():null;
+  const H={
+    k_herd:()=>kp(D?'🐄':'🐂', herd.length, D?`Cattle in herd (${herd.filter(c=>c.status==='milking').length} milking)`:'Cattle on farm'),
+    k_milk:()=>kp('🥛', `${last?num(last.litres):'–'} L`, `Milk ${last?fmtD(last.date):''}${last&&prev?` (${last.litres>=prev.litres?'▲':'▼'} ${num(Math.abs(last.litres-prev.litres))} L)`:''}`, 'sky'),
+    k_wd:()=>kp('💊', wd.length, 'In withdrawal', wd.length?'warn':''),
+    k_calving:()=>kp('🍼', due.length, 'Calving ≤ 6 weeks'),
+    k_adg:()=>{ const a=activeCows().map(c=>adgFor(c.id)).filter(Boolean); return kp('⚖️', a.length?num(sum(a.map(x=>x.adg))/a.length,2):'–', 'Avg daily gain kg (beef)'); },
+    k_ewes:()=>kp('🐑', sk[0][0], sk[0][1]), k_lambs:()=>kp('🐣', sk[1][0], sk[1][1]),
+    k_pigs1:()=>kp('🐖', pk[0][0], pk[0][1]), k_pigs2:()=>kp('🐷', pk[1][0], pk[1][1]),
+    k_hens:()=>kp('🐔', qk[0][0], qk[0][1]), k_eggs:()=>kp('🥚', qk[1][0], qk[1][1]),
+    k_goats:()=>kp('🐐', S.cows.filter(c=>c.species==='goats'&&!['sold','died'].includes(c.status)).length, 'Goats'),
+    k_horses:()=>kp('🐎', S.cows.filter(c=>c.species==='horses'&&!['sold','died'].includes(c.status)).length, 'Horses'),
+    k_plantings:()=>kp('🌾', pls.length, 'Active plantings'),
+    k_overdue:()=>kp('⏰', overdue.length, 'Overdue tasks', overdue.length?'warn':''),
+    k_grass:()=>kp('🌱', gb.daysAhead!=null?num(gb.daysAhead,1):'–', 'Days grass ahead (est.)'),
+    c_tasks:()=>`<div class="card"><h3>✅ Today's tasks</h3>${taskList([...overdue,...dueToday],'Nothing due today 🎉')}<div class="row" style="margin-top:8px"><button class="sm" id="addTask">+ Task</button><a class="btn sm" href="#tasks">All tasks</a></div></div>`,
+    c_wd:()=>`<div class="card ${wd.length?'alertc':''}"><h3>💊 Animals in withdrawal</h3>${wd.length?`<ul class="list">${wd.map(w=>`<li><div class="grow"><b>${esc(w.t.cowId?cowName(w.t.cowId):w.t.groupDesc||'Group')}</b><div class="mut">${esc(w.t.product)}${w.t.orgDouble?' · organic ×2':''}</div></div><div style="text-align:right">${w.milkEnd?`<span class="pill red">Milk to ${fmtD(w.milkEnd)}</span><br>`:''}${w.meatEnd?`<span class="pill amb">Meat to ${fmtD(w.meatEnd)}</span>`:''}</div></li>`).join('')}</ul>`:emptyBox('No animals in withdrawal.')}</div>`,
+    c_calving:()=>`<div class="card"><h3>🍼 Upcoming calvings</h3>${due.length?`<ul class="list">${due.slice(0,8).map(d=>`<li><div class="grow"><a href="#cow/${d.cow.id}">${esc(cowLabel(d.cow))}</a><div class="mut">Due ${fmtD(d.due)} · ${d.confirmed?'scanned in-calf':'not yet scanned'}</div></div><span class="pill ${d.days<0?'red':d.days<=7?'amb':'grn'}">${d.days<0?Math.abs(d.days)+'d over':d.days+' days'}</span></li>`).join('')}</ul>`:emptyBox('No calvings due in the next 6 weeks.')}</div>`,
+    c_milk:()=>`<div class="card"><h3>🥛 Milk (last 14 days)</h3><canvas class="chart" id="dashMilk"></canvas></div>`,
+    c_plantings:()=>`<div class="card"><h3>🌾 Plantings</h3><div id="dashPl">${plantingTable(pls.slice(0,6))}</div>${recentOps.length?`<div class="mut" style="margin-top:8px">Last 30 days: ${recentOps.map(o=>esc((OP_KINDS[o.kind]?.i||'')+' '+(get('plantings',o.plantingId)?.cropName||''))).join(', ')}</div>`:''}<div class="row" style="margin-top:8px"><a class="btn sm" href="#croplib">📚 Crop library</a></div></div>`,
+    c_weather:()=>`<div class="card"><h3>🌦️ Weather${grazing?' & grass':''}</h3><div id="dashWx">${wxStrip(getWeatherCache())}</div>
+      ${grazing?`<p class="mut" style="margin-bottom:0">Average farm cover: <b>${gb.afc!=null?num(gb.afc):'–'} kg DM/ha</b> · Growth used: <b>${num(currentGrowthRate().rate)} kg DM/ha/day</b> (${esc(currentGrowthRate().basis)}) · Demand: ${gb.cows} cows × ${num(S.settings.kgDmPerCow)} kg — <i>estimates</i>. <a href="#grass">Grass planner →</a></p>`:''}</div>`};
+  const order=homeOrder(), hidden=homeHidden(), shown=order.filter(k=>!hidden.has(k)), hiddenAvail=order.filter(k=>hidden.has(k));
   const hr=new Date().getHours(), greet=hr<12?'Good morning':hr<18?'Good afternoon':'Good evening';
+  const ctl=(k,i)=>HOME_EDIT?`<div class="wctl"><span class="whandle" title="Drag to move" aria-hidden="true">✥</span><button class="sm" data-wup="${k}" aria-label="Move ${esc(WIDGETS[k].l)} up" ${i===0?'disabled':''}>▲</button><button class="sm" data-wdn="${k}" aria-label="Move ${esc(WIDGETS[k].l)} down" ${i===shown.length-1?'disabled':''}>▼</button><button class="sm wdel" data-whide="${k}" aria-label="Remove ${esc(WIDGETS[k].l)} from Home">✕</button></div>`:'';
   el.innerHTML = `
-  <section class="homehero"><img class="logoimg" src="brand/farmhand-original.jpg" alt="Farmhand" width="1500" height="741"><div class="hi">${greet}${S.settings.farmName?' — '+esc(S.settings.farmName):''}</div><div class="sub">${new Date().toLocaleDateString('en-IE',{weekday:'long',day:'numeric',month:'long'})} · ${open.length} open task${open.length===1?'':'s'}${wd.length?` · ${wd.length} in withdrawal`:''}</div></section>
-  ${isEmpty?`<div class="card"><div style="font-size:44px;line-height:1">🌻${farmTypes().slice(0,3).map(t=>FARM_TYPES[t]?.i||'').join('')}🌱</div><h2>Welcome to your farm 👋</h2><p>No records yet. Start by drawing your fields on the <a href="#map">Map</a>${cattle?', adding <a href="#cows">cattle</a>':''}${crops?', or adding a planting from the <a href="#croplib">crop library</a>':''}. Or <button class="sm" id="demoBtn">Load demo data</button> to explore.</p><p class="mut">Pick your <a href="#settings">farm types</a> (dairy, beef, sheep, pigs, crops…) in ⚙️ Settings to get the right tabs. Records are saved to your account and kept on this phone for offline use.</p></div>`:''}
-  <div class="kpis">${K.join('')}</div>
-  <div class="grid">
-    <div class="card"><h3>✅ Today's tasks</h3>${taskList([...overdue,...dueToday],'Nothing due today 🎉')}<div class="row" style="margin-top:8px"><button class="sm" id="addTask">+ Task</button><a class="btn sm" href="#tasks">All tasks</a></div></div>
-    <div class="card ${wd.length?'alertc':''}"><h3>💊 Animals in withdrawal</h3>${wd.length?`<ul class="list">${wd.map(w=>`<li><div class="grow"><b>${esc(w.t.cowId?cowName(w.t.cowId):w.t.groupDesc||'Group')}</b><div class="mut">${esc(w.t.product)}${w.t.orgDouble?' · organic ×2':''}</div></div><div style="text-align:right">${w.milkEnd?`<span class="pill red">Milk to ${fmtD(w.milkEnd)}</span><br>`:''}${w.meatEnd?`<span class="pill amb">Meat to ${fmtD(w.meatEnd)}</span>`:''}</div></li>`).join('')}</ul>`:emptyBox('No animals in withdrawal.')}</div>
-    ${cattle?`<div class="card"><h3>🍼 Upcoming calvings</h3>${due.length?`<ul class="list">${due.slice(0,8).map(d=>`<li><div class="grow"><a href="#cow/${d.cow.id}">${esc(cowLabel(d.cow))}</a><div class="mut">Due ${fmtD(d.due)} · ${d.confirmed?'scanned in-calf':'not yet scanned'}</div></div><span class="pill ${d.days<0?'red':d.days<=7?'amb':'grn'}">${d.days<0?Math.abs(d.days)+'d over':d.days+' days'}</span></li>`).join('')}</ul>`:emptyBox('No calvings due in the next 6 weeks.')}</div>`:''}
-    ${D?`<div class="card"><h3>🥛 Milk (last 14 days)</h3><canvas class="chart" id="dashMilk"></canvas></div>`:''}
-    ${crops?`<div class="card"><h3>🌾 Plantings</h3><div id="dashPl">${plantingTable(pls.slice(0,6))}</div>${recentOps.length?`<div class="mut" style="margin-top:8px">Last 30 days: ${recentOps.map(o=>esc((OP_KINDS[o.kind]?.i||'')+' '+(get('plantings',o.plantingId)?.cropName||''))).join(', ')}</div>`:''}<div class="row" style="margin-top:8px"><a class="btn sm" href="#croplib">📚 Crop library</a></div></div>`:''}
-    <div class="card" style="grid-column:1/-1"><h3>🌦️ Weather${grazing?' & grass':''}</h3><div id="dashWx">${wxStrip(getWeatherCache())}</div>
-      ${grazing?`<p class="mut" style="margin-bottom:0">Average farm cover: <b>${gb.afc!=null?num(gb.afc):'–'} kg DM/ha</b> · Growth used: <b>${num(currentGrowthRate().rate)} kg DM/ha/day</b> (${esc(currentGrowthRate().basis)}) · Demand: ${gb.cows} cows × ${num(S.settings.kgDmPerCow)} kg — <i>estimates</i>. <a href="#grass">Grass planner →</a></p>`:''}</div>
-  </div>`;
+  <section class="homebanner" aria-label="Farmhand"><img src="brand/banner.jpg" alt="Farmhand" width="1360" height="315"></section>
+  <div class="homebar"><div class="grow">${HOME_EDIT?'<b class="hi">✏️ Editing Home</b>':`<b class="hi">${greet}${S.settings.farmName?' — '+esc(S.settings.farmName):''}</b><span class="mut"> · ${new Date().toLocaleDateString('en-IE',{weekday:'short',day:'numeric',month:'short'})} · ${open.length} open task${open.length===1?'':'s'}</span>`}</div>
+    ${HOME_EDIT?`<button class="sm" id="wAdd">+ Add widget${hiddenAvail.length?` (${hiddenAvail.length})`:''}</button><button class="sm pri" id="wDone">✓ Done</button>`:`<button class="sm" id="wEdit" aria-label="Edit Home: move or remove widgets">✏️ Edit home</button>`}</div>
+  ${HOME_EDIT?`<div class="banner info editnote">✥ Drag a widget by its handle (or use ▲ ▼) to move it. ✕ removes it from Home; bring it back with <b>+ Add widget</b>. Settings → Home screen restores the default layout.</div>`:''}
+  ${isEmpty&&!HOME_EDIT?`<div class="card"><div style="font-size:44px;line-height:1">🌻${farmTypes().slice(0,3).map(t=>FARM_TYPES[t]?.i||'').join('')}🌱</div><h2>Welcome to your farm 👋</h2><p>No records yet. Start by drawing your fields on the <a href="#map">Map</a>${cattle?', adding <a href="#cows">cattle</a>':''}${crops?', or adding a planting from the <a href="#croplib">crop library</a>':''}. Or <button class="sm" id="demoBtn">Load demo data</button> to explore.</p><p class="mut">Pick your <a href="#settings">farm types</a> (dairy, beef, sheep, pigs, crops…) in ⚙️ Settings to get the right tabs. Records are saved to your account and kept on this phone for offline use.</p></div>`:''}
+  <div class="wgrid ${HOME_EDIT?'editing':''}" id="wgrid">${homeSegments(shown).map(sg=>{ const n=sg.items.length, rd=Math.ceil(n/6), pd=Math.ceil(n/rd), pt=Math.min(3,n);
+    return sg.kind==='k'?`<div class="wrow" style="--pd:${pd};--pt:${pt}">${sg.items.map(([k,i])=>`<div class="wdg wk" data-w="${k}">${ctl(k,i)}<div class="wbody">${H[k]()}</div></div>`).join('')}</div>`
+      :`<div class="wcards">${sg.items.map(([k,i])=>`<div class="wdg w${WIDGETS[k].size}" data-w="${k}">${ctl(k,i)}<div class="wbody">${H[k]()}</div></div>`).join('')}</div>`; }).join('')}</div>
+  ${!shown.length?emptyBox('Your Home is empty. Tap “Edit home”, then “+ Add widget” to bring widgets back.'):''}`;
   bindTaskList(el); const dp=$('#dashPl',el); if(dp){ bindPlantingTable(dp); if(!CROPIDX) loadCropIndex().then(()=>{ const x=$('#dashPl'); if(x){ x.innerHTML=plantingTable(pls.slice(0,6)); bindPlantingTable(x); } }).catch(()=>{}); }
-  $('#addTask',el).onclick=()=>taskForm();
+  const at=$('#addTask',el); if(at) at.onclick=()=>taskForm();
   const db=$('#demoBtn',el); if(db) db.onclick=()=>{ loadDemo(); render(); };
-  if(D){ const pts=mt.filter(d=>daysBetween(d.date,td)<=14).map(d=>[d.date,d.litres]); lineChart($('#dashMilk',el),[{label:'Litres/day',points:pts}],{height:180,yLabel:'L'}); }
-  fetchWeather().then(wx=>{ const d=$('#dashWx'); if(d && route==='dash') d.innerHTML=wxStrip(wx); });
+  if(shown.includes('c_milk')){ const pts=mt.filter(d=>daysBetween(d.date,td)<=14).map(d=>[d.date,d.litres]); lineChart($('#dashMilk',el),[{label:'Litres/day',points:pts}],{height:180,yLabel:'L'}); }
+  if(shown.includes('c_weather')) fetchWeather().then(wx=>{ const d=$('#dashWx'); if(d && route==='dash') d.innerHTML=wxStrip(wx); });
+  bindHomeEdit(el, order, hidden, shown, hiddenAvail);
 };
+// consecutive number tiles share one row (stretched so a short row never leaves a gap); cards flow two-up on wide screens
+function homeSegments(shown){ const segs=[]; shown.forEach((k,i)=>{ const kind=WIDGETS[k].size==='k'?'k':'c'; const l=segs[segs.length-1]; if(l&&l.kind===kind) l.items.push([k,i]); else segs.push({kind,items:[[k,i]]}); }); return segs; }
+function homeRerender(focusSel){ const y=scrollY; render(); scrollTo(0,y); if(focusSel) setTimeout(()=>$(focusSel)?.focus()); }
+function bindHomeEdit(el, order, hidden, shown, hiddenAvail){
+  const eb=$('#wEdit',el); if(eb) eb.onclick=()=>{ HOME_EDIT=true; homeRerender('#wDone'); };
+  const dn=$('#wDone',el); if(dn) dn.onclick=()=>{ HOME_EDIT=false; homeRerender('#wEdit'); toast('Home layout saved'); };
+  const moveTo=(k,target,after)=>{ const o=order.filter(x=>x!==k); let j=o.indexOf(target); if(j<0) return; o.splice(after?j+1:j,0,k); setHome(o,hidden); homeRerender(); };
+  const nudge=(k,d)=>{ const i=shown.indexOf(k), t=shown[i+d]; if(!t) return; moveTo(k,t,d>0); setTimeout(()=>$(`[data-${d<0?'wup':'wdn'}="${k}"]`)?.focus()); };
+  $$('[data-wup]',el).forEach(b=>b.onclick=()=>nudge(b.dataset.wup,-1)); $$('[data-wdn]',el).forEach(b=>b.onclick=()=>nudge(b.dataset.wdn,1));
+  $$('[data-whide]',el).forEach(b=>b.onclick=()=>{ const k=b.dataset.whide; hidden.add(k); setHome(order,hidden); homeRerender('#wAdd'); toast(`Removed “${WIDGETS[k].l}”. + Add widget brings it back.`); });
+  const ad=$('#wAdd',el); if(ad) ad.onclick=()=>{ const dlg=showInfo('Add a widget', hiddenAvail.length?`<p class="mut" style="margin-top:0">Widgets you removed from Home. They go back where they were.</p><ul class="list">${hiddenAvail.map(k=>`<li><span style="font-size:24px" aria-hidden="true">${WIDGETS[k].i}</span><div class="grow"><b>${esc(WIDGETS[k].l)}</b><div class="mut">${WIDGETS[k].size==='k'?'Number tile':'Card'}</div></div><button class="sm pri" data-wadd="${k}">+ Add</button></li>`).join('')}</ul>`:emptyBox('Nothing to add: every widget for your farm types is already on Home.'));
+    $$('[data-wadd]',dlg).forEach(b=>b.onclick=()=>{ const k=b.dataset.wadd; hidden.delete(k); setHome(order,hidden); dlg.close(); homeRerender(); const w=$(`.wdg[data-w="${k}"]`); if(w){ w.classList.add('flash'); w.scrollIntoView({block:'center',behavior:'smooth'}); } toast(`Added “${WIDGETS[k].l}”`); }); };
+  const grid=$('#wgrid',el); if(!grid) return;
+  if(!HOME_EDIT){ // long-press anywhere on a widget opens edit mode
+    let t=null, sx=0, sy=0, fired=false;
+    grid.addEventListener('pointerdown',e=>{ if(e.button>0) return; fired=false; sx=e.clientX; sy=e.clientY; clearTimeout(t); t=setTimeout(()=>{ fired=true; navigator.vibrate?.(25); HOME_EDIT=true; homeRerender('#wDone'); toast('Editing Home: drag, ▲ ▼ or ✕'); },600); });
+    const cancel=e=>{ if(e&&e.type==='pointermove'&&Math.hypot(e.clientX-sx,e.clientY-sy)<10) return; clearTimeout(t); };
+    ['pointerup','pointercancel','pointerleave','pointermove'].forEach(ev=>grid.addEventListener(ev,cancel));
+    grid.addEventListener('click',e=>{ if(fired){ e.preventDefault(); e.stopPropagation(); fired=false; } },true);
+    grid.addEventListener('contextmenu',e=>{ if(e.pointerType!=='mouse') e.preventDefault(); });
+    return; }
+  // edit mode: pointer drag by the handle (mouse, touch and pen)
+  $$('.whandle',grid).forEach(h=>h.addEventListener('pointerdown',e=>{ e.preventDefault(); const w=h.closest('.wdg'), k=w.dataset.w; const ox=e.clientX, oy=e.clientY; let tgt=null, after=false, raf=null, lastY=oy;
+    w.classList.add('dragging'); document.body.classList.add('wdragging');
+    const mark=()=>{ $$('.wdg.drop-before,.wdg.drop-after',grid).forEach(x=>x.classList.remove('drop-before','drop-after')); if(tgt) tgt.classList.add(after?'drop-after':'drop-before'); };
+    const mv=ev=>{ w.style.transform=`translate(${ev.clientX-ox}px,${ev.clientY-oy}px)`; lastY=ev.clientY;
+      const under=document.elementFromPoint(ev.clientX,ev.clientY)?.closest('.wdg'); if(under&&under!==w){ const r=under.getBoundingClientRect(); tgt=under; const hz=r.width<grid.clientWidth*0.6; under.classList.toggle('hz',hz); after=hz?ev.clientX>r.left+r.width/2:ev.clientY>r.top+r.height/2; } else if(!under) tgt=null; mark();
+      if(!raf){ const edge=()=>{ const d=lastY<80?-12:lastY>innerHeight-80?12:0; if(d) scrollBy(0,d); raf=d?requestAnimationFrame(edge):null; }; raf=requestAnimationFrame(edge); } };
+    const up=()=>{ removeEventListener('pointermove',mv); removeEventListener('pointerup',up); removeEventListener('pointercancel',up); if(raf) cancelAnimationFrame(raf);
+      w.classList.remove('dragging'); w.style.transform=''; document.body.classList.remove('wdragging'); const t2=tgt; tgt=null; mark();
+      if(t2&&t2.dataset.w!==k){ moveTo(k,t2.dataset.w,after); toast('Moved'); } };
+    addEventListener('pointermove',mv); addEventListener('pointerup',up); addEventListener('pointercancel',up); }));
+}
+function restoreHomeDefault(){ if(!confirm('Restore Home to the default widgets and order for your farm types? Your farm types, theme and tab settings stay as they are.')) return false;
+  S.settings.homePrefs=null; HOME_EDIT=false; save(); toast('Home restored to default'); return true; }
 
 /* ---------- Map ---------- */
 /* old 'sketch' map (paddocks drawn in map units on a plain grid or uploaded image). Kept so paddocks drawn before v3 still show and can be edited. */
@@ -1931,6 +2036,7 @@ VIEWS.settings = el => {
     <label class="f"><span>Old sketch map scale (metres per unit)</span><input id="sScale" type="number" step="any" value="${esc(s.mPerUnit)}"><div class="hint">Only for paddocks drawn on the old sketch map. Satellite paddocks are measured from real coordinates.</div></label></div>
     <div class="row"><button class="pri" id="sSave">Save</button><button id="sGps">📍 Use my GPS location</button><button id="sGrass">Grass planner settings…</button></div></div>
   ${appearanceHTML()}
+  <div class="card" id="homeCard"><h2>🏠 Home screen</h2><p class="mut" style="margin-top:0">Move or remove Home widgets with <b>✏️ Edit home</b> on the Home tab (or press and hold a widget). This puts the widgets and their order back to the defaults for your farm types. Farm types, appearance and tabs are not changed.</p><div class="row" style="margin:0"><button id="homeReset">↺ Restore Home to default</button><span class="hint" id="homeResetInfo">${S.settings.homePrefs?'You have a custom Home layout.':'Home is using the default layout.'}</span></div></div>
   ${farmSetupHTML()}
   <div class="card"><h2>Backup</h2><p class="mut">Download a copy of everything in your account (${num(bytes/1024)} KB of records, ${S.photos.length} photos). Import uploads a backup into <b>this</b> account, replacing what is there.</p>
     <label class="cb"><input type="checkbox" id="incPhotos" checked> Include photos in backup (larger file)</label>
@@ -1939,6 +2045,7 @@ VIEWS.settings = el => {
     <div class="row"><button id="demo">Load demo data</button><button id="undemo">Remove demo data</button><button class="danger" id="clear">🗑 Delete ALL my farm data</button></div></div>
   <div class="card" id="credits"><h3>ℹ️ About &amp; data credits</h3><p class="mut" style="margin-top:0">Farmhand v${APP_VERSION}. Records carry <code>source: "manual"</code>; future sensor feeds can write records with <code>source: "sensor"</code> using the same structure. Compliance sections are record-keeping aids only.</p><ul class="credits"><li><b>Weather forecasts &amp; warnings:</b> Met Éireann (<a href="https://www.met.ie" target="_blank" rel="noopener">met.ie</a>), <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> and the <a href="https://www.met.ie/about-us/specialised-services/open-data" target="_blank" rel="noopener">Met Éireann open-data terms</a>. MET Norway / Yr (<a href="https://www.yr.no" target="_blank" rel="noopener">yr.no</a>), <a href="https://api.met.no/doc/License" target="_blank" rel="noopener">CC BY 4.0</a>. <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo.com</a> (<a href="https://open-meteo.com/en/license" target="_blank" rel="noopener">CC BY 4.0</a>), with model data from ECMWF, the UK Met Office, DWD (ICON) and NOAA (GFS). This app combines and averages these forecasts and estimates grass growth from them; the original data has been changed.</li><li><b>Satellite map:</b> imagery © <a href="https://www.esri.com" target="_blank" rel="noopener">Esri</a>, Maxar, Earthstar Geographics and the GIS User Community. Place and road labels © Esri.</li><li><b>Street map, place names &amp; Eircode address lookup:</b> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL), lookups via Nominatim.</li><li><b>Software:</b> <a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a> (BSD-2), Leaflet-Geoman (MIT), JSZip (MIT), supabase-js (MIT), Nunito and Cinzel fonts (SIL Open Font Licence). Farmhand logo and artwork are original to this app.</li></ul><ul class="credits" id="cropCreds">${cropCreditsHTML()}</ul></div>`;
   setSync(); bindFarmSetup(el); bindAppearance(el);
+  $('#homeReset',el).onclick=()=>{ if(restoreHomeDefault()) $('#homeResetInfo').textContent='Home is using the default layout.'; };
   if(!CROPIDX) loadCropIndex().then(()=>{ const u=$('#cropCreds'); if(u) u.innerHTML=cropCreditsHTML(); }).catch(()=>{});
   if(routeArg==='credits') setTimeout(()=>$('#credits')?.scrollIntoView());
   const prevLL=[s.lat,s.lon];
@@ -2048,7 +2155,7 @@ function authHTML(mode, msg, err){
   if(mode==='forgot') body=`${f('aEmail','Email','email','email')}<button class="pri" type="submit" style="width:100%">Send reset link</button><p style="text-align:center"><a href="#" data-m="login">Back to log in</a></p>`;
   if(mode==='recover') body=`${f('aPw','New password (min 8 characters)','password','new-password')}${f('aPw2','Repeat new password','password','new-password')}<button class="pri" type="submit" style="width:100%">Save new password</button>`;
   if(mode==='check') body=`<p style="text-align:center"><a href="#" data-m="login">Back to log in</a></p>`;
-  return `<div class="card authcard"><div class="authhero"><h1><img class="logoimg" src="brand/farmhand-original.jpg" alt="Farmhand" width="1500" height="741"></h1></div><div class="tag">Farm records for the yard, the field and the parlour</div><h2 style="text-align:center;margin:0 0 12px">${esc(T)}</h2>
+  return `<div class="card authcard"><div class="authhero"><h1><picture><source media="(max-width:600px)" srcset="brand/hero-phone.jpg"><img class="logoimg" src="brand/farmhand-original.jpg" alt="Farmhand" width="1500" height="741"></picture></h1></div><div class="tag">Farm records for the yard, the field and the parlour</div><h2 style="text-align:center;margin:0 0 12px">${esc(T)}</h2>
     ${msg?`<div class="banner ok">${esc(msg)}</div>`:''}${err?`<div class="banner err">${esc(err)}</div>`:''}
     <form id="authForm" novalidate>${body}</form></div><p class="mut" style="text-align:center">Each person has their own private account. Your farm records are only visible to you.</p>`;
 }
