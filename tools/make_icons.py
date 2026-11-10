@@ -31,6 +31,10 @@ def fav(s):
 fav(32).save('favicon-32.png',optimize=True); fav(64).save('favicon.png',optimize=True)
 # Home banner: the middle band of the picture (wordmark + slice of barn/fence), inside the image's own frame
 im.crop((70,205,1430,520)).save('brand/banner.jpg',quality=84,optimize=True,progressive=True)
+# blurred, darkened copy that fills the sides of the header banner on wide screens (v7)
+from PIL import ImageFilter, ImageEnhance
+_b=Image.open('brand/banner.jpg').convert('RGB').resize((480,111),Image.LANCZOS).filter(ImageFilter.GaussianBlur(10))
+ImageEnhance.Brightness(_b).enhance(.55).save('brand/banner-blur.jpg',quality=70,optimize=True,progressive=True)
 # phone login: wordmark + barn door + gloves, inside the frame
 im.crop((300,120,1430,600)).save('brand/hero-phone.jpg',quality=84,optimize=True,progressive=True)
 print('ok')

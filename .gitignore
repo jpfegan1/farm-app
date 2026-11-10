@@ -11,3 +11,5 @@ test-v4.js
 __pycache__/
 test-v5.js
 test-v6.js
+test-v7.js
+qs-tmp.js

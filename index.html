@@ -10,6 +10,10 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="Farmhand">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preload" href="brand/banner.jpg" as="image">
 <meta name="application-name" content="Farmhand">
 <link rel="preload" href="vendor/fonts/cinzel-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
@@ -72,20 +76,34 @@ a{color:var(--link);font-weight:700}
 .wm{display:inline-flex;flex-direction:column;align-items:center;line-height:1}
 .wm b{font-family:Cinzel,Georgia,serif;font-weight:800;letter-spacing:.1em;color:var(--gold)}
 /* header */
-header{position:sticky;top:0;z-index:20;background:var(--hdr-bg);color:var(--hdr-tx);padding:8px 14px 0;border-bottom:1px solid var(--hdr-bd);backdrop-filter:blur(6px);box-shadow:0 6px 18px #0000004d}
-header .top{display:flex;align-items:center;gap:10px;min-height:48px}
-header .brand{display:flex;align-items:center;flex:0 0 auto;text-decoration:none;border-radius:10px;overflow:hidden;line-height:0;border:1px solid #d8ae5259;box-shadow:0 3px 10px #0007;background:#0c0f0d}
-header .brand img{display:block;height:40px;width:auto}
-header h1{font-size:16px;margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--hdr-tx);opacity:.85;font-family:Nunito,system-ui,sans-serif;letter-spacing:0;border-left:1px solid #ffffff26;padding-left:10px}
-header h1:empty{display:none}
-@media(max-width:440px){header .brand img{height:34px}header h1{font-size:14px}}
-@media(max-width:360px){header h1{display:none}}
-header .net{margin-left:auto;font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap;background:var(--warn-bg);color:var(--warn-tx);border:1px solid var(--warn-bd)}
+header{position:sticky;top:0;z-index:20;background:var(--hdr-bg);color:var(--hdr-tx);padding:0;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--hdr-bd);box-shadow:0 6px 18px #0000004d}
+/* full-width FARMHAND banner = the header (v7). Extends under the iPhone status bar / notch (black-translucent) */
+header{--bh:108px;--bh-mini:54px}
+@media(min-width:700px){header{--bh:124px;--bh-mini:60px}}
+@media(min-width:1000px){header{--bh:136px;--bh-mini:64px}}
+header .hbanner{--bx:78%;display:block;position:relative;box-sizing:content-box;height:var(--bh);padding-top:env(safe-area-inset-top,0px);background:#0c0f0d url(brand/banner.jpg) var(--bx) 46%/cover no-repeat;background-origin:content-box;text-decoration:none;transition:height .22s ease;border-bottom:1px solid #d8ae5240}
+@media(min-width:700px){header .hbanner{--bx:50%}}
+header .hbanner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0000 55%,#0b0f0c66);pointer-events:none}
+header .hbanner:focus-visible{outline:3px solid var(--goldl);outline-offset:-4px}
+body.hdrmini header .hbanner{height:var(--bh-mini);background-size:auto calc(var(--bh-mini) * 1.72);background-position:var(--bx) calc(var(--bh-mini) * -.25)}
+@media(prefers-reduced-motion:reduce){header .hbanner{transition:none}}
+@media(min-width:700px){
+ header .hbanner{--bs:calc(var(--bh) * 1.2);background:url(brand/banner.jpg) 50% calc(var(--bh) * -.09)/auto var(--bs) no-repeat,#0c0f0d url(brand/banner-blur.jpg) 50% 50%/cover no-repeat;background-origin:content-box,border-box}
+ body.hdrmini header .hbanner{--bs:calc(var(--bh-mini) * 1.9);background-size:auto var(--bs),cover;background-position:50% calc(var(--bh-mini) * -.33),50% 50%}
+ header .hbanner::after{background:linear-gradient(90deg,#0c0f0d99 calc(50% - var(--bs)*2.17),#0c0f0d00 calc(50% - var(--bs)*1.6),#0c0f0d00 calc(50% + var(--bs)*1.6),#0c0f0d99 calc(50% + var(--bs)*2.17)),linear-gradient(180deg,#0000 60%,#0b0f0c66)}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+header .top{position:absolute;top:calc(env(safe-area-inset-top,0px) + 7px);right:max(10px,env(safe-area-inset-right,0px));display:flex;align-items:center;gap:8px;min-height:0;pointer-events:none}
+header .top>*{pointer-events:auto}
+body.hdrmini header .top{top:calc(env(safe-area-inset-top,0px) + (var(--bh-mini) - 42px) / 2)}
+body.hdrmini header .gear{width:42px;height:42px}
+header h1{display:none}
+header nav{padding:10px max(14px,env(safe-area-inset-right,0px)) 12px max(14px,env(safe-area-inset-left,0px))}
+body.loggedout header{display:none}
+header .net{box-shadow:0 2px 8px #0007;font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:999px;white-space:nowrap;background:var(--warn-bg);color:var(--warn-tx);border:1px solid var(--warn-bd)}
 html[data-theme=day] header .net{background:#faebc6;color:#633d00}
 header .net:empty{display:none}
-header .net:not(:empty)+.gear{margin-left:0}
-header .gear{flex:0 0 auto;margin-left:auto;width:48px;height:48px;margin-right:-4px;border-radius:14px;display:grid;place-items:center;color:var(--hdr-tx);background:#ffffff12;border:1px solid #ffffff24;text-decoration:none;transition:transform .15s}
-header .gear:hover{background:#ffffff22}header .gear:active{transform:scale(.94)}
+header .gear{flex:0 0 auto;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:#f6ecd4;background:#0b0f0ccc;border:1px solid #d8ae5266;box-shadow:0 3px 10px #0008;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);text-decoration:none;transition:transform .15s}
+header .gear:hover{background:#1b231dee}header .gear:active{transform:scale(.94)}
 header .gear.on{background:var(--nav-on-bg);color:var(--nav-on-tx);border-color:var(--nav-on-bd);box-shadow:var(--nav-on-sh)}
 header .gear:focus-visible{outline:3px solid var(--goldl);outline-offset:2px}
 html[data-theme=day] header .gear:focus-visible{outline-color:#e3b955}
@@ -237,7 +255,6 @@ hr{border:0;border-top:1px solid var(--sep)}
 .authcard h2{color:var(--head);text-align:center}
 .authcard hr{margin:16px 0}
 body.loggedout nav{display:none}
-body.loggedout header{padding-bottom:8px}
 body.loggedout main{display:none}
 @media(max-width:480px){main{padding:12px 10px 90px}.card{padding:14px}}
 /* nav "More" menu */
@@ -301,13 +318,11 @@ details.orgalt{margin-top:10px}details.orgalt summary{cursor:pointer;font-weight
 .orgcard{border-color:var(--ok-bd)}.olist{margin:0;padding-left:18px;font-size:14.5px}.olist li{margin-bottom:6px}
 .vlist li{padding:8px 0}
 ul.pcredits{font-size:12.5px;max-height:320px;overflow:auto;padding-left:18px}
-.homebanner{margin:-4px 0 10px;border-radius:14px;overflow:hidden;border:1px solid var(--bd);box-shadow:var(--shadow-s);background:#0c0f0d;line-height:0}
-.homebanner img{display:block;width:100%;height:104px;object-fit:cover;object-position:50% 46%}
-@media(min-width:700px){.homebanner img{height:120px}}
-@media(min-width:1000px){.homebanner img{height:132px}}
 .homebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 2px 12px}
 .homebar .hi{font-family:Cinzel,Georgia,serif;color:var(--head);font-size:16.5px}
 .homebar .mut{font-size:13.5px}
+.homebar .grow{min-width:150px}
+@media(max-width:600px){.homebar.editing .grow{flex-basis:100%}.homebar.editing .wundo{margin-right:auto}}
 .editnote{margin-bottom:12px}
 .wgrid{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
 .wrow,.wcards{display:flex;flex-wrap:wrap;gap:10px}
@@ -316,6 +331,53 @@ ul.pcredits{font-size:12.5px;max-height:320px;overflow:auto;padding-left:18px}
 @media(min-width:700px){.wgrid,.wrow,.wcards{gap:12px}.wrow>.wdg{flex-basis:calc((100% - (var(--pt) - 1)*12px)/var(--pt) - 1px)}}
 @media(min-width:1000px){.wgrid,.wrow,.wcards{gap:14px}.wrow>.wdg{flex-basis:calc((100% - (var(--pd) - 1)*14px)/var(--pd) - 1px)}.wcards>.wdg.wc{flex-basis:calc(50% - 8px)}.wcards>.wdg.ww{flex-basis:100%}}
 .wbody,.wbody>.card,.wbody>.kpi{height:100%}.wbody>.card{margin:0}
+/* v7: Home undo/redo, widget catalogue, pin buttons */
+.wundo{display:inline-flex;gap:4px}
+.wundo button{min-width:44px;font-size:19px;line-height:1;padding:6px 10px}
+.wundo button:disabled{opacity:.38;cursor:not-allowed}
+.wstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:8px}
+.ws{background:var(--kpi);border:1px solid var(--bd);border-radius:12px;padding:9px 10px;min-width:0}
+.ws b{display:block;font-size:19px;font-weight:900;color:var(--tx);line-height:1.15;overflow-wrap:anywhere}
+.ws span{display:block;font-size:12px;color:var(--mut);margin-top:2px}
+.ws.warn{border-color:var(--warn-bd);background:var(--warn-bg)}.ws.warn b{color:var(--warn-tx)}
+.wbars{display:grid;gap:5px;margin-top:10px}
+.wbars div{display:grid;grid-template-columns:minmax(70px,30%) 1fr auto;align-items:center;gap:8px;font-size:13px}
+.wbars span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.wbars i{display:block;height:10px;border-radius:6px;min-width:4px}
+.dot{width:12px;height:12px;border-radius:50%;flex:0 0 auto;border:1px solid #0003}
+.wgal{grid-template-columns:repeat(auto-fill,minmax(96px,1fr))!important}
+.wgal img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;display:block}
+.wgal figcaption{font-size:11px}
+.wcats{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:6px;scrollbar-width:thin}
+.wcats button{flex:0 0 auto;white-space:nowrap}
+.wcats button.on{background:var(--nav-on-bg);color:var(--nav-on-tx);border-color:var(--nav-on-bd)}
+.wch{margin:12px 0 4px;font-size:14px;color:var(--head)}
+dialog.wide{width:min(680px,96vw)}
+.pinbar{display:flex;justify-content:flex-end;margin:-4px 0 8px}
+.pinbtn{border-style:dashed!important}
+/* v7: Ask Farmhand */
+.aichat{display:flex;flex-direction:column;gap:8px}
+.ailog{display:flex;flex-direction:column;gap:10px;min-height:180px;max-height:min(62vh,640px);overflow-y:auto;padding:10px 2px;overscroll-behavior:contain}
+.aiempty{text-align:center;margin:auto;padding:20px 10px;display:grid;gap:6px}
+.aimsg{display:flex}.aimsg.me{justify-content:flex-end}
+.aib{max-width:88%;padding:10px 13px;border-radius:16px;line-height:1.5;font-size:15px;overflow-wrap:anywhere;border:1px solid var(--bd)}
+.aimsg.me .aib{background:var(--pri-bg);color:var(--pri-tx);border-color:transparent;border-bottom-right-radius:5px}
+.aimsg.bot .aib{background:var(--kpi);color:var(--tx);border-bottom-left-radius:5px}
+.aib p{margin:0 0 8px}.aib p:last-child{margin-bottom:0}.aib ul,.aib ol{margin:4px 0 8px;padding-left:22px}.aib li{margin:2px 0}
+.aib h4{margin:10px 0 4px;font-size:15px}.aib code{background:#0002;padding:1px 5px;border-radius:5px;font-size:13px}.aib pre{background:#0002;padding:8px;border-radius:8px;overflow-x:auto}
+.aib table{border-collapse:collapse;font-size:13px;margin:6px 0}.aib th,.aib td{border:1px solid var(--bd);padding:4px 7px;text-align:left}
+.aib blockquote{margin:6px 0;padding-left:10px;border-left:3px solid var(--gold)}
+.aityping{display:inline-flex;gap:4px;padding:4px 0}.aityping i{width:7px;height:7px;border-radius:50%;background:var(--mut);animation:aidot 1.1s infinite}
+.aityping i:nth-child(2){animation-delay:.15s}.aityping i:nth-child(3){animation-delay:.3s}
+@keyframes aidot{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+.aisug{display:flex;gap:6px;flex-wrap:wrap}.aisugd summary{cursor:pointer;font-weight:800;color:var(--link);padding:4px 0}.aisugd .aisug{margin-top:6px}.aisug button{text-align:left;white-space:normal;font-weight:700}
+.aiform{display:flex;gap:8px;align-items:flex-end}
+.aiform textarea,.aiform input{flex:1;min-width:0;resize:none;min-height:46px;max-height:160px;font-size:16px;border-radius:14px}
+.aiform button{min-width:52px;min-height:46px;font-size:18px;border-radius:14px}
+.aifab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;align-items:center;gap:6px;padding:0 16px 0 13px;height:52px;border-radius:26px;background:linear-gradient(180deg,#d8ae52,#b8862b);color:#1a1408;text-decoration:none;font-weight:900;box-shadow:0 6px 18px #0008;border:1px solid #f3d58a}
+.aifab span{font-size:22px}.aifab[hidden]{display:none}
+.aifab:focus-visible{outline:3px solid var(--goldl);outline-offset:3px}
+@media print{.aifab,.pinbar{display:none}}
+
 .wgrid.editing .wdg{outline:2px dashed var(--gold);outline-offset:3px;border-radius:var(--r);animation:wjig .18s ease-in-out 4 alternate}
 .wgrid.editing .wbody{pointer-events:none;opacity:.88}
 @keyframes wjig{from{transform:rotate(-.35deg)}to{transform:rotate(.35deg)}}
@@ -346,7 +408,8 @@ body.wdragging{user-select:none;-webkit-user-select:none}
 </head>
 <body>
 <header>
- <div class="top"><a class="brand" href="#dash" aria-label="Farmhand — home"><img src="brand/logo-header.jpg" alt="Farmhand" width="408" height="88"></a><h1 id="farmTitle"></h1><span class="net" id="net" role="status" aria-live="polite"></span><a class="gear" id="gear" href="#settings" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path fill="currentColor" d="M19.14 12.94a7.43 7.43 0 0 0 .05-.94 7.43 7.43 0 0 0-.05-.94l2.03-1.58a.48.48 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96a7.03 7.03 0 0 0-1.62-.94l-.36-2.54a.48.48 0 0 0-.48-.41h-3.84a.48.48 0 0 0-.48.41l-.36 2.54a7.37 7.37 0 0 0-1.62.94l-2.39-.96a.48.48 0 0 0-.59.22L2.74 8.87a.47.47 0 0 0 .12.61l2.03 1.58a7.6 7.6 0 0 0 0 1.88l-2.03 1.58a.48.48 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.04.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.48-.41l.36-2.54a7.03 7.03 0 0 0 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.48.48 0 0 0-.12-.61l-2.03-1.58zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"/></svg></a></div>
+ <a class="hbanner" href="#dash" aria-label="Farmhand — home"><span class="sr">Farmhand</span></a>
+ <div class="top"><h1 id="farmTitle"></h1><span class="net" id="net" role="status" aria-live="polite"></span><a class="gear" id="gear" href="#settings" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path fill="currentColor" d="M19.14 12.94a7.43 7.43 0 0 0 .05-.94 7.43 7.43 0 0 0-.05-.94l2.03-1.58a.48.48 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96a7.03 7.03 0 0 0-1.62-.94l-.36-2.54a.48.48 0 0 0-.48-.41h-3.84a.48.48 0 0 0-.48.41l-.36 2.54a7.37 7.37 0 0 0-1.62.94l-2.39-.96a.48.48 0 0 0-.59.22L2.74 8.87a.47.47 0 0 0 .12.61l2.03 1.58a7.6 7.6 0 0 0 0 1.88l-2.03 1.58a.48.48 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.04.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.48-.41l.36-2.54a7.03 7.03 0 0 0 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.48.48 0 0 0-.12-.61l-2.03-1.58zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"/></svg></a></div>
  <nav id="nav"></nav>
 </header>
 <div id="auth" hidden></div>
@@ -364,13 +427,13 @@ body.wdragging{user-select:none;-webkit-user-select:none}
    source ('manual' now; 'sensor' reserved for future feeds),
    and optional demo:true for demo records.
    ========================================================= */
-const APP_VERSION = 6;
+const APP_VERSION = 7;
 const SB_URL = 'https://uetglzwzyhvaoszainmx.supabase.co';
 const SB_KEY = 'sb_publishable__gDnjBirb1AbnZwMAXMTxg_alW8T4_h'; // publishable key: safe in the browser, data protected by row-level security
 const APP_URL = location.origin + location.pathname.replace(/index\.html$/,'');
 let sb=null, UID=null, USER=null;
 const kData = () => `farmapp.v2.${UID}.data`, kQueue = () => `farmapp.v2.${UID}.queue`, kWx = () => `farmapp.v2.${UID}.weather`;
-const COLLECTIONS = ['paddocks','grazings','grassWalks','cows','milk','breeding','tasks','treatments','fertiliser','movements','deaths','photos','groups','stockEvents','plantings','cropOps','customCrops'];
+const COLLECTIONS = ['paddocks','grazings','grassWalks','cows','milk','breeding','tasks','treatments','fertiliser','movements','deaths','photos','groups','stockEvents','plantings','cropOps','customCrops','aiMsgs'];
 const DEFAULT_SETTINGS = {farmName:'', herdNumber:'', lat:53.43, lon:-7.94, kgDmPerCow:17, demandCows:null,
   residual:50, growthSource:'auto', manualGrowth:30, mPerUnit:1, mapW:1000, mapH:700,
   farmTypes:['dairy'], approach:'conventional', tabPrefs:null, pigHerdNo:'', appearance:'auto', homePrefs:null}; // existing accounts default to Dairy + Conventional
@@ -860,13 +923,16 @@ async function reverseGeocode(){ const s=S.settings; if(!farmLocSet()||!navigato
 let route='dash', routeArg=null;
 function go(r,arg){ location.hash = arg ? `${r}/${arg}` : r; }
 function parseHash(){ const [r,a]=(location.hash.slice(1)||'dash').split('/'); route = (ALL_TABS[r]||['cow','crop','planting','settings'].includes(r)) ? r : 'dash'; routeArg=a?decodeURIComponent(a):null; }
+/* header banner condenses once you scroll (keeps the FARMHAND wordmark visible but frees up the screen) */
+(function(){ let mini=false; const f=()=>{ const y=window.scrollY, room=document.documentElement.scrollHeight-innerHeight; const m=mini ? y>4 : (y>70 && room>220); if(m!==mini){ mini=m; document.body.classList.toggle('hdrmini',m); } };
+  addEventListener('scroll',f,{passive:true}); addEventListener('hashchange',()=>setTimeout(f,50)); })();
 function renderNav(){ const nk=navKey(); $('#nav').innerHTML=visibleTabs().map(k=>{ const [i,l]=tabLabel(k); return `<a href="#${k}" class="${nk===k?'on':''}"${nk===k?' aria-current="page"':''}>${i} ${esc(l)}</a>`; }).join('')+`<button type="button" class="more" id="navMore" aria-label="All tabs">☰ More</button>`;
   $('#navMore').onclick=moreMenu; const g=$('#gear'); if(g){ g.classList.toggle('on',route==='settings'); if(route==='settings') g.setAttribute('aria-current','page'); else g.removeAttribute('aria-current'); }
   const on=$('#nav a.on'); if(on) on.scrollIntoView({block:'nearest',inline:'nearest'});
   $('#farmTitle').textContent=(S.settings.farmName||''); setSync(); }
 function render(){ if(!UID) return; applyTheme({rerender:false}); if(route!=='dash') HOME_EDIT=false; destroyLeaflet(); renderNav(); const m=$('#main'); const hasDemo=COLLECTIONS.some(c=>S[c].some(r=>r.demo));
   m.innerHTML = hasDemo?`<div class="banner">⚠️ <b>Demo data is loaded</b> — example records only. Remove it in <a href="#settings">Settings</a> before entering real records.</div>`:'';
-  const box=document.createElement('div'); m.appendChild(box); (VIEWS[route]||VIEWS.dash)(box); kpiIcons(m); }
+  const box=document.createElement('div'); m.appendChild(box); (VIEWS[route]||VIEWS.dash)(box); if(route!=='dash'&&route!=='ask'&&route!=='settings') pinBar(box); kpiIcons(m); aiFab(); }
 const KPI_EMO=[[/overdue/i,'⏰'],[/today/i,'📅'],[/upcoming|scheduled|next/i,'🗓️'],[/withdrawal/i,'💊'],[/calv|due/i,'🍼'],[/milk|litre/i,'🥛'],[/growth|kg dm\/ha\/day/i,'📈'],[/cover|kg dm/i,'🌾'],[/days|grass|rest/i,'🌱'],[/demand|cow/i,'🐄'],[/area|ha\b|hectare/i,'📐'],[/\bn\b|nitrogen|fert/i,'🧪'],[/status/i,'🏷️'],[/breed/i,'🧬'],[/age/i,'🎂']];
 function kpiIcons(root){ $$('.kpi',root).forEach(k=>{ if($('.ico',k)) return; const t=($('span',k)?.textContent||''); const e=(KPI_EMO.find(([r])=>r.test(t))||[0,'🌻'])[1]; k.insertAdjacentHTML('afterbegin',`<div class="ico" aria-hidden="true">${e}</div>`); }); }
 const VIEWS={};
@@ -879,11 +945,11 @@ const APPROACHES = {
   conventional:{i:'🧪',l:'Conventional',d:'Standard Irish guidance (Teagasc Green Book / Nitrates). Approved fertilisers and plant-protection products.'},
   mostly:{i:'🌿',l:'Mostly organic',d:'Organic methods first; conventional options shown as a last resort with a caution. Not certified.'},
   organic:{i:'🍃',l:'Organic only',d:'Certified organic rules (EU Reg 2018/848, DAFM Organic Farming Scheme, IOA / Organic Trust). Non-permitted inputs are blocked.'}};
-const ALL_TABS = {dash:['🏠','Home'], map:['🗺️','Map'], cows:['🐄','Cows'], milk:['🥛','Milk'], dairyq:['🧪','Milk quality'], breeding:['🧬','Breeding'], beef:['🐂','Beef'],
+const ALL_TABS = {dash:['🏠','Home'], ask:['💬','Ask Farmhand'], map:['🗺️','Map'], cows:['🐄','Cows'], milk:['🥛','Milk'], dairyq:['🧪','Milk quality'], breeding:['🧬','Breeding'], beef:['🐂','Beef'],
   sheep:['🐑','Sheep'], pigs:['🐖','Pigs'], poultry:['🐔','Poultry'], goats:['🐐','Goats'], horses:['🐎','Horses'], grass:['🌱','Grass'],
   crops:['🌾','Crops'], veg:['🥕','Veg'], orchard:['🍎','Orchard'], forestry:['🌲','Forestry'], croplib:['📚','Crop library'],
   weather:['🌦️','Weather'], tasks:['✅','Tasks'], photos:['📷','Photos'], compliance:['📋','Records']};
-const SHARED_TABS = ['dash','map','weather','tasks','photos','compliance'];
+const SHARED_TABS = ['dash','ask','map','weather','tasks','photos','compliance'];
 const TYPE_TABS = {dairy:['cows','milk','dairyq','breeding','grass'], beef:['cows','beef','breeding','grass'], sheep:['sheep','grass'], pigs:['pigs'], poultry:['poultry'],
   goats:['goats'], horses:['horses','grass'], tillage:['crops','croplib'], horticulture:['veg','croplib'], fruit:['orchard','croplib'], forestry:['forestry','croplib'], other:['croplib']};
 const farmTypes = () => { const t=S.settings.farmTypes; return Array.isArray(t)&&t.length ? t : ['dairy']; };
@@ -1263,13 +1329,15 @@ const WIDGETS={
   c_calving:{i:'🍼',l:'Upcoming calvings',size:'c',types:['dairy','beef']},
   c_milk:{i:'🥛',l:'Milk chart (14 days)',size:'c',types:['dairy']},
   c_plantings:{i:'🌾',l:'Plantings',size:'c',types:['tillage','horticulture','fruit','forestry']},
-  c_weather:{i:'🌦️',l:'Weather & grass',size:'w',types:[]}};
+  c_weather:{i:'🌦️',l:'Weather & grass',size:'w',types:[]},
+  c_ask:{i:'💬',l:'Ask Farmhand (AI)',size:'c',types:[]}};
 const wAvail=k=>{ const t=WIDGETS[k].types; return !t.length||t.some(x=>hasType(x)); };
 function homePrefs(){ const p=S.settings.homePrefs; return p&&typeof p==='object'?p:null; }
 function homeOrder(){ const canon=Object.keys(WIDGETS).filter(wAvail); const p=homePrefs(); if(!p||!Array.isArray(p.order)) return canon;
-  const o=p.order.filter(k=>WIDGETS[k]&&wAvail(k)); canon.forEach((k,i)=>{ if(!o.includes(k)){ const prev=canon.slice(0,i).reverse().find(x=>o.includes(x)); o.splice(prev?o.indexOf(prev)+1:0,0,k); } }); return o; }
+  const cu=homeCustom(); const o=[...new Set(p.order)].filter(k=>(WIDGETS[k]&&wAvail(k))||(cu[k]&&WTYPES[cu[k].t])); canon.forEach((k,i)=>{ if(!o.includes(k)){ const prev=canon.slice(0,i).reverse().find(x=>o.includes(x)); o.splice(prev?o.indexOf(prev)+1:0,0,k); } });
+  Object.keys(cu).forEach(k=>{ if(!o.includes(k)&&WTYPES[cu[k].t]) o.push(k); }); return o; }
 function homeHidden(){ const p=homePrefs(); return new Set(p&&Array.isArray(p.hidden)?p.hidden:[]); }
-function setHome(order, hidden){ S.settings.homePrefs={order, hidden:[...hidden]}; save(); }
+function setHome(order, hidden, custom, label){ homeCommit({order:[...order], hidden:[...hidden], custom:custom||homeCustom()}, label); }
 let HOME_EDIT=false;
 VIEWS.dash = el => {
   const td=today(); const open=S.tasks.filter(t=>!t.done);
@@ -1302,40 +1370,50 @@ VIEWS.dash = el => {
     c_calving:()=>`<div class="card"><h3>🍼 Upcoming calvings</h3>${due.length?`<ul class="list">${due.slice(0,8).map(d=>`<li><div class="grow"><a href="#cow/${d.cow.id}">${esc(cowLabel(d.cow))}</a><div class="mut">Due ${fmtD(d.due)} · ${d.confirmed?'scanned in-calf':'not yet scanned'}</div></div><span class="pill ${d.days<0?'red':d.days<=7?'amb':'grn'}">${d.days<0?Math.abs(d.days)+'d over':d.days+' days'}</span></li>`).join('')}</ul>`:emptyBox('No calvings due in the next 6 weeks.')}</div>`,
     c_milk:()=>`<div class="card"><h3>🥛 Milk (last 14 days)</h3><canvas class="chart" id="dashMilk"></canvas></div>`,
     c_plantings:()=>`<div class="card"><h3>🌾 Plantings</h3><div id="dashPl">${plantingTable(pls.slice(0,6))}</div>${recentOps.length?`<div class="mut" style="margin-top:8px">Last 30 days: ${recentOps.map(o=>esc((OP_KINDS[o.kind]?.i||'')+' '+(get('plantings',o.plantingId)?.cropName||''))).join(', ')}</div>`:''}<div class="row" style="margin-top:8px"><a class="btn sm" href="#croplib">📚 Crop library</a></div></div>`,
+    c_ask:()=>`<div class="card askw"><h3>💬 Ask Farmhand</h3><form class="aiform" id="askW"><input id="askWq" maxlength="2000" placeholder="Ask about planting, grass, animals…" aria-label="Ask Farmhand a question"><button class="pri" type="submit" aria-label="Ask">➤</button></form><div class="aisug">${aiSuggestions().slice(0,3).map(q=>`<button type="button" class="sm" data-askw="${esc(q)}">${esc(q)}</button>`).join('')}</div><div class="mut" style="margin-top:6px">AI answers using your farm records · <a href="#ask">Open chat</a></div></div>`,
     c_weather:()=>`<div class="card"><h3>🌦️ Weather${grazing?' & grass':''}</h3><div id="dashWx">${wxStrip(getWeatherCache())}</div>
       ${grazing?`<p class="mut" style="margin-bottom:0">Average farm cover: <b>${gb.afc!=null?num(gb.afc):'–'} kg DM/ha</b> · Growth used: <b>${num(currentGrowthRate().rate)} kg DM/ha/day</b> (${esc(currentGrowthRate().basis)}) · Demand: ${gb.cows} cows × ${num(S.settings.kgDmPerCow)} kg — <i>estimates</i>. <a href="#grass">Grass planner →</a></p>`:''}</div>`};
-  const order=homeOrder(), hidden=homeHidden(), shown=order.filter(k=>!hidden.has(k)), hiddenAvail=order.filter(k=>hidden.has(k));
+  const order=homeOrder(), hidden=homeHidden(), shown=order.filter(k=>!hidden.has(k)&&wMeta(k)), hiddenAvail=order.filter(k=>hidden.has(k));
   const hr=new Date().getHours(), greet=hr<12?'Good morning':hr<18?'Good afternoon':'Good evening';
-  const ctl=(k,i)=>HOME_EDIT?`<div class="wctl"><span class="whandle" title="Drag to move" aria-hidden="true">✥</span><button class="sm" data-wup="${k}" aria-label="Move ${esc(WIDGETS[k].l)} up" ${i===0?'disabled':''}>▲</button><button class="sm" data-wdn="${k}" aria-label="Move ${esc(WIDGETS[k].l)} down" ${i===shown.length-1?'disabled':''}>▼</button><button class="sm wdel" data-whide="${k}" aria-label="Remove ${esc(WIDGETS[k].l)} from Home">✕</button></div>`:'';
+  const ctl=(k,i)=>{ if(!HOME_EDIT) return ''; const l=esc(wMeta(k).l); return `<div class="wctl"><span class="whandle" title="Drag to move" aria-hidden="true">✥</span><button class="sm" data-wup="${k}" aria-label="Move ${l} up" ${i===0?'disabled':''}>▲</button><button class="sm" data-wdn="${k}" aria-label="Move ${l} down" ${i===shown.length-1?'disabled':''}>▼</button>${wMeta(k).custom&&WTYPES[wMeta(k).t]?.cfg?`<button class="sm" data-wcfg="${k}" aria-label="Change ${l}" title="Change">⚙</button>`:''}<button class="sm wdel" data-whide="${k}" aria-label="Remove ${l} from Home">✕</button></div>`; };
   el.innerHTML = `
-  <section class="homebanner" aria-label="Farmhand"><img src="brand/banner.jpg" alt="Farmhand" width="1360" height="315"></section>
-  <div class="homebar"><div class="grow">${HOME_EDIT?'<b class="hi">✏️ Editing Home</b>':`<b class="hi">${greet}${S.settings.farmName?' — '+esc(S.settings.farmName):''}</b><span class="mut"> · ${new Date().toLocaleDateString('en-IE',{weekday:'short',day:'numeric',month:'short'})} · ${open.length} open task${open.length===1?'':'s'}</span>`}</div>
-    ${HOME_EDIT?`<button class="sm" id="wAdd">+ Add widget${hiddenAvail.length?` (${hiddenAvail.length})`:''}</button><button class="sm pri" id="wDone">✓ Done</button>`:`<button class="sm" id="wEdit" aria-label="Edit Home: move or remove widgets">✏️ Edit home</button>`}</div>
-  ${HOME_EDIT?`<div class="banner info editnote">✥ Drag a widget by its handle (or use ▲ ▼) to move it. ✕ removes it from Home; bring it back with <b>+ Add widget</b>. Settings → Home screen restores the default layout.</div>`:''}
+  <div class="homebar ${HOME_EDIT?'editing':''}"><div class="grow">${HOME_EDIT?'<b class="hi">✏️ Editing Home</b>':`<b class="hi">${greet}${S.settings.farmName?' — '+esc(S.settings.farmName):''}</b><span class="mut"> · ${new Date().toLocaleDateString('en-IE',{weekday:'short',day:'numeric',month:'short'})} · ${open.length} open task${open.length===1?'':'s'}</span>`}</div>
+    ${HOME_EDIT?`<span class="wundo"><button class="sm" id="wUndo" aria-label="Undo${HOME_HIST.length?': '+esc(HOME_HIST[HOME_HIST.length-1].l):''}" title="Undo${HOME_HIST.length?' '+esc(HOME_HIST[HOME_HIST.length-1].l):''}" ${HOME_HIST.length?'':'disabled'}>↶</button><button class="sm" id="wRedo" aria-label="Redo${HOME_FUT.length?': '+esc(HOME_FUT[HOME_FUT.length-1].l):''}" title="Redo${HOME_FUT.length?' '+esc(HOME_FUT[HOME_FUT.length-1].l):''}" ${HOME_FUT.length?'':'disabled'}>↷</button></span><button class="sm" id="wAdd">+ Add widget</button><button class="sm pri" id="wDone">✓ Done</button>`:`<button class="sm" id="wEdit" aria-label="Edit Home: move or remove widgets">✏️ Edit home</button>`}</div>
+  ${HOME_EDIT?`<div class="banner info editnote">✥ Drag a widget by its handle (or use ▲ ▼) to move it. ✕ removes it; ↶ undoes. <b>+ Add widget</b> adds anything from the other pages. Settings → Home screen restores the default layout.</div>`:''}
   ${isEmpty&&!HOME_EDIT?`<div class="card"><div style="font-size:44px;line-height:1">🌻${farmTypes().slice(0,3).map(t=>FARM_TYPES[t]?.i||'').join('')}🌱</div><h2>Welcome to your farm 👋</h2><p>No records yet. Start by drawing your fields on the <a href="#map">Map</a>${cattle?', adding <a href="#cows">cattle</a>':''}${crops?', or adding a planting from the <a href="#croplib">crop library</a>':''}. Or <button class="sm" id="demoBtn">Load demo data</button> to explore.</p><p class="mut">Pick your <a href="#settings">farm types</a> (dairy, beef, sheep, pigs, crops…) in ⚙️ Settings to get the right tabs. Records are saved to your account and kept on this phone for offline use.</p></div>`:''}
   <div class="wgrid ${HOME_EDIT?'editing':''}" id="wgrid">${homeSegments(shown).map(sg=>{ const n=sg.items.length, rd=Math.ceil(n/6), pd=Math.ceil(n/rd), pt=Math.min(3,n);
-    return sg.kind==='k'?`<div class="wrow" style="--pd:${pd};--pt:${pt}">${sg.items.map(([k,i])=>`<div class="wdg wk" data-w="${k}">${ctl(k,i)}<div class="wbody">${H[k]()}</div></div>`).join('')}</div>`
-      :`<div class="wcards">${sg.items.map(([k,i])=>`<div class="wdg w${WIDGETS[k].size}" data-w="${k}">${ctl(k,i)}<div class="wbody">${H[k]()}</div></div>`).join('')}</div>`; }).join('')}</div>
+    return sg.kind==='k'?`<div class="wrow" style="--pd:${pd};--pt:${pt}">${sg.items.map(([k,i])=>`<div class="wdg wk" data-w="${k}">${ctl(k,i)}<div class="wbody">${wHTML(k,H)}</div></div>`).join('')}</div>`
+      :`<div class="wcards">${sg.items.map(([k,i])=>`<div class="wdg w${wMeta(k).size}" data-w="${k}">${ctl(k,i)}<div class="wbody">${wHTML(k,H)}</div></div>`).join('')}</div>`; }).join('')}</div>
   ${!shown.length?emptyBox('Your Home is empty. Tap “Edit home”, then “+ Add widget” to bring widgets back.'):''}`;
   bindTaskList(el); const dp=$('#dashPl',el); if(dp){ bindPlantingTable(dp); if(!CROPIDX) loadCropIndex().then(()=>{ const x=$('#dashPl'); if(x){ x.innerHTML=plantingTable(pls.slice(0,6)); bindPlantingTable(x); } }).catch(()=>{}); }
   const at=$('#addTask',el); if(at) at.onclick=()=>taskForm();
   const db=$('#demoBtn',el); if(db) db.onclick=()=>{ loadDemo(); render(); };
   if(shown.includes('c_milk')){ const pts=mt.filter(d=>daysBetween(d.date,td)<=14).map(d=>[d.date,d.litres]); lineChart($('#dashMilk',el),[{label:'Litres/day',points:pts}],{height:180,yLabel:'L'}); }
   if(shown.includes('c_weather')) fetchWeather().then(wx=>{ const d=$('#dashWx'); if(d && route==='dash') d.innerHTML=wxStrip(wx); });
+  wAfter(el, shown);
+  const aw=$('#askW',el); if(aw){ aw.onsubmit=e=>{ e.preventDefault(); const t=$('#askWq',el).value.trim(); if(t){ sessionStorage.setItem('fh.askq',t); go('ask'); } }; $$('[data-askw]',el).forEach(b=>b.onclick=()=>{ sessionStorage.setItem('fh.askq',b.dataset.askw); go('ask'); }); }
   bindHomeEdit(el, order, hidden, shown, hiddenAvail);
 };
 // consecutive number tiles share one row (stretched so a short row never leaves a gap); cards flow two-up on wide screens
-function homeSegments(shown){ const segs=[]; shown.forEach((k,i)=>{ const kind=WIDGETS[k].size==='k'?'k':'c'; const l=segs[segs.length-1]; if(l&&l.kind===kind) l.items.push([k,i]); else segs.push({kind,items:[[k,i]]}); }); return segs; }
+function homeSegments(shown){ const segs=[]; shown.forEach((k,i)=>{ const kind=wMeta(k).size==='k'?'k':'c'; const l=segs[segs.length-1]; if(l&&l.kind===kind) l.items.push([k,i]); else segs.push({kind,items:[[k,i]]}); }); return segs; }
 function homeRerender(focusSel){ const y=scrollY; render(); scrollTo(0,y); if(focusSel) setTimeout(()=>$(focusSel)?.focus()); }
 function bindHomeEdit(el, order, hidden, shown, hiddenAvail){
   const eb=$('#wEdit',el); if(eb) eb.onclick=()=>{ HOME_EDIT=true; homeRerender('#wDone'); };
   const dn=$('#wDone',el); if(dn) dn.onclick=()=>{ HOME_EDIT=false; homeRerender('#wEdit'); toast('Home layout saved'); };
-  const moveTo=(k,target,after)=>{ const o=order.filter(x=>x!==k); let j=o.indexOf(target); if(j<0) return; o.splice(after?j+1:j,0,k); setHome(o,hidden); homeRerender(); };
+  const nm=k=>wMeta(k)?.l||k;
+  const moveTo=(k,target,after)=>{ const o=order.filter(x=>x!==k); let j=o.indexOf(target); if(j<0) return; o.splice(after?j+1:j,0,k); setHome(o,hidden,undefined,`moved “${nm(k)}”`); homeRerender(); };
+  const ub=$('#wUndo',el), rb=$('#wRedo',el);
+  if(ub) ub.onclick=()=>{ const l=homeUndo(); if(l){ homeRerender(HOME_HIST.length?'#wUndo':'#wRedo'); toast('↶ Undid: '+l); } };
+  if(rb) rb.onclick=()=>{ const l=homeRedo(); if(l){ homeRerender(HOME_FUT.length?'#wRedo':'#wUndo'); toast('↷ Redid: '+l); } };
+  $$('[data-wcfg]',el).forEach(b=>b.onclick=()=>{ const k=b.dataset.wcfg, c=homeCustom()[k], T=WTYPES[c.t]; const f=[...(T.cfg||[])]; if(T.size!=='k') f.push({k:'size',l:'Size',t:'select',o:[['c','Small (half width on big screens)'],['w','Large (full width)']]});
+    openForm({title:`⚙ ${T.l}`, fields:f, values:{...c.cfg, size:c.size}, saveLabel:'Save', onSave:v=>{ const {size,...cfg}=v; setHome(homeOrder(),homeHidden(),{...homeCustom(),[k]:{...c,cfg,size:T.size==='k'?'k':size}},`changed “${T.l}”`); }}); });
   const nudge=(k,d)=>{ const i=shown.indexOf(k), t=shown[i+d]; if(!t) return; moveTo(k,t,d>0); setTimeout(()=>$(`[data-${d<0?'wup':'wdn'}="${k}"]`)?.focus()); };
   $$('[data-wup]',el).forEach(b=>b.onclick=()=>nudge(b.dataset.wup,-1)); $$('[data-wdn]',el).forEach(b=>b.onclick=()=>nudge(b.dataset.wdn,1));
-  $$('[data-whide]',el).forEach(b=>b.onclick=()=>{ const k=b.dataset.whide; hidden.add(k); setHome(order,hidden); homeRerender('#wAdd'); toast(`Removed “${WIDGETS[k].l}”. + Add widget brings it back.`); });
-  const ad=$('#wAdd',el); if(ad) ad.onclick=()=>{ const dlg=showInfo('Add a widget', hiddenAvail.length?`<p class="mut" style="margin-top:0">Widgets you removed from Home. They go back where they were.</p><ul class="list">${hiddenAvail.map(k=>`<li><span style="font-size:24px" aria-hidden="true">${WIDGETS[k].i}</span><div class="grow"><b>${esc(WIDGETS[k].l)}</b><div class="mut">${WIDGETS[k].size==='k'?'Number tile':'Card'}</div></div><button class="sm pri" data-wadd="${k}">+ Add</button></li>`).join('')}</ul>`:emptyBox('Nothing to add: every widget for your farm types is already on Home.'));
-    $$('[data-wadd]',dlg).forEach(b=>b.onclick=()=>{ const k=b.dataset.wadd; hidden.delete(k); setHome(order,hidden); dlg.close(); homeRerender(); const w=$(`.wdg[data-w="${k}"]`); if(w){ w.classList.add('flash'); w.scrollIntoView({block:'center',behavior:'smooth'}); } toast(`Added “${WIDGETS[k].l}”`); }); };
+  $$('[data-whide]',el).forEach(b=>b.onclick=()=>{ const k=b.dataset.whide, l=nm(k);
+    if(WIDGETS[k]){ hidden.add(k); setHome(order,hidden,undefined,`removed “${l}”`); } else { const cu={...homeCustom()}; delete cu[k]; setHome(order.filter(x=>x!==k),hidden,cu,`removed “${l}”`); }
+    homeRerender('#wUndo'); toast(`Removed “${l}”. ↶ Undo brings it back.`); });
+  const ad=$('#wAdd',el); if(ad) ad.onclick=()=>wCatalogue(k=>{ homeRerender(); const w=$(`.wdg[data-w="${k}"]`); if(w){ w.classList.add('flash'); w.scrollIntoView({block:'center',behavior:'smooth'}); } });
+  if(HOME_EDIT){ document.onkeydown=e=>{ if(route!=='dash'||!HOME_EDIT||$('#dlg')?.open||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return; if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){ e.preventDefault(); (e.shiftKey?rb:ub)?.click(); } else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){ e.preventDefault(); rb?.click(); } }; }
   const grid=$('#wgrid',el); if(!grid) return;
   if(!HOME_EDIT){ // long-press anywhere on a widget opens edit mode
     let t=null, sx=0, sy=0, fired=false;
@@ -1358,7 +1436,239 @@ function bindHomeEdit(el, order, hidden, shown, hiddenAvail){
     addEventListener('pointermove',mv); addEventListener('pointerup',up); addEventListener('pointercancel',up); }));
 }
 function restoreHomeDefault(){ if(!confirm('Restore Home to the default widgets and order for your farm types? Your farm types, theme and tab settings stay as they are.')) return false;
-  S.settings.homePrefs=null; HOME_EDIT=false; save(); toast('Home restored to default'); return true; }
+  homeCommit(null,'restored default layout'); HOME_EDIT=false; toast('Home restored to default (↶ Undo is in ✏️ Edit home)'); return true; }
+
+/* ---------- Home: undo / redo (session history of layout changes, v7) ---------- */
+let HOME_HIST=[], HOME_FUT=[];
+const homeSnap=()=>JSON.stringify(S.settings.homePrefs??null);
+function homeCommit(next, label){ HOME_HIST.push({s:homeSnap(), l:label||'change'}); if(HOME_HIST.length>60) HOME_HIST.shift(); HOME_FUT=[]; S.settings.homePrefs=next; save(); }
+function homeUndo(){ const h=HOME_HIST.pop(); if(!h) return null; HOME_FUT.push({s:homeSnap(), l:h.l}); S.settings.homePrefs=JSON.parse(h.s); save(); return h.l; }
+function homeRedo(){ const h=HOME_FUT.pop(); if(!h) return null; HOME_HIST.push({s:homeSnap(), l:h.l}); S.settings.homePrefs=JSON.parse(h.s); save(); return h.l; }
+function homeCustom(){ const p=homePrefs(); return p&&p.custom&&typeof p.custom==='object'?p.custom:{}; }
+function wMeta(k){ if(WIDGETS[k]) return WIDGETS[k]; const c=homeCustom()[k]; const T=c&&WTYPES[c.t]; if(!T) return null;
+  let l=T.l; try{ if(T.title) l=T.title(c.cfg||{}); }catch(e){} return {i:T.i, l, size:T.size==='k'?'k':(c.size||T.size), custom:true, t:c.t}; }
+
+/* ---------- Home: widget catalogue — any page's info as a Home widget (v7) ---------- */
+const WCATS={farm:'🗺️ Map & fields', animals:'🐄 Animals', milk:'🥛 Milk & breeding', grass:'🌱 Grass', weather:'🌦️ Weather', crops:'🌾 Crops', tasks:'✅ Tasks', records:'📋 Records', photos:'📷 Photos', ai:'💬 Assistant'};
+const BUILTIN_CAT={k_herd:'animals',k_milk:'milk',k_wd:'records',k_calving:'milk',k_adg:'animals',k_ewes:'animals',k_lambs:'animals',k_pigs1:'animals',k_pigs2:'animals',k_hens:'animals',k_eggs:'animals',k_goats:'animals',k_horses:'animals',
+  k_plantings:'crops',k_overdue:'tasks',k_grass:'grass',c_tasks:'tasks',c_wd:'records',c_calving:'milk',c_milk:'milk',c_plantings:'crops',c_weather:'weather',c_ask:'ai'};
+const SPX={cattle:'Cattle',sheep:'Sheep',pigs:'Pigs',poultry:'Poultry',goats:'Goats',horses:'Horses'};
+const spOf=c=>c.species||'cattle', aliveA=c=>!['sold','died'].includes(c.status);
+const spOpts=()=>Object.entries(SPX).map(([k,l])=>[k,`${SP_ICON[k]||''} ${l} (${S.cows.filter(c=>spOf(c)===k&&aliveA(c)).length})`]);
+const animalOpts=()=>{ const a=S.cows.filter(aliveA).sort((x,y)=>cowLabel(x).localeCompare(cowLabel(y))); return a.length?a.map(c=>[c.id,`${SP_ICON[spOf(c)]||''} ${cowLabel(c)}`]):[['','No animals recorded yet']]; };
+const wPadOpts=()=>S.paddocks.length?S.paddocks.map(p=>[p.id,p.name||'Field']):[['','No fields recorded yet']];
+const plOpts=()=>S.plantings.length?S.plantings.slice().sort(byDate('sown')).map(p=>[p.id,`${p.cropName||'Crop'}${p.variety?' — '+p.variety:''} (${padName(p.paddockId)||'no field'}, ${p.status||'growing'})`]):[['','No plantings recorded yet']];
+const wcard=(i,t,body,link)=>`<div class="card"><h3>${i} ${esc(t)}</h3>${body}${link?`<div class="row" style="margin-top:8px"><a class="btn sm" href="#${link[0]}">${link[1]}</a></div>`:''}</div>`;
+const wstats=a=>`<div class="wstats">${a.map(([b,s,c])=>`<div class="ws ${c||''}"><b>${b}</b><span>${esc(s)}</span></div>`).join('')}</div>`;
+const wtile=(i,b,s,c='')=>`<div class="kpi ${c}"><div class="ico">${i}</div><b>${b}</b><span>${esc(s)}</span></div>`;
+const lastOpFor=pid=>S.cropOps.filter(o=>o.plantingId===pid).sort(byDate())[0];
+const WTYPES={
+  fields:{cat:'farm',i:'🗺️',l:'Fields & area summary',d:'Total area, number of fields and how they are used',size:'c',
+    html:()=>{ const ps=S.paddocks, tot=sum(ps.map(padHa)); const by={}; ps.forEach(p=>{ const k=p.status||'grazing'; by[k]=(by[k]||0)+padHa(p); });
+      return wcard('🗺️','Fields & area', ps.length?wstats([[num(tot,1)+' ha',`${num(haToAc(tot),0)} acres`],[ps.length,'Fields'],[num(sum(grazingPaddocks().map(padHa)),1)+' ha','Grazing area']])+`<div class="row" style="margin-top:8px;gap:6px">${Object.entries(by).map(([k,h])=>`<span class="pill" style="background:${PAD_STATUS[k]?.c||'#999'}33">${esc(PAD_STATUS[k]?.l||k)} · ${num(h,1)} ha</span>`).join('')}</div>`:emptyBox('No fields yet. Draw them on the Map.'), ['map','🗺️ Map']); }},
+  k_area:{cat:'farm',i:'📐',l:'Farm area (tile)',d:'Total hectares',size:'k', html:()=>{ const t=sum(S.paddocks.map(padHa)); return wtile('📐',num(t,1)+' ha',`${S.paddocks.length} fields · ${num(haToAc(t),0)} ac`); }},
+  rotation:{cat:'grass',i:'🔄',l:'Grazing rotation',d:'Which fields are being grazed now and which are next (highest cover)',size:'c',
+    html:()=>{ const now=S.grazings.filter(g=>!g.dateOut).map(g=>({g,p:get('paddocks',g.paddockId)})).filter(x=>x.p);
+      const next=grazingPaddocks().filter(p=>!currentGrazing(p.id)).map(p=>({p,ci:coverInfo(p),ds:daysSinceGrazed(p.id)})).sort((a,b)=>(b.ci.est??-1)-(a.ci.est??-1)).slice(0,4);
+      return wcard('🔄','Grazing rotation', `<div class="mut" style="margin-bottom:4px"><b>Grazing now</b></div>${now.length?`<ul class="list">${now.map(x=>`<li><div class="grow"><b>${esc(x.p.name)}</b><div class="mut">In since ${fmtD(x.g.dateIn)} · ${daysBetween(x.g.dateIn,today())} days${x.g.group?' · '+esc(x.g.group):''}</div></div><span class="pill grn">grazing</span></li>`).join('')}</ul>`:'<div class="mut">No field is marked as being grazed.</div>'}
+        <div class="mut" style="margin:10px 0 4px"><b>Next up</b> (highest estimated cover)</div>${next.length?`<ul class="list">${next.map(x=>`<li><span class="dot" style="background:${coverColour(x.ci.est)}"></span><div class="grow"><b>${esc(x.p.name)}</b><div class="mut">${x.ci.est!=null?num(x.ci.est)+' kg DM/ha':'cover unknown'}${x.ds!=null?` · rested ${x.ds} days`:''}</div></div></li>`).join('')}</ul>`:'<div class="mut">No grazing fields yet.</div>'}`, ['grass','🌱 Grass planner']); }},
+  paddock:{cat:'farm',i:'📍',l:'One field (pinned)',d:'A single field: area, status, cover, grazing and fertiliser',size:'c',
+    cfg:[{k:'paddockId',l:'Field',t:'select',o:wPadOpts,req:1}], title:c=>'Field: '+(get('paddocks',c.paddockId)?.name||'?'),
+    html:c=>{ const p=get('paddocks',c.paddockId); if(!p) return wcard('📍','Field', emptyBox('This field has been deleted.')); const ci=coverInfo(p), cur=currentGrazing(p.id), ds=daysSinceGrazed(p.id), yr=today().slice(0,4);
+      const fs=S.fertiliser.filter(f=>f.paddockId===p.id&&(f.date||'').startsWith(yr)); const pl=S.plantings.filter(x=>x.paddockId===p.id&&x.status!=='finished');
+      return wcard('📍',p.name||'Field', wstats([[num(padHa(p),2)+' ha',PAD_STATUS[p.status]?.l||p.status||''],[ci.est!=null?num(ci.est):'–','kg DM/ha cover (est.)'],[cur?'Now':(ds!=null?ds+' d':'–'),cur?'Being grazed':'Since last grazed'],[num(sum(fs.map(f=>f.nKgHa))),`N kg/ha ${yr}`]])+(pl.length?`<div class="mut" style="margin-top:8px">Growing: ${pl.map(x=>`<a href="#planting/${x.id}">${esc(x.cropName||'crop')}</a>`).join(', ')}</div>`:''), ['map','🗺️ Open map']); }},
+  herd:{cat:'animals',i:'🐾',l:'Animal list (per species)',d:'Head count by status and a short list of animals',size:'c',
+    cfg:[{k:'species',l:'Species',t:'select',o:spOpts,def:()=>hasType('sheep')&&!hasType('dairy','beef')?'sheep':'cattle'}], title:c=>`${SPX[c.species]||'Animals'} list`,
+    html:c=>{ const sp=c.species||'cattle'; const a=S.cows.filter(x=>spOf(x)===sp&&aliveA(x)); const by={}; a.forEach(x=>by[x.status||'–']=(by[x.status||'–']||0)+1);
+      const gh=sum(S.groups.filter(g=>(g.species||'cattle')===sp&&!g.closed).map(g=>groupHead(g)||0)); const tab=sp==='cattle'?'cows':sp;
+      return wcard(SP_ICON[sp]||'🐾',`${SPX[sp]} (${a.length}${gh?` + ${gh} in batches`:''})`, a.length||gh?`<div class="row" style="gap:6px;margin-bottom:8px">${Object.entries(by).map(([k,n])=>`<span class="pill">${esc(k)} · ${n}</span>`).join('')}</div><ul class="list">${a.slice(0,8).map(x=>`<li><div class="grow"><a href="#cow/${x.id}">${esc(cowLabel(x))}</a><div class="mut">${esc([x.breed,x.status].filter(Boolean).join(' · '))}</div></div>${cowWithdrawal(x.id).length?'<span class="pill red">withdrawal</span>':''}</li>`).join('')}</ul>${a.length>8?`<div class="mut">…and ${a.length-8} more</div>`:''}`:emptyBox(`No ${SPX[sp].toLowerCase()} recorded yet.`), [tab,`${SP_ICON[sp]||''} All ${SPX[sp].toLowerCase()}`]); }},
+  k_species:{cat:'animals',i:'🔢',l:'Head count (tile)',d:'Number of animals of one species',size:'k', cfg:[{k:'species',l:'Species',t:'select',o:spOpts}], title:c=>`${SPX[c.species]||'Animals'} count`,
+    html:c=>{ const sp=c.species||'cattle'; const n=S.cows.filter(x=>spOf(x)===sp&&aliveA(x)).length+sum(S.groups.filter(g=>(g.species||'cattle')===sp&&!g.closed).map(g=>groupHead(g)||0)); return wtile(SP_ICON[sp]||'🐾',n,`${SPX[sp]} on farm`); }},
+  animal:{cat:'animals',i:'📌',l:'One animal (pinned)',d:'A single animal: status, weight, breeding, withdrawal',size:'c',
+    cfg:[{k:'animalId',l:'Animal',t:'select',o:animalOpts,req:1}], title:c=>{ const a=get('cows',c.animalId); return a?cowLabel(a):'Animal'; },
+    html:c=>{ const a=get('cows',c.animalId); if(!a) return wcard('📌','Animal', emptyBox('This animal has been deleted.')); const lw=lastWeight(a.id), ad=adgFor(a.id), du=dueInfo(a), wd=cowWithdrawal(a.id);
+      const ev=breedingFor(a.id)[0]; return wcard(SP_ICON[spOf(a)]||'📌', cowLabel(a), wstats([[esc(a.status||'–'),esc(a.breed||SPX[spOf(a)]||'')],[lw?num(lw.weight)+' kg':'–',lw?'Weighed '+fmtD(lw.date):'No weight yet'],[ad?num(ad.adg,2):'–','Daily gain kg'],[du?fmtD(du.due):'–',du?`Due (${du.days} days)`:'Not due']])
+        +(wd.length?`<div style="margin-top:8px">${wd.map(w=>`${w.milkEnd?`<span class="pill red">Milk withdrawal to ${fmtD(w.milkEnd)}</span> `:''}${w.meatEnd?`<span class="pill amb">Meat to ${fmtD(w.meatEnd)}</span>`:''}`).join(' ')}</div>`:'')+(ev?`<div class="mut" style="margin-top:6px">Last breeding event: ${esc(ev.type)} ${fmtD(ev.date)}</div>`:''), [`cow/${a.id}`,'Open record']); }},
+  spstats:{cat:'animals',i:'📊',l:'Sheep / pig / poultry stats',d:'The key figures from the Sheep, Pigs or Poultry page',size:'c',
+    cfg:[{k:'species',l:'Species',t:'select',o:[['sheep','🐑 Sheep'],['pigs','🐖 Pigs'],['poultry','🐔 Poultry']]}], title:c=>`${SPX[c.species]||''} stats`,
+    html:c=>{ const sp=c.species||'sheep'; const k=sp==='sheep'?sheepKpis():sp==='pigs'?pigKpis():poultryKpis(); return wcard(SP_ICON[sp],`${SPX[sp]} stats`, wstats(k.map(([b,s])=>[esc(String(b)),s])), [sp,`${SP_ICON[sp]} ${SPX[sp]} page`]); }},
+  milk_totals:{cat:'milk',i:'🥛',l:'Milk totals',d:'Last day, 7-day and 30-day totals and averages',size:'c',
+    html:()=>{ const mt=milkDailyTotals(), td=today(); const L=mt[mt.length-1]; const w7=mt.filter(d=>daysBetween(d.date,td)<7&&daysBetween(d.date,td)>=0), w30=mt.filter(d=>daysBetween(d.date,td)<30&&daysBetween(d.date,td)>=0);
+      const mk=S.cows.filter(c=>c.status==='milking').length; return wcard('🥛','Milk totals', mt.length?wstats([[L?num(L.litres)+' L':'–',L?'Last day ('+fmtD(L.date)+')':''],[num(sum(w7.map(d=>d.litres)))+' L','Last 7 days'],[w7.length?num(sum(w7.map(d=>d.litres))/w7.length)+' L':'–','Avg per day (7 d)'],[num(sum(w30.map(d=>d.litres)))+' L','Last 30 days'],[L&&mk?num(L.litres/mk,1)+' L':'–',`Per cow (${mk} milking)`]]):emptyBox('No milk recorded yet.'), ['milk','🥛 Milk']); }},
+  milk_chart:{cat:'milk',i:'📈',l:'Milk chart',d:'Litres per day over 7, 14, 30 or 90 days',size:'c', cfg:[{k:'days',l:'Period',t:'select',o:[['7','7 days'],['14','14 days'],['30','30 days'],['90','90 days']],def:'30'}], title:c=>`Milk chart (${c.days||30} days)`,
+    html:(c,id)=>wcard('📈',`Milk — last ${c.days||30} days`,`<canvas class="chart" data-wchart="${id}"></canvas>`,['milk','🥛 Milk']),
+    after:(c,id,el)=>{ const cv=$(`[data-wchart="${id}"]`,el); if(!cv) return; const td=today(); lineChart(cv,[{label:'Litres/day',points:milkDailyTotals().filter(d=>daysBetween(d.date,td)<=Number(c.days||30)).map(d=>[d.date,d.litres])}],{height:180,yLabel:'L'}); }},
+  breeding:{cat:'milk',i:'🧬',l:'Breeding & due dates',d:'Animals due (next 90 days) and recent services',size:'c',
+    html:()=>{ const d=dueList().filter(x=>x.days<=90).slice(0,8), td=today(); const sv=S.breeding.filter(b=>b.type==='service'&&daysBetween(b.date,td)<=21&&daysBetween(b.date,td)>=0);
+      return wcard('🧬','Breeding & due dates', wstats([[d.length,'Due ≤ 90 days'],[sv.length,'Served last 21 days'],[d.filter(x=>!x.confirmed).length,'Not yet scanned']])+(d.length?`<ul class="list" style="margin-top:8px">${d.map(x=>`<li><div class="grow"><a href="#cow/${x.cow.id}">${esc(cowLabel(x.cow))}</a><div class="mut">Due ${fmtD(x.due)} · ${esc(x.basis)}</div></div><span class="pill ${x.days<0?'red':x.days<=14?'amb':'grn'}">${x.days<0?Math.abs(x.days)+'d over':x.days+' d'}</span></li>`).join('')}</ul>`:''), ['breeding','🧬 Breeding']); }},
+  grass_cover:{cat:'grass',i:'🌱',l:'Grass cover & growth',d:'Average farm cover, growth rate, days ahead and field covers',size:'c',
+    html:()=>{ const gb=grassBudget(), gr=currentGrowthRate(); const ps=grazingPaddocks().map(p=>({p,ci:coverInfo(p)})).filter(x=>x.ci.est!=null).sort((a,b)=>b.ci.est-a.ci.est).slice(0,6); const mx=Math.max(1,...ps.map(x=>x.ci.est));
+      return wcard('🌱','Grass cover & growth', wstats([[gb.afc!=null?num(gb.afc):'–','Avg farm cover kg DM/ha'],[num(gr.rate),'Growth kg DM/ha/day'],[gb.daysAhead!=null?num(gb.daysAhead,1):'–','Days ahead'],[gb.coverPerCow!=null?num(gb.coverPerCow):'–','Cover per cow kg DM']])
+        +(ps.length?`<div class="wbars">${ps.map(x=>`<div><span>${esc(x.p.name)}</span><i style="width:${Math.round(100*x.ci.est/mx)}%;background:${coverColour(x.ci.est)}"></i><b>${num(x.ci.est)}</b></div>`).join('')}</div>`:'<div class="mut" style="margin-top:8px">No grass walks yet.</div>')+`<div class="hint">Estimates from your grass walks and growth rate (${esc(gr.basis)}).</div>`, ['grass','🌱 Grass planner']); }},
+  wx_forecast:{cat:'weather',i:'📅',l:'7-day weather forecast',d:'The full forecast from the Weather page',size:'w',
+    html:(c,id)=>{ const wx=wxForHere(getWeatherCache()); return `<div class="card" data-wwx="${id}">${!farmLocSet()?'<h3>📅 7-day forecast</h3>'+wxNoLocation():wx?wxMainHTML(wx):'<h3>📅 7-day forecast</h3><div class="mut">Loading forecast…</div>'}</div>`; },
+    after:(c,id)=>{ if(farmLocSet()) fetchWeather().then(wx=>{ const d=$(`[data-wwx="${id}"]`); if(d&&route==='dash'&&wxForHere(wx)) d.innerHTML=wxMainHTML(wxForHere(wx)); }); }},
+  wx_warn:{cat:'weather',i:'⚠️',l:'Weather warnings',d:'Met Éireann warnings in force for your area',size:'c',
+    html:(c,id)=>{ const wx=wxForHere(getWeatherCache()); return wcard('⚠️','Weather warnings',`<div data-wwarn="${id}">${!farmLocSet()?wxNoLocation():wx?warnBanner(wx,false):'<div class="mut">Loading…</div>'}</div>`,['weather','🌦️ Weather']); },
+    after:(c,id)=>{ if(farmLocSet()) fetchWeather().then(wx=>{ const d=$(`[data-wwarn="${id}"]`); if(d&&route==='dash'&&wxForHere(wx)) d.innerHTML=warnBanner(wxForHere(wx),false); }); }},
+  photos:{cat:'photos',i:'📷',l:'Latest photos',d:'Your most recent farm photos',size:'c', cfg:[{k:'n',l:'How many',t:'select',o:[['4','4'],['8','8'],['12','12']],def:'4'}], title:c=>`Latest ${c.n||4} photos`,
+    html:(c,id)=>wcard('📷','Latest photos',`<div class="gallery wgal" data-wph="${id}">${S.photos.length?'<div class="mut">Loading…</div>':emptyBox('No photos yet.','grid-column:1/-1')}</div>`,['photos','📷 All photos']),
+    after:async(c,id,el)=>{ const box=$(`[data-wph="${id}"]`,el); if(!box||!S.photos.length) return; const ps=S.photos.slice().sort(byDate()).slice(0,Number(c.n||4)); let urls=[]; try{ urls=await photoURLs(ps); }catch(e){}
+      box.innerHTML=ps.map((p,i)=>`<figure>${urls[i]?`<a href="#photos"><img src="${esc(urls[i])}" alt="${esc(p.caption||'photo')}" loading="lazy"></a>`:'<div class="empty" style="aspect-ratio:1">📷 offline</div>'}<figcaption>${fmtD(p.date)} ${esc(p.caption||'')}</figcaption></figure>`).join(''); }},
+  tasks:{cat:'tasks',i:'✅',l:'Tasks (filtered)',d:'Overdue, today, this week, high priority or all open tasks',size:'c',
+    cfg:[{k:'f',l:'Show',t:'select',o:[['overdue','Overdue'],['today','Due today + overdue'],['week','Due in the next 7 days'],['high','High priority'],['open','All open tasks'],['done','Done in the last 7 days']],def:'week'}],
+    title:c=>({overdue:'Overdue tasks',today:'Tasks due today',week:'Tasks this week',high:'High-priority tasks',open:'All open tasks',done:'Recently done'})[c.f]||'Tasks',
+    html:c=>{ const td=today(), op=S.tasks.filter(t=>!t.done); const F={overdue:op.filter(t=>t.due&&t.due<td),today:op.filter(t=>t.due&&t.due<=td),week:op.filter(t=>t.due&&daysBetween(td,t.due)<=7),high:op.filter(t=>t.priority==='high'),open:op,done:S.tasks.filter(t=>t.done&&t.doneAt&&daysBetween(t.doneAt.slice(0,10),td)<=7)}[c.f||'week']||op;
+      const l=WTYPES.tasks.title(c); return wcard('✅',`${l} (${F.length})`, taskList(F.slice().sort(byDate('due',1)).slice(0,10),'Nothing here 🎉'), ['tasks','✅ All tasks']); }},
+  records:{cat:'records',i:'📋',l:'Records & compliance',d:'Withdrawals, this year’s register entries and anything overdue',size:'c',
+    html:()=>{ const yr=today().slice(0,4), wd=inWithdrawal(); const cnt=c=>S[c].filter(r=>(r.date||'').startsWith(yr)).length; const lst=c=>{ const r=S[c].slice().sort(byDate())[0]; return r?fmtD(r.date):'never'; };
+      return wcard('📋','Records & compliance', wstats([[wd.length,'In withdrawal',wd.length?'warn':''],[cnt('treatments'),`Medicines ${yr}`],[cnt('fertiliser'),`Fertiliser ${yr}`],[cnt('movements'),`Movements ${yr}`],[cnt('deaths'),`Deaths ${yr}`]])
+        +`<div class="mut" style="margin-top:8px">Last entries — medicine: ${lst('treatments')} · fertiliser: ${lst('fertiliser')} · movement: ${lst('movements')}</div>${wd.length?`<div style="margin-top:6px">${wd.slice(0,4).map(w=>`<span class="pill red">${esc(w.t.cowId?cowName(w.t.cowId):w.t.groupDesc||'Group')} to ${fmtD(w.milkEnd||w.meatEnd)}</span>`).join(' ')}</div>`:''}`, ['compliance','📋 Records']); }},
+  nitrates:{cat:'records',i:'🧪',l:'Fertiliser / Nitrates totals',d:'This year’s N and P applied, farm and per field',size:'c',
+    html:()=>{ const yr=today().slice(0,4); const rows=S.paddocks.map(p=>{ const fs=S.fertiliser.filter(f=>f.paddockId===p.id&&(f.date||'').startsWith(yr)); const ha=padHa(p); return {p,ha,n:sum(fs.map(f=>f.nKgHa)),ph:sum(fs.map(f=>f.pKgHa))}; });
+      const ha=sum(rows.map(r=>r.ha)), N=sum(rows.map(r=>r.n*r.ha)), P=sum(rows.map(r=>r.ph*r.ha)); const top=rows.filter(r=>r.n>0).sort((a,b)=>b.n-a.n).slice(0,5);
+      return wcard('🧪',`Fertiliser ${yr}`, wstats([[num(N)+' kg','Total N applied'],[ha?num(N/ha):'–','N kg/ha (farm avg)'],[num(P,1)+' kg','Total P applied'],[ha?num(P/ha,1):'–','P kg/ha (farm avg)']])+(top.length?`<ul class="list" style="margin-top:8px">${top.map(r=>`<li><div class="grow"><b>${esc(r.p.name)}</b></div><span class="pill">${num(r.n)} N kg/ha</span></li>`).join('')}</ul>`:'')+'<div class="hint">Running totals only — check against your Nitrates/derogation limits.</div>', ['compliance','📋 Fertiliser records']); }},
+  plantings:{cat:'crops',i:'🌾',l:'Crop plantings & last operations',d:'Active plantings with their latest operation and linked tasks',size:'c',
+    html:()=>{ const pl=S.plantings.filter(p=>p.status!=='finished').sort(byDate('sown')); return wcard('🌾',`Plantings (${pl.length} active)`, pl.length?`<ul class="list">${pl.slice(0,8).map(p=>{ const o=lastOpFor(p.id); const t=S.tasks.filter(x=>!x.done&&(x.plantingId===p.id||(p.cropName&&(x.title||'').toLowerCase().includes(p.cropName.toLowerCase())))).sort(byDate('due',1))[0];
+      return `<li><div class="grow"><a href="#planting/${p.id}">${esc(p.cropName||'Crop')}${p.variety?' — '+esc(p.variety):''}</a><div class="mut">${esc(padName(p.paddockId)||'No field')} · sown ${fmtD(p.sown)||'–'}${o?` · last: ${OP_KINDS[o.kind]?.i||''} ${esc(OP_KINDS[o.kind]?.l||o.kind)} ${fmtD(o.date)}`:''}</div>${t?`<div class="mut">Next: <b>${esc(t.title)}</b>${t.due?' '+fmtD(t.due):''}</div>`:''}</div><span class="pill ${p.status==='growing'?'grn':p.status==='planned'?'blue':''}">${esc(p.status||'growing')}</span></li>`; }).join('')}</ul>`:emptyBox('No plantings yet.'), ['croplib','📚 Crop library']); }},
+  crop:{cat:'crops',i:'🌱',l:'One crop planting (pinned)',d:'A single planting: field, sowing date, operations',size:'c',
+    cfg:[{k:'plantingId',l:'Planting',t:'select',o:plOpts,req:1}], title:c=>{ const p=get('plantings',c.plantingId); return p?(p.cropName||'Crop')+(p.variety?' — '+p.variety:''):'Crop'; },
+    html:c=>{ const p=get('plantings',c.plantingId); if(!p) return wcard('🌱','Crop', emptyBox('This planting has been deleted.')); const ops=S.cropOps.filter(o=>o.plantingId===p.id).sort(byDate()); const h=ops.filter(o=>o.kind==='harvest');
+      return wcard('🌱',`${p.cropName||'Crop'}${p.variety?' — '+p.variety:''}`, wstats([[esc(p.status||'growing'),esc(padName(p.paddockId)||'No field')],[p.sown?daysBetween(p.sown,today())+' d':'–',p.sown?'Since sown '+fmtD(p.sown):'Not sown yet'],[p.area?num(p.area,2)+' ha':'–','Area'],[h.length,'Harvests']])
+        +(ops.length?`<ul class="list" style="margin-top:8px">${ops.slice(0,4).map(o=>`<li><span aria-hidden="true">${OP_KINDS[o.kind]?.i||'•'}</span><div class="grow"><b>${esc(OP_KINDS[o.kind]?.l||o.kind)}</b><div class="mut">${fmtD(o.date)}${o.product?' · '+esc(o.product):''}</div></div></li>`).join('')}</ul>`:'<div class="mut" style="margin-top:8px">No operations recorded yet.</div>'), [`planting/${p.id}`,'Open planting']); }},
+};
+// which catalogue entries each page offers in its “📌 Add to Home” button (cfg filled from the page)
+const PIN_FOR={map:['fields','rotation','k_area'],cows:[['herd',{species:'cattle'}],['k_species',{species:'cattle'}],'breeding'],sheep:[['herd',{species:'sheep'}],['spstats',{species:'sheep'}]],pigs:[['herd',{species:'pigs'}],['spstats',{species:'pigs'}]],
+  poultry:[['herd',{species:'poultry'}],['spstats',{species:'poultry'}]],goats:[['herd',{species:'goats'}]],horses:[['herd',{species:'horses'}]],beef:[['herd',{species:'cattle'}],'k_species'],
+  milk:['milk_totals',['milk_chart',{days:'30'}]],dairyq:['milk_totals'],breeding:['breeding'],grass:['grass_cover','rotation'],weather:['wx_forecast','wx_warn'],photos:[['photos',{n:'4'}]],
+  tasks:[['tasks',{f:'week'}],['tasks',{f:'overdue'}],['tasks',{f:'high'}]],compliance:['records','nitrates'],crops:['plantings'],veg:['plantings'],orchard:['plantings'],forestry:['plantings'],croplib:['plantings'],
+  cow:()=>[['animal',{animalId:routeArg}]],planting:()=>[['crop',{plantingId:routeArg}]]};
+function addCustomWidget(t, cfg, size, quiet){ const T=WTYPES[t]; if(!T) return null; const id='x'+uid().replace(/[^a-z0-9]/gi,'').slice(0,10);
+  const p=homePrefs()||{}; const custom={...homeCustom(), [id]:{t, cfg:cfg||{}, size:T.size==='k'?'k':(size||T.size), at:nowISO()}};
+  const order=[id, ...homeOrder()]; homeCommit({order, hidden:[...homeHidden()], custom}, `added “${T.l}”`);
+  if(!quiet) toast(`📌 Added “${wMeta(id)?.l||T.l}” to Home`); return id; }
+function configureWidget(t, preset, after){ const T=WTYPES[t]; const f=[...(T.cfg||[])]; if(T.size!=='k') f.push({k:'size',l:'Size',t:'select',o:[['c','Small (half width on big screens)'],['w','Large (full width)']]});
+  const vals={size:T.size, ...(preset||{})}; (T.cfg||[]).forEach(x=>{ if(vals[x.k]==null){ const o=typeof x.o==='function'?x.o():x.o; vals[x.k]=x.def!=null?(typeof x.def==='function'?x.def():x.def):(o&&o[0]?(Array.isArray(o[0])?o[0][0]:o[0]):''); } });
+  if(!f.length){ const id=addCustomWidget(t,{},T.size); after&&after(id); return; }
+  openForm({title:`${T.i} Add “${T.l}” to Home`, fields:f, values:vals, saveLabel:'📌 Add to Home', extraHTML:`<p class="mut" style="margin-top:0">${esc(T.d||'')}</p>`,
+    onSave:v=>{ const {size,...cfg}=v; if((T.cfg||[]).some(x=>x.req&&!cfg[x.k])) return false; const id=addCustomWidget(t,cfg,size); setTimeout(()=>after&&after(id),50); }}); }
+function wCatalogue(onAdded){ const order=homeOrder(), hidden=homeHidden(); const shown=new Set(order.filter(k=>!hidden.has(k)));
+  const items=[...Object.keys(WIDGETS).filter(wAvail).map(k=>({k, b:1, cat:BUILTIN_CAT[k]||'farm', i:WIDGETS[k].i, l:WIDGETS[k].l, d:WIDGETS[k].size==='k'?'Number tile':'Card', on:shown.has(k)})),
+    ...Object.entries(WTYPES).map(([k,T])=>({k, b:0, cat:T.cat, i:T.i, l:T.l, d:T.d+(T.size==='k'?' · tile':''), multi:1}))];
+  const cats=Object.keys(WCATS).filter(c=>items.some(x=>x.cat===c));
+  const dlg=showInfo('Add a widget', `<input type="search" id="wSearch" placeholder="🔍 Search widgets (e.g. milk, field, weather)" aria-label="Search widgets" style="width:100%;margin-bottom:8px">
+    <div class="wcats" role="tablist"><button class="sm on" data-wcat="">All</button>${cats.map(c=>`<button class="sm" data-wcat="${c}">${WCATS[c]}</button>`).join('')}</div>
+    <div id="wCatList">${cats.map(c=>`<section data-wsec="${c}"><h4 class="wch">${WCATS[c]}</h4><ul class="list">${items.filter(x=>x.cat===c).map(x=>`<li data-ws="${esc((x.l+' '+x.d+' '+WCATS[c]).toLowerCase())}"><span style="font-size:24px" aria-hidden="true">${x.i}</span><div class="grow"><b>${esc(x.l)}</b><div class="mut">${esc(x.d)}</div></div>${x.b?(x.on?'<span class="pill grn">On Home</span>':`<button class="sm pri" data-wadd="${x.k}">+ Add</button>`):`<button class="sm pri" data-wnew="${x.k}">+ Add</button>`}</li>`).join('')}</ul></section>`).join('')}<div class="mut" id="wNone" hidden>No widgets match.</div></div>`);
+  dlg.classList.add('wide'); dlg.addEventListener('close',()=>dlg.classList.remove('wide'),{once:true}); let cat=''; const filt=()=>{ const q=$('#wSearch',dlg).value.trim().toLowerCase(); let any=0;
+    $$('[data-wsec]',dlg).forEach(s=>{ let n=0; $$('li',s).forEach(li=>{ const ok=(!q||q.split(/\s+/).every(w=>li.dataset.ws.includes(w))); li.hidden=!ok; n+=ok; }); s.hidden=!n||(cat&&s.dataset.wsec!==cat); any+=s.hidden?0:n; }); $('#wNone',dlg).hidden=!!any; };
+  $('#wSearch',dlg).oninput=filt; $$('[data-wcat]',dlg).forEach(b=>b.onclick=()=>{ cat=b.dataset.wcat; $$('[data-wcat]',dlg).forEach(x=>x.classList.toggle('on',x===b)); filt(); });
+  $$('[data-wadd]',dlg).forEach(b=>b.onclick=()=>{ const k=b.dataset.wadd; const h=homeHidden(); h.delete(k); setHome(homeOrder(),h,undefined,`added “${WIDGETS[k].l}”`); dlg.close(); onAdded&&onAdded(k); toast(`Added “${WIDGETS[k].l}”`); });
+  $$('[data-wnew]',dlg).forEach(b=>b.onclick=()=>{ dlg.close(); configureWidget(b.dataset.wnew, null, onAdded); });
+  setTimeout(()=>$('#wSearch',dlg)?.focus(),60); return dlg; }
+function pinOptions(){ let o=PIN_FOR[route]; if(typeof o==='function') o=o(); return (o||[]).map(x=>Array.isArray(x)?x:[x,null]).filter(([t])=>WTYPES[t]); }
+function pinBar(el){ const opts=pinOptions(); if(!opts.length||!el) return; const b=document.createElement('div'); b.className='pinbar';
+  b.innerHTML=`<button class="sm pinbtn" type="button" title="Show this on your Home screen">📌 Add to Home</button>`; el.before(b);
+  $('button',b).onclick=()=>{ if(opts.length===1) return configureWidget(opts[0][0], opts[0][1]);
+    const dlg=showInfo('📌 Add to Home', `<p class="mut" style="margin-top:0">Pick what to show on your Home screen. You can move or remove it later with ✏️ Edit home.</p><ul class="list">${opts.map(([t,c],i)=>{ const T=WTYPES[t]; let l=T.l; try{ if(c&&T.title) l=T.title(c); }catch(e){} return `<li><span style="font-size:24px" aria-hidden="true">${T.i}</span><div class="grow"><b>${esc(l)}</b><div class="mut">${esc(T.d)}</div></div><button class="sm pri" data-pin="${i}">📌 Add</button></li>`; }).join('')}</ul><p class="mut">More widgets: Home → ✏️ Edit home → + Add widget.</p>`);
+    $$('[data-pin]',dlg).forEach(x=>x.onclick=()=>{ dlg.close(); const [t,c]=opts[+x.dataset.pin]; configureWidget(t,c); }); }; }
+function wHTML(k, H){ if(H[k]) return H[k](); const c=homeCustom()[k]; const T=c&&WTYPES[c.t]; if(!T) return ''; try{ return T.html(c.cfg||{}, k); }catch(e){ console.error(e); return wcard('⚠️',T.l,'<div class="mut">This widget couldn’t be shown.</div>'); } }
+function wAfter(el, shown){ const cu=homeCustom(); shown.forEach(k=>{ const c=cu[k], T=c&&WTYPES[c.t]; if(T&&T.after) try{ T.after(c.cfg||{}, k, el); }catch(e){ console.error(e); } }); }
+
+/* =================== Ask Farmhand — AI assistant (Groq via the farm-ai Edge Function, v7) =================== */
+// The Groq key never reaches the browser: the Edge Function holds it server-side and checks the user's sign-in and daily limit.
+const AI_FN = SB_URL + '/functions/v1/farm-ai';
+let AI_BUSY=null; // {id, text} while a reply is streaming
+let AI_LEFT=null, AI_STATE=''; // '' | 'nokey'
+function aiMsgs(){ return S.aiMsgs.slice().sort((a,b)=>(a.at||a.createdAt)<(b.at||b.createdAt)?-1:1); }
+function mdInline(s){ // s is already HTML-escaped
+  return s.replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/__([^_]+)__/g,'<b>$1</b>')
+    .replace(/(^|[^*\w])\*([^*\n]+)\*(?!\*)/g,'$1<i>$2</i>').replace(/(^|[^_\w])_([^_\n]+)_(?!\w)/g,'$1<i>$2</i>')
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,(m,t,u)=>`<a href="${u}" target="_blank" rel="noopener noreferrer">${t}</a>`); }
+function mdHTML(src){ // small, safe Markdown renderer: everything is escaped first, then a few constructs are re-enabled
+  const lines=esc(String(src||'')).replace(/\r/g,'').split('\n'); const out=[]; let i=0;
+  while(i<lines.length){ let l=lines[i];
+    if(/^```/.test(l)){ const buf=[]; i++; while(i<lines.length&&!/^```/.test(lines[i])) buf.push(lines[i++]); i++; out.push(`<pre><code>${buf.join('\n')}</code></pre>`); continue; }
+    if(/^\s*\|.*\|\s*$/.test(l)&&i+1<lines.length&&/^\s*\|?[\s:|-]+\|?\s*$/.test(lines[i+1])&&lines[i+1].includes('-')){ const row=x=>x.trim().replace(/^\||\|$/g,'').split('|').map(c=>mdInline(c.trim()));
+      const h=row(l); i+=2; const rows=[]; while(i<lines.length&&/^\s*\|.*\|\s*$/.test(lines[i])) rows.push(row(lines[i++]));
+      out.push(`<div class="tbl"><table><thead><tr>${h.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`); continue; }
+    let m=l.match(/^(#{1,4})\s+(.*)$/); if(m){ out.push(`<h4>${mdInline(m[2])}</h4>`); i++; continue; }
+    if(/^\s*([-*•]|\d+[.)])\s+/.test(l)){ const ol=/^\s*\d+[.)]/.test(l); const items=[]; while(i<lines.length&&/^\s*([-*•]|\d+[.)])\s+/.test(lines[i])){ let t=lines[i].replace(/^\s*([-*•]|\d+[.)])\s+/,''); i++; while(i<lines.length&&/^\s{2,}\S/.test(lines[i])&&!/^\s*([-*•]|\d+[.)])\s+/.test(lines[i])) t+=' '+lines[i++].trim(); items.push(`<li>${mdInline(t)}</li>`); }
+      out.push(ol?`<ol>${items.join('')}</ol>`:`<ul>${items.join('')}</ul>`); continue; }
+    if(/^\s*(-{3,}|\*{3,})\s*$/.test(l)){ out.push('<hr>'); i++; continue; }
+    if(/^&gt;\s?/.test(l)){ const b=[]; while(i<lines.length&&/^&gt;\s?/.test(lines[i])) b.push(lines[i++].replace(/^&gt;\s?/,'')); out.push(`<blockquote>${mdInline(b.join(' '))}</blockquote>`); continue; }
+    if(!l.trim()){ i++; continue; }
+    const p=[]; while(i<lines.length&&lines[i].trim()&&!/^(```|#{1,4}\s|\s*([-*•]|\d+[.)])\s+|&gt;)/.test(lines[i])&&!/^\s*\|.*\|\s*$/.test(lines[i])) p.push(lines[i++]); if(!p.length){ p.push(lines[i++]); } out.push(`<p>${mdInline(p.join('<br>'))}</p>`); }
+  return out.join(''); }
+function aiContext(){ // compact summary of the user's own records, sent with each question (kept well inside the model's limits)
+  const s=S.settings, td=today(), L=[]; const cap=(a,n)=>a.slice(0,n);
+  L.push(`Farm: ${s.farmName||'(no name)'} | Farm types: ${farmTypes().map(t=>FARM_TYPES[t]?.l||t).join(', ')||'not set'} | Approach: ${APPROACHES[approach()].l} — ${APPROACHES[approach()].d}`);
+  if(farmLocSet()) L.push(`Location: ${s.locName||'Ireland'} (approx ${num(s.lat,2)}, ${num(s.lon,2)})`);
+  const wx=wxForHere(getWeatherCache()); if(wx){ try{ const d=wxBlend(wx).slice(0,7); if(d.length) L.push('Forecast: '+d.map(x=>`${dayName(x.date)} ${num(x.tmin)}–${num(x.tmax)}°C rain ${num(x.rain,1)}mm wind ${num(kmh(x.wind))}km/h`).join('; ')); const w=warnList(wx); if(w.length) L.push('Weather warnings in force: '+w.map(x=>`${x.level||''} ${x.type||''} ${x.headline||''}`.trim()).join('; ')); }catch(e){} }
+  const gr=currentGrowthRate(); L.push(`Grass growth rate used: ${num(gr.rate)} kg DM/ha/day (${gr.basis})`);
+  if(S.paddocks.length){ const gb=grassBudget(); L.push(`Fields (${S.paddocks.length}, ${num(sum(S.paddocks.map(padHa)),1)} ha total; avg farm cover ${gb.afc!=null?num(gb.afc):'unknown'} kg DM/ha; days ahead ${gb.daysAhead!=null?num(gb.daysAhead,1):'unknown'}):`);
+    cap(S.paddocks,40).forEach(p=>{ const ci=coverInfo(p), yr=td.slice(0,4); const n=sum(S.fertiliser.filter(f=>f.paddockId===p.id&&(f.date||'').startsWith(yr)).map(f=>f.nKgHa));
+      L.push(`- ${p.name}: ${num(padHa(p),2)} ha, ${PAD_STATUS[p.status]?.l||p.status||''}${p.soilType?', soil '+SOILTXT[p.soilType]:''}${p.ph?', pH '+p.ph:''}${p.pIndex?', P idx '+p.pIndex:''}${p.kIndex?', K idx '+p.kIndex:''}${ci.est!=null?`, cover ~${num(ci.est)} kg DM/ha`:''}${currentGrazing(p.id)?', being grazed now':''}${n?`, N applied ${yr} ${num(n)} kg/ha`:''}`); }); }
+  const al=S.cows.filter(aliveA); if(al.length||S.groups.length){ const by={}; al.forEach(c=>{ const k=spOf(c)+' '+(c.status||''); by[k]=(by[k]||0)+1; });
+    L.push('Animals: '+Object.entries(by).map(([k,n])=>`${n} ${k}`).join(', ')+(S.groups.filter(g=>!g.closed).length?' | Batches/pens: '+S.groups.filter(g=>!g.closed).slice(0,15).map(g=>`${g.name||g.species} (${g.species}, ${groupHead(g)||0} head)`).join(', '):''));
+    const br={}; al.forEach(c=>{ if(c.breed) br[c.breed]=(br[c.breed]||0)+1; }); if(Object.keys(br).length) L.push('Breeds: '+Object.entries(br).slice(0,10).map(([k,n])=>`${k} ${n}`).join(', ')); }
+  const wd=inWithdrawal(); if(wd.length) L.push('In withdrawal: '+cap(wd,10).map(w=>`${w.t.cowId?cowName(w.t.cowId):w.t.groupDesc||'group'} (${w.t.product}) milk to ${w.milkEnd||'-'} meat to ${w.meatEnd||'-'}`).join('; '));
+  const due=dueList().filter(d=>d.days<=90); if(due.length) L.push('Due to calve/give birth (next 90 days): '+cap(due,12).map(d=>`${cowLabel(d.cow)} ${d.due}`).join(', '));
+  const mt=milkDailyTotals().filter(d=>daysBetween(d.date,td)<=14); if(mt.length) L.push('Milk last 14 days (L/day): '+mt.map(d=>`${d.date.slice(5)} ${num(d.litres)}`).join(', ')+` | ${S.cows.filter(c=>c.status==='milking').length} cows milking`);
+  if(hasType('sheep')) L.push('Sheep: '+sheepKpis().map(([b,l])=>`${l} ${b}`).join(', ')); if(hasType('pigs')) L.push('Pigs: '+pigKpis().map(([b,l])=>`${l} ${b}`).join(', ')); if(hasType('poultry')) L.push('Poultry: '+poultryKpis().map(([b,l])=>`${l} ${b}`).join(', '));
+  const pl=S.plantings.filter(p=>p.status!=='finished'); if(pl.length){ L.push(`Crop plantings (${pl.length} active):`); cap(pl.sort(byDate('sown')),25).forEach(p=>{ const o=lastOpFor(p.id); L.push(`- ${p.cropName||'crop'}${p.variety?' ('+p.variety+')':''} in ${padName(p.paddockId)||'no field'}, ${p.status||'growing'}, sown ${p.sown||'-'}${p.area?', '+num(p.area,2)+' ha':''}${o?`, last op ${o.kind} ${o.date}${o.product?' '+o.product:''}`:''}`); }); }
+  const op=S.tasks.filter(t=>!t.done).sort(byDate('due',1)); if(op.length) L.push(`Open tasks (${op.length}): `+cap(op,20).map(t=>`${t.title}${t.due?` (due ${t.due}${t.due<td?', OVERDUE':''})`:''}`).join('; '));
+  let out=L.join('\n'); if(out.length>7000) out=out.slice(0,7000)+'\n…(more records not shown)'; return out; }
+function aiSuggestions(){ const q=[]; const m=new Date().toLocaleDateString('en-IE',{month:'long'});
+  if(hasType('tillage')) q.push('When should I sow winter wheat here, and what seed rate?');
+  if(hasType('horticulture')) q.push(`What vegetables can I sow or plant out in ${m}?`);
+  if(hasType('fruit')) q.push('When and how should I prune my fruit trees?');
+  if(hasType('dairy','beef','sheep')) q.push('How is my grass looking for the next week?');
+  if(hasType('dairy')) q.push('How is my milk yield trending?');
+  if(hasType('sheep')) q.push('What should I be doing with the flock this month?');
+  q.push('What should I prioritise on the farm this week?','Is the weather suitable for spreading fertiliser in the next few days?','Which of my fields needs lime or a soil test?');
+  return [...new Set(q)].slice(0,6); }
+function aiMsgHTML(m){ return `<div class="aimsg ${m.role==='user'?'me':'bot'}"><div class="aib">${m.role==='user'?esc(m.content).replace(/\n/g,'<br>'):mdHTML(m.content)}</div></div>`; }
+function aiLogHTML(){ const ms=aiMsgs(); const bz=AI_BUSY; return ms.map(m=>bz&&m.id===bz.id?'':aiMsgHTML(m)).join('')+(bz?`<div class="aimsg bot" id="aiLive"><div class="aib">${bz.text?mdHTML(bz.text):'<span class="aityping" aria-label="Farmhand is typing"><i></i><i></i><i></i></span>'}</div></div>`:''); }
+VIEWS.ask = el => {
+  const ms=aiMsgs(); const off=!navigator.onLine;
+  el.innerHTML=`<div class="card aichat"><div class="row" style="margin-bottom:2px"><h2 style="margin:0">💬 Ask Farmhand</h2><span class="sp"></span>${ms.length?'<button class="sm" id="aiClear">🗑 Clear history</button>':''}</div>
+    <div class="mut">Ask about planting, grass, animals, weather or anything on your farm. Answers use your Farmhand records and follow your <b>${esc(APPROACHES[approach()].l.toLowerCase())}</b> approach. For important decisions check with your Teagasc adviser or vet.</div>
+    ${off?'<div class="banner warn" id="aiOff" style="margin-top:10px">📴 You’re offline. The assistant needs an internet connection — your chat history is still here, and you can ask again once you’re back online.</div>':''}
+    ${AI_STATE==='nokey'?'<div class="banner info" style="margin-top:10px">🛠️ <b>Assistant not set up yet.</b> The AI service key still needs to be added. Everything else in Farmhand works as normal.</div>':''}
+    <div class="ailog" id="aiLog" aria-live="polite">${ms.length||AI_BUSY?aiLogHTML():`<div class="aiempty"><div style="font-size:40px;line-height:1">🌾💬</div><b>Hi! I’m Farmhand.</b><div class="mut">Try one of these, or type your own question.</div></div>`}</div>
+    ${(()=>{ const sg=`<div class="aisug" id="aiSug">${aiSuggestions().map(q=>`<button type="button" class="sm" data-aiq="${esc(q)}">${esc(q)}</button>`).join('')}</div>`; return ms.length?`<details class="aisugd"><summary>💡 Suggested questions</summary>${sg}</details>`:sg; })()}
+    <form class="aiform" id="aiForm"><textarea id="aiQ" rows="1" maxlength="2000" placeholder="Ask Farmhand…" aria-label="Your question"></textarea><button class="pri" id="aiSend" type="submit" ${AI_BUSY?'disabled':''} aria-label="Send">➤</button></form>
+    <div class="hint" id="aiInfo">${AI_LEFT!=null?`${AI_LEFT} of 50 questions left today · `:''}Your questions and a summary of your records are sent to Farmhand’s AI service (Groq) to answer. Chat history is saved to your account.</div></div>`;
+  const log=$('#aiLog',el); const q=$('#aiQ',el); const scroll=()=>{ log.scrollTop=log.scrollHeight; };
+  setTimeout(scroll); q.addEventListener('input',()=>{ q.style.height='auto'; q.style.height=Math.min(160,q.scrollHeight)+'px'; });
+  q.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing&&matchMedia('(pointer:fine)').matches){ e.preventDefault(); $('#aiForm').requestSubmit(); } });
+  $('#aiForm',el).onsubmit=e=>{ e.preventDefault(); const t=q.value.trim(); if(!t) return q.focus(); q.value=''; aiAsk(t); };
+  $$('[data-aiq]',el).forEach(b=>b.onclick=()=>aiAsk(b.dataset.aiq));
+  const cl=$('#aiClear',el); if(cl) cl.onclick=()=>{ if(!confirm('Clear your whole chat history with Farmhand? This can’t be undone.')) return; S.aiMsgs.slice().forEach(m=>del('aiMsgs',m.id)); AI_BUSY=null; render(); toast('Chat history cleared'); };
+  const pend=sessionStorage.getItem('fh.askq'); if(pend){ sessionStorage.removeItem('fh.askq'); setTimeout(()=>aiAsk(pend),30); }
+};
+function aiPaint(){ if(route!=='ask') return; const log=$('#aiLog'); if(!log) return; const near=log.scrollHeight-log.scrollTop-log.clientHeight<120; const live=$('#aiLive');
+  if(live&&AI_BUSY){ $('.aib',live).innerHTML=AI_BUSY.text?mdHTML(AI_BUSY.text):'<span class="aityping"><i></i><i></i><i></i></span>'; } else log.innerHTML=aiLogHTML();
+  if(near) log.scrollTop=log.scrollHeight; const sb2=$('#aiSend'); if(sb2) sb2.disabled=!!AI_BUSY; }
+async function aiAsk(text){ if(AI_BUSY) return toast('Farmhand is still answering…'); text=String(text).trim().slice(0,2000); if(!text) return;
+  if(!navigator.onLine){ if(route==='ask') render(); return toast('📴 You’re offline — the assistant needs an internet connection.'); }
+  const hist=aiMsgs().slice(-11).map(m=>({role:m.role, content:m.content}));
+  add('aiMsgs',{role:'user', content:text, at:nowISO()}); const bot={id:uid(), text:''}; AI_BUSY=bot; if(route!=='ask') go('ask'); else render();
+  let final='', ok=false;
+  try{ const {data:{session}}=await sb.auth.getSession(); if(!session) throw Object.assign(new Error('Please sign in again.'),{friendly:1});
+    const r=await fetch(AI_FN,{method:'POST', headers:{Authorization:'Bearer '+session.access_token, apikey:SB_KEY, 'Content-Type':'application/json'}, body:JSON.stringify({messages:[...hist,{role:'user',content:text}], context:aiContext()})});
+    const left=r.headers.get('x-farmhand-left'); if(left!=null) AI_LEFT=Number(left);
+    if(!r.ok){ let j={}; try{ j=await r.json(); }catch(e){} if(j.error==='not_configured') AI_STATE='nokey'; if(j.error==='limit') AI_LEFT=0;
+      throw Object.assign(new Error(j.error==='not_configured'?'🛠️ **Assistant not set up yet.** The AI service key still needs to be added.':(j.message||`The assistant couldn’t answer (error ${r.status}). Please try again.`)),{friendly:1}); }
+    AI_STATE=''; const rd=r.body.getReader(), dec=new TextDecoder(); let raf=null;
+    for(;;){ const {done,value}=await rd.read(); if(done) break; bot.text+=dec.decode(value,{stream:true}); if(!raf) raf=requestAnimationFrame(()=>{ raf=null; aiPaint(); }); }
+    bot.text+=dec.decode(); final=bot.text.trim()||'_(No answer came back — please try again.)_'; ok=true;
+  }catch(e){ final=e.friendly?e.message:(navigator.onLine?'⚠️ Couldn’t reach the assistant just now. Please try again in a moment.':'📴 You went offline, so the answer couldn’t arrive. Try again when you’re back online.'); if(!e.friendly) console.warn('ai',e); }
+  add('aiMsgs',{id:bot.id, role:'assistant', content:final, at:nowISO(), ok}, true); AI_BUSY=null; save();
+  const all=aiMsgs(); if(all.length>200) all.slice(0,all.length-200).forEach(m=>del('aiMsgs',m.id));
+  if(route==='ask') render(); else toast('💬 Farmhand answered — open Ask Farmhand to read it'); }
+function aiFab(){ let f=$('#aiFab'); if(!f){ f=document.createElement('a'); f.id='aiFab'; f.className='aifab'; f.href='#ask'; f.setAttribute('aria-label','Ask Farmhand (AI assistant)'); f.title='Ask Farmhand'; f.innerHTML='<span aria-hidden="true">💬</span><b>Ask</b>'; document.body.appendChild(f); }
+  const onHomeWidget=route==='dash'&&!!$('.wdg[data-w="c_ask"]'); f.hidden=!UID||route==='ask'||route==='settings'||HOME_EDIT||onHomeWidget; }
 
 /* ---------- Map ---------- */
 /* old 'sketch' map (paddocks drawn in map units on a plain grid or uploaded image). Kept so paddocks drawn before v3 still show and can be edited. */
@@ -1437,7 +1747,7 @@ function showPadDetail(){
   const box=$('#padDetail'); if(!box) return; const p=MAP.sel&&get('paddocks',MAP.sel); if(!p){ box.innerHTML=''; return; }
   const ci=coverInfo(p); const gs=grazingsFor(p.id); const cur=currentGrazing(p.id); const ds=daysSinceGrazed(p.id); const yr=today().slice(0,4);
   const fert=S.fertiliser.filter(f=>f.paddockId===p.id&&(f.date||'').startsWith(yr)); const mg=measuredGrowth(p.id);
-  box.innerHTML=`<div class="card" style="margin-top:12px;border-color:var(--g)"><div class="row"><h2 style="margin:0">${esc(p.name)}</h2><span class="pill" style="background:${PAD_STATUS[p.status]?.c}33">${esc(PAD_STATUS[p.status]?.l||p.status)}</span><span class="sp"></span><button class="sm" id="pdClose">✕</button></div>
+  box.innerHTML=`<div class="card" style="margin-top:12px;border-color:var(--g)"><div class="row"><h2 style="margin:0">${esc(p.name)}</h2><span class="pill" style="background:${PAD_STATUS[p.status]?.c}33">${esc(PAD_STATUS[p.status]?.l||p.status)}</span><span class="sp"></span><button class="sm" id="pdPin" title="Show this field on your Home screen">📌 Add to Home</button><button class="sm" id="pdClose">✕</button></div>
     <div class="kpis"><div class="kpi"><b>${num(padHa(p),2)}</b><span>ha ${p.areaManual>0?'(entered)':hasGeo(p)?'(satellite)':hasSketch(p)?'(sketch map)':''} · ${num(haToAc(padHa(p)),2)} ac</span></div>
       <div class="kpi"><b>${ci.est!=null?num(ci.est):'–'}</b><span>kg DM/ha est. cover${ci.est!=null?` (${esc(ci.basis)} ${fmtD(ci.baseDate)} + growth)`:''}</span></div>
       <div class="kpi"><b>${ds==null?'–':ds}</b><span>days since grazed${cur?' (grazing now)':''}</span></div>
@@ -1450,6 +1760,7 @@ function showPadDetail(){
     <h3>Grazing history</h3>${table(gs,[{l:'In',f:g=>fmtD(g.dateIn)},{l:'Out',f:g=>g.dateOut?fmtD(g.dateOut):'grazing'},{l:'Days',f:g=>daysBetween(g.dateIn,g.dateOut||today())},{l:'Animals',f:g=>g.animals||''},{l:'Group',k:'group'},{l:'Pre/Post cover',f:g=>`${g.preCover??'–'} / ${g.postCover??'–'}`}],{onRow:g=>grazingForm(p,g),empty:'Not grazed yet.'})}
     <h3>Cover walks</h3>${table(walksFor(p.id),[{l:'Date',f:w=>fmtD(w.date)},{l:'kg DM/ha',f:w=>num(w.cover)},{l:'Height cm',f:w=>w.heightCm??''},{l:'Source',k:'source'}],{onRow:w=>walkForm(p,w),empty:'No walks recorded.'})}</div>`;
   $('#pdClose').onclick=()=>{MAP.sel=null; drawMap(); showPadDetail();};
+  $('#pdPin').onclick=()=>configureWidget('paddock',{paddockId:p.id});
   const b=(id,fn)=>{ const x=$('#'+id); if(x) x.onclick=fn; };
   b('pdIn',()=>grazingForm(p,null)); b('pdOut',()=>grazingForm(p,cur,true)); b('pdWalk',()=>walkForm(p,null)); b('pdEdit',()=>paddockForm(p)); b('pdTask',()=>taskForm(null,{paddockId:p.id})); b('pdPhoto',()=>photoForm({paddockId:p.id})); b('pdSuit',()=>suitDialog(p.id)); b('pdPlant',()=>plantingForm(null,{paddockId:p.id})); const pl=$('#pdPl'); if(pl) bindPlantingTable(pl);
   b('pdRedraw',()=>{ MAP.mode='draw'; MAP.pts=[]; MAP.redrawId=p.id; render(); toast('Tap new corner points, then Finish'); });
