@@ -303,6 +303,7 @@ html[data-theme=day] .cthumb.fb{background:radial-gradient(circle at 30% 25%,#ff
 .idq{margin:12px 0}.idq>b{display:block;margin-bottom:6px}.idq .chip{min-height:40px;font-size:14px}
 details.seed summary{cursor:pointer;font-weight:800;padding:6px 0}ol.steps{padding-left:20px;margin:6px 0}ol.steps li{margin-bottom:8px;line-height:1.45}
 @media(max-width:520px){.vhead{flex-direction:column}.vfig{max-width:none}}
+.pill.ovr{cursor:pointer;border:1px solid var(--gold);font:inherit;font-size:11.5px;font-weight:800;padding:2px 8px;min-height:0}
 .chero{display:flex;gap:16px;align-items:flex-start}
 .chero figure{margin:0;flex:0 0 auto;max-width:170px}
 .chero h2{margin:0 0 2px}.chero p{margin:8px 0}
@@ -468,7 +469,7 @@ body.wdragging{user-select:none;-webkit-user-select:none}
    source ('manual' now; 'sensor' reserved for future feeds),
    and optional demo:true for demo records.
    ========================================================= */
-const APP_VERSION = 8;
+const APP_VERSION = 9;
 const SB_URL = 'https://uetglzwzyhvaoszainmx.supabase.co';
 const SB_KEY = 'sb_publishable__gDnjBirb1AbnZwMAXMTxg_alW8T4_h'; // publishable key: safe in the browser, data protected by row-level security
 const APP_URL = location.origin + location.pathname.replace(/index\.html$/,'');
@@ -606,12 +607,15 @@ async function pull(){
       if(id==='__settings'){ fresh.settings=S.settings; continue; } if(e.op==='rmfile') continue;
       const l=local.get(id); const cols=l?[l[0]]:COLLECTIONS; cols.forEach(c=>fresh[c]=fresh[c].filter(r=>r.id!==id));
       if(e.op==='up' && l) fresh[l[0]].push(l[1]); }
-    S=normalize(fresh); if(!Q.__settings) lastSettingsJSON=JSON.stringify(S.settings); migrateAskLast();
+    S=normalize(fresh); if(!Q.__settings) lastSettingsJSON=JSON.stringify(S.settings); migrateAskLast(); migrateTabsV9();
     saveLocal(); lastSyncAt=Date.now(); lastSyncErr=''; return true;
   }catch(e){ console.warn('Pull failed', e); lastSyncErr=e.message||String(e); return false; }
   finally{ pulling=false; setSync(); }
 }
 // v8 (once per account, after the server copy is loaded): move Ask Farmhand to the far right. Later reordering by the user is respected.
+function migrateTabsV9(){ const s=S.settings; if(s.tabsV9) return; const tp=s.tabPrefs;
+  if(tp&&typeof tp==='object'){ const v={}; Object.entries(tp.vis||{}).forEach(([k,x])=>{ if(ALL_TABS[k]&&k!=='dash'&&typeof x==='boolean') v[k]=x; }); tp.vis=v; if(!Array.isArray(tp.order)) tp.order=[]; }
+  s.tabsV9=1; enqueue('__settings','up'); saveLocal(); scheduleFlush(); } // defaults are now worked out from farm types + records; explicit choices in tabPrefs.vis are kept
 function migrateAskLast(){ const s=S.settings; if(s.askLastV8) return; const tp=s.tabPrefs; if(tp&&Array.isArray(tp.order)&&tp.order.includes('ask')) tp.order=tp.order.filter(k=>k!=='ask').concat('ask');
   s.askLastV8=1; enqueue('__settings','up'); saveLocal(); scheduleFlush(); }
 function syncDetail(){ const n=Object.keys(Q).length; if(!navigator.onLine) return `offline${n?` · ${n} change${n>1?'s':''} waiting`:''}`; if(flushing||pulling) return 'syncing…'; if(lastSyncErr) return 'sync problem — will retry'; if(n) return `${n} change${n>1?'s':''} pending`; return lastSyncAt?'up to date':''; }
@@ -1037,9 +1041,28 @@ const farmTypes = () => { const t=S.settings.farmTypes; return Array.isArray(t)&
 const hasType = (...k) => k.some(x=>farmTypes().includes(x));
 const approach = () => APPROACHES[S.settings.approach] ? S.settings.approach : 'conventional';
 function tabLabel(k){ const [i,l]=ALL_TABS[k]; if(k==='cows' && !hasType('dairy')) return [i,'Cattle']; return [i,l]; }
-function defaultTabOn(k){ return SHARED_TABS.includes(k) || farmTypes().some(t=>(TYPE_TABS[t]||[]).includes(k)); }
+/* v9: default tab visibility follows the farm types (same rules as the Home widgets) plus the records the farm actually has.
+   Tabs the user switched on/off themselves are kept as explicit overrides in settings.tabPrefs.vis. */
+let TAB_IDX_REQ=false;
+function plantingTabGroups(){ if(!S.plantings.length) return new Set(); if(!CROPIDX){ if(!TAB_IDX_REQ){ TAB_IDX_REQ=true; loadCropIndex().then(()=>renderNav()).catch(()=>{}); } return new Set(); }
+  return new Set(S.plantings.map(p=>cropIdx(p.cropId)?.g).filter(Boolean)); }
+const plantTab=t=>{ const g=plantingTabGroups(); return (TAB_GROUPS[t]||[]).some(x=>g.has(x)); };
+const TAB_RULES={
+  cows:()=>hasType('dairy','beef')||hasSp('cattle'),
+  milk:()=>hasType('dairy')||S.milk.length>0, dairyq:()=>hasType('dairy')||S.milk.length>0,
+  breeding:()=>hasType('dairy','beef')||S.breeding.length>0, beef:()=>hasType('beef'),
+  sheep:()=>hasType('sheep')||hasSp('sheep'), pigs:()=>hasType('pigs')||hasSp('pigs'), poultry:()=>hasType('poultry')||hasSp('poultry'),
+  goats:()=>hasType('goats')||hasSp('goats'), horses:()=>hasType('horses')||hasSp('horses'),
+  grass:()=>hasType('dairy','beef','sheep','horses','goats')||S.grassWalks.length>0,
+  crops:()=>hasType('tillage')||plantTab('crops'), veg:()=>hasType('horticulture')||plantTab('veg'), orchard:()=>hasType('fruit')||plantTab('orchard'),
+  forestry:()=>hasType('forestry')||plantTab('forestry'), croplib:()=>hasType('tillage','horticulture','fruit','forestry','other')||S.plantings.length>0};
+function defaultTabOn(k){ if(SHARED_TABS.includes(k)) return true; const f=TAB_RULES[k]; try{ return f?!!f():false; }catch(e){ return farmTypes().some(t=>(TYPE_TABS[t]||[]).includes(k)); } }
+const tabOverride=k=>{ const v=S.settings.tabPrefs&&S.settings.tabPrefs.vis; return v&&typeof v[k]==='boolean'?v[k]:null; };
 function tabOrder(){ const canon=Object.keys(ALL_TABS); const o=(S.settings.tabPrefs&&Array.isArray(S.settings.tabPrefs.order))?S.settings.tabPrefs.order.filter(k=>ALL_TABS[k]):[];
-  return [...o, ...canon.filter(k=>!o.includes(k))]; }
+  const r=[...o, ...canon.filter(k=>!o.includes(k))];
+  // Ask stays last when it is last in the saved order (or no order saved), even if new tabs were added after it
+  if(!o.length||o[o.length-1]==='ask'){ const i=r.indexOf('ask'); if(i>-1){ r.splice(i,1); r.push('ask'); } }
+  return r; }
 function tabOn(k){ if(k==='dash') return true; const v=S.settings.tabPrefs&&S.settings.tabPrefs.vis; return (v && typeof v[k]==='boolean') ? v[k] : defaultTabOn(k); }
 const visibleTabs = () => tabOrder().filter(tabOn);
 const ROUTE_PARENT = {cow:'cows', crop:'croplib', planting:'croplib'};
@@ -1423,9 +1446,9 @@ function farmSetupHTML(){ const ft=farmTypes(), a=approach(); const tabs=tabOrde
    ${hasType('pigs')?`<label class="f" style="margin:12px 0 0"><span>Pig herd number</span><input id="sPigHerd" value="${esc(S.settings.pigHerdNo||'')}" placeholder="DAFM pig herd number"></label>`:''}</div>
   <div class="card" id="approachCard"><h2>🌿 Farming approach</h2><div class="appr">${Object.entries(APPROACHES).map(([k,v])=>`<label class="achoice ${a===k?'on':''}"><input type="radio" name="appr" value="${k}" ${a===k?'checked':''}><b>${v.i} ${esc(v.l)}</b><span>${esc(v.d)}</span></label>`).join('')}</div>
    <p class="hint">Changes the crop and animal-health advice, and how fertiliser, spray and medicine records are checked. Guide only: your certification body (IOA / Organic Trust) and adviser have the final say.</p></div>
-  <div class="card" id="tabsCard"><h2>🗂️ Tabs</h2><p class="mut" style="margin-top:0">Show or hide tabs and change their order: drag ☰ or use the arrows. Settings is always the ⚙️ button at the top right.</p>
+  <div class="card" id="tabsCard"><h2>🗂️ Tabs</h2><p class="mut" style="margin-top:0">Tabs switch on automatically for your farm types and for records you already have (for example, a Sheep tab appears once you add sheep). You can still show or hide any tab yourself: that choice is kept (marked ✋) even if you change farm types. Drag ☰ or use the arrows to reorder. Settings is always the ⚙️ button at the top right.</p>
    <ul class="tablist" id="tabList">${tabs.map((k,i)=>{ const [ic,l]=tabLabel(k); const on=tabOn(k); const def=defaultTabOn(k);
-     return `<li draggable="true" data-tab="${k}" class="${on?'':'off'}"><span class="drag" aria-hidden="true">☰</span><span class="tl">${ic} ${esc(l)}${def?'':' <span class="pill">extra</span>'}</span>
+     return `<li draggable="true" data-tab="${k}" class="${on?'':'off'}"><span class="drag" aria-hidden="true">☰</span><span class="tl">${ic} ${esc(l)}${tabOverride(k)!==null&&k!=='dash'?` <button type="button" class="pill ovr" data-unvis="${k}" title="You chose to ${on?'show':'hide'} this tab. Tap to go back to automatic (${def?'shown':'hidden'} for your farm).">✋ your choice ✕</button>`:(def?'':' <span class="pill">not used</span>')}</span>
        <button class="sm ar" data-up="${k}" aria-label="Move ${esc(l)} up" ${i===0?'disabled':''}>▲</button><button class="sm ar" data-down="${k}" aria-label="Move ${esc(l)} down" ${i===tabs.length-1?'disabled':''}>▼</button>
        <label class="sw"><input type="checkbox" data-vis="${k}" ${on?'checked':''} ${k==='dash'?'disabled':''} aria-label="Show ${esc(l)} tab${k==='dash'?' (always shown)':''}"><i></i></label></li>`; }).join('')}</ul>
    <div class="row" style="margin-top:10px"><button id="tabReset">↺ Reset to defaults for my farm types</button></div></div>`; }
@@ -1438,7 +1461,8 @@ function bindFarmSetup(el){ const s=S.settings;
   const move=(k,d)=>{ const o=tabOrder(); const i=o.indexOf(k), j=i+d; if(j<0||j>=o.length) return; [o[i],o[j]]=[o[j],o[i]]; prefs().order=o; save(); keepScroll(render); setTimeout(()=>$(`[data-tab="${k}"] [data-${d<0?'up':'down'}]`)?.focus()); };
   $$('[data-up]',el).forEach(b=>b.onclick=()=>move(b.dataset.up,-1)); $$('[data-down]',el).forEach(b=>b.onclick=()=>move(b.dataset.down,1));
   $$('[data-vis]',el).forEach(cb=>cb.onchange=()=>{ prefs().vis[cb.dataset.vis]=cb.checked; save(); renderNav(); cb.closest('li').classList.toggle('off',!cb.checked); });
-  $('#tabReset',el).onclick=()=>{ s.tabPrefs=null; save(); keepScroll(render); toast('Tabs reset to defaults'); };
+  $$('[data-unvis]',el).forEach(b=>b.onclick=e=>{ e.preventDefault(); e.stopPropagation(); const v=prefs().vis; delete v[b.dataset.unvis]; save(); keepScroll(render); toast('Back to automatic'); });
+  $('#tabReset',el).onclick=()=>{ s.tabPrefs=null; save(); keepScroll(render); toast('Tabs reset to the defaults for your farm'); };
   let dragK=null; const ul=$('#tabList',el);
   $$('li[data-tab]',ul).forEach(li=>{ li.ondragstart=e=>{ dragK=li.dataset.tab; li.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; try{ e.dataTransfer.setData('text/plain',dragK); }catch(_){} };
     li.ondragend=()=>li.classList.remove('dragging'); li.ondragover=e=>{ e.preventDefault(); li.classList.add('over'); }; li.ondragleave=()=>li.classList.remove('over');
