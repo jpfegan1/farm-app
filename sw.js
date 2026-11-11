@@ -1,7 +1,7 @@
 // Farmhand service worker: lets the app open with no signal (cold start).
 // Caches the app's own files only. Supabase API calls, uploaded photos, weather, Eircode lookups and map tiles always go to the network
 // (offline, paddock outlines still show on a plain background).
-const CACHE = 'farmapp-shell-v14';
+const CACHE = 'farmapp-shell-v15';
 const DATA = 'farmhand-crops-v1';      // crop library JSON (network first, so updates arrive)
 const IMG = 'farmhand-cropimg-v1';     // crop thumbnails (~10 KB each, cache first, capped)
 const IMG_MAX = 450;
