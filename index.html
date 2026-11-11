@@ -446,6 +446,55 @@ body.wdragging{user-select:none;-webkit-user-select:none}
  html,body{background:#fff!important}
  body::before{display:none}
 }
+
+/* v10: fields, planting zones, field pages */
+.fchips{gap:8px;margin:0 0 12px;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity}
+.fchip{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border-radius:999px;border:1px solid var(--bd);background:var(--card-solid);color:var(--tx);font-weight:800;white-space:nowrap;text-decoration:none;min-height:42px;flex:0 0 auto;scroll-snap-align:center;box-shadow:var(--shadow-s)}
+.fchip:hover{background:var(--hover)}
+.fchip.on{background:var(--nav-on-bg);border-color:var(--gold);color:var(--goldl)}
+.fchip i,.flegend i,.fsw{width:13px;height:13px;border-radius:4px;display:inline-block;border:1.5px solid rgba(255,255,255,.75);box-shadow:0 0 0 1px rgba(0,0,0,.35);flex:0 0 auto}
+.fsw{width:16px;height:16px;margin-right:8px;vertical-align:-1px}
+.flegend{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.flegend button{display:inline-flex;align-items:center;gap:8px}
+.flegend button.hov{outline:2px solid var(--gold)}
+.flegend button .mut{font-weight:700}
+.fitctl a{font-size:22px;font-weight:900;text-decoration:none}
+.zlbl{display:flex;align-items:center;gap:5px;background:rgba(10,14,12,.78);color:#fff;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:2px 9px 2px 2px;font:800 12px Nunito,system-ui,sans-serif;white-space:nowrap;transform:translate(-50%,-50%);box-shadow:0 2px 6px rgba(0,0,0,.4);width:max-content;pointer-events:none}
+.zlbl img,.zlbl .ze{width:22px;height:22px;border-radius:50%;object-fit:cover;display:inline-flex;align-items:center;justify-content:center;background:#fff2;font-size:14px}
+.zlbl b{max-width:150px;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:600px){.fnav{display:none}.zlbl.big{font-size:12.5px!important}.zlbl.big img,.zlbl.big .ze{width:24px!important;height:24px!important}}
+.zlbl.big{font-size:13.5px;padding:3px 11px 3px 3px}.zlbl.big img,.zlbl.big .ze{width:28px;height:28px}
+.zdot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;border:1px solid #fff8}
+.zh{background:#fff;border:4px solid #ff3b30;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.55);box-sizing:border-box;cursor:grab}
+.zh.first{border-color:#ff9500;background:#ffe0b2}.zh.on{background:#ffeb3b;border-color:#111;transform:scale(1.18)}
+.zpart{display:flex!important;align-items:center;justify-content:center;background:rgba(0,0,0,.6);color:#fff;border:2px solid #fff;border-radius:50%;font:900 16px Nunito,system-ui,sans-serif}
+.zpart.on{background:#ffeb3b;color:#111}
+.planwrap{position:relative;border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;background:var(--map-bg);box-shadow:var(--shadow)}
+#pmap{width:100%;height:58vh;min-height:330px;max-height:720px;z-index:0;background:var(--map-bg)}
+.planwrap .maphelp{z-index:500;left:54px;right:8px}
+.plantools{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}
+.plantools button{min-height:54px;font-size:15px;font-weight:800;padding:6px 4px}
+.plantools button.on{background:var(--nav-on-bg);border-color:var(--gold);color:var(--goldl)}
+@media(max-width:600px){.plantools{grid-template-columns:repeat(3,1fr)}.plantools button{font-size:14px;min-height:50px}#pmap{height:52vh}}
+.planact{position:sticky;bottom:0;z-index:5;background:var(--bg);padding:8px 0;margin:8px 0}
+.planact button{flex:1;min-height:52px;font-size:16px}
+#pOpts .row{margin:8px 0}
+.zsheet .zarea{background:var(--pri-bg);color:var(--pri-tx);border-radius:12px;padding:8px 12px;font-size:15px;margin-bottom:8px}
+.cpgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;max-height:270px;overflow:auto;padding:2px}
+.cpgrid button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 4px;font-size:12.5px;font-weight:700;line-height:1.15;min-height:0;text-align:center}
+.cpgrid button.on{outline:3px solid var(--gold);background:var(--nav-on-bg);color:var(--goldl)}
+.cpgrid .cthumb.xs{width:48px;height:48px}
+.undobar{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);z-index:3000;background:var(--card-solid);color:var(--tx);border:1px solid var(--gold);border-radius:999px;padding:7px 8px 7px 18px;display:flex;gap:12px;align-items:center;box-shadow:var(--shadow);font-weight:800;max-width:94vw}
+.fmini{height:260px;border-radius:12px;overflow:hidden;border:1px solid var(--bd);cursor:pointer;background:var(--map-bg)}
+@media(min-width:900px){.fmini{height:360px}}
+.qact{margin:10px 0 0}.qact button{flex:1 1 auto}
+.fgrid2{display:grid;grid-template-columns:1fr;gap:0 14px}
+@media(min-width:1000px){.fgrid2{grid-template-columns:1fr 1fr}}
+.fgrid2>.card{min-width:0}
+.opgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:8px 0}
+.opgrid button{min-height:52px;font-weight:800;text-align:left;display:flex;align-items:center;gap:6px}
+.oplist .opi{font-size:22px;width:32px;text-align:center}
+.plrow{cursor:pointer}
 </style>
 </head>
 <body>
@@ -461,6 +510,7 @@ body.wdragging{user-select:none;-webkit-user-select:none}
 <script src="vendor/supabase.js"></script>
 <script src="vendor/leaflet.js"></script>
 <script src="vendor/leaflet-geoman.min.js"></script>
+<script src="vendor/polygon-clipping.min.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -469,7 +519,7 @@ body.wdragging{user-select:none;-webkit-user-select:none}
    source ('manual' now; 'sensor' reserved for future feeds),
    and optional demo:true for demo records.
    ========================================================= */
-const APP_VERSION = 9;
+const APP_VERSION = 10;
 const SB_URL = 'https://uetglzwzyhvaoszainmx.supabase.co';
 const SB_KEY = 'sb_publishable__gDnjBirb1AbnZwMAXMTxg_alW8T4_h'; // publishable key: safe in the browser, data protected by row-level security
 const APP_URL = location.origin + location.pathname.replace(/index\.html$/,'');
@@ -1007,7 +1057,7 @@ async function reverseGeocode(){ const s=S.settings; if(!farmLocSet()||!navigato
 /* tabs are defined in ALL_TABS (farm types module); Settings lives in the header gear */
 let route='dash', routeArg=null;
 function go(r,arg){ location.hash = arg ? `${r}/${arg}` : r; }
-function parseHash(){ const [r,a]=(location.hash.slice(1)||'dash').split('/'); route = (ALL_TABS[r]||['cow','crop','planting','settings','identify'].includes(r)) ? r : 'dash'; routeArg=a?decodeURIComponent(a):null; }
+function parseHash(){ const [r,a]=(location.hash.slice(1)||'dash').split('/'); route = (ALL_TABS[r]||['cow','crop','planting','settings','identify','field','plan'].includes(r)) ? r : 'dash'; routeArg=a?decodeURIComponent(a):null; }
 /* header banner condenses once you scroll (keeps the FARMHAND wordmark visible but frees up the screen) */
 (function(){ let mini=false; const f=()=>{ const y=window.scrollY, room=document.documentElement.scrollHeight-innerHeight; const m=mini ? y>4 : (y>70 && room>220); if(m!==mini){ mini=m; document.body.classList.toggle('hdrmini',m); } };
   addEventListener('scroll',f,{passive:true}); addEventListener('hashchange',()=>setTimeout(f,50)); })();
@@ -1065,7 +1115,7 @@ function tabOrder(){ const canon=Object.keys(ALL_TABS); const o=(S.settings.tabP
   return r; }
 function tabOn(k){ if(k==='dash') return true; const v=S.settings.tabPrefs&&S.settings.tabPrefs.vis; return (v && typeof v[k]==='boolean') ? v[k] : defaultTabOn(k); }
 const visibleTabs = () => tabOrder().filter(tabOn);
-const ROUTE_PARENT = {cow:'cows', crop:'croplib', planting:'croplib'};
+const ROUTE_PARENT = {cow:'cows', crop:'croplib', planting:'croplib', field:'map', plan:'map'};
 /* ---------- species (animal records reuse S.cows with a species field; events in S.stockEvents; batches/pens/flocks in S.groups) ---------- */
 const isCattle = c => !c.species || c.species==='cattle';
 const SP_ICON = {cattle:'🐄', sheep:'🐑', pigs:'🐖', poultry:'🐔', goats:'🐐', horses:'🐎', beef:'🐂', dairyq:'🧪'};
@@ -1241,7 +1291,7 @@ function plantingsView(tab){ return el=>{ const groups=TAB_GROUPS[tab]; const [i
 ['crops','veg','orchard','forestry'].forEach(t=>VIEWS[t]=plantingsView(t));
 function plantingTable(pls){ if(!pls.length) return emptyBox('No plantings yet. Pick a crop or tap + Planting.');
   return `<ul class="list">${pls.slice().sort(byDate('sown')).map(p=>{ const c=cropIdx(p.cropId)||{id:p.cropId,n:p.cropName,g:'custom'}; const h=S.cropOps.filter(o=>o.plantingId===p.id&&o.kind==='harvest');
-    return `<li data-pl="${p.id}" style="cursor:pointer">${cropThumb(c,'sm')}<div class="grow"><b>${esc(p.cropName||c.n)}${p.variety?' — '+esc(p.variety):''}</b><div class="mut">${esc(padName(p.paddockId)||'No field')} · ${p.area?fmtArea(p.area)+' · ':''}sown ${fmtD(p.sown)||'–'}${h.length?' · '+h.length+' harvest'+(h.length>1?'s':''):''}</div></div><span class="pill ${p.status==='growing'?'grn':p.status==='planned'?'blue':''}">${esc(p.status||'growing')}</span></li>`; }).join('')}</ul>`; }
+    return `<li data-pl="${p.id}" style="cursor:pointer">${cropThumb(c,'sm')}<div class="grow"><b>${esc(p.cropName||c.n)}${p.variety?' — '+esc(p.variety):''}</b><div class="mut">${esc(padName(p.paddockId)||'No field')} · ${hasZone(p)?'📐 '+fmtArea(mpHa(p.zone))+' drawn · ':p.area?fmtArea(p.area)+' (whole field / no area drawn) · ':''}sown ${fmtD(p.sown)||'–'}${h.length?' · '+h.length+' harvest'+(h.length>1?'s':''):''}</div></div>${stPill(plStatus(p))}</li>`; }).join('')}</ul>`; }
 function bindPlantingTable(el){ $$('[data-pl]',el).forEach(li=>li.onclick=()=>go('planting',li.dataset.pl)); }
 function approachBlock(conv, org){ const a=approach(); org=convRatesText(org); const o=`<div class="advice org">${org}</div>`;
   if(a==='organic') return `<div class="apill">🍃 Organic</div>${o}`;
@@ -1365,11 +1415,11 @@ async function plantingForm(p, preset={}, groups){ await loadCropIndex().catch((
     {k:'cropId',l:'Crop',t:'select',req:1,o:()=>[['','— choose —']].concat(crops.map(c=>[c.id,`${CROP_GROUP_EMO[c.g]||''} ${c.n}`]))},
     {k:'paddockId',l:'Field / paddock',t:'select',o:padOpts,req:1},{k:'variety',l:'Variety',t:'datalist',o:vNames,ph:vNames.length?`${vNames.length} varieties: type to search`:'optional'},
     {k:'rootstock',l:'Rootstock',t:'datalist',o:rs,show:()=>!!$('#f_rootstock_dl')?.children.length},
-    {k:'sown',l:'Sown / planted',t:'date'},{k:'area',l:`Area (${areaU()})`,t:'number',area:1,hint:'Leave blank to use the whole field'},{k:'status',l:'Status',t:'select',o:[['planned','Planned'],['growing','Growing'],['harvested','Harvested'],['finished','Finished / removed']]},
+    {k:'sown',l:'Sown / planted',t:'date'},{k:'area',l:`Area (${areaU()})`,t:'number',area:1,hint:'Leave blank to use the whole field'},{k:'status',l:'Status',t:'select',o:[['planned','Planned'],['sown','Sown'],['growing','Growing'],['harvested','Harvested'],['finished','Finished / removed']]},
     {k:'notes',l:'Notes',t:'textarea',full:1}],
     extraHTML:p?'':'<p class="mut">The crop guide (sowing, fertiliser for this field’s soil index, protection, harvest) is copied into the planting so you can adjust it for this field.</p>',
     onSave:async v=>{ const d=v.cropId?await cropDoc(v.cropId).catch(()=>null):null; const ci=cropIdx(v.cropId); v.cropName=ci?ci.n:(d?.name||''); const pad=get('paddocks',v.paddockId); if(v.area==null&&pad) v.area=Math.round(padHa(pad)*100)/100||null;
-      if(p){ if(p.cropId!==v.cropId&&d) v.advice=buildAdvice(d,pad); upd('plantings',p.id,v); } else { const n=add('plantings',{...v, advice:d?buildAdvice(d,pad):{}}); setTimeout(()=>go('planting',n.id)); } },
+      if(p){ if(p.cropId!==v.cropId&&d) v.advice=buildAdvice(d,pad); if(hasZone(p)&&v.paddockId!==p.paddockId){ v.zone=null; v.zoneHow=null; } upd('plantings',p.id,v); } else { const n=add('plantings',{...v, advice:d?buildAdvice(d,pad):{}}); setTimeout(()=>go('planting',n.id)); } },
     onDelete:p?()=>{ S.cropOps.filter(o=>o.plantingId===p.id).forEach(o=>del('cropOps',o.id)); del('plantings',p.id); go('croplib'); }:null});
   const sel=$('#f_cropId'); if(sel) sel.addEventListener('change',async()=>{ const d=await cropDoc(sel.value).catch(()=>null); const dl=$('#f_variety_dl'); if(dl) dl.innerHTML=(d?.varieties||[]).map(v=>`<option value="${esc(v.name)}">`).join('');
     const vi=$('#f_variety'); if(vi) vi.placeholder=d?.varieties?.length?`${d.varieties.length} varieties: type to search`:'optional';
@@ -1381,14 +1431,14 @@ VIEWS.planting = el => { const p=get('plantings',routeArg); if(!p){ el.innerHTML
   const hv=S.cropOps.filter(o=>o.plantingId===p.id&&o.kind==='harvest');
   const back=Object.keys(TAB_GROUPS).find(t=>TAB_GROUPS[t].includes(c.g)&&tabOn(t))||'croplib';
   el.innerHTML=`<div class="row"><a class="btn sm" href="#${back}">← ${esc(ALL_TABS[back][1])}</a><span class="sp"></span><button class="sm" id="edit">Edit</button></div>
-  <div class="card chero">${cropThumb(c,'hero')}<div class="grow"><h2>${esc(p.cropName||c.n)}${p.variety?' — '+esc(p.variety):''}</h2><div class="mut">${esc(pad?.name||'No field')}${p.area?' · '+fmtArea(p.area):''} · sown ${fmtD(p.sown)||'–'}${p.rootstock?' · on '+esc(p.rootstock):''}</div>
-   <div class="row" style="margin:8px 0 0"><span class="pill ${p.status==='growing'?'grn':''}">${esc(p.status||'growing')}</span>${hv.length?`<span class="pill blue">Harvested ${esc(hv.map(h=>num(h.qty,1)+' '+(h.unit||'')).join(' + '))}</span>`:''}<a class="btn sm" href="#crop/${encodeURIComponent(p.cropId)}">📖 Crop guide</a>${STONE_ID.includes(p.cropId)?`<a class="btn sm" href="#identify/${p.cropId}:${encodeURIComponent(p.id)}">🔎 Identify variety</a><a class="btn sm" href="#crop/${p.cropId}" data-seed>🌰 Growing from seed</a>`:''}</div></div></div>
+  <div class="card chero">${cropThumb(c,'hero')}<div class="grow"><h2>${esc(p.cropName||c.n)}${p.variety?' — '+esc(p.variety):''}</h2><div class="mut">${esc(pad?.name||'No field')}${hasZone(p)?' · 📐 '+fmtArea(mpHa(p.zone))+' drawn':p.area?' · '+fmtArea(p.area)+' (whole field / no area drawn)':''} · sown ${fmtD(p.sown)||'–'}${p.rootstock?' · on '+esc(p.rootstock):''}</div>
+   <div class="row" style="margin:8px 0 0"><span class="pill ${p.status==='growing'?'grn':''}">${esc(p.status||'growing')}</span>${hv.length?`<span class="pill blue">Harvested ${esc(hv.map(h=>num(h.qty,1)+' '+(h.unit||'')).join(' + '))}</span>`:''}<a class="btn sm" href="#crop/${encodeURIComponent(p.cropId)}">📖 Crop guide</a>${pad?`<a class="btn sm" href="#field/${encodeURIComponent(pad.id)}">📄 ${esc(pad.name)}</a>`:''}${pad&&hasGeo(pad)?`<button class="sm" id="plZone">📐 ${hasZone(p)?'Edit area in field':'Draw area in field'}</button>`:''}${STONE_ID.includes(p.cropId)?`<a class="btn sm" href="#identify/${p.cropId}:${encodeURIComponent(p.id)}">🔎 Identify variety</a><a class="btn sm" href="#crop/${p.cropId}" data-seed>🌰 Growing from seed</a>`:''}</div></div></div>
   <div class="card"><h3>Record</h3><div class="row" style="margin:0"><button class="sm" id="oFert">🧪 Fertiliser / manure</button>${Object.entries(OP_KINDS).map(([k,o])=>`<button class="sm" data-op="${k}">${o.i} ${o.l}</button>`).join('')}</div></div>
   <div class="card"><h3>📋 Field plan <span class="pill">${esc(APPROACHES[a.approach||approach()]?.l||'')}</span></h3><div class="hint" style="margin-bottom:8px">Pre-filled from the crop guide for this field (P index ${esc(pad?.pIndex||'not set')}, K index ${esc(pad?.kIndex||'not set')}). Edit it to suit this field.</div>
    ${Object.keys(a).length>1?kv([['Sowing',a.sowing],['Nutrition',a.nutrition],['Protection',a.protection],['Water',a.water],['Harvest',a.harvest],['My notes',a.mine]]):emptyBox('No plan yet. Tap “Refresh from guide”.')}<div class="row"><button class="sm" id="editPlan">✏️ Edit field plan</button><button class="sm" id="resetPlan">↺ Refresh from guide</button></div></div>
   <div class="card"><h3>Operations (${ops.length})</h3>${table(ops,[{l:'Date',f:o=>fmtD(o.date)},{l:'Type',f:o=>o.kind==='fert'?'🧪 Fertiliser':(OP_KINDS[o.kind]?.i||'')+' '+(OP_KINDS[o.kind]?.l||o.kind)},{l:'Details',f:o=>o.kind==='fert'?[o.product,o.rate,o.nKgHa?fmtRate(o.nKgHa,'kg',0,'N'):''].filter(Boolean).join(' · '):o.kind==='spray'?[o.product,o.pcs?'PCS '+o.pcs:'',o.rate,o.target].filter(Boolean).join(' · '):o.kind==='irrigation'?[o.mm?o.mm+' mm':'',o.method].filter(Boolean).join(' · '):o.kind==='harvest'?[o.qty!=null?num(o.qty,2)+' '+(o.unit||''):'',o.moisture?o.moisture+'% moisture':'',o.store].filter(Boolean).join(' · '):o.text||o.notes||''}],{onRow:o=>o._col==='fertiliser'?fertForm(get('fertiliser',o.id)):cropOpForm(p,o.kind,get('cropOps',o.id)),empty:'No operations recorded yet.'})}</div>`;
   const sd=$('[data-seed]',el); if(sd) sd.onclick=()=>{ window.__cropScroll='seedCard'; };
-  $('#edit',el).onclick=()=>plantingForm(p); $('#oFert',el).onclick=()=>fertForm(null,{paddockId:p.paddockId,plantingId:p.id});
+  $('#edit',el).onclick=()=>plantingForm(p); const pz=$('#plZone',el); if(pz) pz.onclick=()=>{ planReset(); PLAN.key=''; startPlan(p.paddockId,p.id); }; $('#oFert',el).onclick=()=>fertForm(null,{paddockId:p.paddockId,plantingId:p.id});
   $$('[data-op]',el).forEach(b=>b.onclick=()=>cropOpForm(p,b.dataset.op));
   $('#editPlan',el).onclick=()=>openForm({title:'Field plan: '+(p.cropName||''), values:a, fields:[['sowing','Sowing'],['nutrition','Nutrition'],['protection','Protection'],['water','Water'],['harvest','Harvest'],['mine','My notes for this field']].map(([k,l])=>({k,l,t:'textarea',full:1})), onSave:v=>{ upd('plantings',p.id,{advice:{...a,...v}}); }});
   $('#resetPlan',el).onclick=async()=>{ if(Object.keys(a).length>1&&!confirm('Replace the field plan with fresh guidance for the current farming approach?')) return; const d=await cropDoc(p.cropId).catch(()=>null); if(!d) return toast('Crop guide not available offline'); upd('plantings',p.id,{advice:{...buildAdvice(d,pad),mine:a.mine}}); render(); }; };
@@ -1643,7 +1693,7 @@ function wNoData(m){ return m.size==='k' ? `<div class="kpi nodata"><div class="
 
 /* ---------- Home map widget (v8): read-only mini map of the farm's fields ---------- */
 let MINIMAPS=[];
-function destroyMiniMaps(){ MINIMAPS.forEach(m=>{ try{ m.off(); m.remove(); }catch(e){} }); MINIMAPS=[]; }
+function destroyMiniMaps(){ MINIMAPS.forEach(m=>{ try{ m.off(); m.remove(); }catch(e){} }); MINIMAPS=[]; PMAP=null; planLayers=null; }
 function mapWidgetHTML(c,id){ const geo=S.paddocks.filter(hasGeo), big=(c.size||'w')==='w';
   const msg=!geo.length?(S.paddocks.some(hasSketch)?'Your fields are on the sketch map. Draw them on the satellite map to see them here.':'No fields drawn yet.'):'';
   return `<div class="card wmapc"><div class="row" style="margin:0 0 8px"><h3 style="margin:0">🗺️ ${esc(S.settings.farmName||'My land')}</h3><span class="sp"></span><span class="mut">${geo.length?`${S.paddocks.length} field${S.paddocks.length>1?'s':''} · ${fmtAreaT(sum(S.paddocks.map(padHa)))}`:''}</span></div>
@@ -2006,7 +2056,7 @@ function sketchView(el){
     ${drawing?`<button class="sm" id="mUndo">↶ Undo point</button>${MAP.mode==='draw'?'<button class="sm pri" id="mFinish">✔ Finish paddock</button>':''}<button class="sm" id="mCancel">Cancel</button>`
     :`<button class="pri" id="mSat">🛰 Back to satellite map</button><button class="sm" id="mNew">+ Draw on sketch</button><button class="sm" id="mNoMap">+ Add without map</button>`}
     <span class="sp"></span>
-    <button class="sm ${MAP.colour==='status'?'on':''}" id="cStatus">Status</button><button class="sm ${MAP.colour==='cover'?'on':''}" id="cCover">Grass cover</button>
+    <span class="mut">Colour:</span><button class="sm ${MAP.colour==='field'?'on':''}" id="cField">Each field</button><button class="sm ${MAP.colour==='use'?'on':''}" id="cUse">Use</button><button class="sm ${MAP.colour==='status'?'on':''}" id="cStatus">Grazing status</button><button class="sm ${MAP.colour==='cover'?'on':''}" id="cCover">Grass cover</button>
     <button class="sm" id="zIn" aria-label="Zoom in">＋</button><button class="sm" id="zOut" aria-label="Zoom out">－</button><button class="sm" id="zFit">Fit</button>
   </div>
   <div class="banner">This is the <b>old sketch map</b> (not to real-world position). New fields are best drawn on the satellite map. Paddocks drawn here still keep their area.</div>
@@ -2030,7 +2080,8 @@ function sketchView(el){
     const pts=MAP.pts.map(p=>[+p[0].toFixed(1),+p[1].toFixed(1)]);
     if(MAP.redrawId){ upd('paddocks',MAP.redrawId,{points:pts}); MAP.sel=MAP.redrawId; MAP.mode='view'; MAP.pts=[]; MAP.redrawId=null; render(); toast('Boundary updated'); }
     else paddockForm(null, pts); });
-  B('cStatus',()=>{MAP.colour='status'; render();}); B('cCover',()=>{MAP.colour='cover'; render();});
+  B('cStatus',()=>{MAP.colour='status'; render();}); B('cField',()=>{MAP.colour='field'; render();}); B('cUse',()=>{MAP.colour='use'; render();});
+  $$('[data-fly]',el).forEach(b=>b.onclick=()=>flyToField(b.dataset.fly)); B('cCover',()=>{MAP.colour='cover'; render();});
   const zoom=f=>{ const v=MAP.vb; const cx=v.x+v.w/2, cy=v.y+v.h/2; v.w*=f; v.h*=f; v.x=cx-v.w/2; v.y=cy-v.h/2; drawMap(); };
   B('zIn',()=>zoom(0.7)); B('zOut',()=>zoom(1/0.7)); B('zFit',()=>{ MAP.vb={x:0,y:0,w:s.mapW,h:s.mapH}; drawMap(); });
   B('mCalib',()=>{ MAP.mode='calib'; MAP.calib=[]; render(); });
@@ -2059,7 +2110,7 @@ function drawSketch(){
   const fs=Math.max(10, v.w/(window.innerWidth<600?32:45)); const grid=s.mapW/20;
   let h=`<defs><pattern id="gr" width="${grid}" height="${grid}" patternUnits="userSpaceOnUse"><path d="M ${grid} 0 L 0 0 0 ${grid}" fill="none" stroke="#c4d2bd" stroke-width="1" vector-effect="non-scaling-stroke"/></pattern></defs>
   <rect x="${-s.mapW*5}" y="${-s.mapH*5}" width="${s.mapW*11}" height="${s.mapH*11}" fill="#dfe8d8"/>${mapBgURL?`<image href="${mapBgURL}" x="0" y="0" width="${s.mapW}" height="${s.mapH}" preserveAspectRatio="none"/>`:`<rect x="0" y="0" width="${s.mapW}" height="${s.mapH}" fill="url(#gr)" stroke="#aab8a2" vector-effect="non-scaling-stroke"/>`}`;
-  S.paddocks.filter(hasSketch).forEach(p=>{ const ci=coverInfo(p); const col=MAP.colour==='status'?(PAD_STATUS[p.status]?.c||'#999'):coverColour(ci.est);
+  S.paddocks.filter(hasSketch).forEach(p=>{ const ci=coverInfo(p); const col=padCol(p);
     h+=`<polygon class="pad ${MAP.sel===p.id?'sel':''}" data-pid="${p.id}" points="${p.points.map(q=>q.join(',')).join(' ')}" fill="${col}"/>`; });
   S.paddocks.filter(hasSketch).forEach(p=>{ const [cx,cy]=centroid(p.points); const ci=coverInfo(p);
     h+=`<text x="${cx}" y="${cy}" text-anchor="middle" font-size="${fs}">${esc(p.name)}</text><text x="${cx}" y="${cy+fs*1.1}" text-anchor="middle" font-size="${fs*0.75}" font-weight="400">${fmtAreaT(padHa(p))}${ci.est!=null?' · '+num(ci.est):''}</text>`; });
@@ -2073,7 +2124,7 @@ function showPadDetail(){
   const box=$('#padDetail'); if(!box) return; const p=MAP.sel&&get('paddocks',MAP.sel); if(!p){ box.innerHTML=''; return; }
   const ci=coverInfo(p); const gs=grazingsFor(p.id); const cur=currentGrazing(p.id); const ds=daysSinceGrazed(p.id); const yr=today().slice(0,4);
   const fert=S.fertiliser.filter(f=>f.paddockId===p.id&&(f.date||'').startsWith(yr)); const mg=measuredGrowth(p.id);
-  box.innerHTML=`<div class="card" style="margin-top:12px;border-color:var(--g)"><div class="row"><h2 style="margin:0">${esc(p.name)}</h2><span class="pill" style="background:${PAD_STATUS[p.status]?.c}33">${esc(PAD_STATUS[p.status]?.l||p.status)}</span><span class="sp"></span><button class="sm" id="pdPin" title="Show this field on your Home screen">📌 Add to Home</button><button class="sm" id="pdClose">✕</button></div>
+  box.innerHTML=`<div class="card" style="margin-top:12px;border-color:var(--g)"><div class="row"><h2 style="margin:0">${esc(p.name)}</h2><span class="pill" style="background:${PAD_STATUS[p.status]?.c}33">${esc(PAD_STATUS[p.status]?.l||p.status)}</span><span class="sp"></span><a class="btn sm pri" href="#field/${encodeURIComponent(p.id)}">📄 Field page</a>${hasGeo(p)?'<button class="sm" id="pdPlanZ">🌱 Plan planting</button>':''}<button class="sm" id="pdPin" title="Show this field on your Home screen">📌 Add to Home</button><button class="sm" id="pdClose">✕</button></div>
     <div class="kpis"><div class="kpi"><b>${num(toArea(padHa(p)),aU().dp)}</b><span>${areaU()} ${p.areaManual>0?'(entered)':hasGeo(p)?'(satellite)':hasSketch(p)?'(sketch map)':''}${aU().s==='ha'?` · ${num(haToAc(padHa(p)),2)} ac`:` · ${num(padHa(p),2)} ha`}</span></div>
       <div class="kpi"><b>${ci.est!=null?num(ci.est):'–'}</b><span>kg DM/ha est. cover${ci.est!=null?` (${esc(ci.basis)} ${fmtD(ci.baseDate)} + growth)`:''}</span></div>
       <div class="kpi"><b>${ds==null?'–':ds}</b><span>days since grazed${cur?' (grazing now)':''}</span></div>
@@ -2086,7 +2137,7 @@ function showPadDetail(){
     <h3>Grazing history</h3>${table(gs,[{l:'In',f:g=>fmtD(g.dateIn)},{l:'Out',f:g=>g.dateOut?fmtD(g.dateOut):'grazing'},{l:'Days',f:g=>daysBetween(g.dateIn,g.dateOut||today())},{l:'Animals',f:g=>g.animals||''},{l:'Group',k:'group'},{l:'Pre/Post cover',f:g=>`${g.preCover??'–'} / ${g.postCover??'–'}`}],{onRow:g=>grazingForm(p,g),empty:'Not grazed yet.'})}
     <h3>Cover walks</h3>${table(walksFor(p.id),[{l:'Date',f:w=>fmtD(w.date)},{l:'kg DM/ha',f:w=>num(w.cover)},{l:'Height cm',f:w=>w.heightCm??''},{l:'Source',k:'source'}],{onRow:w=>walkForm(p,w),empty:'No walks recorded.'})}</div>`;
   $('#pdClose').onclick=()=>{MAP.sel=null; drawMap(); showPadDetail();};
-  $('#pdPin').onclick=()=>configureWidget('paddock',{paddockId:p.id});
+  $('#pdPin').onclick=()=>configureWidget('paddock',{paddockId:p.id}); const pz=$('#pdPlanZ'); if(pz) pz.onclick=()=>{ planReset(); PLAN.key=''; startPlan(p.id); };
   const b=(id,fn)=>{ const x=$('#'+id); if(x) x.onclick=fn; };
   b('pdIn',()=>grazingForm(p,null)); b('pdOut',()=>grazingForm(p,cur,true)); b('pdWalk',()=>walkForm(p,null)); b('pdEdit',()=>paddockForm(p)); b('pdTask',()=>taskForm(null,{paddockId:p.id})); b('pdPhoto',()=>photoForm({paddockId:p.id})); b('pdSuit',()=>suitDialog(p.id)); b('pdPlant',()=>plantingForm(null,{paddockId:p.id})); const pl=$('#pdPl'); if(pl) bindPlantingTable(pl);
   b('pdRedraw',()=>{ MAP.mode='draw'; MAP.pts=[]; MAP.redrawId=p.id; render(); toast('Tap new corner points, then Finish'); });
@@ -2108,7 +2159,7 @@ function paddockForm(p, pts, geo){
 /* ---------- Map (v3: real satellite map, Leaflet + Geoman, bundled in vendor/) ----------
    Paddock geometry: p.geo = [[lat,lng],...] (WGS84, one outer ring, not closed).
    Older paddocks may only have p.points (x,y in sketch-map units) — they keep working on the sketch map. */
-const MAP={view:'sat', mode:'view', pts:[], sel:null, colour:'status', vb:null, redrawId:null, calib:[], base:'sat', labels:true, center:null, zoom:null, editId:null, editPts:null, kml:null};
+const MAP={view:'sat', mode:'view', pts:[], sel:null, colour:'field', vb:null, redrawId:null, calib:[], base:'sat', labels:true, center:null, zoom:null, editId:null, editPts:null, kml:null};
 let LMAP=null; const LPADS=new Map();
 const TILES={
   sat:['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxNativeZoom:19,maxZoom:21,attribution:'Imagery © <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a>, Maxar, Earthstar Geographics, GIS User Community'}],
@@ -2123,8 +2174,9 @@ function satHelp(){
   return '';
 }
 function areaText(ll){ const ha=geoAreaM2(ll)/1e4; return aU().s==='ha'?`${num(ha,2)} ha · ${num(haToAc(ha),2)} acres`:`${fmtArea(ha)} · ${num(ha,2)} ha`; }
-function padStyle(p){ const ci=coverInfo(p); const col=MAP.colour==='status'?(PAD_STATUS[p.status]?.c||'#999'):coverColour(ci.est); const sel=MAP.sel===p.id;
-  return {color:sel?'#ffffff':'#1d2420', weight:sel?4:2, fillColor:col, fillOpacity:sel?.6:.42, dashArray:null}; }
+function padCol(p){ const m=MAP.colour; if(m==='field') return fieldColour(p); if(m==='use') return USE[fieldUse(p)].c; if(m==='status') return PAD_STATUS[p.status]?.c||'#999'; return coverColour(coverInfo(p).est); }
+function padStyle(p, hov){ const col=padCol(p); const sel=MAP.sel===p.id;
+  return {color:sel?'#ffffff':col, weight:sel?5:hov?5:3.5, opacity:1, fillColor:col, fillOpacity:sel?.42:hov?.4:.26, dashArray:null}; }
 function farmLocSet(){ return !!S.settings.locSource; }
 function earthURL(){ const c=LMAP?LMAP.getCenter():L.latLng(S.settings.lat,S.settings.lon); let d=1500;
   if(LMAP){ const b=LMAP.getBounds(); d=Math.max(300,Math.round(LMAP.distance(b.getSouthWest(),b.getNorthEast())*1.1)); }
@@ -2139,8 +2191,8 @@ VIEWS.map = el => {
     : m==='edit' ? `<button class="sm pri" id="mEditSave">✔ Save boundary</button><button class="sm" id="mCancel">Cancel</button>`
     : m==='pin' ? `<button class="sm" id="mCancel">Cancel</button>`
     : m==='kml' ? `<button class="sm pri" id="kImport">⬆ Import selected</button><button class="sm" id="mCancel">Cancel</button>`
-    : `<button class="pri" id="mNew">+ Draw field</button><button class="sm" id="mKml">📂 Import KML/KMZ</button><button class="sm" id="mKmlOut">⬇ Export KML</button><button class="sm" id="mNoMap">+ Add without map</button>`;
-  el.innerHTML=`
+    : `<button class="pri" id="mNew">+ Draw field</button>${S.paddocks.some(hasGeo)?'<button class="sm" id="mFit">⤢ Fit to my fields</button><button class="sm" id="mPlan">🌱 Plan planting</button>':''}<button class="sm" id="mKml">📂 Import KML/KMZ</button><button class="sm" id="mKmlOut">⬇ Export KML</button><button class="sm" id="mNoMap">+ Add without map</button>`;
+  el.innerHTML=`${m==='view'?fieldChips(null):''}
   <div class="row">${tools}<input type="file" id="kmlFile" accept=".kml,.kmz,application/vnd.google-earth.kml+xml,application/vnd.google-earth.kmz" hidden></div>
   <div class="row">
     <button class="sm ${MAP.base==='sat'?'on':''}" id="bSat">🛰 Satellite</button><button class="sm ${MAP.base==='street'?'on':''}" id="bStreet">🗺 Street</button>${MAP.base==='sat'?`<button class="sm ${MAP.labels?'on':''}" id="bLbl">Labels</button>`:''}
@@ -2148,7 +2200,8 @@ VIEWS.map = el => {
     <button class="sm ${MAP.colour==='status'?'on':''}" id="cStatus">Status</button><button class="sm ${MAP.colour==='cover'?'on':''}" id="cCover">Grass cover</button>
   </div>
   <div id="mapwrap"><div id="lmap" class="${m!=='view'?'drawing':''}"></div><div class="maphelp" id="mHelp" ${m==='view'?'hidden':''}>${satHelp()}</div><div class="areabox" id="mArea" hidden></div></div>
-  <div class="legend">${MAP.colour==='status'?Object.values(PAD_STATUS).map(v=>`<span><i style="background:${v.c}"></i>${v.l}</span>`).join(''):[[0,'<500'],[600,'500–900'],[1000,'900–1300'],[1500,'1300–1800'],[2000,'1800+']].map(([v,l])=>`<span><i style="background:${coverColour(v)}"></i>${l}</span>`).join('')+'<span><i style="background:#cfd5cf"></i>no data</span> <span class="mut">kg DM/ha (estimated)</span>'}</div>
+  ${m==='view'&&S.paddocks.some(hasGeo)?`<div class="flegend" aria-label="My fields: tap to fly to one">${sortedFields().filter(hasGeo).map(p=>`<button class="sm ${MAP.sel===p.id?'on':''}" data-fly="${p.id}"><i style="background:${padCol(p)}"></i><b>${esc(p.name)}</b><span class="mut">${fmtArea(padHa(p))}</span></button>`).join('')}</div>`:''}
+  <div class="legend">${MAP.colour==='field'?'<span class="mut">Each field has its own colour. Planting areas inside fields are coloured by crop.</span>':MAP.colour==='use'?Object.values(USE).map(v=>`<span><i style="background:${v.c}"></i>${v.l}</span>`).join(''):MAP.colour==='status'?Object.values(PAD_STATUS).map(v=>`<span><i style="background:${v.c}"></i>${v.l}</span>`).join(''):[[0,'<500'],[600,'500–900'],[1000,'900–1300'],[1500,'1300–1800'],[2000,'1800+']].map(([v,l])=>`<span><i style="background:${coverColour(v)}"></i>${l}</span>`).join('')+'<span><i style="background:#cfd5cf"></i>no data</span> <span class="mut">kg DM/ha (estimated)</span>'}</div>
   <div class="row" style="margin-top:8px"><button class="sm" id="mLoc">📍 Farm location / Eircode</button><button class="sm" id="mGps">🎯 Where am I?</button><a class="btn sm" id="mEarth" href="${earthURL()}" target="_blank" rel="noopener">🌍 Open in Google Earth</a>${(legacy.length||s.mapBg)?'<button class="sm" id="mSketch">Old sketch map</button>':''}</div>
   <div class="mut" id="locLine">${farmLocSet()?`Farm location: ${esc(s.eircode||'')} ${num(s.lat,5)}, ${num(s.lon,5)} — ${esc(locSourceText(s))}`:'Farm location not set yet — tap “Farm location / Eircode” so the map and weather start at your farm.'}</div>
   <div id="kmlBox"></div>
@@ -2158,13 +2211,16 @@ VIEWS.map = el => {
   <div class="card" style="margin-top:12px"><h3>Paddocks (${S.paddocks.length}) · ${fmtArea(sum(S.paddocks.map(padHa)))}</h3><div id="padTable"></div></div>`;
   $('#padTable',el).innerHTML=table(S.paddocks.slice().sort((a,b)=>a.name.localeCompare(b.name)),[
     {l:'Name',k:'name'},{l:aU().w==='square yards'?'sq yd':aU().w,f:p=>num(toArea(padHa(p)),aU().dp)},{l:'Status',h:p=>`<span class="pill" style="background:${PAD_STATUS[p.status]?.c||'#ccc'}33">${esc(PAD_STATUS[p.status]?.l||p.status)}</span>`},
-    {l:'Boundary',f:p=>hasGeo(p)?'satellite':hasSketch(p)?'sketch only':'none'},
+    {l:'Boundary',f:p=>hasGeo(p)?'satellite':hasSketch(p)?'sketch only':'none'},{l:'Growing',f:p=>fieldPls(p.id,['sown','growing']).map(x=>x.cropName).join(', ')||'–'},
     {l:'Cover (est.)',f:p=>{const c=coverInfo(p); return c.est==null?'–':num(c.est);}},{l:'Days since grazed',f:p=>{const d=daysSinceGrazed(p.id); return d==null?'–':d;}}],
     {onRow:p=>{MAP.sel=p.id; drawMap(); const l=LPADS.get(p.id); if(l&&LMAP) LMAP.fitBounds(l.getBounds(),{maxZoom:18,padding:[20,20]}); showPadDetail(); $('#padDetail').scrollIntoView({behavior:'smooth'});}, empty:'No paddocks yet — tap “Draw field” or import a KML from Google Earth.'});
   buildLeaflet();
   showPadDetail(); if(m==='kml') renderKmlBox();
   const B=(id,fn)=>{ const b=$('#'+id,el); if(b) b.onclick=fn; };
-  B('mNew',()=>startSatDraw(null)); B('mNoMap',()=>paddockForm(null,null));
+  B('mNew',()=>startSatDraw(null)); B('mFit',fitAllFields);
+  B('mPlan',()=>{ const fs=sortedFields().filter(hasGeo); if(MAP.sel&&hasGeo(get('paddocks',MAP.sel))){ planReset(); PLAN.key=''; return startPlan(MAP.sel); }
+    if(fs.length===1){ planReset(); PLAN.key=''; return startPlan(fs[0].id); } const dlg=showInfo('Plan planting: which field?', `<div class="opgrid">${fs.map(p=>`<button data-pf="${p.id}"><i class="fsw" style="background:${fieldColour(p)}"></i>${esc(p.name)} <span class="mut">${fmtArea(padHa(p))}</span></button>`).join('')}</div>`);
+    $$('[data-pf]',dlg).forEach(b=>b.onclick=()=>{ dlg.close(); planReset(); PLAN.key=''; startPlan(b.dataset.pf); }); }); B('mNoMap',()=>paddockForm(null,null));
   B('mUndo',()=>{ MAP.pts.pop(); drawDraft(); });
   B('mFinish',finishSatDraw);
   B('mCancel',()=>{ MAP.mode='view'; MAP.pts=[]; MAP.redrawId=null; MAP.editId=null; MAP.editPts=null; MAP.kml=null; render(); });
@@ -2186,10 +2242,14 @@ function buildLeaflet(){
   L.control.scale({imperial:false}).addTo(LMAP);
   LPADS.clear();
   S.paddocks.filter(hasGeo).forEach(p=>{ if(MAP.mode==='edit'&&MAP.editId===p.id) return;
+    L.polygon(p.geo,{color:'#000',weight:8,opacity:.33,fill:false,interactive:false}).addTo(LMAP);
     const ci=coverInfo(p); const lyr=L.polygon(p.geo,{...padStyle(p), interactive:MAP.mode==='view'}).addTo(LMAP);
-    lyr.bindTooltip(`<b>${esc(p.name)}</b><br>${fmtArea(padHa(p))}${ci.est!=null?' · '+num(ci.est):''}`,{permanent:true,direction:'center',className:'padlbl',interactive:false});
-    lyr.on('click',e=>{ L.DomEvent.stopPropagation(e); MAP.sel=p.id; drawMap(); showPadDetail(); });
+    lyr.bindTooltip(`<b>${esc(p.name)}</b><br>${fmtArea(padHa(p))}${MAP.colour==='cover'&&ci.est!=null?' · '+num(ci.est)+' kg DM':''}`,{permanent:true,direction:'center',className:'padlbl',interactive:false});
+    lyr.on('click',e=>{ L.DomEvent.stopPropagation(e); MAP.sel=p.id; drawMap(); showPadDetail(); $$('[data-fly]').forEach(b=>b.classList.toggle('on',b.dataset.fly===p.id)); });
+    lyr.on('mouseover',()=>{ lyr.setStyle(padStyle(p,true)); $(`[data-fly="${p.id}"]`)?.classList.add('hov'); }); lyr.on('mouseout',()=>{ lyr.setStyle(padStyle(p)); $(`[data-fly="${p.id}"]`)?.classList.remove('hov'); });
     LPADS.set(p.id,lyr); });
+  if(MAP.mode==='view'){ const zl=addZoneLayers(LMAP,null,{labels:true, onClick:z=>{ MAP.sel=z.paddockId; drawMap(); showPadDetail(); }}); const zlbl=()=>{ const show=LMAP.getZoom()>=16; $$('.zlbl',LMAP.getContainer()).forEach(x=>x.style.display=show?'':'none'); }; LMAP.on('zoomend',zlbl); setTimeout(zlbl,0);
+    if(S.paddocks.some(hasGeo)){ const Fit=L.Control.extend({options:{position:'topright'}, onAdd(){ const d=L.DomUtil.create('div','leaflet-bar fitctl'); d.innerHTML='<a href="#" role="button" title="Fit to my fields" aria-label="Fit to my fields">⤢</a>'; L.DomEvent.disableClickPropagation(d); d.firstChild.onclick=e=>{ e.preventDefault(); fitAllFields(); }; return d; }}); new Fit().addTo(LMAP); } }
   if(farmLocSet()) L.marker([s.lat,s.lon],{interactive:false, keyboard:false, icon:L.divIcon({className:'farmpin',html:'🏠',iconSize:[28,28],iconAnchor:[14,24]})}).addTo(LMAP);
   // view
   if(MAP.center) LMAP.setView(MAP.center, MAP.zoom||16);
@@ -2206,6 +2266,8 @@ function buildLeaflet(){
   if(MAP.mode==='kml') drawKmlPreview();
   setTimeout(()=>LMAP&&LMAP.invalidateSize(),0);
 }
+function fitAllFields(){ const all=S.paddocks.filter(hasGeo); if(LMAP&&all.length) LMAP.flyToBounds(L.latLngBounds(all.flatMap(p=>p.geo)),{maxZoom:18,padding:[24,24],duration:.6}); }
+function flyToField(pid){ const l=LPADS.get(pid); if(!l||!LMAP) return; MAP.sel=pid; drawMap(); showPadDetail(); LMAP.flyToBounds(l.getBounds(),{maxZoom:19,padding:[30,30],duration:.6}); $$('[data-fly]').forEach(b=>b.classList.toggle('on',b.dataset.fly===pid)); $('#lmap')?.scrollIntoView({behavior:'smooth',block:'center'}); }
 function destroyLeaflet(){ if(LMAP){ try{ LMAP.off(); LMAP.remove(); }catch(e){} LMAP=null; LPADS.clear(); draftLayers=null; kmlLayers=null; } } // MAP.center/zoom are kept up to date by the moveend handler
 function drawMap(){ if(MAP.view==='sketch') return drawSketch(); LPADS.forEach((l,id)=>{ const p=get('paddocks',id); if(p) l.setStyle(padStyle(p)); }); }
 let draftLayers=null;
@@ -2361,6 +2423,329 @@ function cowForm(c, preset={}){ const sp=(c&&c.species)||preset.species||'cattle
     onDelete:c?()=>{ del('cows',c.id); if(route==='cow') go('cows'); }:null});
 }
 const age = dob => { if(!dob) return ''; const d=daysBetween(dob,today()); return d<60?d+'d':d<730?Math.floor(d/30.44)+'m':(d/365.25).toFixed(1)+'y'; };
+/* ---------- v10: highlighted fields, planting zones drawn inside a field, per-field pages ----------
+   A planting can carry p.zone = MultiPolygon [[ring, hole...], ...] with rings of [lat,lng] (not closed), always clipped to its field.
+   Plantings without p.zone keep working and are shown as "whole field / no area drawn". Geometry ops use vendor/polygon-clipping. */
+const FIELD_COLS=['#ff7a1a','#19c3b1','#f0367f','#ffd23f','#8c6bff','#4dabf7','#a3e635','#ff5d5d','#22d3ee','#f472b6','#c2a35a','#7ee081'];
+function fieldColour(p){ if(p&&p.colour) return p.colour; const ps=S.paddocks.slice().sort((a,b)=>(a.createdAt||'').localeCompare(b.createdAt||'')||String(a.id).localeCompare(String(b.id))); const i=Math.max(0,ps.findIndex(x=>x.id===p.id)); return FIELD_COLS[i%FIELD_COLS.length]; }
+const PL_ACTIVE=['planned','sown','growing'];
+const plStatus=p=>p.status||'growing';
+const fieldPls=(pid,sts)=>S.plantings.filter(x=>x.paddockId===pid&&(!sts||sts.includes(plStatus(x))));
+const USE={crop:{l:'Crop growing',c:'#ff9f1c'}, planned:{l:'Crop planned',c:'#b197fc'}, grazing:{l:'Grass / grazing',c:'#2fbf5b'}, silage:{l:'Silage',c:'#ffe066'}, fallow:{l:'Fallow / reseeding',c:'#a1887f'}};
+function fieldUse(p){ if(fieldPls(p.id,['sown','growing']).length) return 'crop'; if(fieldPls(p.id,['planned']).length) return 'planned'; if(p.status==='silage') return 'silage'; if(p.status==='reseeding') return 'fallow';
+  if(p.status==='grazing'||grazeRel()||S.grazings.some(g=>g.paddockId===p.id)) return 'grazing'; return 'fallow'; }
+const CROP_COL={cereals:'#f4c542',oilseeds:'#ffe14d',forage:'#7ddc7a',potatoes:'#c68b59',vegetables:'#43c07a',fruit_trees:'#ff5c8a',soft_fruit:'#e83f6f',herbs:'#9be7b0',energy:'#f4a261',cover:'#b5e48c',flowers:'#f72585',forestry:'#2d8a5f',custom:'#6cc6ff'};
+const plCrop=p=>cropIdx(p.cropId)||{id:p.cropId,n:p.cropName||'Crop',g:'custom'};
+const cropCol=p=>CROP_COL[plCrop(p).g]||'#6cc6ff';
+const STATUS_L={planned:'Planned',sown:'Sown',growing:'Growing',harvested:'Harvested',finished:'Finished'};
+const stPill=s=>`<span class="pill ${s==='growing'||s==='sown'?'grn':s==='planned'?'blue':''}">${esc(STATUS_L[s]||s)}</span>`;
+/* --- geometry helpers --- */
+const PCL=()=>window.polygonClipping;
+const openRing=r=>{ const o=r.map(q=>[+(+q[0]).toFixed(7),+(+q[1]).toFixed(7)]); if(o.length>1&&o[0][0]===o[o.length-1][0]&&o[0][1]===o[o.length-1][1]) o.pop(); return o; };
+const mpClean=mp=>(mp||[]).map(poly=>poly.map(openRing).filter(r=>r.length>=3)).filter(poly=>poly.length&&geoAreaM2(poly[0])>0.5);
+const mpAreaM2=mp=>sum((mp||[]).map(poly=>Math.max(0,geoAreaM2(poly[0])-sum(poly.slice(1).map(geoAreaM2)))));
+const mpHa=mp=>mpAreaM2(mp)/1e4;
+const hasZone=p=>Array.isArray(p.zone)&&p.zone.length>0;
+function clipToField(mp, field){ if(!PCL()||!hasGeo(field)) return mpClean(mp); try{ return mpClean(PCL().intersection(mp, [field.geo])); }catch(e){ console.warn('clip',e); return mpClean(mp); } }
+function zonesOf(pid, exceptId){ return fieldPls(pid, PL_ACTIVE).filter(x=>x.id!==exceptId&&hasZone(x)); }
+function overlapInfo(mp, pid, exceptId){ const others=zonesOf(pid, exceptId); if(!others.length||!PCL()) return {m2:0, names:[]}; let m2=0; const names=[];
+  others.forEach(o=>{ try{ const a=mpAreaM2(mpClean(PCL().intersection(mp, o.zone))); if(a>1){ m2+=a; names.push(o.cropName||plCrop(o).n); } }catch(e){} }); return {m2, names}; }
+function trimOverlap(mp, pid, exceptId){ const others=zonesOf(pid, exceptId); if(!others.length) return mp; try{ return mpClean(PCL().difference(mp, ...others.map(o=>o.zone))); }catch(e){ return mp; } }
+function proj(geo){ const lat0=geo.reduce((t,q)=>t+q[0],0)/geo.length, lng0=geo.reduce((t,q)=>t+q[1],0)/geo.length; const kx=111320*Math.cos(lat0*Math.PI/180), ky=110574;
+  return {f:q=>[(q[1]-lng0)*kx,(q[0]-lat0)*ky], b:([x,y])=>[lat0+y/ky, lng0+x/kx]}; }
+/* the field's main direction = its longest side; u runs along it, v across it */
+function fieldFrame(field){ const P=proj(field.geo), xy=field.geo.map(P.f); let best=0, th=0;
+  xy.forEach((a,i)=>{ const b=xy[(i+1)%xy.length], d=Math.hypot(b[0]-a[0],b[1]-a[1]); if(d>best){ best=d; th=Math.atan2(b[1]-a[1],b[0]-a[0]); } });
+  const c=Math.cos(th), s=Math.sin(th); const toUV=([x,y])=>[x*c+y*s, -x*s+y*c], fromUV=([u,v])=>[u*c-v*s, u*s+v*c]; const uv=xy.map(toUV);
+  const U=uv.map(q=>q[0]), V=uv.map(q=>q[1]); return {P, toUV, fromUV, u0:Math.min(...U), u1:Math.max(...U), v0:Math.min(...V), v1:Math.max(...V)}; }
+function bandMP(F, axis, a, b){ const pad=5; const rect=axis==='u'? [[a,F.v0-pad],[b,F.v0-pad],[b,F.v1+pad],[a,F.v1+pad]] : [[F.u0-pad,a],[F.u1+pad,a],[F.u1+pad,b],[F.u0-pad,b]];
+  return [[rect.map(q=>F.P.b(F.fromUV(q)))]]; }
+function splitField(field, n, dir){ const F=fieldFrame(field), axis=dir==='along'?'v':'u', lo=axis==='u'?F.u0:F.v0, hi=axis==='u'?F.u1:F.v1, tot=geoAreaM2(field.geo);
+  const areaTo=t=>mpAreaM2(clipToField(bandMP(F,axis,lo-1,t),field)); const cuts=[lo-1];
+  for(let k=1;k<n;k++){ let a=lo, b=hi; const target=tot*k/n; for(let it=0;it<40;it++){ const m=(a+b)/2; if(areaTo(m)<target) a=m; else b=m; } cuts.push((a+b)/2); } cuts.push(hi+1);
+  return cuts.slice(0,-1).map((c,i)=>clipToField(bandMP(F,axis,c,cuts[i+1]),field)); }
+function stripField(field, w, off, dir){ const F=fieldFrame(field), axis=dir==='along'?'v':'u', lo=axis==='u'?F.u0:F.v0; return clipToField(bandMP(F,axis,lo+off,lo+off+w),field); }
+const fieldLen=(field,dir)=>{ const F=fieldFrame(field); return dir==='along'?F.v1-F.v0:F.u1-F.u0; };
+function zoneAreaText(mp, field){ const ha=mpHa(mp); const pct=field?Math.round(100*ha/Math.max(1e-9,geoAreaM2(field.geo)/1e4)):null;
+  return `${fmtArea(ha)}${aU().s==='ha'?` · ${num(haToAc(ha),2)} ac`:` · ${num(ha,2)} ha`}${pct!=null?` · ${pct}% of field`:''}`; }
+const WORLD=[[-85,-179.9],[-85,179.9],[85,179.9],[85,-179.9]];
+function maskLayer(field, op=.62){ return L.polygon([WORLD, field.geo],{stroke:false, fillColor:'#05080a', fillOpacity:op, interactive:false}); }
+function zoneLabelIcon(p, big){ const c=plCrop(p); return L.divIcon({className:'zlbl'+(big?' big':''), iconSize:null, html:`${c.img?`<img src="crops/img/${esc(c.id)}.webp" alt="">`:`<span class="ze">${CROP_GROUP_EMO[c.g]||'🌱'}</span>`}<b>${esc(shortCrop(p.cropName||c.n))}</b>`}); }
+function inRing(pt, r){ let c=false; for(let i=0,j=r.length-1;i<r.length;j=i++){ const [yi,xi]=r[i], [yj,xj]=r[j]; if(((yi>pt[0])!==(yj>pt[0]))&&(pt[1]<(xj-xi)*(pt[0]-yi)/((yj-yi)||1e-12)+xi)) c=!c; } return c; }
+function mpCentroid(mp){ /* a label point well inside the biggest part (approximate pole of inaccessibility) */ let best=null, ba=-1; (mp||[]).forEach(poly=>{ const a=geoAreaM2(poly[0]); if(a>ba){ ba=a; best=poly; } }); if(!best) return null;
+  const ring=best[0], k=Math.cos(ring[0][0]*Math.PI/180); let la0=1e9,la1=-1e9,lo0=1e9,lo1=-1e9; ring.forEach(([a,b])=>{ la0=Math.min(la0,a); la1=Math.max(la1,a); lo0=Math.min(lo0,b); lo1=Math.max(lo1,b); });
+  const segD=(p,a,b)=>{ const px=p[1]*k, py=p[0], ax=a[1]*k, ay=a[0], bx=b[1]*k, by=b[0], dx=bx-ax, dy=by-ay, L2=dx*dx+dy*dy||1e-18, t=Math.max(0,Math.min(1,((px-ax)*dx+(py-ay)*dy)/L2)); return Math.hypot(px-ax-t*dx,py-ay-t*dy); };
+  let bp=null, bd=-1; const N=18;
+  for(let i=0;i<=N;i++) for(let j=0;j<=N;j++){ const pt=[la0+(la1-la0)*(i+.5)/(N+1), lo0+(lo1-lo0)*(j+.5)/(N+1)]; if(!inRing(pt,ring)||best.slice(1).some(h=>inRing(pt,h))) continue;
+    let d=1e9; best.forEach(r=>r.forEach((q,m)=>{ d=Math.min(d,segD(pt,q,r[(m+1)%r.length])); })); if(d>bd){ bd=d; bp=pt; } }
+  if(bp) return bp; const c=L.latLngBounds(ring).getCenter(); return [c.lat,c.lng]; }
+const shortCrop=n=>String(n||'').split(' — ')[0].replace(/\s*\(.*?\)\s*/g,' ').trim();
+function addZoneLayers(m, pid, {labels=true, big=false, onClick, exceptId}={}){ const g=L.layerGroup().addTo(m);
+  S.plantings.filter(x=>(!pid||x.paddockId===pid)&&hasZone(x)&&x.id!==exceptId&&plStatus(x)!=='finished').forEach(p=>{ const col=cropCol(p), planned=plStatus(p)==='planned', done=plStatus(p)==='harvested';
+    const lyr=L.polygon(p.zone,{color:'#fff', weight:2, opacity:.95, dashArray:planned?'6 5':null, fillColor:col, fillOpacity:done?.25:planned?.38:.6, interactive:!!onClick}).addTo(g);
+    if(onClick) lyr.on('click',e=>{ L.DomEvent.stopPropagation(e); onClick(p); });
+    const c=mpCentroid(p.zone); if(labels&&c) L.marker(c,{icon:zoneLabelIcon(p,big), interactive:false, keyboard:false}).addTo(g); }); return g; }
+/* --- undo --- */
+function undoToast(msg, fn){ $$('.undobar').forEach(x=>x.remove()); const t=document.createElement('div'); t.className='undobar'; t.setAttribute('role','status');
+  t.innerHTML=`<span>${esc(msg)}</span><button class="sm pri" type="button">↶ Undo</button>`; document.body.appendChild(t);
+  const tm=setTimeout(()=>t.remove(),9000); t.querySelector('button').onclick=()=>{ clearTimeout(tm); t.remove(); fn(); render(); toast('Undone'); }; }
+function restoreRec(col, rec){ if(!get(col,rec.id)){ S[col].push(JSON.parse(JSON.stringify(rec))); enqueue(rec.id,'up'); save(); } }
+/* --- field chips (subtabs, one per field) --- */
+const sortedFields=()=>S.paddocks.slice().sort((a,b)=>(a.name||'').localeCompare(b.name||'',undefined,{numeric:true}));
+function fieldChips(cur, mode='field'){ const fs=sortedFields(); if(!fs.length) return '';
+  return `<nav class="subtabs fchips" aria-label="Fields"><a class="fchip ${!cur?'on':''}" href="#map">🗺️ All fields</a>${fs.map(p=>`<a class="fchip ${cur===p.id?'on':''}" href="#${mode}/${encodeURIComponent(p.id)}"${cur===p.id?' aria-current="page"':''}><i style="background:${fieldColour(p)}"></i>${esc(p.name||'Field')}</a>`).join('')}</nav>`; }
+function scrollChipIntoView(el){ const on=$('.fchips .fchip.on',el); if(on&&on.scrollIntoView) on.scrollIntoView({block:'nearest',inline:'center'}); }
+
+/* ---------- Plan planting: zoomed into one field, easy draw modes ---------- */
+const PLAN={pid:null, target:null, method:null, pts:[], sel:-1, parts:null, part:0, n:2, dir:'across', w:12, off:0, rectStart:null, center:null, zoom:null, key:''};
+let PMAP=null;
+function planReset(keepView){ Object.assign(PLAN,{method:null, pts:[], sel:-1, parts:null, part:0, rectStart:null}); if(!keepView){ PLAN.center=null; PLAN.zoom=null; } }
+function startPlan(pid, plId){ go('plan', pid+(plId?':'+plId:'')); }
+function planDraft(field){ const m=PLAN.method; if(!m||!field) return null;
+  if(m==='whole') return clipToField([[field.geo]],field);
+  if(m==='corners'||m==='rect'){ if(PLAN.pts.length<3) return null; return clipToField([[PLAN.pts]],field); }
+  if(m==='split'){ if(!PLAN.parts) PLAN.parts=splitField(field,PLAN.n,PLAN.dir); return PLAN.parts[PLAN.part]||null; }
+  if(m==='strip') return stripField(field,PLAN.w,PLAN.off,PLAN.dir);
+  return null; }
+function planHelp(field){ const m=PLAN.method, tgt=PLAN.target&&get('plantings',PLAN.target);
+  const who=tgt?` for <b>${esc(tgt.cropName||'this planting')}</b>`:'';
+  if(!m) return `Choose how to mark the planting area${who} below. Everything is kept inside the field boundary.`;
+  if(m==='corners') return PLAN.pts.length<3?`<b>Tap each corner</b> of the planting area${who} (${PLAN.pts.length} so far). Taps near the field edge snap to it.`:`Drag the big dots to adjust. Tap the orange dot or <b>Use this area</b> when done.`;
+  if(m==='rect') return PLAN.pts.length?`Drag the corner dots to adjust, or tap <b>New box</b>.`:`<b>Press and drag</b> on the field to draw a box. (Map dragging is paused; use + / − to zoom.)`;
+  if(m==='split') return `Field split into ${PLAN.n} equal parts. <b>Tap a part</b> (or the buttons below) to choose it.`;
+  if(m==='strip') return `A ${num(PLAN.w,1)} m strip ${PLAN.dir==='along'?'along':'across'} the field. Move it with the slider.`;
+  if(m==='whole') return `The whole field is selected.`; return ''; }
+function snapLL(ll, field){ if(!PMAP) return [ll.lat,ll.lng]; const p=PMAP.latLngToContainerPoint(ll); let best=null, bd=22;
+  const cands=[field.geo, ...zonesOf(field.id, PLAN.target).flatMap(z=>z.zone.map(poly=>poly[0]))];
+  cands.forEach(r=>r.forEach(q=>{ const c=PMAP.latLngToContainerPoint(q), d=c.distanceTo(p); if(d<bd){ bd=d; best=q; } }));
+  if(best) return [best[0],best[1]]; bd=16;
+  cands.forEach(r=>r.forEach((q,i)=>{ const a=PMAP.latLngToContainerPoint(q), b=PMAP.latLngToContainerPoint(r[(i+1)%r.length]); const dx=b.x-a.x, dy=b.y-a.y, L2=dx*dx+dy*dy; if(!L2) return;
+    const t=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/L2)), x=a.x+t*dx, y=a.y+t*dy, d=Math.hypot(p.x-x,p.y-y); if(d<bd){ bd=d; const l=PMAP.containerPointToLatLng([x,y]); best=[l.lat,l.lng]; } }));
+  return best||[ll.lat,ll.lng]; }
+let planLayers=null;
+function drawPlan(){ const field=get('paddocks',PLAN.pid); if(!PMAP||!field) return; if(planLayers) planLayers.remove(); planLayers=L.layerGroup().addTo(PMAP);
+  const m=PLAN.method;
+  if(m==='split'&&PLAN.parts) PLAN.parts.forEach((mp,i)=>{ if(!mp.length) return; const on=i===PLAN.part; const lyr=L.polygon(mp,{color:on?'#ffeb3b':'#ffffff', weight:on?4:2, dashArray:on?null:'5 5', fillColor:on?'#ffeb3b':'#ffffff', fillOpacity:on?.4:.12}).addTo(planLayers);
+    lyr.on('click',e=>{ L.DomEvent.stopPropagation(e); PLAN.part=i; drawPlan(); planOpts(); }); const c=mpCentroid(mp); if(c) L.marker(c,{interactive:false,icon:L.divIcon({className:'zpart'+(on?' on':''),html:String(i+1),iconSize:[34,34]})}).addTo(planLayers); });
+  const d=planDraft(field);
+  PL_L.draft=null; PL_L.line=null; PL_L.mk=[];
+  if(d&&d.length&&m!=='split') PL_L.draft=L.polygon(d,{color:'#ffeb3b', weight:4, fillColor:'#ffeb3b', fillOpacity:.38, interactive:false}).addTo(planLayers);
+  if((m==='corners'||m==='rect')&&PLAN.pts.length){ if(PLAN.pts.length>=2) PL_L.line=L.polyline(PLAN.pts.concat(PLAN.pts.length>=3?[PLAN.pts[0]]:[]),{color:'#ff3b30',weight:2.5,dashArray:'6 4',interactive:false}).addTo(planLayers);
+    PLAN.pts.forEach((q,i)=>{ const mk=L.marker(q,{draggable:true, keyboard:false, icon:L.divIcon({className:'zh'+(i===0&&m==='corners'?' first':'')+(i===PLAN.sel?' on':''), iconSize:[34,34]})}).addTo(planLayers); PL_L.mk.push(mk);
+      mk.on('drag',e=>{ const l=e.target.getLatLng(); PLAN.pts[i]=[l.lat,l.lng]; if(m==='rect'&&PLAN.pts.length===4&&!PLAN.free) rectKeep(i); planLive(i); });
+      mk.on('dragend',e=>{ PLAN.pts[i]=snapLL(e.target.getLatLng(),field); drawPlan(); });
+      mk.on('click',e=>{ L.DomEvent.stopPropagation(e); if(i===0&&m==='corners'&&PLAN.pts.length>=3&&PLAN.sel!==0){ planUse(); return; } PLAN.sel=PLAN.sel===i?-1:i; drawPlan(); planOpts(); }); }); }
+  liveArea(d); const h=$('#pHelp'); if(h) h.innerHTML=planHelp(field); }
+const PL_L={draft:null, line:null, mk:[]};
+function rectKeep(i){ /* keep the dragged box rectangular (in screen space) by moving the two neighbouring corners */ const P=PLAN.pts.map(q=>PMAP.latLngToContainerPoint(q)), a=P[i], c=P[(i+2)%4];
+  const n1=(i+1)%4, n3=(i+3)%4; const p1=i%2===0?[c.x,a.y]:[a.x,c.y], p3=i%2===0?[a.x,c.y]:[c.x,a.y];
+  [[n1,p1],[n3,p3]].forEach(([k,pt])=>{ const l=PMAP.containerPointToLatLng(pt); PLAN.pts[k]=[l.lat,l.lng]; }); }
+function planLive(skip){ /* update shapes while a corner is dragged, without rebuilding the markers */ const field=get('paddocks',PLAN.pid); if(!PMAP||!field) return;
+  PL_L.mk.forEach((mk,k)=>{ if(k!==skip&&PLAN.pts[k]) mk.setLatLng(PLAN.pts[k]); });
+  if(PL_L.line) PL_L.line.setLatLngs(PLAN.pts.concat(PLAN.pts.length>=3?[PLAN.pts[0]]:[]));
+  const d=planDraft(field); if(d&&d.length){ if(PL_L.draft) PL_L.draft.setLatLngs(d); else PL_L.draft=L.polygon(d,{color:'#ffeb3b', weight:4, fillColor:'#ffeb3b', fillOpacity:.38, interactive:false}).addTo(planLayers); } else if(PL_L.draft){ PL_L.draft.remove(); PL_L.draft=null; }
+  liveArea(d); }
+function liveArea(d){ const field=get('paddocks',PLAN.pid); if(d===undefined) d=planDraft(field); const a=$('#pArea'); if(!a) return; const empty=d&&!d.length; a.hidden=!(d&&d.length)&&!empty; a.textContent=d&&d.length?zoneAreaText(d,field):empty?'Outside the field: move the dots inside the boundary':'';
+  const u=$('#pUse'); if(u) u.disabled=!(d&&d.length); }
+function planOpts(){ const box=$('#pOpts'); if(!box) return; const field=get('paddocks',PLAN.pid); const m=PLAN.method;
+  let h='';
+  if(m==='split') h=`<div class="row"><span class="mut">Parts:</span><button class="sm ${PLAN.n===2?'on':''}" data-pn="2">½ Halves</button><button class="sm ${PLAN.n===3?'on':''}" data-pn="3">⅓ Thirds</button><button class="sm ${PLAN.n===4?'on':''}" data-pn="4">¼ Quarters</button><span class="sp"></span><button class="sm" id="pDir">⟲ ${PLAN.dir==='along'?'Lengthways':'Across'}</button></div>
+     <div class="row"><span class="mut">Use part:</span>${(PLAN.parts||[]).map((mp,i)=>`<button class="sm ${PLAN.part===i?'on':''}" data-pp="${i}">${i+1} · ${fmtArea(mpHa(mp))}</button>`).join('')}</div>`;
+  else if(m==='strip'){ const len=fieldLen(field,PLAN.dir); const mx=Math.max(0,Math.floor((len-PLAN.w)*2)/2);
+    h=`<div class="row"><label class="f" style="flex:1;min-width:130px"><span>Strip width (m)</span><input id="pW" type="number" inputmode="decimal" min="0.5" step="0.5" value="${PLAN.w}"></label><span class="mut">≈ ${num(PLAN.w*3.28084,0)} ft</span><button class="sm" id="pDir">⟲ ${PLAN.dir==='along'?'Along the field':'Across the field'}</button></div>
+      <label class="f full"><span>Position from the end of the field: <b id="pOffV">${num(PLAN.off,1)} m</b> of ${num(len,0)} m</span><input id="pOff" type="range" min="0" max="${mx}" step="0.5" value="${Math.min(PLAN.off,mx)}" style="width:100%"></label>
+      <div class="row"><button class="sm" data-pw="3">3 m bed</button><button class="sm" data-pw="6">6 m</button><button class="sm" data-pw="12">12 m</button><button class="sm" data-pw="24">24 m (sprayer)</button></div>`; }
+  else if(m==='corners') h=`<div class="row"><button class="sm" id="pUndo" ${PLAN.pts.length?'':'disabled'}>↶ Undo corner</button>${PLAN.sel>=0?`<button class="sm danger" id="pDelPt">🗑 Remove selected corner</button>`:''}<button class="sm" id="pClear" ${PLAN.pts.length?'':'disabled'}>✕ Clear</button></div>`;
+  else if(m==='rect') h=`<div class="row"><button class="sm" id="pNewBox">▭ New box</button></div>`;
+  box.innerHTML=h;
+  const B=(s,fn)=>{ const x=$(s,box); if(x) x.onclick=fn; };
+  $$('[data-pn]',box).forEach(b=>b.onclick=()=>{ PLAN.n=+b.dataset.pn; PLAN.parts=null; PLAN.part=0; drawPlan(); planOpts(); });
+  $$('[data-pp]',box).forEach(b=>b.onclick=()=>{ PLAN.part=+b.dataset.pp; drawPlan(); planOpts(); });
+  B('#pDir',()=>{ PLAN.dir=PLAN.dir==='along'?'across':'along'; PLAN.parts=null; PLAN.off=0; drawPlan(); planOpts(); });
+  const w=$('#pW',box); if(w) w.onchange=()=>{ PLAN.w=Math.max(.5,Number(w.value)||12); drawPlan(); planOpts(); };
+  $$('[data-pw]',box).forEach(b=>b.onclick=()=>{ PLAN.w=+b.dataset.pw; drawPlan(); planOpts(); });
+  const o=$('#pOff',box); if(o) o.oninput=()=>{ PLAN.off=Number(o.value); $('#pOffV',box).textContent=num(PLAN.off,1)+' m'; drawPlan(); };
+  B('#pUndo',()=>{ PLAN.pts.pop(); PLAN.sel=-1; drawPlan(); planOpts(); }); B('#pClear',()=>{ PLAN.pts=[]; PLAN.sel=-1; drawPlan(); planOpts(); });
+  B('#pDelPt',()=>{ PLAN.pts.splice(PLAN.sel,1); PLAN.sel=-1; drawPlan(); planOpts(); });
+  B('#pNewBox',()=>{ PLAN.pts=[]; setMethod('rect'); });
+  $$('[data-pm]').forEach(b=>b.classList.toggle('on',b.dataset.pm===m)); }
+function setMethod(m){ const tgt=PLAN.target&&get('plantings',PLAN.target);
+  PLAN.method=m; PLAN.sel=-1; PLAN.parts=null; PLAN.part=0; PLAN.free=false; if(m!=='corners'&&m!=='rect') PLAN.pts=[]; if(m==='rect') PLAN.pts=[];
+  if(m==='corners'&&tgt&&hasZone(tgt)&&!PLAN.pts.length){ const big=tgt.zone.slice().sort((a,b)=>geoAreaM2(b[0])-geoAreaM2(a[0]))[0]; PLAN.pts=big[0].map(q=>[...q]); PLAN.free=true; }
+  if(PMAP){ if(m==='rect') PMAP.dragging.disable(); else PMAP.dragging.enable(); }
+  drawPlan(); planOpts(); }
+VIEWS.plan = el => { const [pid,plId]=String(routeArg||'').split(':'); const field=get('paddocks',pid);
+  if(!field){ el.innerHTML=emptyBox('Field not found.')+'<p><a href="#map">← Map</a></p>'; return; }
+  const key=pid+':'+(plId||''); if(PLAN.key!==key){ planReset(); PLAN.key=key; if(innerWidth<700) setTimeout(planScroll,150); } PLAN.pid=pid; PLAN.target=plId&&get('plantings',plId)?plId:null;
+  const tgt=PLAN.target&&get('plantings',PLAN.target);
+  if(!hasGeo(field)){ el.innerHTML=`${fieldChips(pid,'plan')}<div class="card"><h2>🌱 Plan planting · ${esc(field.name)}</h2>${emptyBox('This field has no boundary on the satellite map yet. Draw it first, then you can mark planting areas inside it.')}<div class="row"><button class="pri" id="pDrawB">🛰 Draw boundary</button><a class="btn" href="#field/${encodeURIComponent(pid)}">← Field page</a></div></div>`;
+    $('#pDrawB',el).onclick=()=>startSatDraw(pid); scrollChipIntoView(el); return; }
+  el.innerHTML=`<div class="row"><a class="btn sm" href="#field/${encodeURIComponent(pid)}">← ${esc(field.name)}</a><h2 style="margin:0">🌱 ${tgt?'Planting area: '+esc(tgt.cropName||''):'Plan planting'}</h2><span class="sp"></span><span class="mut">${esc(field.name)} · ${fmtArea(padHa(field))}</span></div>
+  ${fieldChips(pid,'plan')}
+  <div id="planwrap" class="planwrap"><div id="pmap"></div><div class="maphelp" id="pHelp">${planHelp(field)}</div><div class="areabox" id="pArea" hidden></div></div>
+  <div class="plantools" role="toolbar" aria-label="How to mark the area">
+    <button data-pm="corners">✏️ Tap corners</button><button data-pm="rect">▭ Rectangle</button><button data-pm="split">½ Split field</button><button data-pm="strip">▤ Strip</button><button data-pm="whole">⬛ Whole field</button></div>
+  <div id="pOpts"></div>
+  <div class="row planact"><button class="pri" id="pUse" disabled>✔ ${tgt?'Save area':'Use this area'}</button><button id="pCancel">Cancel</button></div>
+  <div class="card"><h3>Planting areas in ${esc(field.name)}</h3><div id="pZones"></div></div>`;
+  $('#pZones',el).innerHTML=zoneList(pid); bindZoneList($('#pZones',el));
+  $$('[data-pm]',el).forEach(b=>b.onclick=()=>setMethod(b.dataset.pm));
+  $('#pUse',el).onclick=planUse; $('#pCancel',el).onclick=()=>{ planReset(); go('field',pid); };
+  const m=L.map($('#pmap',el),{zoomControl:true, attributionControl:false, tapTolerance:20, maxZoom:21, doubleClickZoom:false}); PMAP=m; MINIMAPS.push(m);
+  if(MAP.base==='street') L.tileLayer(...TILES.street).addTo(m); else L.tileLayer(...TILES.sat).addTo(m);
+  maskLayer(field).addTo(m);
+  L.polygon(field.geo,{color:'#000',weight:7,opacity:.35,fill:false,interactive:false}).addTo(m);
+  L.polygon(field.geo,{color:fieldColour(field),weight:3.5,fillOpacity:0,interactive:false}).addTo(m);
+  addZoneLayers(m,pid,{big:true, exceptId:PLAN.target});
+  if(PLAN.center) m.setView(PLAN.center,PLAN.zoom); else m.fitBounds(L.latLngBounds(field.geo),{padding:[28,28],maxZoom:20});
+  m.on('moveend zoomend',()=>{ const c=m.getCenter(); PLAN.center=[c.lat,c.lng]; PLAN.zoom=m.getZoom(); });
+  m.on('click',e=>{ if(PLAN.method==='corners'){ const q=snapLL(e.latlng,field);
+      if(PLAN.free&&PLAN.pts.length>=3){ /* editing: insert the new corner into the nearest side */ const P=PLAN.pts.map(x=>m.latLngToContainerPoint(x)), c=m.latLngToContainerPoint(e.latlng); let bi=0, bd=1e9;
+        P.forEach((a,i)=>{ const b=P[(i+1)%P.length]; const dx=b.x-a.x, dy=b.y-a.y, L2=dx*dx+dy*dy||1, t=Math.max(0,Math.min(1,((c.x-a.x)*dx+(c.y-a.y)*dy)/L2)); const d=Math.hypot(c.x-a.x-t*dx,c.y-a.y-t*dy); if(d<bd){ bd=d; bi=i; } });
+        PLAN.pts.splice(bi+1,0,q); } else PLAN.pts.push(q);
+      PLAN.sel=-1; drawPlan(); planOpts(); }
+    else if(PLAN.sel>=0){ PLAN.sel=-1; drawPlan(); planOpts(); } });
+  // rectangle: press and drag
+  const ct=m.getContainer(); let dragging=false;
+  const ll=ev=>m.mouseEventToLatLng(ev);
+  ct.addEventListener('pointerdown',ev=>{ if(PLAN.method!=='rect'||PLAN.pts.length||ev.target.closest('.leaflet-control,.leaflet-marker-icon')) return; dragging=true; PLAN.rectStart=ll(ev); ct.setPointerCapture?.(ev.pointerId); ev.preventDefault(); });
+  ct.addEventListener('pointermove',ev=>{ if(!dragging) return; const a=PLAN.rectStart, b=ll(ev); PLAN.pts=[[a.lat,a.lng],[a.lat,b.lng],[b.lat,b.lng],[b.lat,a.lng]]; drawPlan(); });
+  const up=()=>{ if(!dragging) return; dragging=false; const P=PLAN.pts; if(P.length===4&&m.latLngToContainerPoint(P[0]).distanceTo(m.latLngToContainerPoint(P[2]))<12) PLAN.pts=[]; m.dragging.enable(); drawPlan(); planOpts(); };
+  ct.addEventListener('pointerup',up); ct.addEventListener('pointercancel',up);
+  if(PLAN.method==='rect'&&!PLAN.pts.length) m.dragging.disable();
+  if(!PLAN.method&&tgt&&hasZone(tgt)) setMethod('corners'); else { drawPlan(); planOpts(); }
+  setTimeout(()=>{ if(MINIMAPS.includes(m)) try{ m.invalidateSize(); }catch(e){} },0); scrollChipIntoView(el); };
+function planScroll(){ const w=$('#planwrap'); if(!w) return; const nb=($('#nav')?.getBoundingClientRect().bottom)||0; window.scrollBy(0, w.getBoundingClientRect().top-nb-8); setTimeout(()=>{ const w2=$('#planwrap'); if(!w2) return; const nb2=($('#nav')?.getBoundingClientRect().bottom)||0; window.scrollBy(0, w2.getBoundingClientRect().top-nb2-8); },350); }
+function planUse(){ const field=get('paddocks',PLAN.pid); let d=planDraft(field); if(!d||!d.length) return toast('Mark an area inside the field first');
+  const tgt=PLAN.target&&get('plantings',PLAN.target);
+  if(tgt){ const ov=overlapInfo(d,field.id,tgt.id); if(ov.m2>1&&confirm(`This area overlaps ${ov.names.join(', ')} by ${fmtArea(ov.m2/1e4)}. Trim the overlap off? (Cancel keeps it, e.g. for intercropping.)`)) d=trimOverlap(d,field.id,tgt.id);
+    if(!d.length) return toast('Nothing left after trimming the overlap');
+    const old={zone:tgt.zone||null, area:tgt.area??null, zoneHow:tgt.zoneHow||null}; upd('plantings',tgt.id,{zone:d, area:Math.round(mpHa(d)*10000)/10000, zoneHow:PLAN.method});
+    const id=tgt.id; planReset(true); undoToast('Area saved · '+fmtArea(mpHa(d)), ()=>upd('plantings',id,old)); render(); return; }
+  zoneSheet(field, d, PLAN.method); }
+/* --- crop sheet after drawing --- */
+async function zoneSheet(field, mp, how){ await loadCropIndex().catch(()=>null);
+  const ov=overlapInfo(mp, field.id); const loose=fieldPls(field.id, PL_ACTIVE).filter(x=>!hasZone(x));
+  const relG=new Set(farmTypes().flatMap(t=>({tillage:TAB_GROUPS.crops, horticulture:TAB_GROUPS.veg, fruit:TAB_GROUPS.orchard, forestry:TAB_GROUPS.forestry}[t]||[])));
+  const crops=allCrops().slice().sort((a,b)=>(relG.has(b.g)-relG.has(a.g))||a.n.localeCompare(b.n));
+  const st={crop:'', q:'', link:''}; const dlg=$('#dlg');
+  dlg.innerHTML=`<form method="dialog" id="zForm" class="zsheet" novalidate><div class="dh"><h3>🌱 What’s going in here?</h3><button type="button" class="sm" data-x>✕</button></div><div class="db">
+    <div class="zarea">📐 <b>${esc(zoneAreaText(mp,field))}</b> in ${esc(field.name)}</div>
+    ${ov.m2>1?`<div class="banner" style="margin:8px 0">⚠️ This overlaps <b>${esc(ov.names.join(', '))}</b> by ${esc(fmtArea(ov.m2/1e4))}.<label class="cb"><input type="radio" name="ov" value="trim" checked> Trim the overlap off (recommended)</label><label class="cb"><input type="radio" name="ov" value="keep"> Keep it (intercrop or a second crop in the same ground)</label></div>`:''}
+    ${loose.length?`<label class="f full"><span>New planting or an existing one?</span><select id="zLink"><option value="">➕ A new planting</option>${loose.map(p=>`<option value="${p.id}">📍 Put “${esc(p.cropName||plCrop(p).n)}${p.variety?' — '+esc(p.variety):''}” (whole field / no area drawn) here</option>`).join('')}</select></label>`:''}
+    <div id="zNew"><label class="f full"><span>Crop *</span><input id="zQ" type="search" placeholder="🔎 Search: barley, kale, apple, peach…" autocomplete="off"></label>
+    <div class="cpgrid" id="zGrid" role="listbox" aria-label="Crops"></div><div class="mut" id="zPicked" style="margin:6px 0">No crop picked yet.</div>
+    <div class="fgrid"><label class="f"><span>Variety</span><input id="zVar" list="zVarDl" autocomplete="off" placeholder="optional"><datalist id="zVarDl"></datalist></label>
+    <label class="f"><span>Sown / planned date</span><input id="zDate" type="date" value="${today()}"></label>
+    <label class="f"><span>Status</span><select id="zSt"><option value="planned">Planned</option><option value="sown">Sown</option><option value="growing" selected>Growing</option><option value="harvested">Harvested</option></select></label>
+    <label class="f full"><span>Notes</span><textarea id="zNotes" placeholder="e.g. seed rate, bed layout, organic seed batch"></textarea></label></div></div>
+    <div class="hint warn" id="zErr"></div></div>
+    <div class="df"><span class="sp"></span><button type="button" data-x>Cancel</button><button type="submit" class="pri">✔ Save planting area</button></div></form>`;
+  const grid=$('#zGrid',dlg), F=$('#zForm',dlg);
+  const drawGrid=()=>{ const q=st.q.toLowerCase().trim(); const list=crops.filter(c=>!q||(c.n+' '+(c.lat||'')).toLowerCase().includes(q)).slice(0,q?60:36);
+    grid.innerHTML=list.length?list.map(c=>`<button type="button" role="option" data-cp="${esc(c.id)}" class="${st.crop===c.id?'on':''}" aria-selected="${st.crop===c.id}">${cropThumb(c,'xs')}<span>${esc(c.n)}</span></button>`).join(''):`<div class="mut">${CROPIDX?'No crops match.':'The crop library isn’t saved on this device yet. Open it once with signal.'}</div>`;
+    $$('[data-cp]',grid).forEach(b=>b.onclick=()=>pick(b.dataset.cp)); };
+  const pick=async id=>{ st.crop=id; const c=cropIdx(id); $('#zPicked',dlg).innerHTML=c?`Picked: <b>${CROP_GROUP_EMO[c.g]||''} ${esc(c.n)}</b>`:''; drawGrid();
+    const d=await cropDoc(id).catch(()=>null); const dl=$('#zVarDl',dlg); if(dl) dl.innerHTML=(d?.varieties||[]).map(v=>`<option value="${esc(v.name)}">`).join('');
+    const vi=$('#zVar',dlg); if(vi) vi.placeholder=d?.varieties?.length?`${d.varieties.length} varieties: type to search`:'optional'; };
+  $('#zQ',dlg).oninput=e=>{ st.q=e.target.value; drawGrid(); }; drawGrid();
+  const lk=$('#zLink',dlg); if(lk) lk.onchange=()=>{ $('#zNew',dlg).hidden=!!lk.value; };
+  $$('[data-x]',dlg).forEach(b=>b.onclick=()=>dlg.close());
+  F.onsubmit=async e=>{ e.preventDefault(); let zone=mp; const ovv=F.querySelector('[name=ov]:checked'); if(ovv&&ovv.value==='trim') zone=trimOverlap(mp,field.id);
+    if(!zone.length){ $('#zErr',dlg).textContent='Nothing is left after trimming the overlap. Choose “Keep it” or draw a different area.'; return; }
+    const area=Math.round(mpHa(zone)*10000)/10000;
+    if(lk&&lk.value){ const p=get('plantings',lk.value); const old={zone:p.zone||null, area:p.area??null, zoneHow:p.zoneHow||null}; upd('plantings',p.id,{zone, area, zoneHow:how});
+      dlg.close(); planReset(true); undoToast(`Area set for ${p.cropName||'planting'}`,()=>upd('plantings',p.id,old)); render(); return; }
+    if(!st.crop){ $('#zErr',dlg).textContent='Pick a crop (search above).'; return; }
+    const d=await cropDoc(st.crop).catch(()=>null), ci=cropIdx(st.crop);
+    const n=add('plantings',{cropId:st.crop, cropName:ci?ci.n:(d?.name||''), paddockId:field.id, variety:$('#zVar',dlg).value.trim(), sown:$('#zDate',dlg).value, status:$('#zSt',dlg).value, notes:$('#zNotes',dlg).value.trim(), area, zone, zoneHow:how, advice:d?buildAdvice(d,field):{}});
+    dlg.close(); planReset(true); undoToast(`${n.cropName} added · ${fmtArea(area)}`,()=>del('plantings',n.id)); render(); };
+  dlg.showModal(); setTimeout(()=>$('#zQ',dlg)?.focus({preventScroll:true}),50); }
+function zoneList(pid){ const pls=fieldPls(pid).filter(x=>plStatus(x)!=='finished').sort(byDate('sown'));
+  if(!pls.length) return emptyBox('No plantings in this field yet. Choose a way to mark an area above.');
+  return `<ul class="list">${pls.map(p=>{ const c=plCrop(p); return `<li>${cropThumb(c,'sm')}<div class="grow"><b>${esc(p.cropName||c.n)}${p.variety?' — '+esc(p.variety):''}</b><div class="mut">${hasZone(p)?`📐 ${fmtArea(mpHa(p.zone))} drawn`:'Whole field · no area drawn'} · ${esc(STATUS_L[plStatus(p)]||'')}</div></div>
+    <div class="row" style="margin:0;gap:6px"><button class="sm" data-zedit="${p.id}">${hasZone(p)?'✏️ Edit shape':'📐 Draw area'}</button><button class="sm" data-zdet="${p.id}">Details</button>${hasZone(p)?`<button class="sm danger" data-zdel="${p.id}" title="Delete">🗑</button>`:''}</div></li>`; }).join('')}</ul>`; }
+function bindZoneList(el){ $$('[data-zedit]',el).forEach(b=>b.onclick=()=>{ const p=get('plantings',b.dataset.zedit); planReset(); PLAN.key=''; startPlan(p.paddockId,p.id); });
+  $$('[data-zdet]',el).forEach(b=>b.onclick=()=>go('planting',b.dataset.zdet));
+  $$('[data-zdel]',el).forEach(b=>b.onclick=()=>zoneDelete(get('plantings',b.dataset.zdel))); }
+function zoneDelete(p){ if(!p) return; const dlg=showInfo('Delete planting area', `<p><b>${esc(p.cropName||'Planting')}</b>${hasZone(p)?' · '+fmtArea(mpHa(p.zone)):''}</p>
+  <div class="row"><button id="zdArea">Remove the drawn area only<br><span class="mut">keeps the planting as “whole field”</span></button><button class="danger" id="zdAll">Delete the planting and its records</button></div><p class="hint">You can undo straight after.</p>`);
+  $('#zdArea',dlg).onclick=()=>{ const old={zone:p.zone, area:p.area??null, zoneHow:p.zoneHow||null}; upd('plantings',p.id,{zone:null, zoneHow:null}); dlg.close(); undoToast('Area removed',()=>upd('plantings',p.id,old)); render(); };
+  $('#zdAll',dlg).onclick=()=>{ const snap=JSON.parse(JSON.stringify(p)), ops=S.cropOps.filter(o=>o.plantingId===p.id).map(o=>JSON.parse(JSON.stringify(o)));
+    ops.forEach(o=>del('cropOps',o.id)); del('plantings',p.id); dlg.close(); undoToast(`${snap.cropName||'Planting'} deleted`,()=>{ restoreRec('plantings',snap); ops.forEach(o=>restoreRec('cropOps',o)); }); render(); }; }
+
+/* ---------- Field page (one per field, with subtabs) ---------- */
+let HARV_TXT={};
+async function harvestText(cropId){ if(cropId in HARV_TXT) return HARV_TXT[cropId]; const d=await cropDoc(cropId).catch(()=>null); return HARV_TXT[cropId]=d?.harvest?.timing&&d.harvest.timing!=='—'?d.harvest.timing:''; }
+function lastOp(p){ const ops=[...S.cropOps.filter(o=>o.plantingId===p.id), ...S.fertiliser.filter(f=>f.plantingId===p.id).map(f=>({...f,kind:'fert'}))].sort(byDate()); const o=ops[0]; if(!o) return '';
+  return `${o.kind==='fert'?'🧪 '+(o.product||'Fertiliser'):(OP_KINDS[o.kind]?.i||'')+' '+(OP_KINDS[o.kind]?.l||o.kind)} ${fmtD(o.date)}`; }
+function harvestTotals(p){ const hv=S.cropOps.filter(o=>o.plantingId===p.id&&o.kind==='harvest'); const by={}; hv.forEach(h=>{ const u=h.unit||''; by[u]=(by[u]||0)+(Number(h.qty)||0); }); return Object.entries(by).map(([u,q])=>num(q,2)+' '+u).join(' + '); }
+function plCard(p, mode){ const c=plCrop(p), s=plStatus(p); const ds=p.sown&&['sown','growing'].includes(s)?daysBetween(p.sown,today()):null;
+  return `<li class="plrow" data-pl="${p.id}">${cropThumb(c,'sm')}<div class="grow"><b>${esc(p.cropName||c.n)}${p.variety?' — '+esc(p.variety):''}</b>
+    <div class="mut">${hasZone(p)?`<span class="zdot" style="background:${cropCol(p)}"></span>📐 ${fmtArea(mpHa(p.zone))}`:'Whole field · no area drawn'}${mode==='plan'?` · planned ${fmtD(p.sown)||'–'}`:p.sown?` · sown ${fmtD(p.sown)}`:''}${ds!=null&&ds>=0?` · <b>${ds} day${ds===1?'':'s'}</b> since sowing`:''}</div>
+    <div class="mut" data-hv="${esc(p.cropId)}"></div>${mode==='hist'?`<div class="mut">${harvestTotals(p)?'🧺 Yield: <b>'+esc(harvestTotals(p))+'</b>':'No harvest recorded'}</div>`:lastOp(p)?`<div class="mut">Last: ${esc(lastOp(p))}</div>`:''}</div>${stPill(s)}</li>`; }
+function opsForField(pid){ const ops=[...S.fertiliser.filter(f=>f.paddockId===pid).map(f=>({d:f.date,i:'🧪',t:'Fertiliser / manure',x:[f.product,f.rate,f.nKgHa?fmtRate(f.nKgHa,'kg',0,'N'):''].filter(Boolean).join(' · '),open:()=>fertForm(get('fertiliser',f.id))})),
+    ...S.cropOps.filter(o=>o.paddockId===pid).map(o=>{ const p=get('plantings',o.plantingId); return {d:o.date,i:OP_KINDS[o.kind]?.i||'•',t:(OP_KINDS[o.kind]?.l||o.kind)+(p?' · '+(p.cropName||''):''),
+      x:o.kind==='spray'?[o.product,o.pcs?'PCS '+o.pcs:'',o.rate].filter(Boolean).join(' · '):o.kind==='irrigation'?[o.mm?o.mm+' mm':'',o.method].filter(Boolean).join(' · '):o.kind==='harvest'?[o.qty!=null?num(o.qty,2)+' '+(o.unit||''):'',o.store].filter(Boolean).join(' · '):o.text||o.notes||'',
+      open:()=>cropOpForm(p||{id:null,paddockId:pid,cropName:padName(pid)},o.kind,get('cropOps',o.id))}; }),
+    ...S.grazings.filter(g=>g.paddockId===pid).map(g=>({d:g.dateIn,i:'🐄',t:'Grazing',x:`${fmtD(g.dateIn)} → ${g.dateOut?fmtD(g.dateOut):'now'}${g.animals?' · '+g.animals+' animals':''}${g.group?' · '+g.group:''}`,open:()=>grazingForm(get('paddocks',pid),g)}))];
+  return ops.sort((a,b)=>(b.d||'').localeCompare(a.d||'')); }
+function logOpSheet(field){ const act=fieldPls(field.id,['sown','growing','planned']); const dlg=showInfo('Log an operation · '+field.name, `
+  ${act.length?`<label class="f full"><span>For which crop?</span><select id="loPl">${act.map(p=>`<option value="${p.id}">${esc(p.cropName||plCrop(p).n)}${hasZone(p)?' · '+fmtArea(mpHa(p.zone)):''}</option>`).join('')}<option value="">The whole field (no particular crop)</option></select></label>`:''}
+  <div class="opgrid"><button data-lo="fert">🧪 Fertiliser / manure</button>${Object.entries(OP_KINDS).map(([k,o])=>`<button data-lo="${k}">${o.i} ${o.l}</button>`).join('')}${grazeRel()||S.grazings.some(g=>g.paddockId===field.id)?'<button data-lo="graze">🐄 Grazing</button>':''}</div>
+  <p class="hint">${approach()==='organic'?'🍃 Organic only: non-permitted inputs are blocked.':approach()==='mostly'?'🌿 Mostly organic: you’ll be warned about non-organic inputs.':''}</p>`);
+  $$('[data-lo]',dlg).forEach(b=>b.onclick=()=>{ const k=b.dataset.lo, plId=$('#loPl',dlg)?.value||'', p=plId?get('plantings',plId):null; dlg.close();
+    if(k==='fert') return fertForm(null,{paddockId:field.id, ...(p?{plantingId:p.id}:{})}); if(k==='graze') return grazingForm(field, currentGrazing(field.id)||null, !!currentGrazing(field.id));
+    cropOpForm(p||{id:null,paddockId:field.id,cropName:field.name},k); }); }
+function askAboutField(field){ const grow=fieldPls(field.id,['sown','growing']).map(p=>`${p.cropName}${p.variety?' ('+p.variety+')':''}${hasZone(p)?' on '+fmtArea(mpHa(p.zone)):''}${p.sown?' sown '+p.sown:''}`).join('; ');
+  const plan=fieldPls(field.id,['planned']).map(p=>p.cropName).join(', ');
+  const ctx=`About my field “${field.name}” (${fmtArea(padHa(field))}${field.soilType?', '+SOILTXT[field.soilType].toLowerCase()+' soil':''}${field.ph?', pH '+field.ph:''}${field.pIndex?', P index '+field.pIndex:''}${field.kIndex?', K index '+field.kIndex:''}${field.drainage?', drainage '+field.drainage:''}; growing now: ${grow||'nothing recorded'}${plan?'; planned: '+plan:''}; approach: ${APPROACHES[approach()]?.l||approach()}): `;
+  aiPopOpen(); const fill=n=>{ const ta=$('#aiPop [data-aiform] textarea'); if(ta){ ta.value=ctx; ta.dispatchEvent(new Event('input',{bubbles:true})); ta.focus(); ta.setSelectionRange(ctx.length,ctx.length); } else if(n<10) setTimeout(()=>fill(n+1),80); }; setTimeout(()=>fill(0),60); }
+function fieldMiniMap(div, field){ const m=L.map(div,{zoomControl:false, attributionControl:false, dragging:false, touchZoom:false, scrollWheelZoom:false, doubleClickZoom:false, boxZoom:false, keyboard:false, zoomSnap:0.25}); MINIMAPS.push(m);
+  if(MAP.base==='street') L.tileLayer(...TILES.street).addTo(m); else L.tileLayer(...TILES.sat).addTo(m);
+  maskLayer(field,.5).addTo(m); L.polygon(field.geo,{color:'#000',weight:7,opacity:.35,fill:false,interactive:false}).addTo(m); L.polygon(field.geo,{color:fieldColour(field),weight:3.5,fillOpacity:0,interactive:false}).addTo(m);
+  addZoneLayers(m,field.id,{big:true}); m.fitBounds(L.latLngBounds(field.geo),{padding:[18,18],maxZoom:20}); setTimeout(()=>{ if(!MINIMAPS.includes(m)) return; try{ m.invalidateSize(); m.fitBounds(L.latLngBounds(field.geo),{padding:[18,18],maxZoom:20,animate:false}); }catch(e){} },60); return m; }
+VIEWS.field = el => { const field=get('paddocks',routeArg);
+  if(!field){ el.innerHTML=fieldChips(null)+emptyBox(S.paddocks.length?'Field not found. Pick one above.':'No fields yet. Draw one on the Map.')+'<p><a class="btn" href="#map">← Map</a></p>'; return; }
+  const pid=field.id, use=fieldUse(field), a=approach();
+  const now=fieldPls(pid,['sown','growing']).sort(byDate('sown')), planned=fieldPls(pid,['planned']).sort(byDate('sown',1)), hist=fieldPls(pid,['harvested','finished']).sort(byDate('sown'));
+  const tasks=S.tasks.filter(t=>t.paddockId===pid).sort((x,y)=>(x.done-y.done)||String(x.due||'').localeCompare(String(y.due||''))).slice(0,12);
+  const ops=opsForField(pid); const graze=grazeRel()||S.grazings.some(g=>g.paddockId===pid)||['grazing','resting'].includes(field.status)&&!now.length;
+  const rot=S.plantings.filter(p=>p.paddockId===pid&&p.sown).sort(byDate('sown',1)).map(p=>`${p.sown.slice(0,4)} ${p.cropName||plCrop(p).n}`);
+  const ci=graze?coverInfo(field):null, cur=currentGrazing(pid), ds=daysSinceGrazed(pid);
+  el.innerHTML=`${fieldChips(pid)}
+  <div class="card fhead"><div class="row" style="margin:0 0 8px"><h2 style="margin:0"><i class="fsw" style="background:${fieldColour(field)}"></i>${esc(field.name)}</h2><span class="pill" style="background:${USE[use].c}44">${esc(USE[use].l)}</span>${a!=='conventional'?`<span class="apill">${APPROACHES[a].i} ${esc(APPROACHES[a].l)}</span>`:''}<span class="sp"></span><span class="mut fnav"><button class="sm" id="fPrev" aria-label="Previous field">‹</button><button class="sm" id="fNext" aria-label="Next field">›</button></span></div>
+   ${hasGeo(field)?`<div class="fmini" id="fMini" title="Tap to plan planting"></div>`:`<div class="banner">No boundary on the satellite map yet. <button class="sm" id="fDrawB">🛰 Draw boundary</button></div>`}
+   <div class="row qact"><button class="pri" id="fPlan">🌱 Plan planting</button><button id="fOp">📝 Log operation</button><button id="fPhoto">📷 Add photo</button><button id="fTask">✅ Add task</button><button id="fAsk">💬 Ask Farmhand</button><button id="fMap">🗺️ On the map</button></div></div>
+  <div class="fgrid2">
+  <div class="card"><h3>Overview</h3><div class="kpis"><div class="kpi"><b>${num(toArea(padHa(field)),aU().dp)}</b><span>${areaU()}${aU().s==='ha'?` · ${num(haToAc(padHa(field)),2)} ac`:` · ${num(padHa(field),2)} ha`}</span></div>
+     <div class="kpi"><b>${now.length}</b><span>growing now</span></div><div class="kpi"><b>${hasGeo(field)?fmtArea(sum(now.concat(planned).filter(hasZone).map(p=>mpHa(p.zone)))):'–'}</b><span>drawn planting areas</span></div></div>
+   <dl class="kv"><dt>Soil type</dt><dd>${field.soilType?esc(SOILTXT[field.soilType]):'not set'}</dd><dt>pH</dt><dd>${esc(field.ph||'–')}</dd><dt>P / K index</dt><dd>${esc(field.pIndex||'–')} / ${esc(field.kIndex||'–')}${field.testDate?' (tested '+fmtD(field.testDate)+')':''}</dd>
+   <dt>Drainage</dt><dd>${esc({good:'Free-draining',moderate:'Moderate',poor:'Poorly drained'}[field.drainage]||'–')}</dd><dt>Current use</dt><dd>${esc(USE[use].l)}${PAD_STATUS[field.status]&&graze?' · '+esc(PAD_STATUS[field.status].l):''}</dd>${field.landId?`<dt>Land parcel</dt><dd>${esc(field.landId)}</dd>`:''}${field.soil?`<dt>Soil notes</dt><dd>${esc(field.soil)}</dd>`:''}${field.notes?`<dt>Notes</dt><dd>${esc(field.notes)}</dd>`:''}</dl>
+   <div class="row"><button class="sm" id="fEdit">✏️ Edit field details</button><button class="sm" id="fSuit">🌱 What suits this field?</button></div></div>
+  <div class="card"><h3>🌿 Growing now (${now.length})</h3>${now.length?`<ul class="list">${now.map(p=>plCard(p,'now')).join('')}</ul>`:emptyBox('Nothing growing recorded. Tap Plan planting to draw an area and pick a crop.')}</div>
+  <div class="card"><h3>🗓️ Planned (${planned.length})</h3>${planned.length?`<ul class="list">${planned.map(p=>plCard(p,'plan')).join('')}</ul>`:emptyBox('No plans yet.')}</div>
+  <div class="card"><h3>📜 History & rotation</h3>${rot.length>1?`<p class="mut">Rotation: ${rot.map(esc).join(' → ')}</p>`:''}${hist.length?`<ul class="list">${hist.map(p=>plCard(p,'hist')).join('')}</ul>`:emptyBox('No past crops recorded.')}</div>
+  ${graze?`<div class="card"><h3>🐄 Grazing</h3><div class="kpis"><div class="kpi"><b>${ci&&ci.est!=null?num(ci.est):'–'}</b><span>kg DM/ha est. cover</span></div><div class="kpi"><b>${ds==null?'–':ds}</b><span>days since grazed${cur?' (grazing now)':''}</span></div></div>
+    <div class="row">${cur?'<button class="sm pri" id="gOut">End grazing</button>':'<button class="sm" id="gIn">Start grazing</button>'}<button class="sm" id="gWalk">Record cover</button></div></div>`:''}
+  <div class="card"><h3>📝 Operations (${ops.length})</h3>${ops.length?`<ul class="list oplist">${ops.slice(0,40).map((o,i)=>`<li data-opi="${i}" style="cursor:pointer"><span class="opi">${o.i}</span><div class="grow"><b>${esc(o.t)}</b><div class="mut">${fmtD(o.d)}${o.x?' · '+esc(o.x):''}</div></div></li>`).join('')}</ul>`:emptyBox('No operations logged yet.')}</div>
+  <div class="card"><h3>✅ Tasks (${tasks.filter(t=>!t.done).length} open)</h3><div id="fTasks">${taskList(tasks,'No tasks for this field.')}</div></div>
+  <div class="card"><h3>📷 Photos</h3><div class="gallery" id="fGal"></div></div></div>`;
+  const B=(id,fn)=>{ const x=$('#'+id,el); if(x) x.onclick=fn; };
+  B('fPlan',()=>{ planReset(); PLAN.key=''; startPlan(pid); }); B('fOp',()=>logOpSheet(field)); B('fPhoto',()=>photoForm({paddockId:pid})); B('fTask',()=>taskForm(null,{paddockId:pid})); B('fAsk',()=>askAboutField(field));
+  B('fMap',()=>openFieldOnMap(pid)); B('fEdit',()=>paddockForm(field)); B('fSuit',()=>suitDialog(pid)); B('fDrawB',()=>startSatDraw(pid));
+  B('gIn',()=>grazingForm(field,null)); B('gOut',()=>grazingForm(field,cur,true)); B('gWalk',()=>walkForm(field,null));
+  const fs=sortedFields(), i=fs.findIndex(p=>p.id===pid), goRel=d=>{ const n=fs[(i+d+fs.length)%fs.length]; if(n&&n.id!==pid) go('field',n.id); };
+  B('fPrev',()=>goRel(-1)); B('fNext',()=>goRel(1)); if(fs.length<2) $('.fnav',el).hidden=true;
+  $$('[data-pl]',el).forEach(li=>li.onclick=()=>go('planting',li.dataset.pl)); $$('[data-opi]',el).forEach(li=>li.onclick=()=>ops[+li.dataset.opi].open());
+  bindTaskList($('#fTasks',el)); renderGallery($('#fGal',el), x=>x.paddockId===pid);
+  const mini=$('#fMini',el); if(mini&&window.L){ fieldMiniMap(mini,field); mini.onclick=()=>{ planReset(); PLAN.key=''; startPlan(pid); }; }
+  loadCropIndex().catch(()=>null).then(()=>$$('[data-hv]',el).forEach(async d=>{ const t=await harvestText(d.dataset.hv); if(t&&d.isConnected) d.textContent='🧺 Expected harvest: '+t; }));
+  // swipe left/right (outside the map) to move between fields
+  let sx=null, sy=null; el.ontouchstart=e=>{ if(e.target.closest('.fmini,.fchips,input,textarea,select')){ sx=null; return; } sx=e.touches[0].clientX; sy=e.touches[0].clientY; };
+  el.ontouchend=e=>{ if(sx==null) return; const dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy; sx=null; if(Math.abs(dx)>90&&Math.abs(dy)<45) goRel(dx<0?1:-1); };
+  scrollChipIntoView(el); };
+
 VIEWS.cows = el => {
   const st=cowFilter.status; const q=cowFilter.q.toLowerCase();
   let rows=S.cows.filter(isCattle).filter(c=> st==='all'||(st==='active'?!['sold','died'].includes(c.status):c.status===st)).filter(c=>!q||[c.tag,c.name,c.breed,c.group].join(' ').toLowerCase().includes(q));
@@ -2681,7 +3066,7 @@ VIEWS.settings = el => {
     <div class="row"><button class="pri" id="exp">⬇ Export backup (JSON)</button><button id="imp">⬆ Import backup…</button><input type="file" id="impFile" accept="application/json,.json" hidden></div></div>
   <div class="card"><h2>Demo data</h2><p class="mut">Loads a small set of example paddocks, cows, milk, breeding, grass, tasks and compliance records into your account (all flagged as demo). Only your own account is affected.</p>
     <div class="row"><button id="demo">Load demo data</button><button id="undemo">Remove demo data</button><button class="danger" id="clear">🗑 Delete ALL my farm data</button></div></div>
-  <div class="card" id="credits"><h3>ℹ️ About &amp; data credits</h3><p class="mut" style="margin-top:0">Farmhand v${APP_VERSION}. Records carry <code>source: "manual"</code>; future sensor feeds can write records with <code>source: "sensor"</code> using the same structure. Compliance sections are record-keeping aids only.</p><ul class="credits"><li><b>Weather forecasts &amp; warnings:</b> Met Éireann (<a href="https://www.met.ie" target="_blank" rel="noopener">met.ie</a>), <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> and the <a href="https://www.met.ie/about-us/specialised-services/open-data" target="_blank" rel="noopener">Met Éireann open-data terms</a>. MET Norway / Yr (<a href="https://www.yr.no" target="_blank" rel="noopener">yr.no</a>), <a href="https://api.met.no/doc/License" target="_blank" rel="noopener">CC BY 4.0</a>. <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo.com</a> (<a href="https://open-meteo.com/en/license" target="_blank" rel="noopener">CC BY 4.0</a>), with model data from ECMWF, the UK Met Office, DWD (ICON) and NOAA (GFS). This app combines and averages these forecasts and estimates grass growth from them; the original data has been changed.</li><li><b>Satellite map:</b> imagery © <a href="https://www.esri.com" target="_blank" rel="noopener">Esri</a>, Maxar, Earthstar Geographics and the GIS User Community. Place and road labels © Esri.</li><li><b>Street map, place names &amp; Eircode address lookup:</b> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL), lookups via Nominatim.</li><li><b>Software:</b> <a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a> (BSD-2), Leaflet-Geoman (MIT), JSZip (MIT), supabase-js (MIT), Nunito and Cinzel fonts (SIL Open Font Licence). Farmhand logo and artwork are original to this app.</li></ul><ul class="credits" id="cropCreds">${cropCreditsHTML()}</ul></div>`;
+  <div class="card" id="credits"><h3>ℹ️ About &amp; data credits</h3><p class="mut" style="margin-top:0">Farmhand v${APP_VERSION}. Records carry <code>source: "manual"</code>; future sensor feeds can write records with <code>source: "sensor"</code> using the same structure. Compliance sections are record-keeping aids only.</p><ul class="credits"><li><b>Weather forecasts &amp; warnings:</b> Met Éireann (<a href="https://www.met.ie" target="_blank" rel="noopener">met.ie</a>), <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> and the <a href="https://www.met.ie/about-us/specialised-services/open-data" target="_blank" rel="noopener">Met Éireann open-data terms</a>. MET Norway / Yr (<a href="https://www.yr.no" target="_blank" rel="noopener">yr.no</a>), <a href="https://api.met.no/doc/License" target="_blank" rel="noopener">CC BY 4.0</a>. <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo.com</a> (<a href="https://open-meteo.com/en/license" target="_blank" rel="noopener">CC BY 4.0</a>), with model data from ECMWF, the UK Met Office, DWD (ICON) and NOAA (GFS). This app combines and averages these forecasts and estimates grass growth from them; the original data has been changed.</li><li><b>Satellite map:</b> imagery © <a href="https://www.esri.com" target="_blank" rel="noopener">Esri</a>, Maxar, Earthstar Geographics and the GIS User Community. Place and road labels © Esri.</li><li><b>Street map, place names &amp; Eircode address lookup:</b> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL), lookups via Nominatim.</li><li><b>Software:</b> <a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a> (BSD-2), Leaflet-Geoman (MIT), polygon-clipping (MIT), JSZip (MIT), supabase-js (MIT), Nunito and Cinzel fonts (SIL Open Font Licence). Farmhand logo and artwork are original to this app.</li></ul><ul class="credits" id="cropCreds">${cropCreditsHTML()}</ul></div>`;
   setSync(); bindFarmSetup(el); bindAppearance(el); bindUnits(el);
   $('#homeReset',el).onclick=()=>{ if(restoreHomeDefault()) $('#homeResetInfo').textContent='Home is using the default layout.'; };
   if(!CROPIDX) loadCropIndex().then(()=>{ const u=$('#cropCreds'); if(u) u.innerHTML=cropCreditsHTML(); }).catch(()=>{});
