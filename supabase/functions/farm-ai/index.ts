@@ -2,11 +2,13 @@
 // Signed-in users only (verify_jwt = true + getUser). The Groq API key is NOT in this code or the repo:
 // it is stored encrypted in Supabase Vault (secret "groq_api_key", or env GROQ_API_KEY if set) and read with the service role.
 // Per-user limit: DAILY_LIMIT messages per Irish calendar day (public.ai_usage via public.ai_bump).
-// Request:  POST { messages: [{role:'user'|'assistant', content}], context: string }
+// Request:  POST { messages: [{role:'user'|'assistant', content}], context: string, memory?: string[], summary?: string }
 // Response: text/plain stream of the reply (or JSON {error, message} with 4xx/5xx).
+// Memory:   POST { mode:'memory', messages, summary?, notes:[{id,text,locked}] } → JSON {title, summary, add[], update[{id,text}], remove[id]}
+//           Background upkeep of the user's long-term "farm memory"; NOT counted against the daily question limit (own cap MEM_LIMIT).
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
-const DAILY_LIMIT = 50;
+const DAILY_LIMIT = 50, MEM_LIMIT = 150;
 const PREFERRED = ["openai/gpt-oss-120b", "qwen/qwen3.8-27b", "llama-3.3-70b-versatile", "openai/gpt-oss-20b", "llama-3.1-8b-instant"];
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -42,7 +44,18 @@ const SYSTEM = `You are Farmhand, a friendly, practical farm assistant built int
 - Use Irish context: Teagasc guidance, Met Éireann, Department of Agriculture (DAFM), Nitrates rules, Bord Bia, metric units, € and Irish seasons.
 - Be concise and practical: short paragraphs or bullet lists, concrete numbers/timings where you can. Use simple Markdown (bold, bullet lists). Most users are on a phone: avoid wide tables (only use a table for a small comparison of at most 3 short columns).
 - For animal health, medicines, safety, legal/compliance or big financial decisions, give general guidance and clearly advise checking with their vet, Teagasc adviser or the relevant authority.
+- You have a long-term FARM MEMORY (notes from earlier conversations). Use it naturally when relevant ("Last time you mentioned…"); never claim to remember things that aren't in it.
 - Today's date (Ireland): ${"{TODAY}"}.`;
+
+const MEMSYS = `You maintain the long-term memory of "Farmhand", an Irish farm assistant app, for one farmer.
+Given the farmer's EXISTING NOTES (each with an id) and the LATEST CONVERSATION, return ONLY a JSON object:
+{"title": string, "summary": string, "add": string[], "update": [{"id": string, "text": string}], "remove": string[]}
+- title: 2–6 word title for this conversation (e.g. "Winter wheat sowing").
+- summary: what this whole conversation covered and concluded, max 90 words (used to continue it later).
+- add: NEW durable notes worth remembering in future chats: the farmer's plans, decisions, preferences, problems, and key facts about their farm stated by the FARMER (e.g. "Planning to reseed Hill Paddock in spring", "Prefers organic slurry over CAN"). Max 25 words each, written in third person, include dates/months when given. Do NOT add generic advice, the assistant's suggestions the farmer didn't accept, greetings, or trivia. Usually 0–3 notes.
+- update: rewrite an existing note when the conversation changes or refines it (keep its id). Never touch notes marked locked.
+- remove: ids of notes that the farmer said are no longer true. Never remove locked notes.
+- Never duplicate an existing note. If nothing new, use empty arrays.`;
 
 const clip = (s: unknown, n: number) => String(s ?? "").slice(0, n);
 
@@ -56,14 +69,18 @@ Deno.serve(async (req) => {
   const msgs = (Array.isArray(body?.messages) ? body.messages : [])
     .filter((m: any) => m && (m.role === "user" || m.role === "assistant") && String(m.content || "").trim())
     .slice(-12).map((m: any) => ({ role: m.role, content: clip(m.content, 4000) }));
-  if (!msgs.length || msgs[msgs.length - 1].role !== "user") return json({ error: "bad_request", message: "Ask a question first." }, 400);
+  if (!msgs.length || (body?.mode !== "memory" && msgs[msgs.length - 1].role !== "user")) return json({ error: "bad_request", message: "Ask a question first." }, 400);
   const key = await groqKey();
   if (!key) return json({ error: "not_configured", message: "Assistant not set up yet — the Groq API key hasn't been added." }, 503);
+  if (body?.mode === "memory") return memoryUpdate(u.user.id, key, body, msgs);
   const { data: n, error: be } = await db.rpc("ai_bump", { p_user: u.user.id, p_limit: DAILY_LIMIT });
   if (be) { console.error("ai_bump", be.message); return json({ error: "server", message: "The assistant is having trouble right now. Try again shortly." }, 500); }
   if (n === -1) return json({ error: "limit", message: `You've used all ${DAILY_LIMIT} assistant messages for today. The limit resets at midnight.` }, 429);
   const todayIE = new Intl.DateTimeFormat("en-IE", { timeZone: "Europe/Dublin", weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(new Date());
-  const system = SYSTEM.replace("{TODAY}", todayIE) + "\n\nFARM CONTEXT (from the user's Farmhand records):\n" + (clip(body?.context, 8000) || "(none provided)");
+  const mem = (Array.isArray(body?.memory) ? body.memory : []).slice(0, 60).map((x: unknown) => "- " + clip(x, 240)).join("\n");
+  const system = SYSTEM.replace("{TODAY}", todayIE) + "\n\nFARM MEMORY (notes kept from earlier conversations):\n" + (mem || "(nothing yet)")
+    + (body?.summary ? "\n\nEARLIER IN THIS CONVERSATION (summary of messages no longer shown):\n" + clip(body.summary, 2000) : "")
+    + "\n\nFARM CONTEXT (from the user's Farmhand records):\n" + (clip(body?.context, 8000) || "(none provided)");
   const model = await pickModel(key);
   const call = (m: string) => fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST", signal: AbortSignal.timeout(60000),
@@ -103,3 +120,26 @@ Deno.serve(async (req) => {
   });
   return new Response(stream, { headers: { ...CORS, "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-cache", "x-farmhand-model": used, "x-farmhand-left": String(DAILY_LIMIT - (n as number)) } });
 });
+
+async function memoryUpdate(user: string, key: string, body: any, msgs: { role: string; content: string }[]) {
+  const { data: n, error } = await db.rpc("ai_bump_mem", { p_user: user, p_limit: MEM_LIMIT });
+  if (error) { console.error("ai_bump_mem", error.message); return json({ error: "server", message: "Memory update failed." }, 500); }
+  if (n === -1) return json({ error: "limit", message: "Memory updates paused for today." }, 429);
+  const notes: { id: string; text: string; locked: boolean }[] = (Array.isArray(body?.notes) ? body.notes : []).slice(0, 80).map((x: any) => ({ id: clip(x?.id, 40), text: clip(x?.text, 240), locked: !!x?.locked }));
+  const convo = msgs.map(m => `${m.role === "user" ? "FARMER" : "ASSISTANT"}: ${clip(m.content, 1500)}`).join("\n\n");
+  const user_msg = `EXISTING NOTES:\n${notes.length ? notes.map(x => `[${x.id}]${x.locked ? " (locked)" : ""} ${x.text}`).join("\n") : "(none)"}\n\n${body?.summary ? "EARLIER SUMMARY OF THIS CONVERSATION:\n" + clip(body.summary, 2000) + "\n\n" : ""}LATEST CONVERSATION:\n${convo}`;
+  const model = await pickModel(key);
+  const r = await fetch("https://api.groq.com/openai/v1/chat/completions", { method: "POST", signal: AbortSignal.timeout(45000),
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ model, temperature: 0.2, max_completion_tokens: 900, response_format: { type: "json_object" },
+      ...(model.startsWith("openai/gpt-oss") ? { reasoning_effort: "low", include_reasoning: false } : {}),
+      messages: [{ role: "system", content: MEMSYS }, { role: "user", content: user_msg }] }) });
+  if (!r.ok) { console.error("memory groq", r.status, (await r.text().catch(() => "")).slice(0, 200)); return json({ error: "upstream", message: "Memory update failed." }, 502); }
+  let out: any = {}; try { const j = await r.json(); out = JSON.parse(j.choices?.[0]?.message?.content || "{}"); } catch { return json({ error: "upstream", message: "Memory update failed." }, 502); }
+  const ids = new Set(notes.filter(x => !x.locked).map(x => x.id));
+  const str = (x: unknown, n: number) => typeof x === "string" ? x.trim().slice(0, n) : "";
+  return json({ title: str(out.title, 60), summary: str(out.summary, 900),
+    add: (Array.isArray(out.add) ? out.add : []).map((x: unknown) => str(x, 240)).filter(Boolean).slice(0, 5),
+    update: (Array.isArray(out.update) ? out.update : []).filter((x: any) => x && ids.has(String(x.id)) && str(x.text, 240)).map((x: any) => ({ id: String(x.id), text: str(x.text, 240) })).slice(0, 10),
+    remove: (Array.isArray(out.remove) ? out.remove : []).map(String).filter((x: string) => ids.has(x)).slice(0, 10) });
+}

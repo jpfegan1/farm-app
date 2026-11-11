@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="preload" href="brand/banner.jpg" as="image">
+<link rel="preload" href="brand/banner.jpg?v=8" as="image">
 <meta name="application-name" content="Farmhand">
 <link rel="preload" href="vendor/fonts/cinzel-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
@@ -81,14 +81,14 @@ header{position:sticky;top:0;z-index:20;background:var(--hdr-bg);color:var(--hdr
 header{--bh:108px;--bh-mini:54px}
 @media(min-width:700px){header{--bh:124px;--bh-mini:60px}}
 @media(min-width:1000px){header{--bh:136px;--bh-mini:64px}}
-header .hbanner{--bx:78%;display:block;position:relative;box-sizing:content-box;height:var(--bh);padding-top:env(safe-area-inset-top,0px);background:#0c0f0d url(brand/banner.jpg) var(--bx) 46%/cover no-repeat;background-origin:content-box;text-decoration:none;transition:height .22s ease;border-bottom:1px solid #d8ae5240}
+header .hbanner{--bx:78%;display:block;position:relative;box-sizing:content-box;height:var(--bh);padding-top:env(safe-area-inset-top,0px);background:#0c0f0d url(brand/banner.jpg?v=8) var(--bx) 46%/cover no-repeat;background-origin:content-box;text-decoration:none;transition:height .22s ease;border-bottom:1px solid #d8ae5240}
 @media(min-width:700px){header .hbanner{--bx:50%}}
 header .hbanner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0000 55%,#0b0f0c66);pointer-events:none}
 header .hbanner:focus-visible{outline:3px solid var(--goldl);outline-offset:-4px}
 body.hdrmini header .hbanner{height:var(--bh-mini);background-size:auto calc(var(--bh-mini) * 1.72);background-position:var(--bx) calc(var(--bh-mini) * -.25)}
 @media(prefers-reduced-motion:reduce){header .hbanner{transition:none}}
 @media(min-width:700px){
- header .hbanner{--bs:calc(var(--bh) * 1.2);background:url(brand/banner.jpg) 50% calc(var(--bh) * -.09)/auto var(--bs) no-repeat,#0c0f0d url(brand/banner-blur.jpg) 50% 50%/cover no-repeat;background-origin:content-box,border-box}
+ header .hbanner{--bs:calc(var(--bh) * 1.2);background:url(brand/banner.jpg?v=8) 50% calc(var(--bh) * -.09)/auto var(--bs) no-repeat,#0c0f0d url(brand/banner-blur.jpg?v=8) 50% 50%/cover no-repeat;background-origin:content-box,border-box}
  body.hdrmini header .hbanner{--bs:calc(var(--bh-mini) * 1.9);background-size:auto var(--bs),cover;background-position:50% calc(var(--bh-mini) * -.33),50% 50%}
  header .hbanner::after{background:linear-gradient(90deg,#0c0f0d99 calc(50% - var(--bs)*2.17),#0c0f0d00 calc(50% - var(--bs)*1.6),#0c0f0d00 calc(50% + var(--bs)*1.6),#0c0f0d99 calc(50% + var(--bs)*2.17)),linear-gradient(180deg,#0000 60%,#0b0f0c66)}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -299,6 +299,10 @@ ul.tablist .ar{min-width:42px;min-height:42px;padding:0}ul.tablist .ar:disabled{
 html[data-theme=day] .cthumb.fb{background:radial-gradient(circle at 30% 25%,#fff6dc,#e9dcbc 70%)}
 .cthumb.sm{width:52px;height:52px;font-size:26px;border-radius:10px}.cthumb.xs{width:40px;height:40px;font-size:20px;border-radius:8px}
 .cthumb.hero{width:160px;height:160px;font-size:76px;border-radius:14px;box-shadow:var(--shadow-s);border:1px solid var(--bd)}
+.vhead{display:flex;gap:14px;align-items:flex-start;margin-bottom:6px}.vfig{margin:0;flex:0 0 auto;max-width:170px}.vsub{margin:12px 0 4px;font-size:14px;color:var(--head)}
+.idq{margin:12px 0}.idq>b{display:block;margin-bottom:6px}.idq .chip{min-height:40px;font-size:14px}
+details.seed summary{cursor:pointer;font-weight:800;padding:6px 0}ol.steps{padding-left:20px;margin:6px 0}ol.steps li{margin-bottom:8px;line-height:1.45}
+@media(max-width:520px){.vhead{flex-direction:column}.vfig{max-width:none}}
 .chero{display:flex;gap:16px;align-items:flex-start}
 .chero figure{margin:0;flex:0 0 auto;max-width:170px}
 .chero h2{margin:0 0 2px}.chero p{margin:8px 0}
@@ -354,6 +358,16 @@ ul.pcredits{font-size:12.5px;max-height:320px;overflow:auto;padding-left:18px}
 dialog.wide{width:min(680px,96vw)}
 .pinbar{display:flex;justify-content:flex-end;margin:-4px 0 8px}
 .pinbtn{border-style:dashed!important}
+/* v8: map widget, no-data state */
+.wmap{height:210px;border-radius:12px;overflow:hidden;border:1px solid var(--bd);background:#33402f;position:relative;z-index:0;touch-action:pan-y}
+.wmap.big{height:300px}@media(min-width:700px){.wmap.big{height:360px}}
+.wmap.street{background:#e9e4d8}
+html[data-theme=day] .wmap:not(.street){background:#5b6b4f}
+.wmap .leaflet-container,.wmap.leaflet-container{cursor:pointer;background:inherit}
+.wgrid.editing .wmap{pointer-events:none;opacity:.85}
+.wmapmsg{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:8px}
+.nodata{color:var(--mut);font-size:14px;padding:6px 0}
+.kpi.nodata b{opacity:.5}
 /* v7: Ask Farmhand */
 .aichat{display:flex;flex-direction:column;gap:8px}
 .ailog{display:flex;flex-direction:column;gap:10px;min-height:180px;max-height:min(62vh,640px);overflow-y:auto;padding:10px 2px;overscroll-behavior:contain}
@@ -373,10 +387,37 @@ dialog.wide{width:min(680px,96vw)}
 .aiform{display:flex;gap:8px;align-items:flex-end}
 .aiform textarea,.aiform input{flex:1;min-width:0;resize:none;min-height:46px;max-height:160px;font-size:16px;border-radius:14px}
 .aiform button{min-width:52px;min-height:46px;font-size:18px;border-radius:14px}
-.aifab{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;align-items:center;gap:6px;padding:0 16px 0 13px;height:52px;border-radius:26px;background:linear-gradient(180deg,#d8ae52,#b8862b);color:#1a1408;text-decoration:none;font-weight:900;box-shadow:0 6px 18px #0008;border:1px solid #f3d58a}
-.aifab span{font-size:22px}.aifab[hidden]{display:none}
-.aifab:focus-visible{outline:3px solid var(--goldl);outline-offset:3px}
-@media print{.aifab,.pinbar{display:none}}
+/* v8: Ask Farmhand chat bubble (fixed bottom-right), pop-up chat, history + memory */
+.aibub{position:fixed;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px) + var(--vvb,0px));z-index:45;width:58px;height:58px;min-height:0;padding:0;border-radius:50%;display:grid;place-items:center;font-size:27px;line-height:1;background:linear-gradient(180deg,#e6bd5e,#b8862b);color:#1a1408;border:1px solid #f3d58a;box-shadow:0 6px 18px #0009,0 0 0 3px #0c0f0d33;cursor:pointer;transition:transform .15s}
+.aibub:hover{transform:scale(1.05)}.aibub:active{transform:scale(.95)}
+.aibub[hidden]{display:none}
+.aibub:focus-visible{outline:3px solid var(--goldl);outline-offset:3px}
+.aibub.busy::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:3px solid transparent;border-top-color:var(--goldl);animation:aispin 1s linear infinite}
+@keyframes aispin{to{transform:rotate(360deg)}}
+body.hasbub main{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))!important}
+.aipop{position:fixed;z-index:46;display:flex;flex-direction:column;background:var(--dlg-bg);color:var(--tx);border:1px solid var(--bd);box-shadow:0 18px 50px #000b;overflow:hidden}
+.aipop[hidden],.aipopbg[hidden]{display:none}
+.aipopbg{display:none}
+.aiph{display:flex;align-items:center;gap:6px;padding:10px 10px 10px 14px;background:var(--dlg-hd);color:var(--dlg-hd-tx);border-bottom:1px solid var(--bd)}
+.aiph .aipt{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px}
+.aiph .sm{min-height:38px}
+.aipb{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;padding:0 12px 12px}
+.aipb .ailog{flex:1;max-height:none;min-height:0}
+.aipb .aisug{max-height:96px;overflow:auto}
+@media(min-width:700px){.aipop{right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(84px + env(safe-area-inset-bottom,0px));width:410px;height:min(620px,calc(100vh - 110px));border-radius:18px}}
+@media(max-width:699px){.aipop{left:0;right:0;bottom:0;height:min(80vh,calc(100% - 56px));height:min(80dvh,calc(100dvh - 56px));border-radius:20px 20px 0 0;border-bottom:0;padding-bottom:env(safe-area-inset-bottom,0px)}
+ .aipopbg{display:block;position:fixed;inset:0;background:#000a;z-index:44}
+ body.aipopopen .aibub{display:none}}
+.aiwrap{display:grid;gap:14px}
+.aiwrap>.card{margin:0}
+@media(min-width:900px){.aiwrap{grid-template-columns:minmax(270px,360px) 1fr;align-items:start}.aiwrap .aiback{display:none}.aihist{position:sticky;top:12px;max-height:calc(100vh - 40px);overflow:auto}}
+@media(max-width:899px){.aiwrap:not(.conv) .aiconv{display:none}.aiwrap.conv .aihist{display:none}}
+.aigrp{margin:12px 0 2px;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
+.aihl li{gap:8px}.aihl li.on{background:var(--soft);border-radius:12px;box-shadow:inset 3px 0 0 var(--gold)}
+.aihlink{display:block;text-decoration:none;color:inherit;min-width:0;padding:4px 6px}.aihlink .mut{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.memlist li{align-items:flex-start;gap:8px}
+@media print{.aibub,.aipop,.pinbar{display:none!important}}
+
 
 .wgrid.editing .wdg{outline:2px dashed var(--gold);outline-offset:3px;border-radius:var(--r);animation:wjig .18s ease-in-out 4 alternate}
 .wgrid.editing .wbody{pointer-events:none;opacity:.88}
@@ -427,16 +468,16 @@ body.wdragging{user-select:none;-webkit-user-select:none}
    source ('manual' now; 'sensor' reserved for future feeds),
    and optional demo:true for demo records.
    ========================================================= */
-const APP_VERSION = 7;
+const APP_VERSION = 8;
 const SB_URL = 'https://uetglzwzyhvaoszainmx.supabase.co';
 const SB_KEY = 'sb_publishable__gDnjBirb1AbnZwMAXMTxg_alW8T4_h'; // publishable key: safe in the browser, data protected by row-level security
 const APP_URL = location.origin + location.pathname.replace(/index\.html$/,'');
 let sb=null, UID=null, USER=null;
 const kData = () => `farmapp.v2.${UID}.data`, kQueue = () => `farmapp.v2.${UID}.queue`, kWx = () => `farmapp.v2.${UID}.weather`;
-const COLLECTIONS = ['paddocks','grazings','grassWalks','cows','milk','breeding','tasks','treatments','fertiliser','movements','deaths','photos','groups','stockEvents','plantings','cropOps','customCrops','aiMsgs'];
+const COLLECTIONS = ['paddocks','grazings','grassWalks','cows','milk','breeding','tasks','treatments','fertiliser','movements','deaths','photos','groups','stockEvents','plantings','cropOps','customCrops','aiMsgs','aiChats','aiMemory'];
 const DEFAULT_SETTINGS = {farmName:'', herdNumber:'', lat:53.43, lon:-7.94, kgDmPerCow:17, demandCows:null,
   residual:50, growthSource:'auto', manualGrowth:30, mPerUnit:1, mapW:1000, mapH:700,
-  farmTypes:['dairy'], approach:'conventional', tabPrefs:null, pigHerdNo:'', appearance:'auto', homePrefs:null}; // existing accounts default to Dairy + Conventional
+  farmTypes:['dairy'], approach:'conventional', tabPrefs:null, pigHerdNo:'', appearance:'auto', homePrefs:null, areaUnit:'ha'}; // existing accounts default to Dairy + Conventional
 
 /* ---------- appearance: Auto (sun-based) / Daylight / Dark ---------- */
 const APPEARANCE={auto:{i:'🌗',l:'Auto (daylight by day, dark after sunset)',d:'Follows sunrise and sunset at your farm and switches by itself.'},
@@ -477,6 +518,10 @@ function appearanceInfo(){ const loc=themeLoc(), t=sunTimes(new Date(),loc[0],lo
 function appearanceHTML(){ const p=appearancePref();
   return `<div class="card" id="appearCard"><h2>🎨 Appearance</h2><div class="appr" role="radiogroup" aria-label="Appearance">${Object.entries(APPEARANCE).map(([k,v])=>`<label class="achoice ${p===k?'on':''}"><input type="radio" name="appear" value="${k}" ${p===k?'checked':''}><b>${v.i} ${esc(v.l)}</b><span>${esc(v.d)}</span></label>`).join('')}</div>
    <p class="hint" id="appearInfo">${appearanceInfo()}</p></div>`; }
+function unitsHTML(){ const cur=S.settings.areaUnit in AREA_UNITS?S.settings.areaUnit:'ha';
+  return `<div class="card" id="unitsCard"><h2>📐 Area units</h2><p class="mut" style="margin-top:0">Used for field sizes, farm totals, maps, plantings and per-area rates (seed, fertiliser, Nitrates) throughout the app.</p><div class="appr" role="radiogroup" aria-label="Area units">${Object.entries(AREA_UNITS).map(([k,u])=>`<label class="achoice ${cur===k?'on':''}"><input type="radio" name="aunit" value="${k}" ${cur===k?'checked':''}><b>${u.i} ${esc(u.l)} (${esc(u.s)})</b><span>${k==='ha'?'1 ha = 2.47 acres · rates in kg/ha':k==='ac'?'1 acre = 0.405 ha · rates in kg/ac':'1 sq yd = 0.836 m² · rates in g/sq yd'}</span></label>`).join('')}</div>
+   <p class="hint" id="unitsInfo">Records are always saved in hectares, so switching never changes your data. Grass covers and growth stay in kg DM/ha, the Irish standard used by Teagasc and PastureBase.</p></div>`; }
+function bindUnits(el){ $$('input[name=aunit]',el).forEach(r=>r.onchange=()=>{ S.settings.areaUnit=r.value; save(); $$('#unitsCard .achoice',el).forEach(l=>l.classList.toggle('on',l.querySelector('input').checked)); toast(`Areas now in ${AREA_UNITS[r.value].w}`); }); }
 function bindAppearance(el){ $$('input[name=appear]',el).forEach(r=>r.onchange=()=>{ S.settings.appearance=r.value; save(); $$('#appearCard .achoice',el).forEach(l=>l.classList.toggle('on',l.querySelector('input').checked)); applyTheme(); const ai=$('#appearInfo'); if(ai) ai.innerHTML=appearanceInfo(); toast(APPEARANCE[r.value].l.replace(/ \(.*/,'')+' selected'); }); }
 setInterval(()=>applyTheme(), 60000);
 document.addEventListener('visibilitychange',()=>{ if(!document.hidden) applyTheme(); });
@@ -561,11 +606,14 @@ async function pull(){
       if(id==='__settings'){ fresh.settings=S.settings; continue; } if(e.op==='rmfile') continue;
       const l=local.get(id); const cols=l?[l[0]]:COLLECTIONS; cols.forEach(c=>fresh[c]=fresh[c].filter(r=>r.id!==id));
       if(e.op==='up' && l) fresh[l[0]].push(l[1]); }
-    S=normalize(fresh); if(!Q.__settings) lastSettingsJSON=JSON.stringify(S.settings);
+    S=normalize(fresh); if(!Q.__settings) lastSettingsJSON=JSON.stringify(S.settings); migrateAskLast();
     saveLocal(); lastSyncAt=Date.now(); lastSyncErr=''; return true;
   }catch(e){ console.warn('Pull failed', e); lastSyncErr=e.message||String(e); return false; }
   finally{ pulling=false; setSync(); }
 }
+// v8 (once per account, after the server copy is loaded): move Ask Farmhand to the far right. Later reordering by the user is respected.
+function migrateAskLast(){ const s=S.settings; if(s.askLastV8) return; const tp=s.tabPrefs; if(tp&&Array.isArray(tp.order)&&tp.order.includes('ask')) tp.order=tp.order.filter(k=>k!=='ask').concat('ask');
+  s.askLastV8=1; enqueue('__settings','up'); saveLocal(); scheduleFlush(); }
 function syncDetail(){ const n=Object.keys(Q).length; if(!navigator.onLine) return `offline${n?` · ${n} change${n>1?'s':''} waiting`:''}`; if(flushing||pulling) return 'syncing…'; if(lastSyncErr) return 'sync problem — will retry'; if(n) return `${n} change${n>1?'s':''} pending`; return lastSyncAt?'up to date':''; }
 /* header indicator: silent when all is well; only shows for offline-with-unsynced-changes or a sync error */
 function syncText(){ const n=Object.keys(Q).length; if(!navigator.onLine) return n?`⚠ offline · ${n} unsynced`:''; if(lastSyncErr) return '⚠ sync problem'; return ''; }
@@ -589,8 +637,10 @@ function normTag(t){ return (t||'').trim().toUpperCase().replace(/\s+/g,' '); }
 */
 function openForm({title, fields, values={}, onSave, onDelete, saveLabel='Save', extraHTML=''}){
   const dlg=$('#dlg');
+  const conv={}; // area / per-area fields: shown in the user's unit, saved back in ha (unchanged values keep their exact stored number)
   const fh = f => {
-    const v = values[f.k] ?? (typeof f.def==='function'?f.def():f.def) ?? '';
+    let v = values[f.k] ?? (typeof f.def==='function'?f.def():f.def) ?? '';
+    if((f.area||f.rate) && v!=='' && v!=null && !isNaN(v)){ const d=f.area?toArea(v):toRate(v,f.rate); const sv=String(Number(d.toFixed(f.area?aU().dp+1:rateDp(1)+1))); conv[f.k]={s:sv, raw:Number(v)}; v=sv; }
     const id='f_'+f.k; const req=f.req?' required':''; const ph=f.ph?` placeholder="${esc(f.ph)}"`:'';
     let inp;
     if(f.t==='select'){ const opts=typeof f.o==='function'?f.o():f.o; inp=`<select id="${id}" name="${f.k}"${req}>${opts.map(o=>{const [ov,ol]=Array.isArray(o)?o:[o,o]; return `<option value="${esc(ov)}"${String(ov)===String(v)?' selected':''}>${esc(ol)}</option>`;}).join('')}</select>`; }
@@ -609,6 +659,7 @@ function openForm({title, fields, values={}, onSave, onDelete, saveLabel='Save',
   const gather = () => { const o={}; fields.forEach(f=>{ const el=form.elements[f.k]; if(!el) return;
       if(f.t==='checkbox') o[f.k]=el.checked;
       else if(f.t==='file') o[f.k]=el.files;
+      else if(f.t==='number'&&(f.area||f.rate)){ const c=conv[f.k]; o[f.k]= el.value===''?null : (c&&el.value.trim()===c.s) ? c.raw : (f.area?fromArea(el.value):fromRate(el.value,f.rate)); }
       else if(f.t==='number') o[f.k]= el.value===''?null:Number(el.value);
       else if(f.t==='password') o[f.k]=el.value; else o[f.k]= typeof el.value==='string'?el.value.trim():el.value; }); return o; };
   const refresh = () => { const vals=gather(); fields.forEach(f=>{ const w=form.querySelector(`[data-wrap="${f.k}"]`); if(w && f.show) w.style.display=f.show(vals)?'':'none';
@@ -727,6 +778,36 @@ function geoAreaM2(ll){ if(!ll||ll.length<3) return 0; // field-sized polygons: 
   const M=a*(1-e2)/Math.pow(w,1.5), N=a/Math.sqrt(w); const xy=ll.map(q=>[(q[1]-lon0)*d*N*Math.cos(lat0), (q[0]*d-lat0)*M]);
   let A=0; for(let i=0;i<xy.length;i++){ const [x1,y1]=xy[i], [x2,y2]=xy[(i+1)%xy.length]; A+=x1*y2-x2*y1; } return Math.abs(A)/2; }
 const haToAc = h => (Number(h)||0)*2.4710538;
+/* ---------- area units (v8): records are always stored in hectares (and per-ha rates); converted only for display and input ---------- */
+const AREA_UNITS={ha:{i:'🟩',l:'Hectares',s:'ha',w:'hectares',one:'hectare',f:1,dp:2,tdp:1},
+  ac:{i:'🌾',l:'Acres',s:'ac',w:'acres',one:'acre',f:2.4710538,dp:2,tdp:1},
+  sqyd:{i:'📏',l:'Square yards',s:'sq yd',w:'square yards',one:'square yard',f:11959.9005,dp:0,tdp:0}};
+const aU=()=>AREA_UNITS[S.settings.areaUnit]||AREA_UNITS.ha;
+const areaU=()=>aU().s;
+const toArea=ha=>(Number(ha)||0)*aU().f;
+const fromArea=v=>v==null||v===''?null:Number(v)/aU().f;
+function fmtArea(ha, dp){ if(ha==null||ha===''||isNaN(ha)) return '–'; return num(toArea(ha), dp??aU().dp)+' '+aU().s; }
+const fmtAreaT=ha=>fmtArea(ha, aU().tdp); // totals: one decimal (none for sq yd)
+// per-area rates. For square yards the mass unit steps down so figures stay readable (kg/ha → g/sq yd, t/ha → kg/sq yd);
+// head counts (LU, trees) are given per 1,000 sq yd.
+const RATE_DOWN={t:'kg',kg:'g',g:'mg',L:'mL',l:'mL'}, RATE_K=new Set(['LU','trees','cows','ewes','sows','plants']);
+function rateUnit(base='kg', nut=''){ const u=aU(), n=nut?' '+nut:''; if(u.s==='ha') return base+n+'/ha'; if(u.s==='ac') return base+n+'/ac';
+  return RATE_K.has(base)?base+n+'/1,000 sq yd':(RATE_DOWN[base]||base)+n+'/sq yd'; }
+function rateMul(base='kg'){ const u=aU(); if(u.s!=='sq yd') return 1/u.f; return RATE_K.has(base)?1000/u.f:(RATE_DOWN[base]?1000/u.f:1/u.f); }
+const toRate=(v,base)=>v==null||v===''?null:Number(v)*rateMul(base);
+const fromRate=(v,base)=>v==null||v===''?null:Number(v)/rateMul(base);
+function rateDp(dpHa=0){ const s=aU().s; return s==='ha'?dpHa:s==='ac'?dpHa+1:Math.max(dpHa,1)+1; }
+const rateNum=(v,base='kg',dpHa=0)=>v==null||v===''||isNaN(v)?'–':num(toRate(v,base),rateDp(dpHa));
+const fmtRate=(v,base='kg',dpHa=0,nut='')=>v==null||v===''||isNaN(v)?'–':rateNum(v,base,dpHa)+' '+rateUnit(base,nut);
+const sig=v=>{ const a=Math.abs(v); return num(v, a===0||a>=100?0:a>=10?1:a>=1?1:a>=0.1?2:3); };
+// convert per-hectare figures inside free text from the crop guides, e.g. "35–37 kg/ha (14–15 kg/ac)" or "Index 1: 40 · … · Index 4: 0 kg/ha"
+function convRatesText(s){ if(s==null||aU().s==='ha') return s; let t=String(s);
+  t=t.replace(/(\/ha\b[^()]{0,12}?)\s*\(([^()]{0,40}\/ac)\)/g,'$1');
+  const N='(\\d[\\d,]*(?:\\.\\d+)?)', U='(t|kg|g|L|l|seeds|plants|trees|LU)', NUT='((?:\\s+(?:N|P|K|S|DM|P₂O₅|K₂O|lime|ground limestone))?)';
+  const cv=(x,b)=>sig(Number(String(x).replace(/,/g,''))*rateMul(b));
+  t=t.replace(new RegExp(`((?:Index \\d: ?[\\d.,–-]+ · )+Index \\d: ?[\\d.,–-]+) ?${U}${NUT}\\/ha\\b`,'g'),(m,seq,b,nut)=>seq.replace(/\d[\d,]*(?:\.\d+)?(?=\s*(?:·|$|[–-]))/g,x=>cv(x,b))+' '+rateUnit(b,nut.trim()));
+  t=t.replace(new RegExp(`${N}(?:\\s*(–|-|to)\\s*${N})?\\s*${U}${NUT}\\s*\\/\\s*ha\\b`,'g'),(m,a,sep,b2,b,nut)=>cv(a,b)+(b2?(sep==='to'?' to ':'–')+cv(b2,b):'')+' '+rateUnit(b,nut.trim()));
+  return t; }
 const roundGeo = ll => ll.map(q=>[+(+q[0]).toFixed(7), +(+q[1]).toFixed(7)]);
 function mappedHa(p){ if(hasGeo(p)) return geoAreaM2(p.geo)/1e4; return hasSketch(p) ? polyAreaUnits(p.points)*Math.pow(S.settings.mPerUnit||1,2)/10000 : 0; }
 function padHa(p){ return (p.areaManual>0) ? Number(p.areaManual) : mappedHa(p); }
@@ -922,7 +1003,7 @@ async function reverseGeocode(){ const s=S.settings; if(!farmLocSet()||!navigato
 /* tabs are defined in ALL_TABS (farm types module); Settings lives in the header gear */
 let route='dash', routeArg=null;
 function go(r,arg){ location.hash = arg ? `${r}/${arg}` : r; }
-function parseHash(){ const [r,a]=(location.hash.slice(1)||'dash').split('/'); route = (ALL_TABS[r]||['cow','crop','planting','settings'].includes(r)) ? r : 'dash'; routeArg=a?decodeURIComponent(a):null; }
+function parseHash(){ const [r,a]=(location.hash.slice(1)||'dash').split('/'); route = (ALL_TABS[r]||['cow','crop','planting','settings','identify'].includes(r)) ? r : 'dash'; routeArg=a?decodeURIComponent(a):null; }
 /* header banner condenses once you scroll (keeps the FARMHAND wordmark visible but frees up the screen) */
 (function(){ let mini=false; const f=()=>{ const y=window.scrollY, room=document.documentElement.scrollHeight-innerHeight; const m=mini ? y>4 : (y>70 && room>220); if(m!==mini){ mini=m; document.body.classList.toggle('hdrmini',m); } };
   addEventListener('scroll',f,{passive:true}); addEventListener('hashchange',()=>setTimeout(f,50)); })();
@@ -930,9 +1011,9 @@ function renderNav(){ const nk=navKey(); $('#nav').innerHTML=visibleTabs().map(k
   $('#navMore').onclick=moreMenu; const g=$('#gear'); if(g){ g.classList.toggle('on',route==='settings'); if(route==='settings') g.setAttribute('aria-current','page'); else g.removeAttribute('aria-current'); }
   const on=$('#nav a.on'); if(on) on.scrollIntoView({block:'nearest',inline:'nearest'});
   $('#farmTitle').textContent=(S.settings.farmName||''); setSync(); }
-function render(){ if(!UID) return; applyTheme({rerender:false}); if(route!=='dash') HOME_EDIT=false; destroyLeaflet(); renderNav(); const m=$('#main'); const hasDemo=COLLECTIONS.some(c=>S[c].some(r=>r.demo));
+function render(){ if(!UID) return; applyTheme({rerender:false}); if(route!=='dash') HOME_EDIT=false; destroyLeaflet(); destroyMiniMaps(); renderNav(); const m=$('#main'); const hasDemo=COLLECTIONS.some(c=>S[c].some(r=>r.demo));
   m.innerHTML = hasDemo?`<div class="banner">⚠️ <b>Demo data is loaded</b> — example records only. Remove it in <a href="#settings">Settings</a> before entering real records.</div>`:'';
-  const box=document.createElement('div'); m.appendChild(box); (VIEWS[route]||VIEWS.dash)(box); if(route!=='dash'&&route!=='ask'&&route!=='settings') pinBar(box); kpiIcons(m); aiFab(); }
+  const box=document.createElement('div'); m.appendChild(box); (VIEWS[route]||VIEWS.dash)(box); if(route!=='dash'&&route!=='ask'&&route!=='settings') pinBar(box); kpiIcons(m); aiBubble(); }
 const KPI_EMO=[[/overdue/i,'⏰'],[/today/i,'📅'],[/upcoming|scheduled|next/i,'🗓️'],[/withdrawal/i,'💊'],[/calv|due/i,'🍼'],[/milk|litre/i,'🥛'],[/growth|kg dm\/ha\/day/i,'📈'],[/cover|kg dm/i,'🌾'],[/days|grass|rest/i,'🌱'],[/demand|cow/i,'🐄'],[/area|ha\b|hectare/i,'📐'],[/\bn\b|nitrogen|fert/i,'🧪'],[/status/i,'🏷️'],[/breed/i,'🧬'],[/age/i,'🎂']];
 function kpiIcons(root){ $$('.kpi',root).forEach(k=>{ if($('.ico',k)) return; const t=($('span',k)?.textContent||''); const e=(KPI_EMO.find(([r])=>r.test(t))||[0,'🌻'])[1]; k.insertAdjacentHTML('afterbegin',`<div class="ico" aria-hidden="true">${e}</div>`); }); }
 const VIEWS={};
@@ -945,10 +1026,10 @@ const APPROACHES = {
   conventional:{i:'🧪',l:'Conventional',d:'Standard Irish guidance (Teagasc Green Book / Nitrates). Approved fertilisers and plant-protection products.'},
   mostly:{i:'🌿',l:'Mostly organic',d:'Organic methods first; conventional options shown as a last resort with a caution. Not certified.'},
   organic:{i:'🍃',l:'Organic only',d:'Certified organic rules (EU Reg 2018/848, DAFM Organic Farming Scheme, IOA / Organic Trust). Non-permitted inputs are blocked.'}};
-const ALL_TABS = {dash:['🏠','Home'], ask:['💬','Ask Farmhand'], map:['🗺️','Map'], cows:['🐄','Cows'], milk:['🥛','Milk'], dairyq:['🧪','Milk quality'], breeding:['🧬','Breeding'], beef:['🐂','Beef'],
+const ALL_TABS = {dash:['🏠','Home'], map:['🗺️','Map'], cows:['🐄','Cows'], milk:['🥛','Milk'], dairyq:['🧪','Milk quality'], breeding:['🧬','Breeding'], beef:['🐂','Beef'],
   sheep:['🐑','Sheep'], pigs:['🐖','Pigs'], poultry:['🐔','Poultry'], goats:['🐐','Goats'], horses:['🐎','Horses'], grass:['🌱','Grass'],
   crops:['🌾','Crops'], veg:['🥕','Veg'], orchard:['🍎','Orchard'], forestry:['🌲','Forestry'], croplib:['📚','Crop library'],
-  weather:['🌦️','Weather'], tasks:['✅','Tasks'], photos:['📷','Photos'], compliance:['📋','Records']};
+  weather:['🌦️','Weather'], tasks:['✅','Tasks'], photos:['📷','Photos'], compliance:['📋','Records'], ask:['💬','Ask Farmhand']}; // v8: Ask Farmhand is the last (far right) tab
 const SHARED_TABS = ['dash','ask','map','weather','tasks','photos','compliance'];
 const TYPE_TABS = {dairy:['cows','milk','dairyq','breeding','grass'], beef:['cows','beef','breeding','grass'], sheep:['sheep','grass'], pigs:['pigs'], poultry:['poultry'],
   goats:['goats'], horses:['horses','grass'], tillage:['crops','croplib'], horticulture:['veg','croplib'], fruit:['orchard','croplib'], forestry:['forestry','croplib'], other:['croplib']};
@@ -1058,7 +1139,7 @@ function organicAnimalNotes(sp){ const a=approach(); if(a==='conventional') retu
    <li><b>Withdrawal periods:</b> after any chemically-synthesised veterinary medicine the withdrawal is <b>double the label period, and at least 48 hours</b>. Treatments recorded here ${a==='organic'?'apply this automatically':'can apply it with the “organic double withdrawal” box'}.</li>
    <li><b>Treatment limits:</b> more than 3 courses of synthetic allopathic medicines in 12 months (1 course if the productive life is under a year) means the animal can’t be sold as organic. Vaccines, parasite treatments and compulsory schemes don’t count towards this.</li>
    <li><b>Conversion:</b> ${esc(conv)}${['cattle','sheep','goats'].includes(sp)?'. Land conversion is 2 years for grassland and annual crops':''}.</li>
-   <li><b>Stocking rate:</b> livestock manure is limited to <b>170 kg N/ha/year</b> across the farm (roughly 2 dairy cows, 13 ewes or 6.5 sows per ha). Organic farms can’t use the nitrates derogation.</li>
+   <li><b>Stocking rate:</b> livestock manure is limited to <b>${fmtRate(170,'kg',0,'N')}/year</b> across the farm (roughly ${sig(2*rateMul('LU'))} dairy cows, ${sig(13*rateMul('LU'))} ewes or ${sig(6.5*rateMul('LU'))} sows per ${aU().s==='sq yd'?'1,000 sq yd':aU().one}). Organic farms can’t use the nitrates derogation.</li>
    ${['sheep','cattle','goats'].includes(sp)?'<li><b>Parasites & fluke:</b> mixed or alternate grazing with other species, aftergrass or reseeds for weaned stock, fence off wet areas (fluke snails), and quarantine-treat bought-in animals.</li>':''}
    ${['pigs','poultry'].includes(sp)?'<li><b>Outdoor access</b> and space allowances apply. Organic feed (with limited exceptions) and no routine preventive medicines.</li>':''}
   </ul><p class="hint">Guide only: confirm the current rules with your certification body (IOA / Organic Trust) and your vet. ${a==='organic'?'':'“Mostly organic” is not certified.'}</p></div>`; }
@@ -1137,14 +1218,14 @@ function plantingsView(tab){ return el=>{ const groups=TAB_GROUPS[tab]; const [i
 ['crops','veg','orchard','forestry'].forEach(t=>VIEWS[t]=plantingsView(t));
 function plantingTable(pls){ if(!pls.length) return emptyBox('No plantings yet. Pick a crop or tap + Planting.');
   return `<ul class="list">${pls.slice().sort(byDate('sown')).map(p=>{ const c=cropIdx(p.cropId)||{id:p.cropId,n:p.cropName,g:'custom'}; const h=S.cropOps.filter(o=>o.plantingId===p.id&&o.kind==='harvest');
-    return `<li data-pl="${p.id}" style="cursor:pointer">${cropThumb(c,'sm')}<div class="grow"><b>${esc(p.cropName||c.n)}${p.variety?' — '+esc(p.variety):''}</b><div class="mut">${esc(padName(p.paddockId)||'No field')} · ${p.area?num(p.area,2)+' ha · ':''}sown ${fmtD(p.sown)||'–'}${h.length?' · '+h.length+' harvest'+(h.length>1?'s':''):''}</div></div><span class="pill ${p.status==='growing'?'grn':p.status==='planned'?'blue':''}">${esc(p.status||'growing')}</span></li>`; }).join('')}</ul>`; }
+    return `<li data-pl="${p.id}" style="cursor:pointer">${cropThumb(c,'sm')}<div class="grow"><b>${esc(p.cropName||c.n)}${p.variety?' — '+esc(p.variety):''}</b><div class="mut">${esc(padName(p.paddockId)||'No field')} · ${p.area?fmtArea(p.area)+' · ':''}sown ${fmtD(p.sown)||'–'}${h.length?' · '+h.length+' harvest'+(h.length>1?'s':''):''}</div></div><span class="pill ${p.status==='growing'?'grn':p.status==='planned'?'blue':''}">${esc(p.status||'growing')}</span></li>`; }).join('')}</ul>`; }
 function bindPlantingTable(el){ $$('[data-pl]',el).forEach(li=>li.onclick=()=>go('planting',li.dataset.pl)); }
-function approachBlock(conv, org){ const a=approach(); const o=`<div class="advice org">${org}</div>`;
+function approachBlock(conv, org){ const a=approach(); org=convRatesText(org); const o=`<div class="advice org">${org}</div>`;
   if(a==='organic') return `<div class="apill">🍃 Organic</div>${o}`;
   if(a==='mostly') return `<div class="apill">🌿 Organic first</div>${o}<div class="lastres">⚠️ <b>Last resort (conventional):</b>${conv}<div class="hint">Using these means the crop isn’t organic. Only if organic methods have failed and the loss would be serious.</div></div>`;
   return `<div class="advice">${conv}</div><details class="orgalt"><summary>🍃 Organic alternatives</summary>${o}</details>`; }
-function kv(rows){ return `<dl class="kv">${rows.filter(r=>r[1]&&r[1]!=='—').map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`; }
-VIEWS.crop = el => { const id=routeArg; el.innerHTML=`<div class="empty"><span class="emo">📚</span>Loading…</div>`;
+function kv(rows){ return `<dl class="kv">${rows.filter(r=>r[1]&&r[1]!=='—').map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(convRatesText(v))}</dd>`).join('')}</dl>`; }
+VIEWS.crop = el => { const id=routeArg; IDCTX.pl=null; el.innerHTML=`<div class="empty"><span class="emo">📚</span>Loading…</div>`;
   cropDoc(id).then(d=>{ if(!el.isConnected) return; if(!d){ el.innerHTML=emptyBox('Crop not found.')+'<p><a href="#croplib">← Crop library</a></p>'; return; }
     const ix=cropIdx(id)||{id, g:d.group, img:false}; const f=d.fert, cv=f.conventional, pr=d.protect; const mine=S.plantings.filter(p=>p.cropId===id);
     const back=Object.keys(TAB_GROUPS).find(t=>TAB_GROUPS[t].includes(d.group)&&tabOn(t))||'croplib';
@@ -1163,22 +1244,90 @@ VIEWS.crop = el => { const id=routeArg; el.innerHTML=`<div class="empty"><span c
     <div class="card"><h3>🔄 Rotation</h3><p style="margin:0">${esc(d.rotation)}</p></div>
     </div>
     ${d.rootstocks?`<div class="card"><h3>🌳 Rootstocks</h3>${table(d.rootstocks,[{l:'Rootstock',h:r=>`<b>${esc(r.name)}</b>`},{l:'Vigour',k:'vigour'},{l:'Tree height',k:'height'},{l:'Best for',k:'use'}])}</div>`:''}
-    ${vs.length?`<div class="card" id="varCard"><h3>🍏 Varieties (${vs.length})</h3><div class="row"><input id="vq" type="search" placeholder="Search varieties…" style="flex:2;min-width:160px" aria-label="Search varieties"><select id="vuse" style="flex:1;min-width:130px" aria-label="Filter by use"><option value="">All uses</option>${[...new Set(vs.map(v=>v.use).filter(Boolean))].sort().map(u=>`<option>${esc(u)}</option>`).join('')}</select>${vs.some(v=>v.heritage)?'<label class="cb" style="margin:0"><input type="checkbox" id="vher"> ☘️ Irish heritage only</label>':''}</div><ul class="list vlist" id="vlist"></ul></div>`:''}
+    ${vs.length?`<div class="card" id="varCard"><h3>🍏 Varieties (${vs.length})</h3><div class="row"><input id="vq" type="search" placeholder="Search varieties…" style="flex:2;min-width:160px" aria-label="Search varieties"><select id="vuse" style="flex:1;min-width:130px" aria-label="Filter by use"><option value="">All uses</option>${[...new Set(vs.map(v=>v.use).filter(Boolean))].sort().map(u=>`<option>${esc(u)}</option>`).join('')}</select>${vs.some(v=>v.heritage)?'<label class="cb" style="margin:0"><input type="checkbox" id="vher"> ☘️ Irish heritage only</label>':''}</div>${STONE_ID.includes(id)?`<div class="hint" style="margin:6px 0 0">${vs.filter(v=>v.photo).length} of ${vs.length} have their own photo; the rest show a representative ${esc(d.name.toLowerCase())} photo. <a href="#identify/${id}">🔎 Identify an unknown tree</a></div>`:''}<ul class="list vlist" id="vlist"></ul></div>`:''}
+    ${STONE_ID.includes(id)?stoneCards(d):''}
     <div class="card"><h3>📍 My plantings of ${esc(d.name)}</h3>${plantingTable(mine)}<div class="row" style="margin-top:8px"><button class="sm" id="addPl2">+ Add planting</button></div></div>`;
     bindPlantingTable(el);
     const addPl=()=>plantingForm(null,{cropId:id}); $('#addPl',el).onclick=addPl; $('#addPl2',el).onclick=addPl;
     const ec=$('#editCust',el); if(ec) ec.onclick=()=>customCropForm(d.cust);
+    if(window.__cropScroll){ const t=$('#'+window.__cropScroll,el); window.__cropScroll=null; if(t){ const dt=$('details',t); if(dt) dt.open=true; setTimeout(()=>t.scrollIntoView({behavior:'smooth'}),50); } }
     const tv=$('#toVar',el); if(tv) tv.onclick=e=>{ e.preventDefault(); $('#varCard').scrollIntoView({behavior:'smooth'}); };
-    if(vs.length){ const draw=()=>{ const q=$('#vq').value.toLowerCase(), u=$('#vuse').value, h=$('#vher')?.checked; const list=vs.map((v,i)=>[v,i]).filter(([v])=>(!q||(v.name+' '+(v.origin||'')+' '+(v.notes||'')).toLowerCase().includes(q))&&(!u||v.use===u)&&(!h||v.heritage));
-      $('#vlist').innerHTML=list.length?list.map(([v,i])=>`<li data-v="${i}" style="cursor:pointer">${cropThumb(ix,'xs')}<div class="grow"><b>${esc(v.name)}</b>${v.heritage?' <span class="pill grn">☘️ heritage</span>':''}<div class="mut">${[v.use,v.season,v.pg?'Pollination group '+v.pg:v.flowering?v.flowering+' flowering':'',v.sf===true?'self-fertile':v.sf==='partly'?'partly self-fertile':v.sf===false?'needs a pollinator':'',v.origin].filter(Boolean).map(esc).join(' · ')}</div></div><span aria-hidden="true" style="font-size:22px;color:var(--mut)">›</span></li>`).join(''):emptyBox('No varieties match.');
+    if(vs.length){ const draw=()=>{ const q=$('#vq').value.toLowerCase(), u=$('#vuse').value, h=$('#vher')?.checked; const list=vs.map((v,i)=>[v,i]).filter(([v])=>(!q||(v.name+' '+(v.origin||'')+' '+(v.notes||'')+' '+(v.flesh||'')+' '+(v.skin||'')+(v.shape==='flat'?' flat doughnut saturne':'')+(v.dwarf?' dwarf':'')+(v.disease||'')).toLowerCase().includes(q))&&(!u||v.use===u)&&(!h||v.heritage));
+      $('#vlist').innerHTML=list.length?list.map(([v,i])=>`<li data-v="${i}" style="cursor:pointer">${varImg(v,ix,'xs')}<div class="grow"><b>${esc(v.name)}</b>${v.heritage?' <span class="pill grn">☘️ heritage</span>':''}${v.dwarf?' <span class="pill">dwarf</span>':''}${v.shape==='flat'?' <span class="pill">flat</span>':''}<div class="mut">${[STONE_ID.includes(d.id)?stoneChips(v):'',v.use&&!STONE_ID.includes(d.id)?v.use:'',v.season,v.pg?'Pollination group '+v.pg:v.flowering?v.flowering+' flowering':'',v.sf===true?'self-fertile':v.sf==='partly'?'partly self-fertile':v.sf===false?'needs a pollinator':'',v.origin].filter(Boolean).map(esc).join(' · ')}</div></div><span aria-hidden="true" style="font-size:22px;color:var(--mut)">›</span></li>`).join(''):emptyBox('No varieties match.');
       $$('[data-v]',el).forEach(li=>li.onclick=()=>varietyInfo(d,vs[+li.dataset.v],ix)); };
       ['vq','vuse','vher'].forEach(k=>{ const x=$('#'+k,el); if(x){ if(k==='vq') x.oninput=draw; else x.onchange=draw; } }); draw(); }
   }).catch(e=>{ el.innerHTML=emptyBox('Could not load this crop. Are you offline? ('+e.message+')'); }); };
 function varietyInfo(d, v, ix){ const sfT=v.sf===true?'Self-fertile':v.sf==='partly'?'Partly self-fertile: crops better with a pollinator':v.sf===false?'Not self-fertile: plant a compatible pollinator nearby':'Not recorded';
   const pol=v.pg?`Group ${v.pg}: pollinated by varieties in groups ${[v.pg-1,v.pg,v.pg+1].filter(x=>x>0&&x<8).join(', ')}${/triploid/i.test(v.notes||'')?' (triploid: needs two pollinators and is no use as a pollinator)':''}`:v.flowering?`${v.flowering} flowering: pair with another ${v.flowering.toLowerCase()} (or neighbouring) season variety`:'Not recorded';
-  const dlg=showInfo(v.name, `<div class="row">${cropThumb(ix,'sm')}<div class="grow"><b>${esc(d.name)}</b><div class="mut">${esc(d.latin)}</div></div></div>${kv([['Use',v.use],['Season',v.season],['Bearing',v.bearing?v.bearing+' bearer':''],['Pollination',['fruit_trees'].includes(d.group)?pol:''],['Self-fertility',sfT],['Disease resistance',v.disease||'Not recorded'],['Vigour / rootstock',v.vigour||(d.rootstocks?'Depends on the rootstock: see the rootstock table':'')],['Origin',v.origin],['Suitability for Ireland',v.ireland||d.ireland||''],['Notes',v.notes]])}
-    ${v.src?`<p class="hint">Source: ${esc(v.src)} (use, flowering time, picking month, bearing and origin).</p>`:''}<p class="hint">“Not recorded” means we don’t have reliable data for that trait. Nothing is guessed.</p><div class="row"><button class="pri" id="vPl">+ Plant ${esc(v.name)}</button></div>`);
+  const st=STONE_ID.includes(d.id);
+  const head=st?`<div class="vhead">${varFig(d,v,ix)}<div class="grow"><b>${esc(d.name)}</b><div class="mut">${esc(d.latin)}</div>${v.shape==='flat'?'<span class="pill">Flat “doughnut” type</span> ':''}${v.dwarf?'<span class="pill">Genetic dwarf</span>':''}</div></div>`:`<div class="row">${cropThumb(ix,'sm')}<div class="grow"><b>${esc(d.name)}</b><div class="mut">${esc(d.latin)}</div></div></div>`;
+  const dlg=showInfo(v.name, `${head}${st?`<h4 class="vsub">Identification traits</h4>`+kv(stoneRows(v))+`<h4 class="vsub">Growing</h4>`:''}${kv([['Use',v.use],['Season',v.season],['Bearing',v.bearing?v.bearing+' bearer':''],['Pollination',['fruit_trees'].includes(d.group)?pol:''],['Self-fertility',sfT],['Disease resistance',v.disease||'Not recorded'],['Vigour / rootstock',v.vigour||(d.rootstocks?'Depends on the rootstock: see the rootstock table':'')],['Origin',v.origin],['Suitability for Ireland',v.ireland||d.ireland||''],['Notes',v.notes]])}
+    ${v.src?`<p class="hint">Source: ${esc(v.src)}${st?'':' (use, flowering time, picking month, bearing and origin)'}.</p>`:''}<p class="hint">“Not recorded” means we don’t have reliable data for that trait. Nothing is guessed.${st?' Ripening is relative within the season: US sources give US dates, so expect later fruit in Ireland.':''}</p><div class="row"><button class="pri" id="vPl">+ Plant ${esc(v.name)}</button>${st&&IDCTX.pl&&get('plantings',IDCTX.pl)?`<button id="vSet">✔ This is my tree</button>`:''}</div>`);
+  const vs_=$('#vSet',dlg); if(vs_) vs_.onclick=()=>{ const p=get('plantings',IDCTX.pl); if(!p) return; upd('plantings',p.id,{variety:v.name, varietyNote:'Identified with the Farmhand identify tool (best match, not certain)'}); dlg.close(); toast(`Saved: ${p.cropName||d.name} — ${v.name}`); go('planting',p.id); };
   $('#vPl',dlg).onclick=()=>{ dlg.close(); plantingForm(null,{cropId:d.id, variety:v.name}); }; }
+/* ---- peaches & nectarines: variety photos, identification traits, growing from seed, identify tool ---- */
+const STONE_ID=['peach','nectarine'];
+let IDCTX={pl:null};
+const varImg=(v,ix,cls='')=>v&&v.photo?`<img class="cthumb ${cls}" src="crops/${esc(v.photo.img)}" alt="" loading="lazy" decoding="async" width="160" height="160">`:cropThumb(ix,cls);
+const STR={flesh:{white:'White flesh',yellow:'Yellow flesh',red:'Red-marbled flesh',pale:'Pale creamy flesh'},stone:{free:'Freestone',semi:'Semi-freestone',cling:'Clingstone'},
+  flower:{showy:'Large showy flowers','non-showy':'Small non-showy flowers'},glands:{reniform:'Kidney-shaped (reniform)',globose:'Round (globose)',none:'None (glandless)',mixed:'Mixed or variable'},
+  ripe:{early:'Early in the season',mid:'Mid-season',late:'Late in the season'}};
+function stoneChips(v){ return [v.flesh&&STR.flesh[v.flesh].replace(' flesh',''), v.stone&&STR.stone[v.stone]].filter(Boolean).join(', ')||'Traits not recorded'; }
+function stoneRows(v){ return [['Skin',v.skin],['Flesh',STR.flesh[v.flesh]||'Not recorded'],['Stone',STR.stone[v.stone]||'Not recorded'],['Flowers',STR.flower[v.flower]||'Not recorded'],['Leaf glands',STR.glands[v.glands]||'Not recorded'],
+  ['Ripening',[STR.ripe[v.ripe],v.season].filter(Boolean).join(': ')||'Not recorded'],['Fruit size',v.size],['Chill requirement',v.chill?v.chill+' hours below 7 °C':''],['Peach leaf curl',v.disease?v.disease.replace(/^Peach leaf curl: /,''):'']]; }
+function varFig(d,v,ix){ return v.photo
+  ? `<figure class="vfig">${varImg(v,ix,'hero')}<figcaption class="pcred">${v.photo.kind==='illustration'?'USDA watercolour':'Photo'} of ${esc(v.name)}${v.photo.subject?' '+esc(v.photo.subject):''}: ${esc(v.photo.author)} · <a href="${esc(v.photo.source)}" target="_blank" rel="noopener">${esc(v.photo.licence)}</a> · Wikimedia Commons</figcaption></figure>`
+  : `<figure class="vfig">${cropThumb(ix,'hero')}<figcaption class="pcred"><b>Representative photo</b>: a ${esc(d.name.toLowerCase())}, not ${esc(v.name)} itself. We found no openly licensed photo of this variety.${d.photo?` Photo: ${esc(d.photo.author)} · ${esc(d.photo.licence)}`:''}</figcaption></figure>`; }
+function stoneCards(d){ const n=d.name.toLowerCase(), other=d.id==='peach'?'nectarine':'peach';
+  return `<div class="card" id="seedCard"><h3>🌰 Growing ${d.id==='peach'?'peaches':'nectarines'} from seed (stone)</h3>
+  <p style="margin-top:0"><b>A stone will not give you the same variety.</b> Every seedling is a new variety. ${d.id==='nectarine'?'A nectarine stone can even grow into a peach, because smooth skin is a recessive trait.':'A peach stone occasionally gives a nectarine.'} Peaches mostly pollinate themselves, so seedlings often resemble the parent, but they are never identical. (Nicholson notes that the old Grosse Mignonne peach was unusual in coming nearly true from seed.)</p>
+  <details class="seed"><summary>How to do it, step by step</summary><ol class="steps">
+   <li><b>Pick the right stone.</b> Use a fully ripe, late-season fruit. Stones from very early varieties often don’t germinate because the kernel is immature. Supermarket fruit is usually a low-chill variety bred for hot climates, so a seedling from it may struggle here.</li>
+   <li><b>Clean and dry the stone</b>, then either crack it carefully in a vice or nutcracker and remove the kernel, or leave it whole (slower, but no risk of damage).</li>
+   <li><b>Give it winter.</b> It needs 2–4 months of cold, moist conditions (1–5 °C) to break dormancy. Put it in a bag of damp compost or sand in the fridge from about December, or sow it in a pot outside in autumn, protected from mice.</li>
+   <li><b>Sow</b> when roots start to show (usually February to April), 3–5 cm deep in a deep pot of gritty compost. Keep it frost-free and in good light.</li>
+   <li><b>Grow it on</b> in a sheltered, sunny spot. Pot it on each spring and plant it out against a south-facing wall or under cover after 1–2 years.</li>
+   <li><b>Expect fruit after 3–4 years.</b> The tree grows on its own roots, so it is vigorous and gets large unless you train it as a fan on a wall.</li>
+   <li><b>Select for Ireland.</b> If you raise several, keep the ones that show the least peach leaf curl in spring and flower the latest, which helps them escape frost. Keep rain off the leaves from December to May (a polythene cover) to cut leaf curl.</li>
+   <li><b>Prefer a known variety?</b> Use the seedling as a rootstock: bud a named variety onto it in July or August, as gardeners traditionally did.</li></ol>
+   <p class="hint">Record it as a planting with a variety such as “Seedling of Redhaven”. Once it fruits, use the identify tool below to see which known varieties it most resembles.</p></details></div>
+  <div class="card" id="idCard"><h3>🔎 Identifying your variety once it fruits</h3><p style="margin-top:0">Lost the label? Answer a few questions about the fruit, flowers and leaves and Farmhand lists the closest matches among ${CROPIDX?((CROPIDX.crops.find(c=>c.id==='peach')||{}).vc||0)+((CROPIDX.crops.find(c=>c.id==='nectarine')||{}).vc||0):'our'} peach and nectarine varieties. A seedling won’t match exactly: the tool shows the nearest relatives.</p><a class="btn pri" href="#identify/${d.id}">Open the identify tool</a> <a class="btn" href="#identify/${other}">Identify a ${other}</a></div>`; }
+/* identify tool: #identify/<peach|nectarine>[:plantingId] */
+const IDQ={};
+const ID_QS=[
+ {k:'flesh',l:'Flesh colour',o:[['white','White or greenish-white'],['yellow','Yellow or orange'],['red','Red or blood-marbled']],h:'Cut a ripe fruit in half. Most varieties are red close to the stone, so judge the flesh halfway between skin and stone.'},
+ {k:'stone',l:'Does the stone come away?',o:[['free','Freestone: comes away cleanly'],['semi','Semi-free: partly sticks'],['cling','Clingstone: flesh tears off it']],h:'Cut round a fully ripe fruit along the groove and twist the halves.'},
+ {k:'flower',l:'Flowers',o:[['showy','Large and showy: 3–5 cm, wide open “rose” petals'],['non-showy','Small: 2–3 cm, cupped “bell” petals']],h:'Check in spring. The two types can be hard to tell apart at the extremes, so answer “Not sure” if in doubt.'},
+ {k:'glands',l:'Leaf glands',o:[['reniform','Kidney-shaped (oval, flattish)'],['globose','Round (small dots)'],['none','None']],h:'Look with a magnifier at the leaf stalk and the base of the leaf blade on several mature leaves in summer. These tiny bumps are a classic pomologists’ test.'},
+ {k:'ripe',l:'When does it ripen?',o:[['early','Early: July to early August'],['mid','Mid-season: mid to late August'],['late','Late: September or later']],h:'Outdoors in Ireland. If it is under glass, it will be one or two weeks earlier.'},
+ {k:'shape',l:'Fruit shape',o:[['round','Round'],['flat','Flat, like a doughnut']]}];
+function idScore(v,ans){ let s=0,n=0,known=0; const marks={};
+  for(const q of ID_QS){ const a=ans[q.k]; if(!a) continue; n++; let val=v[q.k]; if(q.k==='shape') val=v.shape==='flat'?'flat':'round';
+    if(!val){ marks[q.k]='?'; continue; } known++;
+    let m=0; if(val===a) m=2; else if(q.k==='flesh'&&val==='pale'&&a!=='red') m=1; else if(q.k==='glands'&&val==='mixed'&&a!=='none') m=1; else if(q.k==='stone'&&(val==='semi'||a==='semi')) m=0.5; else m=-3;
+    s+=m; marks[q.k]=m>=2?'✓':m>0?'≈':'✗'; }
+  return {s,n,known,marks,pct:n?Math.max(0,Math.round(100*s/(2*n))):0}; }
+VIEWS.identify = el => { const [cropId0,pl]=(routeArg||'peach').split(':'); let cropId=STONE_ID.includes(cropId0)?cropId0:'peach'; IDCTX.pl=pl||null;
+  el.innerHTML=`<div class="empty"><span class="emo">🔎</span>Loading varieties…</div>`;
+  Promise.all([cropDoc('peach'),cropDoc('nectarine'),loadCropIndex().catch(()=>null)]).then(([dp,dn])=>{ if(!el.isConnected) return;
+    const docs={peach:dp,nectarine:dn}; const plant=pl&&get('plantings',pl);
+    const draw=()=>{ const d=docs[cropId]; const ix=cropIdx(cropId)||{id:cropId,g:'fruit_trees',img:true}; const ans=IDQ[cropId]||(IDQ[cropId]={}); const vs=d?.varieties||[];
+      const answered=Object.values(ans).filter(Boolean).length;
+      const res=vs.map((v,i)=>({v,i,...idScore(v,ans)})).sort((a,b)=>b.s-a.s||b.known-a.known||a.v.name.localeCompare(b.v.name));
+      const top=answered?res.slice(0,12):[];
+      el.innerHTML=`<div class="row"><a class="btn sm" href="${plant?'#planting/'+encodeURIComponent(plant.id):'#crop/'+cropId}">← ${plant?esc(plant.cropName||'Planting'):esc(d?.name||'Crop')}</a></div>
+      <div class="card"><h2 style="margin:0 0 4px">🔎 Identify your ${cropId}</h2><p class="mut" style="margin:0 0 10px">${plant?`For your planting <b>${esc(plant.cropName||'')}${plant.variety?' — '+esc(plant.variety):''}</b>. `:''}Answer what you can and skip the rest. The list updates as you go.</p>
+       <div class="idq"><b>Skin</b><div class="chips" role="radiogroup" aria-label="Skin"><label class="chip"><input type="radio" name="idskin" value="peach" ${cropId==='peach'?'checked':''}> Fuzzy (peach)</label><label class="chip"><input type="radio" name="idskin" value="nectarine" ${cropId==='nectarine'?'checked':''}> Smooth (nectarine)</label></div></div>
+       ${ID_QS.map(q=>`<div class="idq"><b>${esc(q.l)}</b><div class="chips" role="radiogroup" aria-label="${esc(q.l)}">${q.o.map(([val,lab])=>`<label class="chip"><input type="radio" name="id_${q.k}" value="${val}" ${ans[q.k]===val?'checked':''}> ${esc(lab)}</label>`).join('')}<label class="chip"><input type="radio" name="id_${q.k}" value="" ${!ans[q.k]?'checked':''}> Not sure</label></div>${q.h?`<div class="hint">${esc(q.h)}</div>`:''}</div>`).join('')}
+       ${answered?'<button class="sm" id="idReset">↺ Start again</button>':''}</div>
+      <div class="card" id="idRes"><h3>${answered?`Closest matches (${top.length} of ${vs.length})`:`${vs.length} ${cropId} varieties`}</h3>
+       ${answered?`<ul class="list vlist">${top.map(r=>`<li data-idv="${r.i}" style="cursor:pointer">${varImg(r.v,ix,'sm')}<div class="grow"><b>${esc(r.v.name)}</b> <span class="pill ${r.pct>=75?'grn':r.pct>=40?'blue':''}">${r.pct}% match</span><div class="mut">${ID_QS.filter(q=>ans[q.k]).map(q=>`${r.marks[q.k]} ${esc(q.l.replace('Does the stone come away?','Stone').replace('When does it ripen?','Ripening'))}`).join(' · ')}</div></div><span aria-hidden="true" style="font-size:22px;color:var(--mut)">›</span></li>`).join('')}</ul>
+       <p class="hint">✓ matches · ≈ close · ✗ differs · ? not recorded for that variety. Many varieties share the same traits, so treat this as a shortlist, not a certain identification. A seedling grown from a stone is a new variety and will only resemble its relatives.</p>`:emptyBox('Answer a question above to see the closest varieties.')}</div>`;
+      $$('input[name=idskin]',el).forEach(r=>r.onchange=()=>{ cropId=r.value; draw(); });
+      ID_QS.forEach(q=>$$(`input[name=id_${q.k}]`,el).forEach(r=>r.onchange=()=>{ const y=scrollY; ans[q.k]=r.value||null; draw(); scrollTo(0,y); }));
+      const rs=$('#idReset',el); if(rs) rs.onclick=()=>{ IDQ[cropId]={}; draw(); };
+      $$('[data-idv]',el).forEach(li=>li.onclick=()=>varietyInfo(d,vs[+li.dataset.idv],ix)); };
+    draw(); }).catch(e=>{ el.innerHTML=emptyBox('Could not load the variety list. Are you offline? ('+e.message+')'); }); };
 function pickIdx(s, i){ const m=String(s||'').match(/Index 1: ([^·]+) · Index 2: ([^·]+) · Index 3: ([^·]+) · Index 4: (.+?) kg\/ha/); if(!m||!i||i<1||i>4) return s; return `${m[i].trim()} kg/ha (your soil index ${i})`; }
 function buildAdvice(d, pad){ const a=approach(); const P=Number(pad?.pIndex)||null, K=Number(pad?.kIndex)||null; const cv=d.fert.conventional;
   const nut = a==='organic' ? d.fert.organic.text : a==='mostly' ? d.fert.organic.text+' Last resort (conventional): N '+cv.N+'.' : `N: ${cv.N}. P: ${pickIdx(cv.P,P)}. K: ${pickIdx(cv.K,K)}. ${cv.lime}`;
@@ -1193,7 +1342,7 @@ async function plantingForm(p, preset={}, groups){ await loadCropIndex().catch((
     {k:'cropId',l:'Crop',t:'select',req:1,o:()=>[['','— choose —']].concat(crops.map(c=>[c.id,`${CROP_GROUP_EMO[c.g]||''} ${c.n}`]))},
     {k:'paddockId',l:'Field / paddock',t:'select',o:padOpts,req:1},{k:'variety',l:'Variety',t:'datalist',o:vNames,ph:vNames.length?`${vNames.length} varieties: type to search`:'optional'},
     {k:'rootstock',l:'Rootstock',t:'datalist',o:rs,show:()=>!!$('#f_rootstock_dl')?.children.length},
-    {k:'sown',l:'Sown / planted',t:'date'},{k:'area',l:'Area (ha)',t:'number',hint:'Leave blank to use the whole field'},{k:'status',l:'Status',t:'select',o:[['planned','Planned'],['growing','Growing'],['harvested','Harvested'],['finished','Finished / removed']]},
+    {k:'sown',l:'Sown / planted',t:'date'},{k:'area',l:`Area (${areaU()})`,t:'number',area:1,hint:'Leave blank to use the whole field'},{k:'status',l:'Status',t:'select',o:[['planned','Planned'],['growing','Growing'],['harvested','Harvested'],['finished','Finished / removed']]},
     {k:'notes',l:'Notes',t:'textarea',full:1}],
     extraHTML:p?'':'<p class="mut">The crop guide (sowing, fertiliser for this field’s soil index, protection, harvest) is copied into the planting so you can adjust it for this field.</p>',
     onSave:async v=>{ const d=v.cropId?await cropDoc(v.cropId).catch(()=>null):null; const ci=cropIdx(v.cropId); v.cropName=ci?ci.n:(d?.name||''); const pad=get('paddocks',v.paddockId); if(v.area==null&&pad) v.area=Math.round(padHa(pad)*100)/100||null;
@@ -1209,12 +1358,13 @@ VIEWS.planting = el => { const p=get('plantings',routeArg); if(!p){ el.innerHTML
   const hv=S.cropOps.filter(o=>o.plantingId===p.id&&o.kind==='harvest');
   const back=Object.keys(TAB_GROUPS).find(t=>TAB_GROUPS[t].includes(c.g)&&tabOn(t))||'croplib';
   el.innerHTML=`<div class="row"><a class="btn sm" href="#${back}">← ${esc(ALL_TABS[back][1])}</a><span class="sp"></span><button class="sm" id="edit">Edit</button></div>
-  <div class="card chero">${cropThumb(c,'hero')}<div class="grow"><h2>${esc(p.cropName||c.n)}${p.variety?' — '+esc(p.variety):''}</h2><div class="mut">${esc(pad?.name||'No field')}${p.area?' · '+num(p.area,2)+' ha':''} · sown ${fmtD(p.sown)||'–'}${p.rootstock?' · on '+esc(p.rootstock):''}</div>
-   <div class="row" style="margin:8px 0 0"><span class="pill ${p.status==='growing'?'grn':''}">${esc(p.status||'growing')}</span>${hv.length?`<span class="pill blue">Harvested ${esc(hv.map(h=>num(h.qty,1)+' '+(h.unit||'')).join(' + '))}</span>`:''}<a class="btn sm" href="#crop/${encodeURIComponent(p.cropId)}">📖 Crop guide</a></div></div></div>
+  <div class="card chero">${cropThumb(c,'hero')}<div class="grow"><h2>${esc(p.cropName||c.n)}${p.variety?' — '+esc(p.variety):''}</h2><div class="mut">${esc(pad?.name||'No field')}${p.area?' · '+fmtArea(p.area):''} · sown ${fmtD(p.sown)||'–'}${p.rootstock?' · on '+esc(p.rootstock):''}</div>
+   <div class="row" style="margin:8px 0 0"><span class="pill ${p.status==='growing'?'grn':''}">${esc(p.status||'growing')}</span>${hv.length?`<span class="pill blue">Harvested ${esc(hv.map(h=>num(h.qty,1)+' '+(h.unit||'')).join(' + '))}</span>`:''}<a class="btn sm" href="#crop/${encodeURIComponent(p.cropId)}">📖 Crop guide</a>${STONE_ID.includes(p.cropId)?`<a class="btn sm" href="#identify/${p.cropId}:${encodeURIComponent(p.id)}">🔎 Identify variety</a><a class="btn sm" href="#crop/${p.cropId}" data-seed>🌰 Growing from seed</a>`:''}</div></div></div>
   <div class="card"><h3>Record</h3><div class="row" style="margin:0"><button class="sm" id="oFert">🧪 Fertiliser / manure</button>${Object.entries(OP_KINDS).map(([k,o])=>`<button class="sm" data-op="${k}">${o.i} ${o.l}</button>`).join('')}</div></div>
   <div class="card"><h3>📋 Field plan <span class="pill">${esc(APPROACHES[a.approach||approach()]?.l||'')}</span></h3><div class="hint" style="margin-bottom:8px">Pre-filled from the crop guide for this field (P index ${esc(pad?.pIndex||'not set')}, K index ${esc(pad?.kIndex||'not set')}). Edit it to suit this field.</div>
    ${Object.keys(a).length>1?kv([['Sowing',a.sowing],['Nutrition',a.nutrition],['Protection',a.protection],['Water',a.water],['Harvest',a.harvest],['My notes',a.mine]]):emptyBox('No plan yet. Tap “Refresh from guide”.')}<div class="row"><button class="sm" id="editPlan">✏️ Edit field plan</button><button class="sm" id="resetPlan">↺ Refresh from guide</button></div></div>
-  <div class="card"><h3>Operations (${ops.length})</h3>${table(ops,[{l:'Date',f:o=>fmtD(o.date)},{l:'Type',f:o=>o.kind==='fert'?'🧪 Fertiliser':(OP_KINDS[o.kind]?.i||'')+' '+(OP_KINDS[o.kind]?.l||o.kind)},{l:'Details',f:o=>o.kind==='fert'?[o.product,o.rate,o.nKgHa?o.nKgHa+' kg N/ha':''].filter(Boolean).join(' · '):o.kind==='spray'?[o.product,o.pcs?'PCS '+o.pcs:'',o.rate,o.target].filter(Boolean).join(' · '):o.kind==='irrigation'?[o.mm?o.mm+' mm':'',o.method].filter(Boolean).join(' · '):o.kind==='harvest'?[o.qty!=null?num(o.qty,2)+' '+(o.unit||''):'',o.moisture?o.moisture+'% moisture':'',o.store].filter(Boolean).join(' · '):o.text||o.notes||''}],{onRow:o=>o._col==='fertiliser'?fertForm(get('fertiliser',o.id)):cropOpForm(p,o.kind,get('cropOps',o.id)),empty:'No operations recorded yet.'})}</div>`;
+  <div class="card"><h3>Operations (${ops.length})</h3>${table(ops,[{l:'Date',f:o=>fmtD(o.date)},{l:'Type',f:o=>o.kind==='fert'?'🧪 Fertiliser':(OP_KINDS[o.kind]?.i||'')+' '+(OP_KINDS[o.kind]?.l||o.kind)},{l:'Details',f:o=>o.kind==='fert'?[o.product,o.rate,o.nKgHa?fmtRate(o.nKgHa,'kg',0,'N'):''].filter(Boolean).join(' · '):o.kind==='spray'?[o.product,o.pcs?'PCS '+o.pcs:'',o.rate,o.target].filter(Boolean).join(' · '):o.kind==='irrigation'?[o.mm?o.mm+' mm':'',o.method].filter(Boolean).join(' · '):o.kind==='harvest'?[o.qty!=null?num(o.qty,2)+' '+(o.unit||''):'',o.moisture?o.moisture+'% moisture':'',o.store].filter(Boolean).join(' · '):o.text||o.notes||''}],{onRow:o=>o._col==='fertiliser'?fertForm(get('fertiliser',o.id)):cropOpForm(p,o.kind,get('cropOps',o.id)),empty:'No operations recorded yet.'})}</div>`;
+  const sd=$('[data-seed]',el); if(sd) sd.onclick=()=>{ window.__cropScroll='seedCard'; };
   $('#edit',el).onclick=()=>plantingForm(p); $('#oFert',el).onclick=()=>fertForm(null,{paddockId:p.paddockId,plantingId:p.id});
   $$('[data-op]',el).forEach(b=>b.onclick=()=>cropOpForm(p,b.dataset.op));
   $('#editPlan',el).onclick=()=>openForm({title:'Field plan: '+(p.cropName||''), values:a, fields:[['sowing','Sowing'],['nutrition','Nutrition'],['protection','Protection'],['water','Water'],['harvest','Harvest'],['mine','My notes for this field']].map(([k,l])=>({k,l,t:'textarea',full:1})), onSave:v=>{ upd('plantings',p.id,{advice:{...a,...v}}); }});
@@ -1234,9 +1384,9 @@ function sprayCheck(v){ const a=approach(); if(a==='conventional'||!v.product) r
   if(a==='organic'){ if(bad) return '🚫 Not permitted in organic production. It can’t be recorded in Organic-only mode.'; if(!v.orgOk) return '🚫 Tick the box to confirm this product is permitted in organic production.'+(ok?' (It looks like an organic-type input such as copper, sulphur or Bt, but still check your body’s limits.)':''); return ''; }
   return bad?'⚠️ Conventional product: last resort only, and the crop won’t be organic.':ok?'':'ℹ️ Check whether this product is permitted in organic production.'; }
 function cropOpForm(p, kind, o){ const a=approach(); const K=OP_KINDS[kind];
-  const F={spray:[{k:'date',l:'Date',t:'date',req:1},{k:'product',l:'Product',req:1,validate:(v,vals)=>sprayCheck(vals)},{k:'pcs',l:'PCS number',hint:'DAFM registration number on the label'},{k:'target',l:'Target pest / disease / weed'},{k:'rate',l:'Rate (per ha)'},{k:'water',l:'Water volume (L/ha)',t:'number'},{k:'phi',l:'Harvest interval (days)',t:'number'},{k:'operator',l:'Operator (registered professional user)'},...(a!=='conventional'?[{k:'orgOk',l:'Permitted in organic production (EU Reg 2021/1165) and allowed by my certification body',t:'checkbox'}]:[])],
+  const F={spray:[{k:'date',l:'Date',t:'date',req:1},{k:'product',l:'Product',req:1,validate:(v,vals)=>sprayCheck(vals)},{k:'pcs',l:'PCS number',hint:'DAFM registration number on the label'},{k:'target',l:'Target pest / disease / weed'},{k:'rate',l:`Rate (per ${aU().s==='sq yd'?'sq yd':aU().one})`},{k:'water',l:`Water volume (${rateUnit('L')})`,t:'number',rate:'L'},{k:'phi',l:'Harvest interval (days)',t:'number'},{k:'operator',l:'Operator (registered professional user)'},...(a!=='conventional'?[{k:'orgOk',l:'Permitted in organic production (EU Reg 2021/1165) and allowed by my certification body',t:'checkbox'}]:[])],
     irrigation:[{k:'date',l:'Date',t:'date',req:1},{k:'mm',l:'Amount (mm)',t:'number'},{k:'hours',l:'Hours',t:'number'},{k:'method',l:'Method',t:'datalist',o:['Drip','Sprinkler','Hose / can','Rain gun']}],
-    harvest:[{k:'date',l:'Date',t:'date',req:1},{k:'qty',l:'Quantity',t:'number',req:1},{k:'unit',l:'Unit',t:'datalist',o:['t','t/ha','kg','bales','boxes','punnets','trees'],def:'t'},{k:'moisture',l:'Moisture %',t:'number'},{k:'areaH',l:'Area harvested (ha)',t:'number'},{k:'store',l:'Stored / sold to'},...(o?[]:[{k:'finish',l:'Mark planting as harvested',t:'checkbox',def:true}])],
+    harvest:[{k:'date',l:'Date',t:'date',req:1},{k:'qty',l:'Quantity',t:'number',req:1},{k:'unit',l:'Unit',t:'datalist',o:()=>['t',rateUnit('t'),'kg','bales','boxes','punnets','trees'],def:'t'},{k:'moisture',l:'Moisture %',t:'number'},{k:'areaH',l:`Area harvested (${areaU()})`,t:'number',area:1},{k:'store',l:'Stored / sold to'},...(o?[]:[{k:'finish',l:'Mark planting as harvested',t:'checkbox',def:true}])],
     note:[{k:'date',l:'Date',t:'date',req:1},{k:'text',l:'What did you see or do?',t:'textarea',full:1,req:1}]}[kind];
   openForm({title:(o?'Edit ':'')+K.i+' '+K.l+': '+(p.cropName||''), values:o||{date:today()}, fields:[...F,...(kind==='note'?[]:[{k:'notes',l:'Notes',t:'textarea',full:1}])],
     extraHTML: kind==='spray'?`<p class="mut">Only DAFM-registered products for this crop, at label rates. ${a==='organic'?'🍃 <b>Organic only:</b> non-permitted products are blocked.':a==='mostly'?'🌿 <b>Mostly organic:</b> you’ll be warned about non-organic products.':''}</p>`:'',
@@ -1252,11 +1402,11 @@ function suitScore(c, pad){ let s=0; const why=[]; const ph=Number(pad.ph), st=p
 async function suitDialog(padId){ await loadCropIndex().catch(()=>null); if(!CROPIDX) return toast('Crop library not available offline yet');
   const pads=S.paddocks.slice().sort((a,b)=>a.name.localeCompare(b.name)); let pid=padId||(get('paddocks',libState.pad)?libState.pad:pads[0]?.id)||'';
   const relevant=[...new Set(farmTypes().flatMap(t=>({tillage:TAB_GROUPS.crops,horticulture:TAB_GROUPS.veg,fruit:TAB_GROUPS.orchard,forestry:TAB_GROUPS.forestry,dairy:['forage'],beef:['forage'],sheep:['forage'],horses:['forage'],goats:['forage']}[t]||[])))];
-  const dlg=showInfo('🌱 What suits this field?', `<div class="row"><select id="sPad" aria-label="Field" style="flex:1">${pads.map(p=>`<option value="${p.id}" ${p.id===pid?'selected':''}>${esc(p.name)}</option>`).join('')}</select><select id="sGrp" aria-label="Crop group" style="flex:1"><option value="">${relevant.length?'Crops for my farm types':'All crops'}</option><option value="*">All crops</option>${CROPIDX.groups.map(g=>`<option value="${g.id}">${esc(g.name)}</option>`).join('')}</select></div><div id="sOut"></div>`);
+  const dlg=showInfo('🌱 What suits this field?', `<div class="row"><select id="sPad" aria-label="Field" style="flex:1">${pads.map(p=>`<option value="${p.id}" ${p.id===pid?'selected':''}>${esc(p.name)} (${fmtArea(padHa(p))})</option>`).join('')}</select><select id="sGrp" aria-label="Crop group" style="flex:1"><option value="">${relevant.length?'Crops for my farm types':'All crops'}</option><option value="*">All crops</option>${CROPIDX.groups.map(g=>`<option value="${g.id}">${esc(g.name)}</option>`).join('')}</select></div><div id="sOut"></div>`);
   const bindE=()=>{ const e=$('#sEdit',dlg); if(e) e.onclick=ev=>{ ev.preventDefault(); dlg.close(); paddockForm(get('paddocks',pid)); }; };
   const draw=()=>{ pid=$('#sPad',dlg)?.value; libState.pad=pid; const pad=get('paddocks',pid); const out=$('#sOut',dlg); const gsel=$('#sGrp',dlg).value;
     if(!pad){ out.innerHTML=emptyBox('Add a field on the Map first, then enter its soil type and pH.'); return; }
-    const info=`<p class="mut">Using: ${pad.soilType?SOILTXT[pad.soilType]:'<b>soil type not set</b>'} · pH ${pad.ph||'<b>not set</b>'} · drainage ${pad.drainage||'not set'}${pad.pIndex?' · P index '+pad.pIndex:''}${pad.kIndex?' · K index '+pad.kIndex:''}. <a href="#" id="sEdit">Edit field soil</a></p>`;
+    const info=`<p class="mut">${esc(pad.name)} · ${fmtArea(padHa(pad))}. Using: ${pad.soilType?SOILTXT[pad.soilType]:'<b>soil type not set</b>'} · pH ${pad.ph||'<b>not set</b>'} · drainage ${pad.drainage||'not set'}${pad.pIndex?' · P index '+pad.pIndex:''}${pad.kIndex?' · K index '+pad.kIndex:''}. <a href="#" id="sEdit">Edit field soil</a></p>`;
     if(!pad.soilType&&!pad.ph){ out.innerHTML=info+emptyBox('Enter this field’s soil type and pH (from a soil test) to get suggestions.'); bindE(); return; }
     const list=CROPIDX.crops.filter(c=>gsel==='*'||(!gsel?(!relevant.length||relevant.includes(c.g)):c.g===gsel)).map(c=>({c,...suitScore(c,pad)})).sort((a,b)=>b.s-a.s||a.c.n.localeCompare(b.c.n));
     out.innerHTML=info+`<ul class="list">${list.slice(0,25).map(r=>`<li><a href="#crop/${encodeURIComponent(r.c.id)}" data-close style="display:flex;gap:10px;align-items:center;flex:1;text-decoration:none;color:inherit">${cropThumb(r.c,'sm')}<div class="grow"><b>${esc(r.c.n)}</b><div class="mut">${esc(r.why.join(' · '))}</div></div></a><span class="pill ${r.s>=6?'grn':r.s>=3?'amb':'red'}">${r.s>=6?'Good fit':r.s>=3?'Possible':'Poor fit'}</span></li>`).join('')}</ul><p class="hint">A simple match on soil type, pH and drainage only. Climate, exposure, rotation and markets matter too, so talk to your adviser.</p>`;
@@ -1296,7 +1446,7 @@ function bindFarmSetup(el){ const s=S.settings;
 function cropCreditsHTML(){ const c=CROPIDX?.credits;
   const guide='<li><b>Crop guidance:</b> summarised from Teagasc publications (Green Book, crop and horticulture guides), DAFM, the Nitrates Regulations and EU organic rules (Reg 2018/848 and 2021/1165). Irish heritage apple data: <a href="https://irishseedsavers.ie" target="_blank" rel="noopener">Irish Seed Savers Association</a>. Guide only.</li>';
   if(!c) return '<li id="cropCred"><b>Crop photos:</b> Wikimedia Commons contributors (open the crop library once to list them).</li>'+guide;
-  return `<li id="cropCred"><b>Crop photos</b> (${c.length} resized thumbnails) from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>, used under their free licences (CC BY, CC BY-SA, CC0 or public domain); cropped and resized. <details><summary>Show all ${c.length} photo credits</summary><ul class="pcredits">${c.map(x=>`<li>${esc(x.name)}: ${esc(x.author)}, <a href="${esc(x.source)}" target="_blank" rel="noopener">${esc(x.licence)}</a></li>`).join('')}</ul></details></li>${guide}`; }
+  return `<li id="cropCred"><b>Crop photos</b> (${c.length} resized thumbnails) from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>, used under their free licences (CC BY, CC BY-SA, CC0 or public domain); cropped and resized. <details><summary>Show all ${c.length} photo credits</summary><ul class="pcredits">${c.map(x=>`<li>${esc(x.name)}: ${esc(x.author)}, <a href="${esc(x.source)}" target="_blank" rel="noopener">${esc(x.licence)}</a></li>`).join('')}</ul></details>${(CROPIDX.vcredits||[]).length?`<details><summary>Show ${CROPIDX.vcredits.length} variety photo credits (peaches &amp; nectarines)</summary><ul class="pcredits">${CROPIDX.vcredits.map(x=>`<li>${esc(x.name)}: ${esc(x.author)}, <a href="${esc(x.source)}" target="_blank" rel="noopener">${esc(x.licence)}</a></li>`).join('')}</ul></details>`:''}</li><li><b>Peach &amp; nectarine variety traits</b> (flower size, leaf glands, flesh, stone, ripening): Nicholson’s <i>Illustrated Dictionary of Gardening</i> (1884–88), Hedrick’s <i>The Peaches of New York</i> (1917), Clemson University cultivar descriptions, NW Fruit (WWFRF) leaf-curl trials, Utah State University, Bernwode Fruit Trees, RHS and UK nursery listings. Traits are left blank where no source records them.</li>${guide}`; }
 /* nav: scrolling pills + More menu */
 function moreMenu(){ const tabs=visibleTabs(); const dlg=showInfo('All tabs', `<div class="moregrid">${tabs.map(k=>{ const [i,l]=tabLabel(k); return `<a href="#${k}" class="${navKey()===k?'on':''}" data-close><span aria-hidden="true">${i}</span>${esc(l)}</a>`; }).join('')}<a href="#settings" data-close><span aria-hidden="true">⚙️</span>Settings</a></div>`);
   $$('[data-close]',dlg).forEach(a=>a.onclick=()=>dlg.close()); }
@@ -1324,6 +1474,7 @@ const WIDGETS={
   k_plantings:{i:'🌾',l:'Active plantings',size:'k',types:['tillage','horticulture','fruit','forestry']},
   k_overdue:{i:'⏰',l:'Overdue tasks',size:'k',types:[]},
   k_grass:{i:'🌱',l:'Days grass ahead',size:'k',types:['dairy','beef','sheep','horses','goats']},
+  c_map:{i:'🗺️',l:'Map of my land',size:'w',types:[],via:'map'},
   c_tasks:{i:'✅',l:"Today's tasks",size:'c',types:[]},
   c_wd:{i:'💊',l:'Animals in withdrawal',size:'c',types:LIVESTOCK},
   c_calving:{i:'🍼',l:'Upcoming calvings',size:'c',types:['dairy','beef']},
@@ -1331,13 +1482,13 @@ const WIDGETS={
   c_plantings:{i:'🌾',l:'Plantings',size:'c',types:['tillage','horticulture','fruit','forestry']},
   c_weather:{i:'🌦️',l:'Weather & grass',size:'w',types:[]},
   c_ask:{i:'💬',l:'Ask Farmhand (AI)',size:'c',types:[]}};
-const wAvail=k=>{ const t=WIDGETS[k].types; return !t.length||t.some(x=>hasType(x)); };
+const wAvail=k=>{ const t=WIDGETS[k].types; return (!t.length||t.some(x=>hasType(x)))&&wRel(k); };
 function homePrefs(){ const p=S.settings.homePrefs; return p&&typeof p==='object'?p:null; }
 function homeOrder(){ const canon=Object.keys(WIDGETS).filter(wAvail); const p=homePrefs(); if(!p||!Array.isArray(p.order)) return canon;
-  const cu=homeCustom(); const o=[...new Set(p.order)].filter(k=>(WIDGETS[k]&&wAvail(k))||(cu[k]&&WTYPES[cu[k].t])); canon.forEach((k,i)=>{ if(!o.includes(k)){ const prev=canon.slice(0,i).reverse().find(x=>o.includes(x)); o.splice(prev?o.indexOf(prev)+1:0,0,k); } });
+  const cu=homeCustom(); const o=[...new Set(p.order)].filter(k=>WIDGETS[k]||(cu[k]&&WTYPES[cu[k].t])); canon.forEach((k,i)=>{ if(!o.includes(k)){ const prev=canon.slice(0,i).reverse().find(x=>o.includes(x)); o.splice(prev?o.indexOf(prev)+1:0,0,k); } });
   Object.keys(cu).forEach(k=>{ if(!o.includes(k)&&WTYPES[cu[k].t]) o.push(k); }); return o; }
 function homeHidden(){ const p=homePrefs(); return new Set(p&&Array.isArray(p.hidden)?p.hidden:[]); }
-function setHome(order, hidden, custom, label){ homeCommit({order:[...order], hidden:[...hidden], custom:custom||homeCustom()}, label); }
+function setHome(order, hidden, custom, label, bcfg){ homeCommit({order:[...order], hidden:[...hidden], custom:custom||homeCustom(), bcfg:bcfg||homePrefs()?.bcfg||{}}, label); }
 let HOME_EDIT=false;
 VIEWS.dash = el => {
   const td=today(); const open=S.tasks.filter(t=>!t.done);
@@ -1375,7 +1526,7 @@ VIEWS.dash = el => {
       ${grazing?`<p class="mut" style="margin-bottom:0">Average farm cover: <b>${gb.afc!=null?num(gb.afc):'–'} kg DM/ha</b> · Growth used: <b>${num(currentGrowthRate().rate)} kg DM/ha/day</b> (${esc(currentGrowthRate().basis)}) · Demand: ${gb.cows} cows × ${num(S.settings.kgDmPerCow)} kg — <i>estimates</i>. <a href="#grass">Grass planner →</a></p>`:''}</div>`};
   const order=homeOrder(), hidden=homeHidden(), shown=order.filter(k=>!hidden.has(k)&&wMeta(k)), hiddenAvail=order.filter(k=>hidden.has(k));
   const hr=new Date().getHours(), greet=hr<12?'Good morning':hr<18?'Good afternoon':'Good evening';
-  const ctl=(k,i)=>{ if(!HOME_EDIT) return ''; const l=esc(wMeta(k).l); return `<div class="wctl"><span class="whandle" title="Drag to move" aria-hidden="true">✥</span><button class="sm" data-wup="${k}" aria-label="Move ${l} up" ${i===0?'disabled':''}>▲</button><button class="sm" data-wdn="${k}" aria-label="Move ${l} down" ${i===shown.length-1?'disabled':''}>▼</button>${wMeta(k).custom&&WTYPES[wMeta(k).t]?.cfg?`<button class="sm" data-wcfg="${k}" aria-label="Change ${l}" title="Change">⚙</button>`:''}<button class="sm wdel" data-whide="${k}" aria-label="Remove ${l} from Home">✕</button></div>`; };
+  const ctl=(k,i)=>{ if(!HOME_EDIT) return ''; const l=esc(wMeta(k).l); return `<div class="wctl"><span class="whandle" title="Drag to move" aria-hidden="true">✥</span><button class="sm" data-wup="${k}" aria-label="Move ${l} up" ${i===0?'disabled':''}>▲</button><button class="sm" data-wdn="${k}" aria-label="Move ${l} down" ${i===shown.length-1?'disabled':''}>▼</button>${(wMeta(k).custom&&WTYPES[wMeta(k).t]?.cfg)||WIDGETS[k]?.via?`<button class="sm" data-wcfg="${k}" aria-label="Change ${l}" title="Change">⚙</button>`:''}<button class="sm wdel" data-whide="${k}" aria-label="Remove ${l} from Home">✕</button></div>`; };
   el.innerHTML = `
   <div class="homebar ${HOME_EDIT?'editing':''}"><div class="grow">${HOME_EDIT?'<b class="hi">✏️ Editing Home</b>':`<b class="hi">${greet}${S.settings.farmName?' — '+esc(S.settings.farmName):''}</b><span class="mut"> · ${new Date().toLocaleDateString('en-IE',{weekday:'short',day:'numeric',month:'short'})} · ${open.length} open task${open.length===1?'':'s'}</span>`}</div>
     ${HOME_EDIT?`<span class="wundo"><button class="sm" id="wUndo" aria-label="Undo${HOME_HIST.length?': '+esc(HOME_HIST[HOME_HIST.length-1].l):''}" title="Undo${HOME_HIST.length?' '+esc(HOME_HIST[HOME_HIST.length-1].l):''}" ${HOME_HIST.length?'':'disabled'}>↶</button><button class="sm" id="wRedo" aria-label="Redo${HOME_FUT.length?': '+esc(HOME_FUT[HOME_FUT.length-1].l):''}" title="Redo${HOME_FUT.length?' '+esc(HOME_FUT[HOME_FUT.length-1].l):''}" ${HOME_FUT.length?'':'disabled'}>↷</button></span><button class="sm" id="wAdd">+ Add widget</button><button class="sm pri" id="wDone">✓ Done</button>`:`<button class="sm" id="wEdit" aria-label="Edit Home: move or remove widgets">✏️ Edit home</button>`}</div>
@@ -1391,7 +1542,7 @@ VIEWS.dash = el => {
   if(shown.includes('c_milk')){ const pts=mt.filter(d=>daysBetween(d.date,td)<=14).map(d=>[d.date,d.litres]); lineChart($('#dashMilk',el),[{label:'Litres/day',points:pts}],{height:180,yLabel:'L'}); }
   if(shown.includes('c_weather')) fetchWeather().then(wx=>{ const d=$('#dashWx'); if(d && route==='dash') d.innerHTML=wxStrip(wx); });
   wAfter(el, shown);
-  const aw=$('#askW',el); if(aw){ aw.onsubmit=e=>{ e.preventDefault(); const t=$('#askWq',el).value.trim(); if(t){ sessionStorage.setItem('fh.askq',t); go('ask'); } }; $$('[data-askw]',el).forEach(b=>b.onclick=()=>{ sessionStorage.setItem('fh.askq',b.dataset.askw); go('ask'); }); }
+  const aw=$('#askW',el); if(aw){ aw.onsubmit=e=>{ e.preventDefault(); const t=$('#askWq',el).value.trim(); if(t){ $('#askWq',el).value=''; aiPopOpen(); aiAsk(t); } }; $$('[data-askw]',el).forEach(b=>b.onclick=()=>{ aiPopOpen(); aiAsk(b.dataset.askw); }); }
   bindHomeEdit(el, order, hidden, shown, hiddenAvail);
 };
 // consecutive number tiles share one row (stretched so a short row never leaves a gap); cards flow two-up on wide screens
@@ -1405,7 +1556,9 @@ function bindHomeEdit(el, order, hidden, shown, hiddenAvail){
   const ub=$('#wUndo',el), rb=$('#wRedo',el);
   if(ub) ub.onclick=()=>{ const l=homeUndo(); if(l){ homeRerender(HOME_HIST.length?'#wUndo':'#wRedo'); toast('↶ Undid: '+l); } };
   if(rb) rb.onclick=()=>{ const l=homeRedo(); if(l){ homeRerender(HOME_FUT.length?'#wRedo':'#wUndo'); toast('↷ Redid: '+l); } };
-  $$('[data-wcfg]',el).forEach(b=>b.onclick=()=>{ const k=b.dataset.wcfg, c=homeCustom()[k], T=WTYPES[c.t]; const f=[...(T.cfg||[])]; if(T.size!=='k') f.push({k:'size',l:'Size',t:'select',o:[['c','Small (half width on big screens)'],['w','Large (full width)']]});
+  $$('[data-wcfg]',el).forEach(b=>b.onclick=()=>{ const k=b.dataset.wcfg; if(WIDGETS[k]?.via){ const W=WIDGETS[k], T=WTYPES[W.via], cur={size:wMeta(k).size,...(homePrefs()?.bcfg?.[k]||{})};
+      return openForm({title:`⚙ ${W.l}`, fields:[...(T.cfg||[]),{k:'size',l:'Size',t:'select',o:[['c','Small (half width on big screens)'],['w','Large (full width)']]}], values:cur, saveLabel:'Save', onSave:v=>{ setHome(homeOrder(),homeHidden(),undefined,`changed “${W.l}”`,{...(homePrefs()?.bcfg||{}),[k]:v}); }}); }
+    const c=homeCustom()[k], T=WTYPES[c.t]; const f=[...(T.cfg||[])]; if(T.size!=='k') f.push({k:'size',l:'Size',t:'select',o:[['c','Small (half width on big screens)'],['w','Large (full width)']]});
     openForm({title:`⚙ ${T.l}`, fields:f, values:{...c.cfg, size:c.size}, saveLabel:'Save', onSave:v=>{ const {size,...cfg}=v; setHome(homeOrder(),homeHidden(),{...homeCustom(),[k]:{...c,cfg,size:T.size==='k'?'k':size}},`changed “${T.l}”`); }}); });
   const nudge=(k,d)=>{ const i=shown.indexOf(k), t=shown[i+d]; if(!t) return; moveTo(k,t,d>0); setTimeout(()=>$(`[data-${d<0?'wup':'wdn'}="${k}"]`)?.focus()); };
   $$('[data-wup]',el).forEach(b=>b.onclick=()=>nudge(b.dataset.wup,-1)); $$('[data-wdn]',el).forEach(b=>b.onclick=()=>nudge(b.dataset.wdn,1));
@@ -1445,16 +1598,58 @@ function homeCommit(next, label){ HOME_HIST.push({s:homeSnap(), l:label||'change
 function homeUndo(){ const h=HOME_HIST.pop(); if(!h) return null; HOME_FUT.push({s:homeSnap(), l:h.l}); S.settings.homePrefs=JSON.parse(h.s); save(); return h.l; }
 function homeRedo(){ const h=HOME_FUT.pop(); if(!h) return null; HOME_HIST.push({s:homeSnap(), l:h.l}); S.settings.homePrefs=JSON.parse(h.s); save(); return h.l; }
 function homeCustom(){ const p=homePrefs(); return p&&p.custom&&typeof p.custom==='object'?p.custom:{}; }
-function wMeta(k){ if(WIDGETS[k]) return WIDGETS[k]; const c=homeCustom()[k]; const T=c&&WTYPES[c.t]; if(!T) return null;
+function wMeta(k){ if(WIDGETS[k]){ const W=WIDGETS[k]; return W.via?{...W,size:homePrefs()?.bcfg?.[k]?.size||W.size}:W; } const c=homeCustom()[k]; const T=c&&WTYPES[c.t]; if(!T) return null;
   let l=T.l; try{ if(T.title) l=T.title(c.cfg||{}); }catch(e){} return {i:T.i, l, size:T.size==='k'?'k':(c.size||T.size), custom:true, t:c.t}; }
+
+/* ---------- which widgets apply to this farm (v8): farm types + the records the user actually has ---------- */
+const hasSp=sp=>S.cows.some(c=>spOf(c)===sp&&aliveA(c))||S.groups.some(g=>(g.species||'cattle')===sp&&!g.closed);
+const spRel=sp=>sp==='cattle'?hasSp('cattle'):(hasType(sp)||hasSp(sp));
+const milkRel=()=>(hasType('dairy')&&S.cows.some(c=>isCattle(c)&&aliveA(c)&&c.status==='milking'))||S.milk.length>0;
+const cropRel=()=>hasType('tillage','horticulture','fruit','forestry')||S.plantings.length>0;
+const grazeRel=()=>S.paddocks.length>0&&(hasType('dairy','beef','sheep','horses','goats')||S.grassWalks.length>0);
+const stockRel=()=>LIVESTOCK.some(t=>hasType(t))||S.cows.some(aliveA)||S.groups.some(g=>!g.closed);
+const relSpecies=()=>Object.keys(SPX).filter(spRel);
+const W_REL={k_herd:()=>hasSp('cattle'), k_milk:milkRel, c_milk:milkRel, k_wd:()=>S.treatments.length>0, c_wd:()=>S.treatments.length>0,
+  k_calving:()=>hasSp('cattle')&&S.breeding.length>0, c_calving:()=>hasSp('cattle')&&S.breeding.length>0, k_adg:()=>hasSp('cattle')&&S.stockEvents.some(e=>e.kind==='weigh'&&e.animalId),
+  k_ewes:()=>spRel('sheep'), k_lambs:()=>spRel('sheep'), k_pigs1:()=>spRel('pigs'), k_pigs2:()=>spRel('pigs'), k_hens:()=>spRel('poultry'), k_eggs:()=>spRel('poultry'),
+  k_goats:()=>spRel('goats'), k_horses:()=>spRel('horses'), k_plantings:cropRel, c_plantings:cropRel, k_overdue:()=>S.tasks.length>0, k_grass:grazeRel};
+const wRel=k=>{ const f=W_REL[k]; try{ return f?!!f():true; }catch(e){ return false; } };
+function wNoData(m){ return m.size==='k' ? `<div class="kpi nodata"><div class="ico">${m.i}</div><b>–</b><span>${esc(m.l)} · no data yet</span></div>`
+  : wcard(m.i, m.l, `<div class="nodata">🌱 Nothing to show here yet. It fills in once you add the records for it, or you can remove it with ✏️ Edit home.</div>`); }
+
+/* ---------- Home map widget (v8): read-only mini map of the farm's fields ---------- */
+let MINIMAPS=[];
+function destroyMiniMaps(){ MINIMAPS.forEach(m=>{ try{ m.off(); m.remove(); }catch(e){} }); MINIMAPS=[]; }
+function mapWidgetHTML(c,id){ const geo=S.paddocks.filter(hasGeo), big=(c.size||'w')==='w';
+  const msg=!geo.length?(S.paddocks.some(hasSketch)?'Your fields are on the sketch map. Draw them on the satellite map to see them here.':'No fields drawn yet.'):'';
+  return `<div class="card wmapc"><div class="row" style="margin:0 0 8px"><h3 style="margin:0">🗺️ ${esc(S.settings.farmName||'My land')}</h3><span class="sp"></span><span class="mut">${geo.length?`${S.paddocks.length} field${S.paddocks.length>1?'s':''} · ${fmtAreaT(sum(S.paddocks.map(padHa)))}`:''}</span></div>
+    <div class="wmap ${big?'big':''}" data-wmap="${id}" role="img" aria-label="Map of your fields. Tap a field for its details, or elsewhere to open the Map."></div>
+    ${msg?`<div class="wmapmsg"><span>${esc(msg)}</span><a class="btn sm pri" href="#map">✏️ Draw your fields</a></div>`:`<div class="hint" style="margin-top:6px">Tap a field for its details · tap elsewhere for the full map${navigator.onLine?'':' · offline: outlines only'}</div>`}</div>`; }
+function mapWidgetAfter(c,id,el){ const div=$(`[data-wmap="${id}"]`,el||document); if(!div||typeof L==='undefined') return; const s=S.settings;
+  const m=L.map(div,{zoomControl:false,attributionControl:false,dragging:false,touchZoom:false,scrollWheelZoom:false,doubleClickZoom:false,boxZoom:false,keyboard:false,inertia:false,zoomSnap:0.25});
+  MINIMAPS.push(m);
+  if(navigator.onLine){ if((c.base||'sat')==='sat') L.tileLayer(...TILES.sat).addTo(m); else L.tileLayer(...TILES.street).addTo(m); }
+  div.classList.toggle('street',(c.base||'sat')!=='sat');
+  const geo=S.paddocks.filter(hasGeo);
+  geo.forEach(p=>{ const col=PAD_STATUS[p.status]?.c||'#d8ae52'; const lyr=L.polygon(p.geo,{color:'#fff',weight:2,opacity:.95,fillColor:col,fillOpacity:.35}).addTo(m);
+    lyr.bindTooltip(`<b>${esc(p.name)}</b><br>${fmtAreaT(padHa(p))}`,{permanent:true,direction:'center',className:'padlbl',interactive:false});
+    lyr.on('click',e=>{ L.DomEvent.stopPropagation(e); if(HOME_EDIT) return; openFieldOnMap(p.id); }); });
+  if(farmLocSet()) L.marker([s.lat,s.lon],{interactive:false,keyboard:false,icon:L.divIcon({className:'farmpin',html:'🏠',iconSize:[24,24],iconAnchor:[12,20]})}).addTo(m);
+  if(geo.length) m.fitBounds(L.latLngBounds(geo.flatMap(p=>p.geo)),{padding:[14,14],maxZoom:18});
+  else if(farmLocSet()) m.setView([s.lat,s.lon],15); else m.setView([53.4,-7.9],6);
+  m.on('click',()=>{ if(!HOME_EDIT) go('map'); });
+  setTimeout(()=>{ try{ m.invalidateSize(); if(geo.length) m.fitBounds(L.latLngBounds(geo.flatMap(p=>p.geo)),{padding:[14,14],maxZoom:18}); }catch(e){} },60); }
+function openFieldOnMap(pid){ const p=get('paddocks',pid); if(!p) return go('map'); MAP.view='sat'; MAP.mode='view'; MAP.sel=pid;
+  if(hasGeo(p)){ const la=sum(p.geo.map(x=>x[0]))/p.geo.length, lo=sum(p.geo.map(x=>x[1]))/p.geo.length; MAP.center=[la,lo]; MAP.zoom=17; }
+  go('map'); setTimeout(()=>$('#padDetail')?.scrollIntoView({behavior:'smooth',block:'center'}),400); }
 
 /* ---------- Home: widget catalogue — any page's info as a Home widget (v7) ---------- */
 const WCATS={farm:'🗺️ Map & fields', animals:'🐄 Animals', milk:'🥛 Milk & breeding', grass:'🌱 Grass', weather:'🌦️ Weather', crops:'🌾 Crops', tasks:'✅ Tasks', records:'📋 Records', photos:'📷 Photos', ai:'💬 Assistant'};
 const BUILTIN_CAT={k_herd:'animals',k_milk:'milk',k_wd:'records',k_calving:'milk',k_adg:'animals',k_ewes:'animals',k_lambs:'animals',k_pigs1:'animals',k_pigs2:'animals',k_hens:'animals',k_eggs:'animals',k_goats:'animals',k_horses:'animals',
-  k_plantings:'crops',k_overdue:'tasks',k_grass:'grass',c_tasks:'tasks',c_wd:'records',c_calving:'milk',c_milk:'milk',c_plantings:'crops',c_weather:'weather',c_ask:'ai'};
+  k_plantings:'crops',k_overdue:'tasks',k_grass:'grass',c_tasks:'tasks',c_wd:'records',c_calving:'milk',c_milk:'milk',c_plantings:'crops',c_weather:'weather',c_ask:'ai',c_map:'farm'};
 const SPX={cattle:'Cattle',sheep:'Sheep',pigs:'Pigs',poultry:'Poultry',goats:'Goats',horses:'Horses'};
 const spOf=c=>c.species||'cattle', aliveA=c=>!['sold','died'].includes(c.status);
-const spOpts=()=>Object.entries(SPX).map(([k,l])=>[k,`${SP_ICON[k]||''} ${l} (${S.cows.filter(c=>spOf(c)===k&&aliveA(c)).length})`]);
+const spOpts=()=>Object.entries(SPX).filter(([k])=>spRel(k)).map(([k,l])=>[k,`${SP_ICON[k]||''} ${l} (${S.cows.filter(c=>spOf(c)===k&&aliveA(c)).length})`]);
 const animalOpts=()=>{ const a=S.cows.filter(aliveA).sort((x,y)=>cowLabel(x).localeCompare(cowLabel(y))); return a.length?a.map(c=>[c.id,`${SP_ICON[spOf(c)]||''} ${cowLabel(c)}`]):[['','No animals recorded yet']]; };
 const wPadOpts=()=>S.paddocks.length?S.paddocks.map(p=>[p.id,p.name||'Field']):[['','No fields recorded yet']];
 const plOpts=()=>S.plantings.length?S.plantings.slice().sort(byDate('sown')).map(p=>[p.id,`${p.cropName||'Crop'}${p.variety?' — '+p.variety:''} (${padName(p.paddockId)||'no field'}, ${p.status||'growing'})`]):[['','No plantings recorded yet']];
@@ -1463,45 +1658,48 @@ const wstats=a=>`<div class="wstats">${a.map(([b,s,c])=>`<div class="ws ${c||''}
 const wtile=(i,b,s,c='')=>`<div class="kpi ${c}"><div class="ico">${i}</div><b>${b}</b><span>${esc(s)}</span></div>`;
 const lastOpFor=pid=>S.cropOps.filter(o=>o.plantingId===pid).sort(byDate())[0];
 const WTYPES={
-  fields:{cat:'farm',i:'🗺️',l:'Fields & area summary',d:'Total area, number of fields and how they are used',size:'c',
+  map:{cat:'farm',i:'🗺️',l:'Map of my land',d:'Live mini map with your field outlines and names',size:'w',
+    cfg:[{k:'base',l:'Map style',t:'select',o:[['sat','🛰️ Satellite'],['street','🗺️ Street map']],def:'sat'}], title:c=>`Map (${(c.base||'sat')==='sat'?'satellite':'street'})`,
+    html:(c,id)=>mapWidgetHTML(c,id), after:(c,id,el)=>mapWidgetAfter(c,id,el)},
+  fields:{rel:()=>S.paddocks.length>0,cat:'farm',i:'🗺️',l:'Fields & area summary',d:'Total area, number of fields and how they are used',size:'c',
     html:()=>{ const ps=S.paddocks, tot=sum(ps.map(padHa)); const by={}; ps.forEach(p=>{ const k=p.status||'grazing'; by[k]=(by[k]||0)+padHa(p); });
-      return wcard('🗺️','Fields & area', ps.length?wstats([[num(tot,1)+' ha',`${num(haToAc(tot),0)} acres`],[ps.length,'Fields'],[num(sum(grazingPaddocks().map(padHa)),1)+' ha','Grazing area']])+`<div class="row" style="margin-top:8px;gap:6px">${Object.entries(by).map(([k,h])=>`<span class="pill" style="background:${PAD_STATUS[k]?.c||'#999'}33">${esc(PAD_STATUS[k]?.l||k)} · ${num(h,1)} ha</span>`).join('')}</div>`:emptyBox('No fields yet. Draw them on the Map.'), ['map','🗺️ Map']); }},
-  k_area:{cat:'farm',i:'📐',l:'Farm area (tile)',d:'Total hectares',size:'k', html:()=>{ const t=sum(S.paddocks.map(padHa)); return wtile('📐',num(t,1)+' ha',`${S.paddocks.length} fields · ${num(haToAc(t),0)} ac`); }},
-  rotation:{cat:'grass',i:'🔄',l:'Grazing rotation',d:'Which fields are being grazed now and which are next (highest cover)',size:'c',
+      return wcard('🗺️','Fields & area', ps.length?wstats([[fmtAreaT(tot),aU().w==='hectares'?`${num(haToAc(tot),0)} acres`:`${num(tot,1)} hectares`],[ps.length,'Fields'],[fmtAreaT(sum(grazingPaddocks().map(padHa))),'Grazing area']])+`<div class="row" style="margin-top:8px;gap:6px">${Object.entries(by).map(([k,h])=>`<span class="pill" style="background:${PAD_STATUS[k]?.c||'#999'}33">${esc(PAD_STATUS[k]?.l||k)} · ${fmtAreaT(h)}</span>`).join('')}</div>`:emptyBox('No fields yet. Draw them on the Map.'), ['map','🗺️ Map']); }},
+  k_area:{rel:()=>S.paddocks.length>0,cat:'farm',i:'📐',l:'Farm area (tile)',d:'Total farm area',size:'k', html:()=>{ const t=sum(S.paddocks.map(padHa)); return wtile('📐',fmtAreaT(t),`${S.paddocks.length} fields`); }},
+  rotation:{rel:grazeRel,cat:'grass',i:'🔄',l:'Grazing rotation',d:'Which fields are being grazed now and which are next (highest cover)',size:'c',
     html:()=>{ const now=S.grazings.filter(g=>!g.dateOut).map(g=>({g,p:get('paddocks',g.paddockId)})).filter(x=>x.p);
       const next=grazingPaddocks().filter(p=>!currentGrazing(p.id)).map(p=>({p,ci:coverInfo(p),ds:daysSinceGrazed(p.id)})).sort((a,b)=>(b.ci.est??-1)-(a.ci.est??-1)).slice(0,4);
       return wcard('🔄','Grazing rotation', `<div class="mut" style="margin-bottom:4px"><b>Grazing now</b></div>${now.length?`<ul class="list">${now.map(x=>`<li><div class="grow"><b>${esc(x.p.name)}</b><div class="mut">In since ${fmtD(x.g.dateIn)} · ${daysBetween(x.g.dateIn,today())} days${x.g.group?' · '+esc(x.g.group):''}</div></div><span class="pill grn">grazing</span></li>`).join('')}</ul>`:'<div class="mut">No field is marked as being grazed.</div>'}
         <div class="mut" style="margin:10px 0 4px"><b>Next up</b> (highest estimated cover)</div>${next.length?`<ul class="list">${next.map(x=>`<li><span class="dot" style="background:${coverColour(x.ci.est)}"></span><div class="grow"><b>${esc(x.p.name)}</b><div class="mut">${x.ci.est!=null?num(x.ci.est)+' kg DM/ha':'cover unknown'}${x.ds!=null?` · rested ${x.ds} days`:''}</div></div></li>`).join('')}</ul>`:'<div class="mut">No grazing fields yet.</div>'}`, ['grass','🌱 Grass planner']); }},
-  paddock:{cat:'farm',i:'📍',l:'One field (pinned)',d:'A single field: area, status, cover, grazing and fertiliser',size:'c',
+  paddock:{pin:1,rel:()=>S.paddocks.length>0,cat:'farm',i:'📍',l:'One field (pinned)',d:'A single field: area, status, cover, grazing and fertiliser',size:'c',
     cfg:[{k:'paddockId',l:'Field',t:'select',o:wPadOpts,req:1}], title:c=>'Field: '+(get('paddocks',c.paddockId)?.name||'?'),
     html:c=>{ const p=get('paddocks',c.paddockId); if(!p) return wcard('📍','Field', emptyBox('This field has been deleted.')); const ci=coverInfo(p), cur=currentGrazing(p.id), ds=daysSinceGrazed(p.id), yr=today().slice(0,4);
       const fs=S.fertiliser.filter(f=>f.paddockId===p.id&&(f.date||'').startsWith(yr)); const pl=S.plantings.filter(x=>x.paddockId===p.id&&x.status!=='finished');
-      return wcard('📍',p.name||'Field', wstats([[num(padHa(p),2)+' ha',PAD_STATUS[p.status]?.l||p.status||''],[ci.est!=null?num(ci.est):'–','kg DM/ha cover (est.)'],[cur?'Now':(ds!=null?ds+' d':'–'),cur?'Being grazed':'Since last grazed'],[num(sum(fs.map(f=>f.nKgHa))),`N kg/ha ${yr}`]])+(pl.length?`<div class="mut" style="margin-top:8px">Growing: ${pl.map(x=>`<a href="#planting/${x.id}">${esc(x.cropName||'crop')}</a>`).join(', ')}</div>`:''), ['map','🗺️ Open map']); }},
-  herd:{cat:'animals',i:'🐾',l:'Animal list (per species)',d:'Head count by status and a short list of animals',size:'c',
+      return wcard('📍',p.name||'Field', wstats([[fmtArea(padHa(p)),PAD_STATUS[p.status]?.l||p.status||''],[ci.est!=null?num(ci.est):'–','kg DM/ha cover (est.)'],[cur?'Now':(ds!=null?ds+' d':'–'),cur?'Being grazed':'Since last grazed'],[rateNum(sum(fs.map(f=>f.nKgHa))),`N ${rateUnit()} ${yr}`]])+(pl.length?`<div class="mut" style="margin-top:8px">Growing: ${pl.map(x=>`<a href="#planting/${x.id}">${esc(x.cropName||'crop')}</a>`).join(', ')}</div>`:''), ['map','🗺️ Open map']); }},
+  herd:{rel:c=>c&&c.species?spRel(c.species):relSpecies().length>0,cat:'animals',i:'🐾',l:'Animal list (per species)',d:'Head count by status and a short list of animals',size:'c',
     cfg:[{k:'species',l:'Species',t:'select',o:spOpts,def:()=>hasType('sheep')&&!hasType('dairy','beef')?'sheep':'cattle'}], title:c=>`${SPX[c.species]||'Animals'} list`,
     html:c=>{ const sp=c.species||'cattle'; const a=S.cows.filter(x=>spOf(x)===sp&&aliveA(x)); const by={}; a.forEach(x=>by[x.status||'–']=(by[x.status||'–']||0)+1);
       const gh=sum(S.groups.filter(g=>(g.species||'cattle')===sp&&!g.closed).map(g=>groupHead(g)||0)); const tab=sp==='cattle'?'cows':sp;
       return wcard(SP_ICON[sp]||'🐾',`${SPX[sp]} (${a.length}${gh?` + ${gh} in batches`:''})`, a.length||gh?`<div class="row" style="gap:6px;margin-bottom:8px">${Object.entries(by).map(([k,n])=>`<span class="pill">${esc(k)} · ${n}</span>`).join('')}</div><ul class="list">${a.slice(0,8).map(x=>`<li><div class="grow"><a href="#cow/${x.id}">${esc(cowLabel(x))}</a><div class="mut">${esc([x.breed,x.status].filter(Boolean).join(' · '))}</div></div>${cowWithdrawal(x.id).length?'<span class="pill red">withdrawal</span>':''}</li>`).join('')}</ul>${a.length>8?`<div class="mut">…and ${a.length-8} more</div>`:''}`:emptyBox(`No ${SPX[sp].toLowerCase()} recorded yet.`), [tab,`${SP_ICON[sp]||''} All ${SPX[sp].toLowerCase()}`]); }},
-  k_species:{cat:'animals',i:'🔢',l:'Head count (tile)',d:'Number of animals of one species',size:'k', cfg:[{k:'species',l:'Species',t:'select',o:spOpts}], title:c=>`${SPX[c.species]||'Animals'} count`,
+  k_species:{rel:c=>c&&c.species?spRel(c.species):relSpecies().length>0,cat:'animals',i:'🔢',l:'Head count (tile)',d:'Number of animals of one species',size:'k', cfg:[{k:'species',l:'Species',t:'select',o:spOpts}], title:c=>`${SPX[c.species]||'Animals'} count`,
     html:c=>{ const sp=c.species||'cattle'; const n=S.cows.filter(x=>spOf(x)===sp&&aliveA(x)).length+sum(S.groups.filter(g=>(g.species||'cattle')===sp&&!g.closed).map(g=>groupHead(g)||0)); return wtile(SP_ICON[sp]||'🐾',n,`${SPX[sp]} on farm`); }},
-  animal:{cat:'animals',i:'📌',l:'One animal (pinned)',d:'A single animal: status, weight, breeding, withdrawal',size:'c',
+  animal:{pin:1,rel:()=>S.cows.some(aliveA),cat:'animals',i:'📌',l:'One animal (pinned)',d:'A single animal: status, weight, breeding, withdrawal',size:'c',
     cfg:[{k:'animalId',l:'Animal',t:'select',o:animalOpts,req:1}], title:c=>{ const a=get('cows',c.animalId); return a?cowLabel(a):'Animal'; },
     html:c=>{ const a=get('cows',c.animalId); if(!a) return wcard('📌','Animal', emptyBox('This animal has been deleted.')); const lw=lastWeight(a.id), ad=adgFor(a.id), du=dueInfo(a), wd=cowWithdrawal(a.id);
       const ev=breedingFor(a.id)[0]; return wcard(SP_ICON[spOf(a)]||'📌', cowLabel(a), wstats([[esc(a.status||'–'),esc(a.breed||SPX[spOf(a)]||'')],[lw?num(lw.weight)+' kg':'–',lw?'Weighed '+fmtD(lw.date):'No weight yet'],[ad?num(ad.adg,2):'–','Daily gain kg'],[du?fmtD(du.due):'–',du?`Due (${du.days} days)`:'Not due']])
         +(wd.length?`<div style="margin-top:8px">${wd.map(w=>`${w.milkEnd?`<span class="pill red">Milk withdrawal to ${fmtD(w.milkEnd)}</span> `:''}${w.meatEnd?`<span class="pill amb">Meat to ${fmtD(w.meatEnd)}</span>`:''}`).join(' ')}</div>`:'')+(ev?`<div class="mut" style="margin-top:6px">Last breeding event: ${esc(ev.type)} ${fmtD(ev.date)}</div>`:''), [`cow/${a.id}`,'Open record']); }},
-  spstats:{cat:'animals',i:'📊',l:'Sheep / pig / poultry stats',d:'The key figures from the Sheep, Pigs or Poultry page',size:'c',
-    cfg:[{k:'species',l:'Species',t:'select',o:[['sheep','🐑 Sheep'],['pigs','🐖 Pigs'],['poultry','🐔 Poultry']]}], title:c=>`${SPX[c.species]||''} stats`,
+  spstats:{rel:c=>c&&c.species?spRel(c.species):['sheep','pigs','poultry'].some(spRel),cat:'animals',i:'📊',l:'Sheep / pig / poultry stats',d:'The key figures from the Sheep, Pigs or Poultry page',size:'c',
+    cfg:[{k:'species',l:'Species',t:'select',o:()=>[['sheep','🐑 Sheep'],['pigs','🐖 Pigs'],['poultry','🐔 Poultry']].filter(([k])=>spRel(k))}], title:c=>`${SPX[c.species]||''} stats`,
     html:c=>{ const sp=c.species||'sheep'; const k=sp==='sheep'?sheepKpis():sp==='pigs'?pigKpis():poultryKpis(); return wcard(SP_ICON[sp],`${SPX[sp]} stats`, wstats(k.map(([b,s])=>[esc(String(b)),s])), [sp,`${SP_ICON[sp]} ${SPX[sp]} page`]); }},
-  milk_totals:{cat:'milk',i:'🥛',l:'Milk totals',d:'Last day, 7-day and 30-day totals and averages',size:'c',
+  milk_totals:{rel:milkRel,cat:'milk',i:'🥛',l:'Milk totals',d:'Last day, 7-day and 30-day totals and averages',size:'c',
     html:()=>{ const mt=milkDailyTotals(), td=today(); const L=mt[mt.length-1]; const w7=mt.filter(d=>daysBetween(d.date,td)<7&&daysBetween(d.date,td)>=0), w30=mt.filter(d=>daysBetween(d.date,td)<30&&daysBetween(d.date,td)>=0);
       const mk=S.cows.filter(c=>c.status==='milking').length; return wcard('🥛','Milk totals', mt.length?wstats([[L?num(L.litres)+' L':'–',L?'Last day ('+fmtD(L.date)+')':''],[num(sum(w7.map(d=>d.litres)))+' L','Last 7 days'],[w7.length?num(sum(w7.map(d=>d.litres))/w7.length)+' L':'–','Avg per day (7 d)'],[num(sum(w30.map(d=>d.litres)))+' L','Last 30 days'],[L&&mk?num(L.litres/mk,1)+' L':'–',`Per cow (${mk} milking)`]]):emptyBox('No milk recorded yet.'), ['milk','🥛 Milk']); }},
-  milk_chart:{cat:'milk',i:'📈',l:'Milk chart',d:'Litres per day over 7, 14, 30 or 90 days',size:'c', cfg:[{k:'days',l:'Period',t:'select',o:[['7','7 days'],['14','14 days'],['30','30 days'],['90','90 days']],def:'30'}], title:c=>`Milk chart (${c.days||30} days)`,
+  milk_chart:{rel:milkRel,cat:'milk',i:'📈',l:'Milk chart',d:'Litres per day over 7, 14, 30 or 90 days',size:'c', cfg:[{k:'days',l:'Period',t:'select',o:[['7','7 days'],['14','14 days'],['30','30 days'],['90','90 days']],def:'30'}], title:c=>`Milk chart (${c.days||30} days)`,
     html:(c,id)=>wcard('📈',`Milk — last ${c.days||30} days`,`<canvas class="chart" data-wchart="${id}"></canvas>`,['milk','🥛 Milk']),
     after:(c,id,el)=>{ const cv=$(`[data-wchart="${id}"]`,el); if(!cv) return; const td=today(); lineChart(cv,[{label:'Litres/day',points:milkDailyTotals().filter(d=>daysBetween(d.date,td)<=Number(c.days||30)).map(d=>[d.date,d.litres])}],{height:180,yLabel:'L'}); }},
-  breeding:{cat:'milk',i:'🧬',l:'Breeding & due dates',d:'Animals due (next 90 days) and recent services',size:'c',
+  breeding:{rel:()=>stockRel()&&(S.breeding.length>0||S.cows.some(c=>aliveA(c)&&c.sex!=='M')),cat:'milk',i:'🧬',l:'Breeding & due dates',d:'Animals due (next 90 days) and recent services',size:'c',
     html:()=>{ const d=dueList().filter(x=>x.days<=90).slice(0,8), td=today(); const sv=S.breeding.filter(b=>b.type==='service'&&daysBetween(b.date,td)<=21&&daysBetween(b.date,td)>=0);
       return wcard('🧬','Breeding & due dates', wstats([[d.length,'Due ≤ 90 days'],[sv.length,'Served last 21 days'],[d.filter(x=>!x.confirmed).length,'Not yet scanned']])+(d.length?`<ul class="list" style="margin-top:8px">${d.map(x=>`<li><div class="grow"><a href="#cow/${x.cow.id}">${esc(cowLabel(x.cow))}</a><div class="mut">Due ${fmtD(x.due)} · ${esc(x.basis)}</div></div><span class="pill ${x.days<0?'red':x.days<=14?'amb':'grn'}">${x.days<0?Math.abs(x.days)+'d over':x.days+' d'}</span></li>`).join('')}</ul>`:''), ['breeding','🧬 Breeding']); }},
-  grass_cover:{cat:'grass',i:'🌱',l:'Grass cover & growth',d:'Average farm cover, growth rate, days ahead and field covers',size:'c',
+  grass_cover:{rel:grazeRel,cat:'grass',i:'🌱',l:'Grass cover & growth',d:'Average farm cover, growth rate, days ahead and field covers',size:'c',
     html:()=>{ const gb=grassBudget(), gr=currentGrowthRate(); const ps=grazingPaddocks().map(p=>({p,ci:coverInfo(p)})).filter(x=>x.ci.est!=null).sort((a,b)=>b.ci.est-a.ci.est).slice(0,6); const mx=Math.max(1,...ps.map(x=>x.ci.est));
       return wcard('🌱','Grass cover & growth', wstats([[gb.afc!=null?num(gb.afc):'–','Avg farm cover kg DM/ha'],[num(gr.rate),'Growth kg DM/ha/day'],[gb.daysAhead!=null?num(gb.daysAhead,1):'–','Days ahead'],[gb.coverPerCow!=null?num(gb.coverPerCow):'–','Cover per cow kg DM']])
         +(ps.length?`<div class="wbars">${ps.map(x=>`<div><span>${esc(x.p.name)}</span><i style="width:${Math.round(100*x.ci.est/mx)}%;background:${coverColour(x.ci.est)}"></i><b>${num(x.ci.est)}</b></div>`).join('')}</div>`:'<div class="mut" style="margin-top:8px">No grass walks yet.</div>')+`<div class="hint">Estimates from your grass walks and growth rate (${esc(gr.basis)}).</div>`, ['grass','🌱 Grass planner']); }},
@@ -1511,7 +1709,7 @@ const WTYPES={
   wx_warn:{cat:'weather',i:'⚠️',l:'Weather warnings',d:'Met Éireann warnings in force for your area',size:'c',
     html:(c,id)=>{ const wx=wxForHere(getWeatherCache()); return wcard('⚠️','Weather warnings',`<div data-wwarn="${id}">${!farmLocSet()?wxNoLocation():wx?warnBanner(wx,false):'<div class="mut">Loading…</div>'}</div>`,['weather','🌦️ Weather']); },
     after:(c,id)=>{ if(farmLocSet()) fetchWeather().then(wx=>{ const d=$(`[data-wwarn="${id}"]`); if(d&&route==='dash'&&wxForHere(wx)) d.innerHTML=warnBanner(wxForHere(wx),false); }); }},
-  photos:{cat:'photos',i:'📷',l:'Latest photos',d:'Your most recent farm photos',size:'c', cfg:[{k:'n',l:'How many',t:'select',o:[['4','4'],['8','8'],['12','12']],def:'4'}], title:c=>`Latest ${c.n||4} photos`,
+  photos:{rel:()=>S.photos.length>0,cat:'photos',i:'📷',l:'Latest photos',d:'Your most recent farm photos',size:'c', cfg:[{k:'n',l:'How many',t:'select',o:[['4','4'],['8','8'],['12','12']],def:'4'}], title:c=>`Latest ${c.n||4} photos`,
     html:(c,id)=>wcard('📷','Latest photos',`<div class="gallery wgal" data-wph="${id}">${S.photos.length?'<div class="mut">Loading…</div>':emptyBox('No photos yet.','grid-column:1/-1')}</div>`,['photos','📷 All photos']),
     after:async(c,id,el)=>{ const box=$(`[data-wph="${id}"]`,el); if(!box||!S.photos.length) return; const ps=S.photos.slice().sort(byDate()).slice(0,Number(c.n||4)); let urls=[]; try{ urls=await photoURLs(ps); }catch(e){}
       box.innerHTML=ps.map((p,i)=>`<figure>${urls[i]?`<a href="#photos"><img src="${esc(urls[i])}" alt="${esc(p.caption||'photo')}" loading="lazy"></a>`:'<div class="empty" style="aspect-ratio:1">📷 offline</div>'}<figcaption>${fmtD(p.date)} ${esc(p.caption||'')}</figcaption></figure>`).join(''); }},
@@ -1520,32 +1718,32 @@ const WTYPES={
     title:c=>({overdue:'Overdue tasks',today:'Tasks due today',week:'Tasks this week',high:'High-priority tasks',open:'All open tasks',done:'Recently done'})[c.f]||'Tasks',
     html:c=>{ const td=today(), op=S.tasks.filter(t=>!t.done); const F={overdue:op.filter(t=>t.due&&t.due<td),today:op.filter(t=>t.due&&t.due<=td),week:op.filter(t=>t.due&&daysBetween(td,t.due)<=7),high:op.filter(t=>t.priority==='high'),open:op,done:S.tasks.filter(t=>t.done&&t.doneAt&&daysBetween(t.doneAt.slice(0,10),td)<=7)}[c.f||'week']||op;
       const l=WTYPES.tasks.title(c); return wcard('✅',`${l} (${F.length})`, taskList(F.slice().sort(byDate('due',1)).slice(0,10),'Nothing here 🎉'), ['tasks','✅ All tasks']); }},
-  records:{cat:'records',i:'📋',l:'Records & compliance',d:'Withdrawals, this year’s register entries and anything overdue',size:'c',
+  records:{rel:()=>stockRel()||S.fertiliser.length>0||S.treatments.length>0||S.movements.length>0,cat:'records',i:'📋',l:'Records & compliance',d:'Withdrawals, this year’s register entries and anything overdue',size:'c',
     html:()=>{ const yr=today().slice(0,4), wd=inWithdrawal(); const cnt=c=>S[c].filter(r=>(r.date||'').startsWith(yr)).length; const lst=c=>{ const r=S[c].slice().sort(byDate())[0]; return r?fmtD(r.date):'never'; };
       return wcard('📋','Records & compliance', wstats([[wd.length,'In withdrawal',wd.length?'warn':''],[cnt('treatments'),`Medicines ${yr}`],[cnt('fertiliser'),`Fertiliser ${yr}`],[cnt('movements'),`Movements ${yr}`],[cnt('deaths'),`Deaths ${yr}`]])
         +`<div class="mut" style="margin-top:8px">Last entries — medicine: ${lst('treatments')} · fertiliser: ${lst('fertiliser')} · movement: ${lst('movements')}</div>${wd.length?`<div style="margin-top:6px">${wd.slice(0,4).map(w=>`<span class="pill red">${esc(w.t.cowId?cowName(w.t.cowId):w.t.groupDesc||'Group')} to ${fmtD(w.milkEnd||w.meatEnd)}</span>`).join(' ')}</div>`:''}`, ['compliance','📋 Records']); }},
-  nitrates:{cat:'records',i:'🧪',l:'Fertiliser / Nitrates totals',d:'This year’s N and P applied, farm and per field',size:'c',
+  nitrates:{rel:()=>S.paddocks.length>0&&(S.fertiliser.length>0||stockRel()||cropRel()),cat:'records',i:'🧪',l:'Fertiliser / Nitrates totals',d:'This year’s N and P applied, farm and per field',size:'c',
     html:()=>{ const yr=today().slice(0,4); const rows=S.paddocks.map(p=>{ const fs=S.fertiliser.filter(f=>f.paddockId===p.id&&(f.date||'').startsWith(yr)); const ha=padHa(p); return {p,ha,n:sum(fs.map(f=>f.nKgHa)),ph:sum(fs.map(f=>f.pKgHa))}; });
       const ha=sum(rows.map(r=>r.ha)), N=sum(rows.map(r=>r.n*r.ha)), P=sum(rows.map(r=>r.ph*r.ha)); const top=rows.filter(r=>r.n>0).sort((a,b)=>b.n-a.n).slice(0,5);
-      return wcard('🧪',`Fertiliser ${yr}`, wstats([[num(N)+' kg','Total N applied'],[ha?num(N/ha):'–','N kg/ha (farm avg)'],[num(P,1)+' kg','Total P applied'],[ha?num(P/ha,1):'–','P kg/ha (farm avg)']])+(top.length?`<ul class="list" style="margin-top:8px">${top.map(r=>`<li><div class="grow"><b>${esc(r.p.name)}</b></div><span class="pill">${num(r.n)} N kg/ha</span></li>`).join('')}</ul>`:'')+'<div class="hint">Running totals only — check against your Nitrates/derogation limits.</div>', ['compliance','📋 Fertiliser records']); }},
-  plantings:{cat:'crops',i:'🌾',l:'Crop plantings & last operations',d:'Active plantings with their latest operation and linked tasks',size:'c',
+      return wcard('🧪',`Fertiliser ${yr}`, wstats([[num(N)+' kg','Total N applied'],[ha?rateNum(N/ha):'–',`N ${rateUnit()} (farm avg)`],[num(P,1)+' kg','Total P applied'],[ha?rateNum(P/ha,'kg',1):'–',`P ${rateUnit()} (farm avg)`]])+(top.length?`<ul class="list" style="margin-top:8px">${top.map(r=>`<li><div class="grow"><b>${esc(r.p.name)}</b></div><span class="pill">${fmtRate(r.n,'kg',0,'N')}</span></li>`).join('')}</ul>`:'')+'<div class="hint">Running totals only — check against your Nitrates/derogation limits.</div>', ['compliance','📋 Fertiliser records']); }},
+  plantings:{rel:cropRel,cat:'crops',i:'🌾',l:'Crop plantings & last operations',d:'Active plantings with their latest operation and linked tasks',size:'c',
     html:()=>{ const pl=S.plantings.filter(p=>p.status!=='finished').sort(byDate('sown')); return wcard('🌾',`Plantings (${pl.length} active)`, pl.length?`<ul class="list">${pl.slice(0,8).map(p=>{ const o=lastOpFor(p.id); const t=S.tasks.filter(x=>!x.done&&(x.plantingId===p.id||(p.cropName&&(x.title||'').toLowerCase().includes(p.cropName.toLowerCase())))).sort(byDate('due',1))[0];
       return `<li><div class="grow"><a href="#planting/${p.id}">${esc(p.cropName||'Crop')}${p.variety?' — '+esc(p.variety):''}</a><div class="mut">${esc(padName(p.paddockId)||'No field')} · sown ${fmtD(p.sown)||'–'}${o?` · last: ${OP_KINDS[o.kind]?.i||''} ${esc(OP_KINDS[o.kind]?.l||o.kind)} ${fmtD(o.date)}`:''}</div>${t?`<div class="mut">Next: <b>${esc(t.title)}</b>${t.due?' '+fmtD(t.due):''}</div>`:''}</div><span class="pill ${p.status==='growing'?'grn':p.status==='planned'?'blue':''}">${esc(p.status||'growing')}</span></li>`; }).join('')}</ul>`:emptyBox('No plantings yet.'), ['croplib','📚 Crop library']); }},
-  crop:{cat:'crops',i:'🌱',l:'One crop planting (pinned)',d:'A single planting: field, sowing date, operations',size:'c',
+  crop:{pin:1,rel:()=>S.plantings.length>0,cat:'crops',i:'🌱',l:'One crop planting (pinned)',d:'A single planting: field, sowing date, operations',size:'c',
     cfg:[{k:'plantingId',l:'Planting',t:'select',o:plOpts,req:1}], title:c=>{ const p=get('plantings',c.plantingId); return p?(p.cropName||'Crop')+(p.variety?' — '+p.variety:''):'Crop'; },
     html:c=>{ const p=get('plantings',c.plantingId); if(!p) return wcard('🌱','Crop', emptyBox('This planting has been deleted.')); const ops=S.cropOps.filter(o=>o.plantingId===p.id).sort(byDate()); const h=ops.filter(o=>o.kind==='harvest');
-      return wcard('🌱',`${p.cropName||'Crop'}${p.variety?' — '+p.variety:''}`, wstats([[esc(p.status||'growing'),esc(padName(p.paddockId)||'No field')],[p.sown?daysBetween(p.sown,today())+' d':'–',p.sown?'Since sown '+fmtD(p.sown):'Not sown yet'],[p.area?num(p.area,2)+' ha':'–','Area'],[h.length,'Harvests']])
+      return wcard('🌱',`${p.cropName||'Crop'}${p.variety?' — '+p.variety:''}`, wstats([[esc(p.status||'growing'),esc(padName(p.paddockId)||'No field')],[p.sown?daysBetween(p.sown,today())+' d':'–',p.sown?'Since sown '+fmtD(p.sown):'Not sown yet'],[p.area?fmtArea(p.area):'–','Area'],[h.length,'Harvests']])
         +(ops.length?`<ul class="list" style="margin-top:8px">${ops.slice(0,4).map(o=>`<li><span aria-hidden="true">${OP_KINDS[o.kind]?.i||'•'}</span><div class="grow"><b>${esc(OP_KINDS[o.kind]?.l||o.kind)}</b><div class="mut">${fmtD(o.date)}${o.product?' · '+esc(o.product):''}</div></div></li>`).join('')}</ul>`:'<div class="mut" style="margin-top:8px">No operations recorded yet.</div>'), [`planting/${p.id}`,'Open planting']); }},
 };
 // which catalogue entries each page offers in its “📌 Add to Home” button (cfg filled from the page)
-const PIN_FOR={map:['fields','rotation','k_area'],cows:[['herd',{species:'cattle'}],['k_species',{species:'cattle'}],'breeding'],sheep:[['herd',{species:'sheep'}],['spstats',{species:'sheep'}]],pigs:[['herd',{species:'pigs'}],['spstats',{species:'pigs'}]],
+const PIN_FOR={map:[['map',{base:'sat'}],'fields','rotation','k_area'],cows:[['herd',{species:'cattle'}],['k_species',{species:'cattle'}],'breeding'],sheep:[['herd',{species:'sheep'}],['spstats',{species:'sheep'}]],pigs:[['herd',{species:'pigs'}],['spstats',{species:'pigs'}]],
   poultry:[['herd',{species:'poultry'}],['spstats',{species:'poultry'}]],goats:[['herd',{species:'goats'}]],horses:[['herd',{species:'horses'}]],beef:[['herd',{species:'cattle'}],'k_species'],
   milk:['milk_totals',['milk_chart',{days:'30'}]],dairyq:['milk_totals'],breeding:['breeding'],grass:['grass_cover','rotation'],weather:['wx_forecast','wx_warn'],photos:[['photos',{n:'4'}]],
   tasks:[['tasks',{f:'week'}],['tasks',{f:'overdue'}],['tasks',{f:'high'}]],compliance:['records','nitrates'],crops:['plantings'],veg:['plantings'],orchard:['plantings'],forestry:['plantings'],croplib:['plantings'],
   cow:()=>[['animal',{animalId:routeArg}]],planting:()=>[['crop',{plantingId:routeArg}]]};
 function addCustomWidget(t, cfg, size, quiet){ const T=WTYPES[t]; if(!T) return null; const id='x'+uid().replace(/[^a-z0-9]/gi,'').slice(0,10);
   const p=homePrefs()||{}; const custom={...homeCustom(), [id]:{t, cfg:cfg||{}, size:T.size==='k'?'k':(size||T.size), at:nowISO()}};
-  const order=[id, ...homeOrder()]; homeCommit({order, hidden:[...homeHidden()], custom}, `added “${T.l}”`);
+  const order=[id, ...homeOrder()]; homeCommit({order, hidden:[...homeHidden()], custom, bcfg:homePrefs()?.bcfg||{}}, `added “${T.l}”`);
   if(!quiet) toast(`📌 Added “${wMeta(id)?.l||T.l}” to Home`); return id; }
 function configureWidget(t, preset, after){ const T=WTYPES[t]; const f=[...(T.cfg||[])]; if(T.size!=='k') f.push({k:'size',l:'Size',t:'select',o:[['c','Small (half width on big screens)'],['w','Large (full width)']]});
   const vals={size:T.size, ...(preset||{})}; (T.cfg||[]).forEach(x=>{ if(vals[x.k]==null){ const o=typeof x.o==='function'?x.o():x.o; vals[x.k]=x.def!=null?(typeof x.def==='function'?x.def():x.def):(o&&o[0]?(Array.isArray(o[0])?o[0][0]:o[0]):''); } });
@@ -1554,7 +1752,7 @@ function configureWidget(t, preset, after){ const T=WTYPES[t]; const f=[...(T.cf
     onSave:v=>{ const {size,...cfg}=v; if((T.cfg||[]).some(x=>x.req&&!cfg[x.k])) return false; const id=addCustomWidget(t,cfg,size); setTimeout(()=>after&&after(id),50); }}); }
 function wCatalogue(onAdded){ const order=homeOrder(), hidden=homeHidden(); const shown=new Set(order.filter(k=>!hidden.has(k)));
   const items=[...Object.keys(WIDGETS).filter(wAvail).map(k=>({k, b:1, cat:BUILTIN_CAT[k]||'farm', i:WIDGETS[k].i, l:WIDGETS[k].l, d:WIDGETS[k].size==='k'?'Number tile':'Card', on:shown.has(k)})),
-    ...Object.entries(WTYPES).map(([k,T])=>({k, b:0, cat:T.cat, i:T.i, l:T.l, d:T.d+(T.size==='k'?' · tile':''), multi:1}))];
+    ...Object.entries(WTYPES).filter(([k,T])=>!T.rel||T.rel()).map(([k,T])=>({k, b:0, cat:T.cat, i:T.i, l:T.l, d:T.d+(T.size==='k'?' · tile':''), multi:1}))];
   const cats=Object.keys(WCATS).filter(c=>items.some(x=>x.cat===c));
   const dlg=showInfo('Add a widget', `<input type="search" id="wSearch" placeholder="🔍 Search widgets (e.g. milk, field, weather)" aria-label="Search widgets" style="width:100%;margin-bottom:8px">
     <div class="wcats" role="tablist"><button class="sm on" data-wcat="">All</button>${cats.map(c=>`<button class="sm" data-wcat="${c}">${WCATS[c]}</button>`).join('')}</div>
@@ -1565,21 +1763,20 @@ function wCatalogue(onAdded){ const order=homeOrder(), hidden=homeHidden(); cons
   $$('[data-wadd]',dlg).forEach(b=>b.onclick=()=>{ const k=b.dataset.wadd; const h=homeHidden(); h.delete(k); setHome(homeOrder(),h,undefined,`added “${WIDGETS[k].l}”`); dlg.close(); onAdded&&onAdded(k); toast(`Added “${WIDGETS[k].l}”`); });
   $$('[data-wnew]',dlg).forEach(b=>b.onclick=()=>{ dlg.close(); configureWidget(b.dataset.wnew, null, onAdded); });
   setTimeout(()=>$('#wSearch',dlg)?.focus(),60); return dlg; }
-function pinOptions(){ let o=PIN_FOR[route]; if(typeof o==='function') o=o(); return (o||[]).map(x=>Array.isArray(x)?x:[x,null]).filter(([t])=>WTYPES[t]); }
+function pinOptions(){ let o=PIN_FOR[route]; if(typeof o==='function') o=o(); return (o||[]).map(x=>Array.isArray(x)?x:[x,null]).filter(([t,c])=>WTYPES[t]&&(!WTYPES[t].rel||WTYPES[t].rel(c||undefined))); }
 function pinBar(el){ const opts=pinOptions(); if(!opts.length||!el) return; const b=document.createElement('div'); b.className='pinbar';
   b.innerHTML=`<button class="sm pinbtn" type="button" title="Show this on your Home screen">📌 Add to Home</button>`; el.before(b);
   $('button',b).onclick=()=>{ if(opts.length===1) return configureWidget(opts[0][0], opts[0][1]);
     const dlg=showInfo('📌 Add to Home', `<p class="mut" style="margin-top:0">Pick what to show on your Home screen. You can move or remove it later with ✏️ Edit home.</p><ul class="list">${opts.map(([t,c],i)=>{ const T=WTYPES[t]; let l=T.l; try{ if(c&&T.title) l=T.title(c); }catch(e){} return `<li><span style="font-size:24px" aria-hidden="true">${T.i}</span><div class="grow"><b>${esc(l)}</b><div class="mut">${esc(T.d)}</div></div><button class="sm pri" data-pin="${i}">📌 Add</button></li>`; }).join('')}</ul><p class="mut">More widgets: Home → ✏️ Edit home → + Add widget.</p>`);
     $$('[data-pin]',dlg).forEach(x=>x.onclick=()=>{ dlg.close(); const [t,c]=opts[+x.dataset.pin]; configureWidget(t,c); }); }; }
-function wHTML(k, H){ if(H[k]) return H[k](); const c=homeCustom()[k]; const T=c&&WTYPES[c.t]; if(!T) return ''; try{ return T.html(c.cfg||{}, k); }catch(e){ console.error(e); return wcard('⚠️',T.l,'<div class="mut">This widget couldn’t be shown.</div>'); } }
-function wAfter(el, shown){ const cu=homeCustom(); shown.forEach(k=>{ const c=cu[k], T=c&&WTYPES[c.t]; if(T&&T.after) try{ T.after(c.cfg||{}, k, el); }catch(e){ console.error(e); } }); }
+function wHTML(k, H){ if(WIDGETS[k]){ const W=WIDGETS[k]; if(!wAvail(k)&&!W.via) return wNoData(wMeta(k)); if(W.via){ const c={size:wMeta(k).size,...(homePrefs()?.bcfg?.[k]||{})}; return WTYPES[W.via].html(c,k); } return H[k](); } const c=homeCustom()[k]; const T=c&&WTYPES[c.t]; if(!T) return ''; try{ if(T.rel&&!T.rel(c.cfg||{})&&!T.pin) return wNoData(wMeta(k)); return T.html(c.cfg||{}, k); }catch(e){ console.error(e); return wcard('⚠️',T.l,'<div class="mut">This widget couldn’t be shown.</div>'); } }
+function wAfter(el, shown){ const cu=homeCustom(); shown.forEach(k=>{ const W=WIDGETS[k]; if(W&&W.via){ try{ WTYPES[W.via].after({size:wMeta(k).size,...(homePrefs()?.bcfg?.[k]||{})},k,el); }catch(e){ console.error(e); } return; } const c=cu[k], T=c&&WTYPES[c.t]; if(!T||!T.after) return; if(T.rel&&!T.rel(c.cfg||{})) return; try{ T.after(c.cfg||{}, k, el); }catch(e){ console.error(e); } }); }
 
 /* =================== Ask Farmhand — AI assistant (Groq via the farm-ai Edge Function, v7) =================== */
 // The Groq key never reaches the browser: the Edge Function holds it server-side and checks the user's sign-in and daily limit.
 const AI_FN = SB_URL + '/functions/v1/farm-ai';
 let AI_BUSY=null; // {id, text} while a reply is streaming
 let AI_LEFT=null, AI_STATE=''; // '' | 'nokey'
-function aiMsgs(){ return S.aiMsgs.slice().sort((a,b)=>(a.at||a.createdAt)<(b.at||b.createdAt)?-1:1); }
 function mdInline(s){ // s is already HTML-escaped
   return s.replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/__([^_]+)__/g,'<b>$1</b>')
     .replace(/(^|[^*\w])\*([^*\n]+)\*(?!\*)/g,'$1<i>$2</i>').replace(/(^|[^_\w])_([^_\n]+)_(?!\w)/g,'$1<i>$2</i>')
@@ -1601,13 +1798,14 @@ function mdHTML(src){ // small, safe Markdown renderer: everything is escaped fi
   return out.join(''); }
 function aiContext(){ // compact summary of the user's own records, sent with each question (kept well inside the model's limits)
   const s=S.settings, td=today(), L=[]; const cap=(a,n)=>a.slice(0,n);
+  L.push(`AREA UNITS: the farmer uses ${aU().w} (${aU().s}). Give every area in ${aU().w} and every per-area rate per ${aU().s==='sq yd'?'square yard (g/sq yd)':aU().one} (e.g. ${rateUnit()}), optionally with the hectare figure in brackets. Grass covers stay in kg DM/ha.`);
   L.push(`Farm: ${s.farmName||'(no name)'} | Farm types: ${farmTypes().map(t=>FARM_TYPES[t]?.l||t).join(', ')||'not set'} | Approach: ${APPROACHES[approach()].l} — ${APPROACHES[approach()].d}`);
   if(farmLocSet()) L.push(`Location: ${s.locName||'Ireland'} (approx ${num(s.lat,2)}, ${num(s.lon,2)})`);
   const wx=wxForHere(getWeatherCache()); if(wx){ try{ const d=wxBlend(wx).slice(0,7); if(d.length) L.push('Forecast: '+d.map(x=>`${dayName(x.date)} ${num(x.tmin)}–${num(x.tmax)}°C rain ${num(x.rain,1)}mm wind ${num(kmh(x.wind))}km/h`).join('; ')); const w=warnList(wx); if(w.length) L.push('Weather warnings in force: '+w.map(x=>`${x.level||''} ${x.type||''} ${x.headline||''}`.trim()).join('; ')); }catch(e){} }
   const gr=currentGrowthRate(); L.push(`Grass growth rate used: ${num(gr.rate)} kg DM/ha/day (${gr.basis})`);
-  if(S.paddocks.length){ const gb=grassBudget(); L.push(`Fields (${S.paddocks.length}, ${num(sum(S.paddocks.map(padHa)),1)} ha total; avg farm cover ${gb.afc!=null?num(gb.afc):'unknown'} kg DM/ha; days ahead ${gb.daysAhead!=null?num(gb.daysAhead,1):'unknown'}):`);
+  if(S.paddocks.length){ const gb=grassBudget(); L.push(`Fields (${S.paddocks.length}, ${fmtAreaT(sum(S.paddocks.map(padHa)))} total; avg farm cover ${gb.afc!=null?num(gb.afc):'unknown'} kg DM/ha; days ahead ${gb.daysAhead!=null?num(gb.daysAhead,1):'unknown'}):`);
     cap(S.paddocks,40).forEach(p=>{ const ci=coverInfo(p), yr=td.slice(0,4); const n=sum(S.fertiliser.filter(f=>f.paddockId===p.id&&(f.date||'').startsWith(yr)).map(f=>f.nKgHa));
-      L.push(`- ${p.name}: ${num(padHa(p),2)} ha, ${PAD_STATUS[p.status]?.l||p.status||''}${p.soilType?', soil '+SOILTXT[p.soilType]:''}${p.ph?', pH '+p.ph:''}${p.pIndex?', P idx '+p.pIndex:''}${p.kIndex?', K idx '+p.kIndex:''}${ci.est!=null?`, cover ~${num(ci.est)} kg DM/ha`:''}${currentGrazing(p.id)?', being grazed now':''}${n?`, N applied ${yr} ${num(n)} kg/ha`:''}`); }); }
+      L.push(`- ${p.name}: ${fmtArea(padHa(p))}, ${PAD_STATUS[p.status]?.l||p.status||''}${p.soilType?', soil '+SOILTXT[p.soilType]:''}${p.ph?', pH '+p.ph:''}${p.pIndex?', P idx '+p.pIndex:''}${p.kIndex?', K idx '+p.kIndex:''}${ci.est!=null?`, cover ~${num(ci.est)} kg DM/ha`:''}${currentGrazing(p.id)?', being grazed now':''}${n?`, N applied ${yr} ${fmtRate(n)}`:''}`); }); }
   const al=S.cows.filter(aliveA); if(al.length||S.groups.length){ const by={}; al.forEach(c=>{ const k=spOf(c)+' '+(c.status||''); by[k]=(by[k]||0)+1; });
     L.push('Animals: '+Object.entries(by).map(([k,n])=>`${n} ${k}`).join(', ')+(S.groups.filter(g=>!g.closed).length?' | Batches/pens: '+S.groups.filter(g=>!g.closed).slice(0,15).map(g=>`${g.name||g.species} (${g.species}, ${groupHead(g)||0} head)`).join(', '):''));
     const br={}; al.forEach(c=>{ if(c.breed) br[c.breed]=(br[c.breed]||0)+1; }); if(Object.keys(br).length) L.push('Breeds: '+Object.entries(br).slice(0,10).map(([k,n])=>`${k} ${n}`).join(', ')); }
@@ -1615,7 +1813,7 @@ function aiContext(){ // compact summary of the user's own records, sent with ea
   const due=dueList().filter(d=>d.days<=90); if(due.length) L.push('Due to calve/give birth (next 90 days): '+cap(due,12).map(d=>`${cowLabel(d.cow)} ${d.due}`).join(', '));
   const mt=milkDailyTotals().filter(d=>daysBetween(d.date,td)<=14); if(mt.length) L.push('Milk last 14 days (L/day): '+mt.map(d=>`${d.date.slice(5)} ${num(d.litres)}`).join(', ')+` | ${S.cows.filter(c=>c.status==='milking').length} cows milking`);
   if(hasType('sheep')) L.push('Sheep: '+sheepKpis().map(([b,l])=>`${l} ${b}`).join(', ')); if(hasType('pigs')) L.push('Pigs: '+pigKpis().map(([b,l])=>`${l} ${b}`).join(', ')); if(hasType('poultry')) L.push('Poultry: '+poultryKpis().map(([b,l])=>`${l} ${b}`).join(', '));
-  const pl=S.plantings.filter(p=>p.status!=='finished'); if(pl.length){ L.push(`Crop plantings (${pl.length} active):`); cap(pl.sort(byDate('sown')),25).forEach(p=>{ const o=lastOpFor(p.id); L.push(`- ${p.cropName||'crop'}${p.variety?' ('+p.variety+')':''} in ${padName(p.paddockId)||'no field'}, ${p.status||'growing'}, sown ${p.sown||'-'}${p.area?', '+num(p.area,2)+' ha':''}${o?`, last op ${o.kind} ${o.date}${o.product?' '+o.product:''}`:''}`); }); }
+  const pl=S.plantings.filter(p=>p.status!=='finished'); if(pl.length){ L.push(`Crop plantings (${pl.length} active):`); cap(pl.sort(byDate('sown')),25).forEach(p=>{ const o=lastOpFor(p.id); L.push(`- ${p.cropName||'crop'}${p.variety?' ('+p.variety+')':''} in ${padName(p.paddockId)||'no field'}, ${p.status||'growing'}, sown ${p.sown||'-'}${p.area?', '+fmtArea(p.area):''}${o?`, last op ${o.kind} ${o.date}${o.product?' '+o.product:''}`:''}`); }); }
   const op=S.tasks.filter(t=>!t.done).sort(byDate('due',1)); if(op.length) L.push(`Open tasks (${op.length}): `+cap(op,20).map(t=>`${t.title}${t.due?` (due ${t.due}${t.due<td?', OVERDUE':''})`:''}`).join('; '));
   let out=L.join('\n'); if(out.length>7000) out=out.slice(0,7000)+'\n…(more records not shown)'; return out; }
 function aiSuggestions(){ const q=[]; const m=new Date().toLocaleDateString('en-IE',{month:'long'});
@@ -1627,48 +1825,152 @@ function aiSuggestions(){ const q=[]; const m=new Date().toLocaleDateString('en-
   if(hasType('sheep')) q.push('What should I be doing with the flock this month?');
   q.push('What should I prioritise on the farm this week?','Is the weather suitable for spreading fertiliser in the next few days?','Which of my fields needs lime or a soil test?');
   return [...new Set(q)].slice(0,6); }
+/* ---------- conversations (v8): every chat is kept in the user's account (records: aiChats + aiMsgs.chatId), synced across devices ---------- */
+const AI_KEEP=10; // most recent messages sent with each question; older ones travel as the chat's running summary
+const aiByTime=(a,b)=>(a.at||a.createdAt||'')<(b.at||b.createdAt||'')?-1:1;
+function aiChats(){ return S.aiChats.slice().sort((a,b)=>(b.upd||b.at||'')>(a.upd||a.at||'')?1:-1); }
+function aiMsgsOf(cid){ return cid?S.aiMsgs.filter(m=>m.chatId===cid).sort(aiByTime):[]; }
+function aiAutoTitle(t){ t=String(t||'').replace(/\s+/g,' ').trim(); return t.length>48?t.slice(0,46).replace(/\s\S*$/,'')+'…':(t||'New chat'); }
+function aiMigrate(){ // v7 kept one long thread; split it into conversations (a gap of 6+ hours starts a new one). Ids are derived from the first message, so two devices produce the same chats.
+  const loose=S.aiMsgs.filter(m=>!m.chatId).sort(aiByTime); if(!loose.length) return; let cur=null, last=0;
+  loose.forEach(m=>{ const t=Date.parse(m.at||m.createdAt)||0;
+    if(!cur||t-last>6*3600e3){ const id='chat_'+m.id; cur=get('aiChats',id)||add('aiChats',{id, title:'', titleAuto:true, at:m.at||m.createdAt, upd:m.at||m.createdAt, migrated:true},true); }
+    if(!cur.title&&m.role==='user') cur.title=aiAutoTitle(m.content);
+    m.chatId=cur.id; m.updatedAt=nowISO(); enqueue(m.id,'up'); cur.upd=m.at||cur.upd; cur.updatedAt=nowISO(); enqueue(cur.id,'up'); last=t; });
+  save(); }
+const aiCurKey=()=>`fh.aichat.${UID}`;
+function aiCurId(){ let c=null; try{ c=localStorage.getItem(aiCurKey()); }catch(e){} if(c==='new') return null; if(c&&get('aiChats',c)) return c; return aiChats()[0]?.id||null; }
+function aiSetCur(id){ try{ localStorage.setItem(aiCurKey(), id||'new'); }catch(e){} }
+function aiMemNotes(){ return S.aiMemory.slice().sort((a,b)=>(b.at||'')>(a.at||'')?1:-1); }
+function aiDayLabel(iso){ const d=(iso||'').slice(0,10), td=today(); const n=daysBetween(d,td);
+  if(n<=0) return 'Today'; if(n===1) return 'Yesterday'; if(n<7) return 'Previous 7 days'; if(n<30) return 'Previous 30 days';
+  return new Date(d+'T12:00:00').toLocaleDateString('en-IE',{month:'long',year:'numeric'}); }
 function aiMsgHTML(m){ return `<div class="aimsg ${m.role==='user'?'me':'bot'}"><div class="aib">${m.role==='user'?esc(m.content).replace(/\n/g,'<br>'):mdHTML(m.content)}</div></div>`; }
-function aiLogHTML(){ const ms=aiMsgs(); const bz=AI_BUSY; return ms.map(m=>bz&&m.id===bz.id?'':aiMsgHTML(m)).join('')+(bz?`<div class="aimsg bot" id="aiLive"><div class="aib">${bz.text?mdHTML(bz.text):'<span class="aityping" aria-label="Farmhand is typing"><i></i><i></i><i></i></span>'}</div></div>`:''); }
-VIEWS.ask = el => {
-  const ms=aiMsgs(); const off=!navigator.onLine;
-  el.innerHTML=`<div class="card aichat"><div class="row" style="margin-bottom:2px"><h2 style="margin:0">💬 Ask Farmhand</h2><span class="sp"></span>${ms.length?'<button class="sm" id="aiClear">🗑 Clear history</button>':''}</div>
-    <div class="mut">Ask about planting, grass, animals, weather or anything on your farm. Answers use your Farmhand records and follow your <b>${esc(APPROACHES[approach()].l.toLowerCase())}</b> approach. For important decisions check with your Teagasc adviser or vet.</div>
-    ${off?'<div class="banner warn" id="aiOff" style="margin-top:10px">📴 You’re offline. The assistant needs an internet connection — your chat history is still here, and you can ask again once you’re back online.</div>':''}
-    ${AI_STATE==='nokey'?'<div class="banner info" style="margin-top:10px">🛠️ <b>Assistant not set up yet.</b> The AI service key still needs to be added. Everything else in Farmhand works as normal.</div>':''}
-    <div class="ailog" id="aiLog" aria-live="polite">${ms.length||AI_BUSY?aiLogHTML():`<div class="aiempty"><div style="font-size:40px;line-height:1">🌾💬</div><b>Hi! I’m Farmhand.</b><div class="mut">Try one of these, or type your own question.</div></div>`}</div>
-    ${(()=>{ const sg=`<div class="aisug" id="aiSug">${aiSuggestions().map(q=>`<button type="button" class="sm" data-aiq="${esc(q)}">${esc(q)}</button>`).join('')}</div>`; return ms.length?`<details class="aisugd"><summary>💡 Suggested questions</summary>${sg}</details>`:sg; })()}
-    <form class="aiform" id="aiForm"><textarea id="aiQ" rows="1" maxlength="2000" placeholder="Ask Farmhand…" aria-label="Your question"></textarea><button class="pri" id="aiSend" type="submit" ${AI_BUSY?'disabled':''} aria-label="Send">➤</button></form>
-    <div class="hint" id="aiInfo">${AI_LEFT!=null?`${AI_LEFT} of 50 questions left today · `:''}Your questions and a summary of your records are sent to Farmhand’s AI service (Groq) to answer. Chat history is saved to your account.</div></div>`;
-  const log=$('#aiLog',el); const q=$('#aiQ',el); const scroll=()=>{ log.scrollTop=log.scrollHeight; };
-  setTimeout(scroll); q.addEventListener('input',()=>{ q.style.height='auto'; q.style.height=Math.min(160,q.scrollHeight)+'px'; });
-  q.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing&&matchMedia('(pointer:fine)').matches){ e.preventDefault(); $('#aiForm').requestSubmit(); } });
-  $('#aiForm',el).onsubmit=e=>{ e.preventDefault(); const t=q.value.trim(); if(!t) return q.focus(); q.value=''; aiAsk(t); };
-  $$('[data-aiq]',el).forEach(b=>b.onclick=()=>aiAsk(b.dataset.aiq));
-  const cl=$('#aiClear',el); if(cl) cl.onclick=()=>{ if(!confirm('Clear your whole chat history with Farmhand? This can’t be undone.')) return; S.aiMsgs.slice().forEach(m=>del('aiMsgs',m.id)); AI_BUSY=null; render(); toast('Chat history cleared'); };
-  const pend=sessionStorage.getItem('fh.askq'); if(pend){ sessionStorage.removeItem('fh.askq'); setTimeout(()=>aiAsk(pend),30); }
+function aiLogHTML(cid){ const ms=aiMsgsOf(cid); const bz=AI_BUSY&&AI_BUSY.chatId===cid?AI_BUSY:null;
+  if(!ms.length&&!bz) return `<div class="aiempty"><div style="font-size:40px;line-height:1">🌾💬</div><b>Hi! I’m Farmhand.</b><div class="mut">Ask me anything about your farm. I remember what we talk about, so you can pick up again any time.</div></div>`;
+  return ms.map(m=>bz&&m.id===bz.id?'':aiMsgHTML(m)).join('')+(bz?`<div class="aimsg bot" data-ailive><div class="aib">${bz.text?mdHTML(bz.text):'<span class="aityping" aria-label="Farmhand is typing"><i></i><i></i><i></i></span>'}</div></div>`:''); }
+// one chat pane, used on the Ask tab and in the bubble pop-up (cid null = a new chat that starts with the first question)
+function aiConvHTML(cid, compact){ const ms=aiMsgsOf(cid); const off=!navigator.onLine;
+  const sg=`<div class="aisug">${aiSuggestions().slice(0,compact?3:6).map(q=>`<button type="button" class="sm" data-aiq="${esc(q)}">${esc(q)}</button>`).join('')}</div>`;
+  return `${off?'<div class="banner warn aioff" style="margin:8px 0 0">📴 You’re offline. Your chats are still here; you can ask again once you’re back online.</div>':''}
+    ${AI_STATE==='nokey'?'<div class="banner info" style="margin:8px 0 0">🛠️ <b>Assistant not set up yet.</b> The AI service key still needs to be added.</div>':''}
+    <div class="ailog" data-ailog="${cid||''}" aria-live="polite">${aiLogHTML(cid)}</div>
+    ${ms.length?(compact?'':`<details class="aisugd"><summary>💡 Suggested questions</summary>${sg}</details>`):sg}
+    <form class="aiform" data-aiform><textarea rows="1" maxlength="2000" placeholder="${ms.length?'Continue the conversation…':'Ask Farmhand…'}" aria-label="Your question"></textarea><button class="pri" type="submit" ${AI_BUSY?'disabled':''} aria-label="Send">➤</button></form>`; }
+function bindConv(root, cid){ const log=$('[data-ailog]',root), q=$('[data-aiform] textarea',root); if(!log||!q) return;
+  setTimeout(()=>{ log.scrollTop=log.scrollHeight; });
+  q.addEventListener('input',()=>{ q.style.height='auto'; q.style.height=Math.min(160,q.scrollHeight)+'px'; });
+  q.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing&&matchMedia('(pointer:fine)').matches){ e.preventDefault(); $('[data-aiform]',root).requestSubmit(); } });
+  $('[data-aiform]',root).onsubmit=e=>{ e.preventDefault(); const t=q.value.trim(); if(!t) return q.focus(); q.value=''; aiAsk(t, cid); };
+  $$('[data-aiq]',root).forEach(b=>b.onclick=()=>aiAsk(b.dataset.aiq, cid)); }
+function aiHistHTML(cur, qry){ const ql=(qry||'').trim().toLowerCase(); let cs=aiChats();
+  if(ql) cs=cs.filter(c=>(c.title||'').toLowerCase().includes(ql)||aiMsgsOf(c.id).some(m=>(m.content||'').toLowerCase().includes(ql)));
+  if(!cs.length) return emptyBox(ql?'No conversations match your search.':'No conversations yet. Ask Farmhand something to start one.');
+  let lastG='', out='';
+  cs.forEach(c=>{ const g=aiDayLabel(c.upd||c.at); if(g!==lastG){ out+=(lastG?'</ul>':'')+`<h4 class="aigrp">${esc(g)}</h4><ul class="list aihl">`; lastG=g; }
+    const ms=aiMsgsOf(c.id), lastM=ms[ms.length-1]; const snip=lastM?String(lastM.content).replace(/[#*_`>|]/g,'').replace(/\s+/g,' ').slice(0,90):'';
+    out+=`<li class="${c.id===cur?'on':''}"><a href="#ask/${encodeURIComponent(c.id)}" class="grow aihlink"><b>${esc(c.title||'Conversation')}</b><div class="mut">${fmtD((c.upd||c.at||'').slice(0,10))} · ${ms.length} message${ms.length===1?'':'s'}${snip?' · '+esc(snip):''}</div></a><button class="sm" data-aidel="${esc(c.id)}" aria-label="Delete conversation: ${esc(c.title||'')}" title="Delete">🗑</button></li>`; });
+  return out+'</ul>'; }
+function aiDeleteChat(cid){ const c=get('aiChats',cid); if(!c) return false; if(!confirm(`Delete the conversation “${c.title||'Conversation'}”? Notes Farmhand saved from it stay in “What Farmhand remembers”.`)) return false;
+  aiMsgsOf(cid).forEach(m=>del('aiMsgs',m.id)); del('aiChats',cid); if(aiCurId()===cid) aiSetCur(null); toast('Conversation deleted'); return true; }
+VIEWS.ask = el => { aiMigrate();
+  if(routeArg==='memory') return aiMemoryView(el);
+  const isNew=routeArg==='new', open=routeArg&&!isNew&&get('aiChats',routeArg)?routeArg:null;
+  if(routeArg) aiSetCur(open); const cur=isNew?null:(open||aiCurId()); const chat=cur&&get('aiChats',cur);
+  el.innerHTML=`<div class="aiwrap ${routeArg?'conv':''}">
+    <section class="card aihist"><div class="row" style="margin:0 0 8px"><h2 style="margin:0">💬 Ask Farmhand</h2><span class="sp"></span><a class="btn sm pri" href="#ask/new">＋ New chat</a></div>
+      <div class="row" style="margin:0 0 6px"><input type="search" id="aiSearch" placeholder="🔍 Search conversations" aria-label="Search conversations" style="flex:1;min-width:0"><a class="btn sm" href="#ask/memory">🧠 What Farmhand remembers (${S.aiMemory.length})</a></div>
+      <div id="aiHist">${aiHistHTML(cur,'')}</div>
+      <div class="hint">Every conversation is saved to your account and syncs to your other devices. Farmhand keeps short notes of key facts and plans so it can pick up where you left off, even months later.</div></section>
+    <section class="card aichat aiconv"><div class="row" style="margin:0 0 4px"><a class="btn sm aiback" href="#ask">← All chats</a><h3 style="margin:0;flex:1;min-width:0" class="aititle">${esc(chat?chat.title||'Conversation':'New chat')}</h3>${chat?`<button class="sm" id="aiRen" title="Rename" aria-label="Rename conversation">✏️</button><button class="sm" id="aiDelC" title="Delete" aria-label="Delete conversation">🗑</button>`:''}</div>
+      <div class="mut" style="font-size:13px">Answers use your Farmhand records and follow your <b>${esc(APPROACHES[approach()].l.toLowerCase())}</b> approach. For important decisions check with your Teagasc adviser or vet.</div>
+      <div data-conv>${aiConvHTML(cur,false)}</div>
+      <div class="hint">${AI_LEFT!=null?`${AI_LEFT} of 50 questions left today · `:''}Your questions, Farmhand’s notes and a summary of your records are sent to Farmhand’s AI service (Groq) to answer.</div></section></div>`;
+  bindConv($('[data-conv]',el), cur);
+  const bindHist=()=>$$('[data-aidel]',el).forEach(b=>b.onclick=e=>{ e.preventDefault(); if(aiDeleteChat(b.dataset.aidel)){ if(routeArg===b.dataset.aidel) go('ask'); else render(); } });
+  bindHist(); $('#aiSearch',el).oninput=e=>{ $('#aiHist',el).innerHTML=aiHistHTML(cur,e.target.value); bindHist(); };
+  const rn=$('#aiRen',el); if(rn) rn.onclick=()=>openForm({title:'Rename conversation', values:{title:chat.title}, fields:[{k:'title',l:'Title',req:1}], onSave:v=>{ upd('aiChats',chat.id,{title:v.title.slice(0,80), titleAuto:false}); setTimeout(render,30); }});
+  const dc=$('#aiDelC',el); if(dc) dc.onclick=()=>{ if(aiDeleteChat(chat.id)) go('ask'); };
+  const pend=sessionStorage.getItem('fh.askq'); if(pend){ sessionStorage.removeItem('fh.askq'); setTimeout(()=>aiAsk(pend, cur),30); }
 };
-function aiPaint(){ if(route!=='ask') return; const log=$('#aiLog'); if(!log) return; const near=log.scrollHeight-log.scrollTop-log.clientHeight<120; const live=$('#aiLive');
-  if(live&&AI_BUSY){ $('.aib',live).innerHTML=AI_BUSY.text?mdHTML(AI_BUSY.text):'<span class="aityping"><i></i><i></i><i></i></span>'; } else log.innerHTML=aiLogHTML();
-  if(near) log.scrollTop=log.scrollHeight; const sb2=$('#aiSend'); if(sb2) sb2.disabled=!!AI_BUSY; }
-async function aiAsk(text){ if(AI_BUSY) return toast('Farmhand is still answering…'); text=String(text).trim().slice(0,2000); if(!text) return;
-  if(!navigator.onLine){ if(route==='ask') render(); return toast('📴 You’re offline — the assistant needs an internet connection.'); }
-  const hist=aiMsgs().slice(-11).map(m=>({role:m.role, content:m.content}));
-  add('aiMsgs',{role:'user', content:text, at:nowISO()}); const bot={id:uid(), text:''}; AI_BUSY=bot; if(route!=='ask') go('ask'); else render();
+function aiMemoryView(el){ const ns=aiMemNotes();
+  el.innerHTML=`<div class="card"><div class="row" style="margin:0 0 6px"><a class="btn sm" href="#ask">← Conversations</a><h2 style="margin:0;flex:1">🧠 What Farmhand remembers</h2></div>
+    <p class="mut" style="margin-top:0">After each chat, Farmhand saves short notes of key facts, plans and decisions about your farm, and reads them at the start of every new conversation. Edit anything that’s wrong, or delete it. Notes you write or edit yourself are never changed by Farmhand.</p>
+    <div class="row"><button class="pri" id="memAdd">＋ Add a note</button><span class="sp"></span>${ns.length?'<button class="danger sm" id="memClear">🗑 Clear all</button>':''}</div>
+    ${ns.length?`<ul class="list memlist">${ns.map(n=>{ const c=n.chatId&&get('aiChats',n.chatId); return `<li><div class="grow"><div>${esc(n.text)}</div><div class="mut" style="font-size:12.5px">${n.locked?'✍️ Kept as you wrote it · ':''}${fmtD((n.at||'').slice(0,10))}${c?` · from <a href="#ask/${encodeURIComponent(c.id)}">${esc(c.title||'a conversation')}</a>`:''}</div></div><button class="sm" data-memed="${n.id}" aria-label="Edit note">✏️</button><button class="sm" data-memdel="${n.id}" aria-label="Delete note">🗑</button></li>`; }).join('')}</ul>`:emptyBox('Nothing yet. Farmhand starts remembering once you chat with it.')}</div>`;
+  const form=n=>openForm({title:n?'Edit note':'Add a note for Farmhand', values:n||{}, fields:[{k:'text',l:'What should Farmhand remember?',t:'textarea',full:1,req:1,ph:'e.g. Planning to reseed the Hill Field next April'}],
+    onDelete:n?()=>{ del('aiMemory',n.id); setTimeout(render,30); }:undefined,
+    onSave:v=>{ const t=v.text.slice(0,240); if(n) upd('aiMemory',n.id,{text:t, locked:true}); else add('aiMemory',{text:t, locked:true, at:nowISO()}); setTimeout(render,30); }});
+  $('#memAdd',el).onclick=()=>form(null);
+  $$('[data-memed]',el).forEach(b=>b.onclick=()=>form(get('aiMemory',b.dataset.memed)));
+  $$('[data-memdel]',el).forEach(b=>b.onclick=()=>{ del('aiMemory',b.dataset.memdel); render(); toast('Note deleted'); });
+  const cl=$('#memClear',el); if(cl) cl.onclick=()=>{ if(!confirm('Delete everything Farmhand remembers? Your conversations are kept.')) return; S.aiMemory.slice().forEach(n=>del('aiMemory',n.id)); render(); toast('Farmhand’s memory cleared'); }; }
+function aiPaint(){ const bz=AI_BUSY; $$('[data-ailog]').forEach(log=>{ const near=log.scrollHeight-log.scrollTop-log.clientHeight<120; const live=$('[data-ailive]',log);
+    if(live&&bz&&log.dataset.ailog===bz.chatId) $('.aib',live).innerHTML=bz.text?mdHTML(bz.text):'<span class="aityping"><i></i><i></i><i></i></span>'; else log.innerHTML=aiLogHTML(log.dataset.ailog||null);
+    if(near) log.scrollTop=log.scrollHeight; });
+  $$('[data-aiform] button[type=submit]').forEach(b=>b.disabled=!!bz); const bb=$('#aiBub'); if(bb) bb.classList.toggle('busy',!!bz); }
+function aiRefresh(){ if(route==="ask") render(); aiPopRender(); }
+async function aiAsk(text, cid){ if(AI_BUSY) return toast('Farmhand is still answering…'); text=String(text).trim().slice(0,2000); if(!text) return;
+  if(!navigator.onLine){ aiRefresh(); return toast('📴 You’re offline — the assistant needs an internet connection.'); }
+  aiMigrate(); if(cid===undefined) cid=aiCurId(); let chat=cid&&get('aiChats',cid); const t0=nowISO();
+  if(!chat){ chat=add('aiChats',{title:aiAutoTitle(text), titleAuto:true, at:t0, upd:t0},true); }
+  aiSetCur(chat.id); const prev=aiMsgsOf(chat.id).filter(m=>m.ok!==false);
+  const hist=prev.slice(-AI_KEEP).map(m=>({role:m.role, content:m.content})); const summary=prev.length>AI_KEEP?(chat.summary||''):'';
+  add('aiMsgs',{chatId:chat.id, role:'user', content:text, at:t0},true); upd('aiChats',chat.id,{upd:t0});
+  const bot={id:uid(), text:'', chatId:chat.id}; AI_BUSY=bot;
+  if(route==='ask'&&routeArg!==chat.id&&(routeArg||window.innerWidth<900)) go('ask',chat.id); else aiRefresh();
   let final='', ok=false;
   try{ const {data:{session}}=await sb.auth.getSession(); if(!session) throw Object.assign(new Error('Please sign in again.'),{friendly:1});
-    const r=await fetch(AI_FN,{method:'POST', headers:{Authorization:'Bearer '+session.access_token, apikey:SB_KEY, 'Content-Type':'application/json'}, body:JSON.stringify({messages:[...hist,{role:'user',content:text}], context:aiContext()})});
+    const r=await fetch(AI_FN,{method:'POST', headers:{Authorization:'Bearer '+session.access_token, apikey:SB_KEY, 'Content-Type':'application/json'},
+      body:JSON.stringify({messages:[...hist,{role:'user',content:text}], context:aiContext(), memory:aiMemNotes().slice(0,60).map(n=>n.text), summary})});
     const left=r.headers.get('x-farmhand-left'); if(left!=null) AI_LEFT=Number(left);
     if(!r.ok){ let j={}; try{ j=await r.json(); }catch(e){} if(j.error==='not_configured') AI_STATE='nokey'; if(j.error==='limit') AI_LEFT=0;
       throw Object.assign(new Error(j.error==='not_configured'?'🛠️ **Assistant not set up yet.** The AI service key still needs to be added.':(j.message||`The assistant couldn’t answer (error ${r.status}). Please try again.`)),{friendly:1}); }
     AI_STATE=''; const rd=r.body.getReader(), dec=new TextDecoder(); let raf=null;
     for(;;){ const {done,value}=await rd.read(); if(done) break; bot.text+=dec.decode(value,{stream:true}); if(!raf) raf=requestAnimationFrame(()=>{ raf=null; aiPaint(); }); }
-    bot.text+=dec.decode(); final=bot.text.trim()||'_(No answer came back — please try again.)_'; ok=true;
+    bot.text+=dec.decode(); final=bot.text.trim()||'_(No answer came back — please try again.)_'; ok=!!bot.text.trim();
   }catch(e){ final=e.friendly?e.message:(navigator.onLine?'⚠️ Couldn’t reach the assistant just now. Please try again in a moment.':'📴 You went offline, so the answer couldn’t arrive. Try again when you’re back online.'); if(!e.friendly) console.warn('ai',e); }
-  add('aiMsgs',{id:bot.id, role:'assistant', content:final, at:nowISO(), ok}, true); AI_BUSY=null; save();
-  const all=aiMsgs(); if(all.length>200) all.slice(0,all.length-200).forEach(m=>del('aiMsgs',m.id));
-  if(route==='ask') render(); else toast('💬 Farmhand answered — open Ask Farmhand to read it'); }
-function aiFab(){ let f=$('#aiFab'); if(!f){ f=document.createElement('a'); f.id='aiFab'; f.className='aifab'; f.href='#ask'; f.setAttribute('aria-label','Ask Farmhand (AI assistant)'); f.title='Ask Farmhand'; f.innerHTML='<span aria-hidden="true">💬</span><b>Ask</b>'; document.body.appendChild(f); }
-  const onHomeWidget=route==='dash'&&!!$('.wdg[data-w="c_ask"]'); f.hidden=!UID||route==='ask'||route==='settings'||HOME_EDIT||onHomeWidget; }
+  const t1=nowISO(); add('aiMsgs',{id:bot.id, chatId:chat.id, role:'assistant', content:final, at:t1, ok},true); upd('aiChats',chat.id,{upd:t1}); AI_BUSY=null; save();
+  aiRefresh(); if(route!=='ask'&&!aiPopIsOpen()) toast('💬 Farmhand answered — tap the chat bubble to read it');
+  if(ok) aiMemSoon(chat.id); }
+/* ---------- long-term farm memory: the Edge Function reads the latest exchange and returns notes to add / update / remove, a chat title and a running summary (not counted in the 50/day) ---------- */
+const AI_MEMQ=new Set(); let AI_MEMT=null, AI_MEMBUSY=false;
+function aiMemSoon(cid){ AI_MEMQ.add(cid); clearTimeout(AI_MEMT); AI_MEMT=setTimeout(aiMemRun,800); }
+async function aiMemRun(){ if(AI_MEMBUSY) return aiMemSoon([...AI_MEMQ][0]); AI_MEMBUSY=true; try{ for(const cid of [...AI_MEMQ]){ AI_MEMQ.delete(cid); try{ await aiMemUpdate(cid); }catch(e){ console.warn('memory',e); } } } finally{ AI_MEMBUSY=false; } }
+async function aiMemUpdate(cid){ const chat=get('aiChats',cid); if(!chat||!navigator.onLine||!UID) return; const ms=aiMsgsOf(cid).filter(m=>m.ok!==false);
+  const part=ms.slice(Math.max(0,(chat.memN||0)-2)).slice(-12); if(!part.some(m=>m.role==='user')) return;
+  const {data:{session}}=await sb.auth.getSession(); if(!session) return;
+  const r=await fetch(AI_FN,{method:'POST', headers:{Authorization:'Bearer '+session.access_token, apikey:SB_KEY, 'Content-Type':'application/json'},
+    body:JSON.stringify({mode:'memory', messages:part.map(m=>({role:m.role, content:m.content})), summary:chat.summary||'', notes:aiMemNotes().slice(0,80).map(n=>({id:n.id, text:n.text, locked:!!n.locked}))})});
+  if(!r.ok) return; const j=await r.json(); const c2=get('aiChats',cid); if(!c2) return;
+  const patch={memN:ms.length}; if(j.summary) patch.summary=j.summary; if(j.title&&c2.titleAuto) patch.title=j.title;
+  upd('aiChats',cid,patch); const t=nowISO(), seen=new Set(S.aiMemory.map(n=>n.text.trim().toLowerCase()));
+  (j.add||[]).forEach(x=>{ const k=String(x).trim(); if(k&&!seen.has(k.toLowerCase())){ add('aiMemory',{text:k, at:t, chatId:cid},true); seen.add(k.toLowerCase()); } });
+  (j.update||[]).forEach(u=>{ const n=get('aiMemory',u.id); if(n&&!n.locked&&u.text) upd('aiMemory',n.id,{text:u.text, at:t, chatId:cid}); });
+  (j.remove||[]).forEach(id=>{ const n=get('aiMemory',id); if(n&&!n.locked) del('aiMemory',id); });
+  save(); if(route==='ask'){ if(routeArg==='memory') render(); else { const h=$('.aititle'); if(h&&patch.title&&routeArg===cid) h.textContent=patch.title; } } aiPopRender(true); }
+/* ---------- the chat bubble: fixed bottom-right on every page (not on the Ask tab or while editing Home) ---------- */
+let AI_POP=false;
+const aiPopIsOpen=()=>AI_POP&&!!$('#aiPop')&&!$('#aiPop').hidden;
+function aiBubble(){ let b=$('#aiBub'); if(!b){ b=document.createElement('button'); b.id='aiBub'; b.type='button'; b.className='aibub'; b.title='Ask Farmhand'; b.setAttribute('aria-label','Ask Farmhand (AI assistant)'); b.setAttribute('aria-haspopup','dialog'); b.innerHTML='<span aria-hidden="true">💬</span>'; b.onclick=()=>aiPopIsOpen()?aiPopClose():aiPopOpen(); document.body.appendChild(b); }
+  const hide=!UID||route==='ask'||HOME_EDIT; b.hidden=hide; b.classList.toggle('busy',!!AI_BUSY); document.body.classList.toggle('hasbub',!hide); if(hide&&AI_POP) aiPopClose(); }
+function aiPopOpen(){ if(!UID) return; aiMigrate(); AI_POP=true; let p=$('#aiPop');
+  if(!p){ p=document.createElement('div'); p.id='aiPop'; p.className='aipop'; p.setAttribute('role','dialog'); p.setAttribute('aria-label','Ask Farmhand chat'); document.body.appendChild(p);
+    const bg=document.createElement('div'); bg.id='aiPopBg'; bg.className='aipopbg'; bg.onclick=aiPopClose; document.body.appendChild(bg); }
+  p.hidden=false; $('#aiPopBg').hidden=false; document.body.classList.add('aipopopen'); $('#aiBub')?.setAttribute('aria-expanded','true'); aiPopRender(); setTimeout(()=>$('#aiPop [data-aiform] textarea')?.focus({preventScroll:true}),60); }
+function aiPopClose(){ AI_POP=false; const p=$('#aiPop'); if(p) p.hidden=true; const bg=$('#aiPopBg'); if(bg) bg.hidden=true; document.body.classList.remove('aipopopen'); $('#aiBub')?.setAttribute('aria-expanded','false'); }
+function aiPopRender(soft){ const p=$('#aiPop'); if(!p||p.hidden||!AI_POP) return; const cid=aiCurId(), chat=cid&&get('aiChats',cid);
+  if(soft){ const h=$('.aipt',p); if(h) h.textContent=chat?chat.title||'Conversation':'New chat'; return; }
+  const draft=$('[data-aiform] textarea',p)?.value||'';
+  p.innerHTML=`<div class="aiph"><span aria-hidden="true" style="font-size:20px">💬</span><b class="aipt grow">${esc(chat?chat.title||'Conversation':'New chat')}</b>
+    <button class="sm" id="aipNew" title="New chat" aria-label="New chat">＋</button><a class="btn sm" id="aipAll" href="#ask${cid?'/'+encodeURIComponent(cid):''}" title="Open full history" aria-label="Open full history">🕘 History</a><button class="sm" id="aipX" title="Close" aria-label="Close chat">✕</button></div>
+    <div class="aipb" data-conv>${aiConvHTML(cid,true)}</div>`;
+  const ta=$('[data-aiform] textarea',p); if(ta&&draft) ta.value=draft;
+  bindConv($('[data-conv]',p), cid); $('#aipX',p).onclick=aiPopClose; $('#aipAll',p).onclick=()=>aiPopClose();
+  $('#aipNew',p).onclick=()=>{ aiSetCur(null); aiPopRender(); $('#aiPop [data-aiform] textarea')?.focus(); }; }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&aiPopIsOpen()&&!document.querySelector('dialog[open]')){ aiPopClose(); $('#aiBub')?.focus(); } });
+if(window.visualViewport){ const vv=visualViewport, f=()=>{ const off=Math.max(0,Math.round(innerHeight-vv.height-vv.offsetTop)); document.documentElement.style.setProperty('--vvb',(off>0&&off<120?off:0)+'px'); }; vv.addEventListener('resize',f); vv.addEventListener('scroll',f); }
+
 
 /* ---------- Map ---------- */
 /* old 'sketch' map (paddocks drawn in map units on a plain grid or uploaded image). Kept so paddocks drawn before v3 still show and can be edited. */
@@ -1688,10 +1990,10 @@ function sketchView(el){
   <div class="legend">${MAP.colour==='status'?Object.values(PAD_STATUS).map(v=>`<span><i style="background:${v.c}"></i>${v.l}</span>`).join(''):[[0,'<500'],[600,'500–900'],[1000,'900–1300'],[1500,'1300–1800'],[2000,'1800+']].map(([v,l])=>`<span><i style="background:${coverColour(v)}"></i>${l}</span>`).join('')+'<span><i style="background:#cfd5cf"></i>no data</span> <span class="mut">kg DM/ha (estimated)</span>'}</div>
   <div class="row mut" style="margin-top:8px">Scale: 1 map unit = ${num(s.mPerUnit,3)} m <button class="sm" id="mCalib">Calibrate scale</button><button class="sm" id="mBg">Background image…</button>${mapBgURL?'<button class="sm danger" id="mBgDel">Remove image</button>':''}<input type="file" id="bgFile" accept="image/*" hidden></div>
   <div id="padDetail"></div>
-  <div class="card"><h3>Paddocks (${S.paddocks.length}) · ${num(sum(S.paddocks.map(padHa)),2)} ha</h3><div id="padTable"></div></div>`;
+  <div class="card"><h3>Paddocks (${S.paddocks.length}) · ${fmtArea(sum(S.paddocks.map(padHa)))}</h3><div id="padTable"></div></div>`;
   drawMap();
   $('#padTable',el).innerHTML=table(S.paddocks.slice().sort((a,b)=>a.name.localeCompare(b.name)),[
-    {l:'Name',k:'name'},{l:'ha',f:p=>num(padHa(p),2)},{l:'Status',h:p=>`<span class="pill" style="background:${PAD_STATUS[p.status]?.c||'#ccc'}33">${esc(PAD_STATUS[p.status]?.l||p.status)}</span>`},
+    {l:'Name',k:'name'},{l:areaU(),f:p=>num(toArea(padHa(p)),aU().dp)},{l:'Status',h:p=>`<span class="pill" style="background:${PAD_STATUS[p.status]?.c||'#ccc'}33">${esc(PAD_STATUS[p.status]?.l||p.status)}</span>`},
     {l:'Cover (est.)',f:p=>{const c=coverInfo(p); return c.est==null?'–':num(c.est);}},{l:'Days since grazed',f:p=>{const d=daysSinceGrazed(p.id); return d==null?'–':d;}}],
     {onRow:p=>{MAP.sel=p.id; drawMap(); showPadDetail(); $('#padDetail').scrollIntoView({behavior:'smooth'});}, empty:'No paddocks yet — tap “Draw paddock”.'});
   showPadDetail();
@@ -1736,11 +2038,11 @@ function drawSketch(){
   S.paddocks.filter(hasSketch).forEach(p=>{ const ci=coverInfo(p); const col=MAP.colour==='status'?(PAD_STATUS[p.status]?.c||'#999'):coverColour(ci.est);
     h+=`<polygon class="pad ${MAP.sel===p.id?'sel':''}" data-pid="${p.id}" points="${p.points.map(q=>q.join(',')).join(' ')}" fill="${col}"/>`; });
   S.paddocks.filter(hasSketch).forEach(p=>{ const [cx,cy]=centroid(p.points); const ci=coverInfo(p);
-    h+=`<text x="${cx}" y="${cy}" text-anchor="middle" font-size="${fs}">${esc(p.name)}</text><text x="${cx}" y="${cy+fs*1.1}" text-anchor="middle" font-size="${fs*0.75}" font-weight="400">${num(padHa(p),1)} ha${ci.est!=null?' · '+num(ci.est):''}</text>`; });
+    h+=`<text x="${cx}" y="${cy}" text-anchor="middle" font-size="${fs}">${esc(p.name)}</text><text x="${cx}" y="${cy+fs*1.1}" text-anchor="middle" font-size="${fs*0.75}" font-weight="400">${fmtAreaT(padHa(p))}${ci.est!=null?' · '+num(ci.est):''}</text>`; });
   const dp=MAP.mode==='calib'?MAP.calib:MAP.pts; const r=v.w/120;
   if(dp.length){ h+=`<polyline points="${dp.map(q=>q.join(',')).join(' ')}${MAP.mode==='draw'&&dp.length>2?' '+dp[0].join(','):''}" fill="${MAP.mode==='draw'?'#1e6fd055':'none'}" stroke="#d32f2f" stroke-width="3" vector-effect="non-scaling-stroke" stroke-dasharray="6 4"/>`;
     dp.forEach(q=>h+=`<circle cx="${q[0]}" cy="${q[1]}" r="${r}" fill="#d32f2f" stroke="#fff" stroke-width="2" vector-effect="non-scaling-stroke"/>`);
-    if(MAP.mode==='draw'&&dp.length>=3){ const ha=polyAreaUnits(dp)*Math.pow(s.mPerUnit,2)/1e4; const [cx,cy]=centroid(dp); h+=`<text x="${cx}" y="${cy}" text-anchor="middle" font-size="${fs}">${num(ha,2)} ha</text>`; } }
+    if(MAP.mode==='draw'&&dp.length>=3){ const ha=polyAreaUnits(dp)*Math.pow(s.mPerUnit,2)/1e4; const [cx,cy]=centroid(dp); h+=`<text x="${cx}" y="${cy}" text-anchor="middle" font-size="${fs}">${fmtArea(ha)}</text>`; } }
   svg.innerHTML=h;
 }
 function showPadDetail(){
@@ -1748,11 +2050,11 @@ function showPadDetail(){
   const ci=coverInfo(p); const gs=grazingsFor(p.id); const cur=currentGrazing(p.id); const ds=daysSinceGrazed(p.id); const yr=today().slice(0,4);
   const fert=S.fertiliser.filter(f=>f.paddockId===p.id&&(f.date||'').startsWith(yr)); const mg=measuredGrowth(p.id);
   box.innerHTML=`<div class="card" style="margin-top:12px;border-color:var(--g)"><div class="row"><h2 style="margin:0">${esc(p.name)}</h2><span class="pill" style="background:${PAD_STATUS[p.status]?.c}33">${esc(PAD_STATUS[p.status]?.l||p.status)}</span><span class="sp"></span><button class="sm" id="pdPin" title="Show this field on your Home screen">📌 Add to Home</button><button class="sm" id="pdClose">✕</button></div>
-    <div class="kpis"><div class="kpi"><b>${num(padHa(p),2)}</b><span>ha ${p.areaManual>0?'(entered)':hasGeo(p)?'(satellite)':hasSketch(p)?'(sketch map)':''} · ${num(haToAc(padHa(p)),2)} ac</span></div>
+    <div class="kpis"><div class="kpi"><b>${num(toArea(padHa(p)),aU().dp)}</b><span>${areaU()} ${p.areaManual>0?'(entered)':hasGeo(p)?'(satellite)':hasSketch(p)?'(sketch map)':''}${aU().s==='ha'?` · ${num(haToAc(padHa(p)),2)} ac`:` · ${num(padHa(p),2)} ha`}</span></div>
       <div class="kpi"><b>${ci.est!=null?num(ci.est):'–'}</b><span>kg DM/ha est. cover${ci.est!=null?` (${esc(ci.basis)} ${fmtD(ci.baseDate)} + growth)`:''}</span></div>
       <div class="kpi"><b>${ds==null?'–':ds}</b><span>days since grazed${cur?' (grazing now)':''}</span></div>
       <div class="kpi"><b>${mg?num(mg.rate):'–'}</b><span>measured growth kg/ha/day</span></div>
-      <div class="kpi"><b>${num(sum(fert.map(f=>f.nKgHa)))} / ${num(sum(fert.map(f=>f.pKgHa)),1)}</b><span>N / P kg/ha applied ${yr}</span></div></div>
+      <div class="kpi"><b>${rateNum(sum(fert.map(f=>f.nKgHa)))} / ${rateNum(sum(fert.map(f=>f.pKgHa)),'kg',1)}</b><span>N / P ${rateUnit()} applied ${yr}</span></div></div>
     <div class="row">${cur?`<button class="pri" id="pdOut">End grazing</button>`:`<button class="pri" id="pdIn">Start grazing</button>`}<button id="pdWalk">Record cover</button><button id="pdEdit">Edit</button>${MAP.view==='sketch'?'<button id="pdRedraw">Redraw on sketch</button>':(hasGeo(p)?'<button id="pdEditB">✏️ Edit boundary</button><button id="pdRedrawSat">Redraw boundary</button><button id="pdZoom">🔍 Zoom to</button>':'<button id="pdRedrawSat">🛰 Draw boundary on satellite</button>')}<button id="pdTask">+ Task</button><button id="pdPhoto">+ Photo</button><button id="pdSuit">🌱 What suits this field?</button><button id="pdPlant">+ Planting</button></div>
     <p class="mut">Soil: ${p.soilType?esc(SOILTXT[p.soilType]):'type not set'} · pH ${esc(p.ph||'–')} · drainage ${esc({good:'free-draining',moderate:'moderate',poor:'poor'}[p.drainage]||'–')} · P index ${esc(p.pIndex||'–')} · K index ${esc(p.kIndex||'–')}${p.testDate?' (tested '+fmtD(p.testDate)+')':''}</p>
     ${S.plantings.some(x=>x.paddockId===p.id)?`<h3>Plantings</h3><div id="pdPl">${plantingTable(S.plantings.filter(x=>x.paddockId===p.id))}</div>`:''}
@@ -1770,7 +2072,7 @@ function paddockForm(p, pts, geo){
   const mapped = geo ? geoAreaM2(geo)/1e4 : pts ? polyAreaUnits(pts)*Math.pow(S.settings.mPerUnit,2)/1e4 : (p?mappedHa(p):0);
   openForm({title:p?'Edit paddock':'New paddock', values:p||{status:'resting'}, fields:[
     {k:'name',l:'Name',req:1,ph:'e.g. Long Field'},{k:'status',l:'Status',t:'select',o:Object.entries(PAD_STATUS).map(([k,v])=>[k,v.l])},
-    {k:'areaManual',l:'Area override (ha)',t:'number',ph:mapped?num(mapped,2)+' ha mapped':'enter area',hint:mapped?`Mapped area: ${num(mapped,2)} ha (${num(haToAc(mapped),2)} acres). Leave blank to use it.`:'No boundary drawn — enter the area in hectares.'},
+    {k:'areaManual',l:`Area override (${areaU()})`,t:'number',area:1,ph:mapped?fmtArea(mapped)+' mapped':'enter area',hint:mapped?`Mapped area: ${fmtArea(mapped)}${aU().s==='ha'?` (${num(haToAc(mapped),2)} acres)`:` (${num(mapped,2)} ha)`}. Leave blank to use it.`:`No boundary drawn — enter the area in ${aU().w}.`},
     {k:'landId',l:'LPIS / land parcel ID (optional)'},
     {k:'soilType',l:'Soil type',t:'select',o:[['','— not set —'],['l','Light / sandy'],['m','Medium loam'],['h','Heavy / clay'],['p','Peat / organic']]},{k:'ph',l:'Soil pH (from soil test)',t:'number',step:0.1,min:3,max:9},
     {k:'drainage',l:'Drainage',t:'select',o:[['','— not set —'],['good','Free-draining'],['moderate','Moderate'],['poor','Poorly drained / wet']]},{k:'testDate',l:'Soil test date',t:'date'},
@@ -1796,7 +2098,7 @@ function satHelp(){
   if(MAP.mode==='kml') return `<b>KML preview:</b> orange shapes are in the file. Tap a shape or use the list below to choose which to import.`;
   return '';
 }
-function areaText(ll){ const ha=geoAreaM2(ll)/1e4; return `${num(ha,2)} ha · ${num(haToAc(ha),2)} acres`; }
+function areaText(ll){ const ha=geoAreaM2(ll)/1e4; return aU().s==='ha'?`${num(ha,2)} ha · ${num(haToAc(ha),2)} acres`:`${fmtArea(ha)} · ${num(ha,2)} ha`; }
 function padStyle(p){ const ci=coverInfo(p); const col=MAP.colour==='status'?(PAD_STATUS[p.status]?.c||'#999'):coverColour(ci.est); const sel=MAP.sel===p.id;
   return {color:sel?'#ffffff':'#1d2420', weight:sel?4:2, fillColor:col, fillOpacity:sel?.6:.42, dashArray:null}; }
 function farmLocSet(){ return !!S.settings.locSource; }
@@ -1829,9 +2131,9 @@ VIEWS.map = el => {
   ${legacy.length&&m==='view'?`<div class="card" style="margin-top:12px"><h3>Paddocks from the old sketch map</h3><p class="mut">${legacy.length} paddock${legacy.length>1?'s were':' was'} drawn on the old sketch map (${legacy.map(p=>esc(p.name)).join(', ')}). They still work and keep their area. To put them on the satellite map, tap a name to draw its boundary, import a KML with the same names, or place the old shapes here and drag them into position.</p>
     <div class="row">${legacy.map(p=>`<button class="sm" data-legdraw="${p.id}">🛰 Draw ${esc(p.name)}</button>`).join('')}<button class="sm" id="legPlace">Place sketch shapes at map centre</button></div></div>`:''}
   <div id="padDetail"></div>
-  <div class="card" style="margin-top:12px"><h3>Paddocks (${S.paddocks.length}) · ${num(sum(S.paddocks.map(padHa)),2)} ha · ${num(haToAc(sum(S.paddocks.map(padHa))),1)} acres</h3><div id="padTable"></div></div>`;
+  <div class="card" style="margin-top:12px"><h3>Paddocks (${S.paddocks.length}) · ${fmtArea(sum(S.paddocks.map(padHa)))}</h3><div id="padTable"></div></div>`;
   $('#padTable',el).innerHTML=table(S.paddocks.slice().sort((a,b)=>a.name.localeCompare(b.name)),[
-    {l:'Name',k:'name'},{l:'ha',f:p=>num(padHa(p),2)},{l:'acres',f:p=>num(haToAc(padHa(p)),2)},{l:'Status',h:p=>`<span class="pill" style="background:${PAD_STATUS[p.status]?.c||'#ccc'}33">${esc(PAD_STATUS[p.status]?.l||p.status)}</span>`},
+    {l:'Name',k:'name'},{l:aU().w==='square yards'?'sq yd':aU().w,f:p=>num(toArea(padHa(p)),aU().dp)},{l:'Status',h:p=>`<span class="pill" style="background:${PAD_STATUS[p.status]?.c||'#ccc'}33">${esc(PAD_STATUS[p.status]?.l||p.status)}</span>`},
     {l:'Boundary',f:p=>hasGeo(p)?'satellite':hasSketch(p)?'sketch only':'none'},
     {l:'Cover (est.)',f:p=>{const c=coverInfo(p); return c.est==null?'–':num(c.est);}},{l:'Days since grazed',f:p=>{const d=daysSinceGrazed(p.id); return d==null?'–':d;}}],
     {onRow:p=>{MAP.sel=p.id; drawMap(); const l=LPADS.get(p.id); if(l&&LMAP) LMAP.fitBounds(l.getBounds(),{maxZoom:18,padding:[20,20]}); showPadDetail(); $('#padDetail').scrollIntoView({behavior:'smooth'});}, empty:'No paddocks yet — tap “Draw field” or import a KML from Google Earth.'});
@@ -1861,7 +2163,7 @@ function buildLeaflet(){
   LPADS.clear();
   S.paddocks.filter(hasGeo).forEach(p=>{ if(MAP.mode==='edit'&&MAP.editId===p.id) return;
     const ci=coverInfo(p); const lyr=L.polygon(p.geo,{...padStyle(p), interactive:MAP.mode==='view'}).addTo(LMAP);
-    lyr.bindTooltip(`<b>${esc(p.name)}</b><br>${num(padHa(p),2)} ha${ci.est!=null?' · '+num(ci.est):''}`,{permanent:true,direction:'center',className:'padlbl',interactive:false});
+    lyr.bindTooltip(`<b>${esc(p.name)}</b><br>${fmtArea(padHa(p))}${ci.est!=null?' · '+num(ci.est):''}`,{permanent:true,direction:'center',className:'padlbl',interactive:false});
     lyr.on('click',e=>{ L.DomEvent.stopPropagation(e); MAP.sel=p.id; drawMap(); showPadDetail(); });
     LPADS.set(p.id,lyr); });
   if(farmLocSet()) L.marker([s.lat,s.lon],{interactive:false, keyboard:false, icon:L.divIcon({className:'farmpin',html:'🏠',iconSize:[28,28],iconAnchor:[14,24]})}).addTo(LMAP);
@@ -1969,14 +2271,14 @@ async function loadKmlFile(file){ try{ const items=parseKml(await kmlTextFromFil
 let kmlLayers=null;
 function drawKmlPreview(){ if(!LMAP||!MAP.kml) return; if(kmlLayers) kmlLayers.remove(); kmlLayers=L.featureGroup().addTo(LMAP);
   MAP.kml.items.forEach(it=>{ const l=L.polygon(it.geo,{color:it.on?'#ff9500':'#bbbbbb',weight:3,dashArray:'7 5',fillColor:it.on?'#ff9500':'#999',fillOpacity:it.on?.3:.1}).addTo(kmlLayers);
-    l.bindTooltip(`<b>${esc(it.name)}</b><br>${num(geoAreaM2(it.geo)/1e4,2)} ha`,{permanent:true,direction:'center',className:'padlbl'});
+    l.bindTooltip(`<b>${esc(it.name)}</b><br>${fmtArea(geoAreaM2(it.geo)/1e4)}`,{permanent:true,direction:'center',className:'padlbl'});
     l.on('click',e=>{ L.DomEvent.stopPropagation(e); it.on=!it.on; drawKmlPreview(); renderKmlBox(); }); });
   if(MAP.kml.fit && kmlLayers.getLayers().length){ MAP.kml.fit=false; LMAP.fitBounds(kmlLayers.getBounds(),{maxZoom:18,padding:[20,20]}); } }
 function renderKmlBox(){ const box=$('#kmlBox'); if(!box||!MAP.kml) return; const K=MAP.kml; const n=K.items.filter(x=>x.on).length;
   box.innerHTML=`<div class="card attn" style="margin-top:12px"><h3>Import from ${esc(K.file)}</h3><p class="mut">${K.items.length} shape${K.items.length>1?'s':''} found. Tick the ones to import. A shape whose name matches an existing paddock updates that paddock’s boundary (its records are kept).</p>
    <div class="tw"><table><thead><tr><th></th><th>Name</th><th>Area</th><th>Import as</th></tr></thead><tbody>${K.items.map(it=>`<tr><td><input type="checkbox" data-kon="${it.i}" ${it.on?'checked':''}></td>
      <td><input data-kname="${it.i}" value="${esc(it.name)}" style="min-width:140px">${it.kind==='line'?'<div class="hint warn">path, closed into a field</div>':''}${it.holes?'<div class="hint warn">has holes — outer edge only</div>':''}</td>
-     <td style="white-space:nowrap">${num(geoAreaM2(it.geo)/1e4,2)} ha<br><span class="mut">${num(haToAc(geoAreaM2(it.geo)/1e4),2)} ac</span></td>
+     <td style="white-space:nowrap">${fmtArea(geoAreaM2(it.geo)/1e4)}<br><span class="mut">${aU().s==='ha'?num(haToAc(geoAreaM2(it.geo)/1e4),2)+' ac':num(geoAreaM2(it.geo)/1e4,2)+' ha'}</span></td>
      <td><select data-ktgt="${it.i}"><option value="new">New paddock</option>${S.paddocks.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(p=>`<option value="${p.id}" ${it.target===p.id?'selected':''}>Update “${esc(p.name)}”</option>`).join('')}</select></td></tr>`).join('')}</tbody></table></div>
    <div class="row" style="margin-top:10px"><button class="pri" id="kImport2">⬆ Import ${n} selected</button><button id="kAll">Select all</button><button id="kNone">Select none</button><button id="kCancel">Cancel</button></div></div>`;
   $$('[data-kon]',box).forEach(c=>c.onchange=()=>{ K.items[c.dataset.kon].on=c.checked; drawKmlPreview(); renderKmlBox(); });
@@ -1994,7 +2296,7 @@ function exportKml(){ const ps=S.paddocks.filter(hasGeo); if(!ps.length) return 
   const x=t=>String(t??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
   const styles=Object.entries(PAD_STATUS).map(([k,v])=>`<Style id="st_${k}"><LineStyle><color>ff${col(v.c)}</color><width>2</width></LineStyle><PolyStyle><color>66${col(v.c)}</color></PolyStyle></Style>`).join('');
   const pms=ps.map(p=>{ const ring=p.geo.concat([p.geo[0]]); const ha=padHa(p);
-    return `<Placemark><name>${x(p.name)}</name><description>${x(`${num(ha,2)} ha (${num(haToAc(ha),2)} acres) · ${PAD_STATUS[p.status]?.l||p.status||''}${p.landId?' · LPIS '+p.landId:''}`)}</description><styleUrl>#st_${PAD_STATUS[p.status]?p.status:'resting'}</styleUrl>
+    return `<Placemark><name>${x(p.name)}</name><description>${x(`${aU().s==='ha'?`${num(ha,2)} ha (${num(haToAc(ha),2)} acres)`:`${fmtArea(ha)} (${num(ha,2)} ha)`} · ${PAD_STATUS[p.status]?.l||p.status||''}${p.landId?' · LPIS '+p.landId:''}`)}</description><styleUrl>#st_${PAD_STATUS[p.status]?p.status:'resting'}</styleUrl>
 <ExtendedData><Data name="area_ha"><value>${ha.toFixed(4)}</value></Data><Data name="status"><value>${x(p.status)}</value></Data><Data name="farmapp_id"><value>${x(p.id)}</value></Data></ExtendedData>
 <Polygon><tessellate>1</tessellate><outerBoundaryIs><LinearRing><coordinates>${ring.map(q=>`${q[1].toFixed(7)},${q[0].toFixed(7)},0`).join(' ')}</coordinates></LinearRing></outerBoundaryIs></Polygon></Placemark>`; }).join('\n');
   const name='Farmhand — '+(S.settings.farmName||'Farm')+' paddocks';
@@ -2168,12 +2470,12 @@ VIEWS.grass = el => {
   el.innerHTML=`<div class="banner info">ℹ️ All grass figures here are <b>estimates</b> (manual walks + a simple growth model). Use them as a guide alongside your own judgement / PastureBase.</div>
   <div class="row"><button class="pri" id="walkAll">📝 Record farm walk</button><button id="wxRefresh">↻ Refresh weather</button><span class="sp"></span><button class="sm" id="settingsBtn">Planner settings</button></div>
   <div class="kpis"><div class="kpi"><div class="ico">🌾</div><b>${gb.afc!=null?num(gb.afc):'–'}</b><span>Avg farm cover kg DM/ha</span></div><div class="kpi"><div class="ico">🌱</div><b>${gb.daysAhead!=null?num(gb.daysAhead,1):'–'}</b><span>Days grass ahead</span></div>
-    <div class="kpi"><b>${num(gr.rate)}</b><span>Growth kg DM/ha/day (${esc(gr.basis)})</span></div><div class="kpi"><b>${gb.demandPerHa!=null?num(gb.demandPerHa):'–'}</b><span>Demand kg DM/ha/day (${gb.cows} × ${num(s.kgDmPerCow)} kg ÷ ${num(gb.area,1)} ha)</span></div>
+    <div class="kpi"><b>${num(gr.rate)}</b><span>Growth kg DM/ha/day (${esc(gr.basis)})</span></div><div class="kpi"><b>${gb.demandPerHa!=null?num(gb.demandPerHa):'–'}</b><span>Demand kg DM/ha/day (${gb.cows} × ${num(s.kgDmPerCow)} kg ÷ ${fmtAreaT(gb.area)})</span></div>${gb.area>0&&gb.cows?`<div class="kpi"><div class="ico">🐄</div><b>${rateNum(gb.cows/gb.area,'LU',1)}</b><span>Stocking rate, ${rateUnit('LU')} on the grazing area</span></div>`:''}
     <div class="kpi"><b>${gb.coverPerCow!=null?num(gb.coverPerCow):'–'}</b><span>Cover per cow kg DM</span></div></div>
   ${gb.demandPerHa!=null&&gr.rate?`<p class="mut">${gr.rate>gb.demandPerHa?`Growth (${num(gr.rate)}) is above demand (${num(gb.demandPerHa)}) → grass likely building; consider taking out surplus paddocks.`:`Demand (${num(gb.demandPerHa)}) exceeds growth (${num(gr.rate)}) → cover likely falling; consider supplement or slowing rotation.`}</p>`:''}
   <div class="card"><h3>7-day weather & estimated growth</h3><div id="wx">${wxStrip(getWeatherCache())}</div></div>
   <div class="card"><h3>Grass wedge (estimated cover, highest first)</h3><canvas class="chart" id="wedge"></canvas><div class="hint">Red dashed line = target pre-grazing cover 1400 kg DM/ha (adjust to your own target).</div></div>
-  <div class="card"><h3>Suggested rotation order</h3>${table(rot,[{l:'#',f:r=>r.ci.grazingNow||r.ci.est==null?'':order++},{l:'Paddock',k:'name',f:r=>r.p.name},{l:'ha',f:r=>num(r.ha,2)},{l:'Est. cover',f:r=>r.ci.est==null?'–':num(r.ci.est)},{l:'Basis',f:r=>r.ci.est==null?'':`${r.ci.basis} ${fmtD(r.ci.baseDate)} (+${r.ci.days}d)`},{l:'Days since grazed',f:r=>r.ds??'–'},{l:'Measured growth',f:r=>r.mg?num(r.mg.rate):'–'},{l:'',h:flag}],{onRow:r=>walkForm(r.p,null),empty:'Add paddocks on the Map first.'})}
+  <div class="card"><h3>Suggested rotation order</h3>${table(rot,[{l:'#',f:r=>r.ci.grazingNow||r.ci.est==null?'':order++},{l:'Paddock',k:'name',f:r=>r.p.name},{l:areaU(),f:r=>num(toArea(r.ha),aU().dp)},{l:'Est. cover',f:r=>r.ci.est==null?'–':num(r.ci.est)},{l:'Basis',f:r=>r.ci.est==null?'':`${r.ci.basis} ${fmtD(r.ci.baseDate)} (+${r.ci.days}d)`},{l:'Days since grazed',f:r=>r.ds??'–'},{l:'Measured growth',f:r=>r.mg?num(r.mg.rate):'–'},{l:'',h:flag}],{onRow:r=>walkForm(r.p,null),empty:'Add paddocks on the Map first.'})}
    <div class="hint">Order = highest estimated cover first. Silage and reseeding paddocks are excluded. Tap a row to record a cover.</div></div>
   <div class="card"><h3>Recent walks</h3>${table(S.grassWalks.slice().sort(byDate()).slice(0,40),[{l:'Date',f:w=>fmtD(w.date)},{l:'Paddock',f:w=>padName(w.paddockId)},{l:'kg DM/ha',f:w=>num(w.cover)},{l:'Source',k:'source'}],{onRow:w=>walkForm(get('paddocks',w.paddockId),w),empty:'No walks yet.'})}</div>`;
   const wr=rot.filter(r=>r.ci.est!=null); barChart($('#wedge',el), wr.map(r=>r.p.name), wr.map(r=>r.ci.est), {target:1400, targetLabel:'target 1400', colors:wr.map(r=>coverColour(r.ci.est))});
@@ -2264,7 +2566,7 @@ function fertForm(f, preset={}){ const a=approach(); const orgList=['FYM','Cattl
   openForm({title:f?'Edit fertiliser record':'Record fertiliser/slurry', values:f||{date:today(),...preset}, fields:[
     {k:'date',l:'Date',t:'date',req:1},{k:'paddockId',l:'Paddock',t:'select',o:padOpts,req:1},{k:'product',l:'Product',req:1,t:'datalist',o:a==='organic'?orgList:a==='mostly'?orgList.concat(conv):conv.concat(['Cattle slurry','Dairy soiled water','FYM','Lime','Compost']),validate:(v,vals)=>organicFertCheck(vals)},
     ...(a==='organic'?[{k:'orgOk',l:'This input is permitted in organic production and allowed by my certification body',t:'checkbox',show:v=>fertClass(v.product)==='unknown'}]:[]),
-    {k:'rate',l:'Rate (per ha)',ph:'e.g. 1 bag/acre, 125 kg/ha, 2500 gal/ac'},{k:'nKgHa',l:'N (kg/ha)',t:'number'},{k:'pKgHa',l:'P (kg/ha)',t:'number'},{k:'kKgHa',l:'K (kg/ha)',t:'number'},
+    {k:'rate',l:'Rate (as on the bag or tank)',ph:'e.g. 1 bag/acre, 125 kg/ha, 2500 gal/ac'},{k:'nKgHa',l:`N (${rateUnit()})`,t:'number',rate:'kg'},{k:'pKgHa',l:`P (${rateUnit()})`,t:'number',rate:'kg'},{k:'kKgHa',l:`K (${rateUnit()})`,t:'number',rate:'kg'},
     {k:'method',l:'Method',t:'datalist',o:['Fertiliser spreader','LESS – trailing shoe','LESS – dribble bar','Splash plate','Contractor']},{k:'operator',l:'Operator / contractor'},{k:'notes',l:'Notes',t:'textarea',full:1}],
     extraHTML:a==='organic'?'<p class="mut">🍃 <b>Organic only:</b> synthetic fertilisers are blocked. Use manures, compost, legumes and permitted inputs (lime, rock phosphate, natural potassium sulphate, seaweed).</p>':a==='mostly'?'<p class="mut">🌿 <b>Mostly organic:</b> you’ll be warned before recording a synthetic fertiliser.</p>':'',
     onSave:v=>{ const c=fertClass(v.product); if(a==='organic'){ if(c==='synthetic') throw new Error('Synthetic fertiliser is not permitted in Organic-only mode. Change the farming approach in Settings if this field is not organic.'); if(c==='unknown'&&!v.orgOk) throw new Error('Tick the box to confirm this input is permitted for organic production.'); }
@@ -2292,7 +2594,7 @@ function deathForm(d){ openForm({title:d?'Edit death/disposal':'Record death / d
 const animalOf = r => r.cowId?cowName(r.cowId):(r.tag||r.groupDesc||'');
 const COMP = {
   treatments:{l:'Medicines register',form:treatmentForm, rows:()=>S.treatments.slice().sort(byDate()), cols:[{l:'Date',f:r=>fmtD(r.date)},{l:'Animal',f:animalOf},{l:'Product',k:'product'},{l:'Batch',k:'batch'},{l:'Expiry',f:r=>fmtD(r.expiry)},{l:'Qty',k:'qtyUsed'},{l:'Route',k:'route'},{l:'Reason',k:'reason'},{l:'Course d',k:'courseDays'},{l:'Milk WD d',k:'milkWd'},{l:'Milk clear after',f:r=>fmtD(wdEnds(r).milk)},{l:'Meat WD d',k:'meatWd'},{l:'Meat clear after',f:r=>fmtD(wdEnds(r).meat)},{l:'Given by',k:'administeredBy'},{l:'Vet',k:'vet'},{l:'Presc. ref',k:'prescriptionRef'},{l:'Supplier',k:'supplier'}]},
-  fertiliser:{l:'Fertiliser & slurry',form:fertForm, rows:()=>S.fertiliser.slice().sort(byDate()), cols:[{l:'Date',f:r=>fmtD(r.date)},{l:'Paddock',f:r=>padName(r.paddockId)},{l:'ha',f:r=>{const p=get('paddocks',r.paddockId); return p?num(padHa(p),2):'';}},{l:'Product',k:'product'},{l:'Rate',k:'rate'},{l:'N kg/ha',k:'nKgHa'},{l:'P kg/ha',k:'pKgHa'},{l:'K kg/ha',k:'kKgHa'},{l:'Total N kg',f:r=>{const p=get('paddocks',r.paddockId); return p&&r.nKgHa?num(r.nKgHa*padHa(p)):'';}},{l:'Method',k:'method'},{l:'Operator',k:'operator'}]},
+  fertiliser:{l:'Fertiliser & slurry',form:fertForm, rows:()=>S.fertiliser.slice().sort(byDate()), get cols(){ return [{l:'Date',f:r=>fmtD(r.date)},{l:'Paddock',f:r=>padName(r.paddockId)},{l:areaU(),f:r=>{const p=get('paddocks',r.paddockId); return p?num(toArea(padHa(p)),aU().dp):'';}},{l:'Product',k:'product'},{l:'Rate',k:'rate'},{l:`N ${rateUnit()}`,f:r=>r.nKgHa!=null&&r.nKgHa!==''?rateNum(r.nKgHa):''},{l:`P ${rateUnit()}`,f:r=>r.pKgHa!=null&&r.pKgHa!==''?rateNum(r.pKgHa,'kg',1):''},{l:`K ${rateUnit()}`,f:r=>r.kKgHa!=null&&r.kKgHa!==''?rateNum(r.kKgHa):''},{l:'Total N kg',f:r=>{const p=get('paddocks',r.paddockId); return p&&r.nKgHa?num(r.nKgHa*padHa(p)):'';}},{l:'Method',k:'method'},{l:'Operator',k:'operator'}]; }},
   movements:{l:'Animal movements',form:movementForm, rows:()=>S.movements.slice().sort(byDate()), cols:[{l:'Date',f:r=>fmtD(r.date)},{l:'In/Out',k:'direction'},{l:'Tag',f:r=>r.tag||get('cows',r.cowId)?.tag||''},{l:'Reason',k:'reason'},{l:'From herd',k:'fromHerd'},{l:'To',k:'toHerd'},{l:'Mart/agent',k:'martAgent'},{l:'Ref',k:'docRef'},{l:'Price €',k:'price'}]},
   deaths:{l:'Deaths & disposals',form:deathForm, rows:()=>S.deaths.slice().sort(byDate()), cols:[{l:'Date',f:r=>fmtD(r.date)},{l:'Tag',f:r=>r.tag||get('cows',r.cowId)?.tag||''},{l:'Cause',k:'cause'},{l:'Disposal',k:'disposal'},{l:'Collector',k:'collector'},{l:'Docket',k:'docketRef'},{l:'Collected',f:r=>fmtD(r.collectedOn)},{l:'Vet',k:'vet'}]}
 };
@@ -2301,7 +2603,7 @@ VIEWS.compliance = el => {
   let extra='';
   if(compTab==='treatments') extra=`<div class="card ${wd.length?'alertc':''}"><h3>⚠️ Currently in withdrawal (${wd.length})</h3>${table(wd,[{l:'Animal',f:w=>animalOf(w.t)},{l:'Product',f:w=>w.t.product},{l:'Milk until',h:w=>w.milkEnd?`<span class="pill red">${fmtD(w.milkEnd)}</span>`:''},{l:'Meat until',h:w=>w.meatEnd?`<span class="pill amb">${fmtD(w.meatEnd)}</span>`:''}],{empty:'None.'})}<div class="hint">End date = last treatment day + withdrawal days. Do not supply milk/meat on or before the date shown. Verify against the product label.</div></div>`;
   if(compTab==='fertiliser'){ const tot=S.paddocks.map(p=>{ const fs=S.fertiliser.filter(f=>f.paddockId===p.id&&(f.date||'').startsWith(yr)); return {p, n:sum(fs.map(f=>f.nKgHa)), ph:sum(fs.map(f=>f.pKgHa)), k:sum(fs.map(f=>f.kKgHa)), ha:padHa(p)}; });
-    extra=`<div class="card"><h3>${yr} totals per paddock</h3>${table(tot,[{l:'Paddock',f:r=>r.p.name},{l:'ha',f:r=>num(r.ha,2)},{l:'N kg/ha',f:r=>num(r.n)},{l:'P kg/ha',f:r=>num(r.ph,1)},{l:'K kg/ha',f:r=>num(r.k)},{l:'Total N kg',f:r=>num(r.n*r.ha)},{l:'Total P kg',f:r=>num(r.ph*r.ha,1)}],{empty:'No paddocks.'})}<div class="hint">Running totals only — check limits against your own Nitrates/derogation allowances and soil tests.</div></div>`; }
+    extra=`<div class="card"><h3>${yr} totals per paddock</h3>${table(tot,[{l:'Paddock',f:r=>r.p.name},{l:areaU(),f:r=>num(toArea(r.ha),aU().dp)},{l:`N ${rateUnit()}`,f:r=>rateNum(r.n)},{l:`P ${rateUnit()}`,f:r=>rateNum(r.ph,'kg',1)},{l:`K ${rateUnit()}`,f:r=>rateNum(r.k)},{l:'Total N kg',f:r=>num(r.n*r.ha)},{l:'Total P kg',f:r=>num(r.ph*r.ha,1)}],{empty:'No paddocks.'})}<div class="hint">Running totals only — check limits against your own Nitrates/derogation allowances and soil tests.</div></div>`; }
   el.innerHTML=`<div class="banner info">📋 <b>Record-keeping aid</b> — not an official register and not a guarantee of compliance with EU/Irish rules. Keep the records your Department of Agriculture, vet and processor require.</div>
   <div class="subtabs">${Object.entries(COMP).map(([k,v])=>`<button class="sm ${compTab===k?'on':''}" data-ct="${k}">${v.l}</button>`).join('')}</div>
   <div class="row"><button class="pri" id="add">+ Add record</button><span class="sp"></span><button class="sm" id="csv">⬇ CSV</button><button class="sm" id="print">🖨 Print</button></div>
@@ -2347,6 +2649,7 @@ VIEWS.settings = el => {
     <label class="f"><span>Old sketch map scale (metres per unit)</span><input id="sScale" type="number" step="any" value="${esc(s.mPerUnit)}"><div class="hint">Only for paddocks drawn on the old sketch map. Satellite paddocks are measured from real coordinates.</div></label></div>
     <div class="row"><button class="pri" id="sSave">Save</button><button id="sGps">📍 Use my GPS location</button><button id="sGrass">Grass planner settings…</button></div></div>
   ${appearanceHTML()}
+  ${unitsHTML()}
   <div class="card" id="homeCard"><h2>🏠 Home screen</h2><p class="mut" style="margin-top:0">Move or remove Home widgets with <b>✏️ Edit home</b> on the Home tab (or press and hold a widget). This puts the widgets and their order back to the defaults for your farm types. Farm types, appearance and tabs are not changed.</p><div class="row" style="margin:0"><button id="homeReset">↺ Restore Home to default</button><span class="hint" id="homeResetInfo">${S.settings.homePrefs?'You have a custom Home layout.':'Home is using the default layout.'}</span></div></div>
   ${farmSetupHTML()}
   <div class="card"><h2>Backup</h2><p class="mut">Download a copy of everything in your account (${num(bytes/1024)} KB of records, ${S.photos.length} photos). Import uploads a backup into <b>this</b> account, replacing what is there.</p>
@@ -2355,7 +2658,7 @@ VIEWS.settings = el => {
   <div class="card"><h2>Demo data</h2><p class="mut">Loads a small set of example paddocks, cows, milk, breeding, grass, tasks and compliance records into your account (all flagged as demo). Only your own account is affected.</p>
     <div class="row"><button id="demo">Load demo data</button><button id="undemo">Remove demo data</button><button class="danger" id="clear">🗑 Delete ALL my farm data</button></div></div>
   <div class="card" id="credits"><h3>ℹ️ About &amp; data credits</h3><p class="mut" style="margin-top:0">Farmhand v${APP_VERSION}. Records carry <code>source: "manual"</code>; future sensor feeds can write records with <code>source: "sensor"</code> using the same structure. Compliance sections are record-keeping aids only.</p><ul class="credits"><li><b>Weather forecasts &amp; warnings:</b> Met Éireann (<a href="https://www.met.ie" target="_blank" rel="noopener">met.ie</a>), <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> and the <a href="https://www.met.ie/about-us/specialised-services/open-data" target="_blank" rel="noopener">Met Éireann open-data terms</a>. MET Norway / Yr (<a href="https://www.yr.no" target="_blank" rel="noopener">yr.no</a>), <a href="https://api.met.no/doc/License" target="_blank" rel="noopener">CC BY 4.0</a>. <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo.com</a> (<a href="https://open-meteo.com/en/license" target="_blank" rel="noopener">CC BY 4.0</a>), with model data from ECMWF, the UK Met Office, DWD (ICON) and NOAA (GFS). This app combines and averages these forecasts and estimates grass growth from them; the original data has been changed.</li><li><b>Satellite map:</b> imagery © <a href="https://www.esri.com" target="_blank" rel="noopener">Esri</a>, Maxar, Earthstar Geographics and the GIS User Community. Place and road labels © Esri.</li><li><b>Street map, place names &amp; Eircode address lookup:</b> © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL), lookups via Nominatim.</li><li><b>Software:</b> <a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a> (BSD-2), Leaflet-Geoman (MIT), JSZip (MIT), supabase-js (MIT), Nunito and Cinzel fonts (SIL Open Font Licence). Farmhand logo and artwork are original to this app.</li></ul><ul class="credits" id="cropCreds">${cropCreditsHTML()}</ul></div>`;
-  setSync(); bindFarmSetup(el); bindAppearance(el);
+  setSync(); bindFarmSetup(el); bindAppearance(el); bindUnits(el);
   $('#homeReset',el).onclick=()=>{ if(restoreHomeDefault()) $('#homeResetInfo').textContent='Home is using the default layout.'; };
   if(!CROPIDX) loadCropIndex().then(()=>{ const u=$('#cropCreds'); if(u) u.innerHTML=cropCreditsHTML(); }).catch(()=>{});
   if(routeArg==='credits') setTimeout(()=>$('#credits')?.scrollIntoView());

@@ -30,7 +30,12 @@ def fav(s):
     c=Image.new('RGB',(s,s),tuple(int(v) for v in edge)); c.paste(f,((s-f.width)//2,(s-f.height)//2)); return c
 fav(32).save('favicon-32.png',optimize=True); fav(64).save('favicon.png',optimize=True)
 # Home banner: the middle band of the picture (wordmark + slice of barn/fence), inside the image's own frame
-im.crop((70,205,1430,520)).save('brand/banner.jpg',quality=84,optimize=True,progressive=True)
+# v8: brightened a moderate amount (shadow lift + a little brightness, contrast and colour) so the gold lettering pops and the barn is less murky
+def brighten(x, gamma=0.85, b=1.08, c=1.08, sat=1.05):
+    from PIL import ImageEnhance
+    a=(np.asarray(x).astype(float)/255)**gamma; x=Image.fromarray((a*255).clip(0,255).astype('uint8'))
+    return ImageEnhance.Color(ImageEnhance.Contrast(ImageEnhance.Brightness(x).enhance(b)).enhance(c)).enhance(sat)
+brighten(im.crop((70,205,1430,520))).save('brand/banner.jpg',quality=85,optimize=True,progressive=True)
 # blurred, darkened copy that fills the sides of the header banner on wide screens (v7)
 from PIL import ImageFilter, ImageEnhance
 _b=Image.open('brand/banner.jpg').convert('RGB').resize((480,111),Image.LANCZOS).filter(ImageFilter.GaussianBlur(10))

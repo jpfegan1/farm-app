@@ -116,9 +116,11 @@ for n,season,sf,notes in [('Stella','July',True,'First self-fertile sweet cherry
     add(CH,n,use='Dessert',season=season,sf=sf,notes=notes)
 for n,notes in [('Morello','Classic acid cherry — even crops on a north wall.'),('Montmorency',None),('Meteor',None),('Nabella',None)]:
     add('cherry_sour',n,use='Culinary',season='Aug',sf=True,notes=notes)
-for n,notes in [('Peregrine','Most reliable outdoor peach in these islands.'),('Rochester',None),('Avalon Pride','Resistant to peach leaf curl.'),('Duke of York',None),('Bellegarde','Late.'),('Saturne','Flat "doughnut" peach.')]:
-    add('peach',n,use='Dessert',season='Aug–Sept',sf=True,notes=notes)
-for n in ['Lord Napier','Fantasia','Pineapple','Early Rivers']: add('nectarine',n,use='Dessert',season='Aug',sf=True)
+import stone_fruit as _sf
+for _crop,_L in (('peach',_sf.PEACH),('nectarine',_sf.NECT)):
+    for _v in _L:
+        _v=dict(_v); _n=_v.pop('name'); _c=_v.pop('curl',None)
+        add(_crop,_n,use='Dessert',disease=('Peach leaf curl: '+_c) if _c else None,**_v)
 for n,notes in [('Moorpark','Old reliable variety.'),('Flavorcot','Late flowering.'),('Tomcot',None),('Goldcot','Hardy.'),('Alfred',None)]:
     add('apricot',n,use='Dessert',season='July–Aug',sf=True,notes=notes)
 for n in ["Meech's Prolific",'Vranja','Champion','Portugal','Serbian Gold','Leskovac']: add('quince',n,use='Culinary',season='Oct',sf=True)

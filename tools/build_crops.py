@@ -5,6 +5,11 @@ from crop_families import F
 from varieties import V,ROOT
 ROOTD=os.path.join(os.path.dirname(__file__),'..','crops')
 cred=json.load(open(os.path.join(os.path.dirname(__file__),'photo_credits.json')))
+_vcp=os.path.join(os.path.dirname(__file__),'var_photo_credits.json')
+vcred=json.load(open(_vcp)) if os.path.exists(_vcp) else {}
+_vpp=os.path.join(os.path.dirname(__file__),'var_pom_credits.json')
+for _k,_p in (json.load(open(_vpp)) if os.path.exists(_vpp) else {}).items():
+    if _p and not (vcred.get(_k) or {}).get('img'): vcred[_k]=_p   # own photo preferred; USDA watercolour as second choice
 GROUPS=[('cereals','Cereals'),('oilseeds','Oilseeds & proteins'),('forage','Grass & forage'),('potatoes','Potatoes & field roots'),('vegetables','Vegetables'),
  ('fruit_trees','Fruit trees & nuts'),('soft_fruit','Soft fruit'),('herbs','Herbs'),('energy','Energy & fibre (incl. hemp)'),('cover','Cover crops & green manures'),('flowers','Flowers & nursery'),('forestry','Forestry & hedging')]
 SOIL={'l':'light/sandy','m':'medium loam','h':'heavy/clay','p':'peat/organic'}
@@ -27,7 +32,10 @@ for c in CROPS:
       harvest=dict(timing=c['hv'],signs=c['sig'],yield_range=c['yld'],storage=f['storage']),
       protect=dict(conventional=dict(pests=f['pests_c'],weeds=f['weeds_c']),organic=dict(pests=f['pests_o'],weeds=f['weeds_o'])),
       rotation=f['rotation'])
-    vs=V.get(c['id'],[])
+    vs=[dict(v) for v in V.get(c['id'],[])]
+    for v in vs:
+        vp=vcred.get(c['id']+'/'+v['name'])
+        if vp and os.path.exists(os.path.join(ROOTD,vp['img'])): v['photo']=dict(img=vp['img'],author=vp['author'],licence=vp['licence'],source=vp['page'],file=vp['file'],kind=vp.get('kind','photo'),**({'subject':vp['subject']} if vp.get('subject') else {}))
     if vs: d['varieties']=vs
     if c['id'] in ROOT: d['rootstocks']=[dict(name=a,vigour=b,height=h,use=u) for a,b,h,u in ROOT[c['id']]]
     p=cred.get(c['id'])
@@ -37,8 +45,11 @@ for c in CROPS:
 for g,_ in GROUPS:
     json.dump(dict(group=g,crops=groups[g]),open(os.path.join(ROOTD,g+'.json'),'w'),ensure_ascii=False,separators=(',',':'))
 json.dump(dict(version=1,groups=[dict(id=g,name=n,count=len(groups[g])) for g,n in GROUPS],crops=index,
-  credits=[dict(id=i,name=next(c['n'] for c in CROPS if c['id']==i),author=p['author'],licence=p['licence'],source=p['page']) for i,p in cred.items() if p and any(c['id']==i for c in CROPS)]),
+  credits=[dict(id=i,name=next(c['n'] for c in CROPS if c['id']==i),author=p['author'],licence=p['licence'],source=p['page']) for i,p in cred.items() if p and any(c['id']==i for c in CROPS)],
+  vcredits=[dict(id=k,name=k.split('/')[1]+' ('+k.split('/')[0]+')',author=p['author'],licence=p['licence'],source=p['page']) for k,p in sorted(vcred.items()) if p and p.get('img') and os.path.exists(os.path.join(ROOTD,p['img']))]),
   open(os.path.join(ROOTD,'index.json'),'w'),ensure_ascii=False,separators=(',',':'))
 nv=sum(len(v) for v in V.values()); ph=sum(1 for x in index if x['img'])
 print('crops',len(index),'varieties',nv,'apples',len(V['apple']),'photos %d/%d = %.1f%%'%(ph,len(index),100*ph/len(index)))
+vp=[(x['id'],sum(1 for v in V.get(x['id'],[]) if (vcred.get(x['id']+'/'+v['name']) or {}).get('img')),len(V.get(x['id'],[]))) for x in index if x['id'] in('peach','nectarine')]
+print('variety photos',vp)
 print('no photo:',[x['n'] for x in index if not x['img']])
